@@ -1,0 +1,27 @@
+{
+  "kind": "github-actions",
+  "started_at_utc": null,
+  "finished_at_utc": null,
+  "recorded_at_utc": "2026-11-02T02:03:00+00:00",
+  "environment": {
+    "platform": "GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13",
+    "workflow": ".github/workflows/ci.yml",
+    "run_url": null,
+    "commit": "6dd3dc9 (etiket hafta-2, main)",
+    "source": "Actions özet sayfası; ekran görüntüsü ci-kosu-3-ozet.png (Burak Nigiz, 02.11.2026). Koşu, 02.11.2026 04:59 (İstanbul) tarihli commit'in push'uyla başladı. Koşu bağlantısı ekran görüntüsünde görünmediği için yazılmadı; koşu, deponun Actions sekmesinde #3 numarasıyla bulunur."
+  },
+  "totals": {
+    "run": 1,
+    "failures": 0,
+    "jobs_passed": 4,
+    "jobs_total": 4
+  },
+  "results": [
+    {
+      "tc_id": "TC-CI-01",
+      "test": "GitHub Actions matrisi (ubuntu/windows × Python 3.12/3.13)",
+      "outcome": "PASS",
+      "detail": "Koşu #3 (push, main, commit 6dd3dc9): Test (ubuntu-latest, Python 3.12), Test (ubuntu-latest, Python 3.13), Test (windows-latest, Python 3.12), Test (windows-latest, Python 3.13) başarılı; durum Success, toplam süre 1 dk 2 sn; 4 rapor arşivi (artifact) üretildi. 2 bilgi notu: ubuntu-latest etiketinin 19.10.2026'dan itibaren Ubuntu 26'ya taşınacağı duyurusu (hata değil). Windows işlerinin geçmesi, UTF-8 kipi düzeltmesinin (PYTHONUTF8, RSK-25) Hafta 2'nin rol eşitlemesi çıktısında da çalıştığını gösterir."
+    }
+  ]
+}

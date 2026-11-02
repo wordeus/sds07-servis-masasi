@@ -50,12 +50,13 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | `check --deploy` (üretim) | 0 sorun, 1 gerekçeli susturma (W021) | `evidence/hafta-02/check-deploy.txt` |
 | Temiz kurulum (TC-INST-01) | Linux 3.12.13 ve 3.13.18 BAŞARILI | `evidence/hafta-02/install-check-linux-py31*.log` |
 | Mutasyon denetimi | 4/4 yakalandı (35 test) | `evidence/hafta-02/mutation-check.md` |
-| RTM (`--week 2`) | Hafta 1-2'nin 23 gereksiniminin 22'si PASS, 1'i KISMİ (NFR-11); 30 gereksinim PLANLANDI. Test kataloğu: 48 PASS, 1 NOT RUN (TC-CI-01) | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
-| NOT RUN / ÖLÇÜLMEDİ | TC-CI-01 (GitHub yok), Windows kurulumu, Firefox E2E, performans (NFR-13), efor saatleri | - |
+| GitHub Actions (TC-CI-01) | Ubuntu ve Windows × Python 3.12 ve 3.13: 4/4 iş başarılı (02.11.2026, koşu #3, commit 6dd3dc9) | `evidence/hafta-02/ci-github-actions-2026-11-02.json`, `ci-kosu-3-ozet.png` |
+| RTM (`--week 2`) | Hafta 1-2'nin 23 gereksiniminin 23'ü PASS; 30 gereksinim PLANLANDI. Test kataloğu: 49 PASS | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
+| NOT RUN / ÖLÇÜLMEDİ | Windows'ta elle kurulum, Firefox E2E, performans (NFR-13), efor saatleri | - |
 
 ## 5. Açık işler
 
-- [ ] Hafta 2'nin GitHub Actions sonucunu TC-CI-01 kanıtı olarak eklemek (Hafta 1'in ilk koşusu 02.11.2026'da 4/4 başarılı).
+- [x] Hafta 2'nin GitHub Actions sonucu TC-CI-01 kanıtı olarak eklendi (PASS, 02.11.2026, koşu #3, commit 6dd3dc9; Hafta 1: koşu #1, commit 29f962c).
 - [ ] Windows'ta kurulum ve testleri bir kez elle çalıştırıp sonucu kaydetmek (NFR-11).
 - [ ] TC-INS-01 incelemesini tekrarlayıp onaylamak.
 - [ ] Açık konuları netleştirmek: yeniden açma akışı (AK-01), önceliği kimin seçeceği (AK-03). Standart baskıları için karar: en güncel baskılar (AK-05).

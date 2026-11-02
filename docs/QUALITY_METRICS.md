@@ -24,7 +24,7 @@ Kapsam notu: Resmî değer CI ile aynı komutla (`coverage run manage.py test -v
 | Security / confidentiality (3.6.1) | Parola özet algoritması | PBKDF2-SHA256 veya daha güçlü | PBKDF2-SHA256 | PBKDF2-SHA256 | Hedefi karşılıyor | TC-SEC-01 |
 | Interaction capability / inclusivity (3.4.6) | Metin/düğme kontrast oranı (ölçülen 7 öğe) | ≥ 4.5:1 | - | En düşük 6,28:1 (ikincil metin); birincil düğme 15,95:1 | Hedefi karşılıyor | TC-E2E-09 |
 | Interaction capability / operability (3.4.3) | 360 px'te yatay taşma (sayfa + iç kapsayıcı) | 0 | - | 0 (giriş ve panel) | Hedefi karşılıyor | TC-E2E-07 |
-| Flexibility / installability | Temiz ortam kurulumunun başarısı | Linux ve Windows, Python 3.12 ve 3.13 | Linux BAŞARILI | Linux 3.12.13 ve 3.13.18 BAŞARILI; Windows **NOT RUN** | Kısmi | TC-INST-01, TC-CI-01 |
+| Flexibility / installability | Temiz ortam kurulumunun başarısı | Linux ve Windows, Python 3.12 ve 3.13 | Linux BAŞARILI; CI 4/4 (02.11.2026) | Linux 3.12.13 ve 3.13.18 BAŞARILI; GitHub Actions'ta Ubuntu ve Windows × 3.12/3.13 BAŞARILI (02.11.2026); Windows'ta elle kurulum NOT RUN | Hedefi karşılıyor | TC-INST-01, TC-CI-01 |
 | Performance efficiency / time behaviour (3.2.1) | Talep listesi p95 yanıt süresi | < 500 ms | - | **ÖLÇÜLMEDİ** (özellik Hafta 3'te, ölçüm Hafta 11-12'de) | - | NFR-13 |
 | Reliability | Hata/arıza oranı | Tanımlanacak | - | **ÖLÇÜLMEDİ** | - | - |
 

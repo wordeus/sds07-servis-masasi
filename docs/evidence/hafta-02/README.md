@@ -1,4 +1,4 @@
-# Hafta 2 kanıtları (30.10.2026 koşuları)
+# Hafta 2 kanıtları (30.10.2026 koşuları; CI 02.11.2026)
 
 Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştirilmez (PRC-05). Zaman damgaları UTC'dir. Hafta 1 kanıtları `../hafta-01/` klasöründe olduğu gibi korunur.
 
@@ -13,6 +13,8 @@ Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştiril
 | `install-check-linux-py312.log`, `install-check-linux-py313.log` | `tools/install_check.sh` temiz kurulum günlükleri | TC-INST-01 |
 | `mutation-check.md` | `tools/mutation_check.py`: bilinçli 4 hata, 35 testlik takım | Test etkinliği |
 | `manual-checks.json` | TC-INST-01 özeti, TC-INS-01 incelemesi, TC-CI-01 (NOT RUN) | TC-INST-01, TC-INS-01, TC-CI-01 |
+| `ci-github-actions-2026-11-02.json` | Hafta 2 commit'inin GitHub Actions koşusu (koşu #3, commit 6dd3dc9): Ubuntu ve Windows × Python 3.12/3.13, 4/4 iş başarılı | TC-CI-01, RSK-05 |
+| `ci-kosu-3-ozet.png` | Aynı koşunun Actions özet sayfası (ekran görüntüsü, 02.11.2026) | TC-CI-01 |
 
 ## `ilk-denemeler/`: Hafta 1-2 geliştirme oturumunun özgün kayıtları
 
