@@ -1,0 +1,51 @@
+flowchart TB
+  subgraph UI["Sunum katmanı (MOD-UI)"]
+    TPL["Şablonlar + Bootstrap 5.3.8<br/>templates/, servicedesk/templates/"]
+    VIEWS["Görünümler<br/>servicedesk/views.py"]
+    FORMS["Formlar<br/>servicedesk/forms.py"]
+  end
+  subgraph APP["Uygulama ve iş kuralları"]
+    AUTH["MOD-AUTH<br/>LoginView, LogoutView, LoginForm"]
+    ROLE["MOD-ROLE<br/>roles.py: get_role, ROLE_PERMISSIONS,<br/>sync_role_groups, CAPABILITIES"]
+    TICKET["MOD-TICKET (Hafta 3-4)"]
+    WF["MOD-WF (Hafta 5)"]
+    AUDIT["MOD-AUDIT (Hafta 4-5)"]
+    CHANGE["MOD-CHANGE (Hafta 6)"]
+    SLA["MOD-SLA (Hafta 7-8)"]
+    NOTIF["MOD-NOTIF (Hafta 8)"]
+    SURVEY["MOD-SURVEY (Hafta 9)"]
+    KPI["MOD-KPI (Hafta 9)"]
+    CAPA["MOD-CAPA (Hafta 10)"]
+  end
+  subgraph DATA["Veri katmanı"]
+    MODELS["models.py: User (AbstractUser)<br/>Group, Permission (django.contrib.auth)"]
+    DB[("SQLite")]
+  end
+  subgraph CFG["Altyapı (MOD-CFG)"]
+    SET["config/settings.py<br/>development / production"]
+    MW["Middleware: Security, Session, CSRF,<br/>Authentication, Messages, Clickjacking"]
+    RUN["config/test_runner.py<br/>TC sonuçları JSON"]
+  end
+
+  MW --> VIEWS
+  VIEWS --> AUTH
+  VIEWS --> ROLE
+  VIEWS --> TPL
+  FORMS --> AUTH
+  ROLE --> MODELS
+  AUTH --> MODELS
+  MODELS --> DB
+  SET -.-> MW
+  TICKET --> ROLE
+  WF --> TICKET
+  WF --> AUDIT
+  CHANGE --> AUDIT
+  SLA --> TICKET
+  SLA --> NOTIF
+  SURVEY --> TICKET
+  KPI --> TICKET
+  KPI --> SURVEY
+  CAPA --> AUDIT
+
+  classDef planned stroke-dasharray: 5 4,color:#4f5b6b,fill:#f2f4f6;
+  class TICKET,WF,AUDIT,CHANGE,SLA,NOTIF,SURVEY,KPI,CAPA planned;

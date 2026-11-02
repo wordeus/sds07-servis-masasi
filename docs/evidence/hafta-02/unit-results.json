@@ -1,0 +1,307 @@
+{
+  "kind": "django-unit-integration",
+  "started_at_utc": "2026-10-30T06:39:14+00:00",
+  "finished_at_utc": "2026-10-30T06:39:27+00:00",
+  "environment": {
+    "python": "3.13.18",
+    "django": "5.2.18",
+    "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "argv": [
+      "manage.py",
+      "test",
+      "-v",
+      "2",
+      "--results-json",
+      "docs/evidence/hafta-02/unit-results.json"
+    ]
+  },
+  "totals": {
+    "run": 35,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "successful": true
+  },
+  "results": [
+    {
+      "test": "servicedesk.tests.test_auth.AuthenticationRequiredTests.test_anonymous_requests_redirect_to_login",
+      "tc_id": "TC-AUTH-08",
+      "title": "TC-AUTH-08: Oturumsuz GET ve POST istekleri `next` korunarak giriş sayfasına yönlendirilir.",
+      "outcome": "PASS",
+      "duration_s": 0.0104,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LoginTests.test_authenticated_user_is_redirected_from_login",
+      "tc_id": "TC-AUTH-03",
+      "title": "TC-AUTH-03: Oturumu açık kullanıcı giriş sayfasını açtığında paneline yönlendirilir.",
+      "outcome": "PASS",
+      "duration_s": 0.0324,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LoginTests.test_external_next_is_ignored",
+      "tc_id": "TC-AUTH-09",
+      "title": "TC-AUTH-09: Dış alan adına işaret eden `next` yok sayılır; kullanıcı kendi paneline yönlendirilir.",
+      "outcome": "PASS",
+      "duration_s": 0.9583,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LoginTests.test_inactive_user_cannot_login",
+      "tc_id": "TC-AUTH-05",
+      "title": "TC-AUTH-05: Pasif hesap doğru parolayla da giriş yapamaz; hesabın durumu açığa vurulmaz.",
+      "outcome": "PASS",
+      "duration_s": 0.4785,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LoginTests.test_internal_next_is_followed",
+      "tc_id": "TC-AUTH-10",
+      "title": "TC-AUTH-10: Site içi `next` adresi korunur ve girişten sonra o adrese yönlendirilir.",
+      "outcome": "PASS",
+      "duration_s": 0.4992,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LoginTests.test_login_page_renders",
+      "tc_id": "TC-AUTH-01",
+      "title": "TC-AUTH-01: Giriş sayfası 200 döner; kullanıcı adı, parola ve CSRF alanlarını içerir.",
+      "outcome": "PASS",
+      "duration_s": 0.0037,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LoginTests.test_valid_login_redirects_to_dashboard",
+      "tc_id": "TC-AUTH-02",
+      "title": "TC-AUTH-02: Geçerli kimlik bilgisiyle giriş oturum açar ve kullanıcıyı paneline yönlendirir.",
+      "outcome": "PASS",
+      "duration_s": 0.4537,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LoginTests.test_wrong_credentials_show_generic_error",
+      "tc_id": "TC-AUTH-04",
+      "title": "TC-AUTH-04: Hatalı parola veya bilinmeyen kullanıcı oturum açmaz; ikisinde de aynı genel hata gösterilir.",
+      "outcome": "PASS",
+      "duration_s": 0.979,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LogoutTests.test_logout_get_is_rejected",
+      "tc_id": "TC-AUTH-07",
+      "title": "TC-AUTH-07: GET ile çıkış isteği HTTP 405 ile reddedilir ve oturum açık kalır.",
+      "outcome": "PASS",
+      "duration_s": 0.0071,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_auth.LogoutTests.test_logout_post_ends_session",
+      "tc_id": "TC-AUTH-06",
+      "title": "TC-AUTH-06: POST ile çıkış oturumu sonlandırır ve giriş sayfasına yönlendirir.",
+      "outcome": "PASS",
+      "duration_s": 0.0156,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.AdminSiteSmokeTests.test_admin_works_with_custom_user_model",
+      "tc_id": "TC-CFG-06",
+      "title": "TC-CFG-06: Kurulumdan sonra yönetim sitesi özel kullanıcı modeliyle açılır: kullanıcı listesi ve ekleme formu.",
+      "outcome": "PASS",
+      "duration_s": 0.087,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.InterfaceLanguageTests.test_interface_is_turkish",
+      "tc_id": "TC-CFG-04",
+      "title": "TC-CFG-04: Arayüz Türkçedir: sayfa dili 'tr', giriş etiketleri ve 404 hata sayfası Türkçedir.",
+      "outcome": "PASS",
+      "duration_s": 0.0058,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.TimeZoneTests.test_utc_storage_and_istanbul_display",
+      "tc_id": "TC-CFG-01",
+      "title": "TC-CFG-01: Zaman damgası veritabanında UTC saklanır ve arayüzde Europe/Istanbul (UTC+3) saatiyle gösterilir.",
+      "outcome": "PASS",
+      "duration_s": 0.0017,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.AdminRoleAssignmentTests.test_superuser_assigns_role_in_admin",
+      "tc_id": "TC-ROLE-04",
+      "title": "TC-ROLE-04: Sistem yöneticisi yönetim sitesinden kullanıcıya rol grubu atar; diğer roller yönetim sitesine giremez.",
+      "outcome": "PASS",
+      "duration_s": 0.0884,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.NavigationTests.test_navigation_links_follow_permissions",
+      "tc_id": "TC-ROLE-12",
+      "title": "TC-ROLE-12: Menü yalnız kullanıcının yetkili olduğu bölümlerin bağlantılarını gösterir.",
+      "outcome": "PASS",
+      "duration_s": 0.049,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.RoleGroupSyncTests.test_group_permissions_match_matrix",
+      "tc_id": "TC-ROLE-02",
+      "title": "TC-ROLE-02: Her rol grubunun izinleri koddaki rol-yetki matrisiyle birebir aynıdır.",
+      "outcome": "PASS",
+      "duration_s": 0.0047,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.RoleGroupSyncTests.test_role_groups_exist_after_migrate",
+      "tc_id": "TC-ROLE-01",
+      "title": "TC-ROLE-01: `migrate` sonrasında üç rol grubu (Talep Sahibi, Destek Personeli, Yönetici) bulunur.",
+      "outcome": "PASS",
+      "duration_s": 0.0003,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.RoleGroupSyncTests.test_sync_is_idempotent_and_repairs_drift",
+      "tc_id": "TC-ROLE-03",
+      "title": "TC-ROLE-03: Senkronizasyon tekrarlandığında kopya üretmez ve elle yapılan izin sapmasını düzeltir.",
+      "outcome": "PASS",
+      "duration_s": 0.017,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.RoleResolutionTests.test_dashboard_shows_role_and_capabilities",
+      "tc_id": "TC-ROLE-06",
+      "title": "TC-ROLE-06: Panel kullanıcının rolünü ve yalnız o role açık yetkileri gösterir; rolsüz kullanıcı uyarı görür.",
+      "outcome": "PASS",
+      "duration_s": 0.041,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.RoleResolutionTests.test_role_precedence",
+      "tc_id": "TC-ROLE-05",
+      "title": "TC-ROLE-05: Rol çözümlemesi Yönetici > Destek Personeli > Talep Sahibi önceliğini uygular; grupsuz kullanıcının rolü yoktur.",
+      "outcome": "PASS",
+      "duration_s": 0.0049,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_agent_access",
+      "tc_id": "TC-ROLE-08",
+      "title": "TC-ROLE-08: Destek Personeli destek kuyruğuna erişir (200), yönetim paneline erişemez (403).",
+      "outcome": "PASS",
+      "duration_s": 0.0208,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_forbidden_page_is_explanatory",
+      "tc_id": "TC-ROLE-11",
+      "title": "TC-ROLE-11: 403 yanıtı Türkçe, rolü ve istenen adresi belirten özel hata sayfasıyla döner; teknik ayrıntı sızdırmaz.",
+      "outcome": "PASS",
+      "duration_s": 0.0108,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_forbidden_post_requests",
+      "tc_id": "TC-ROLE-10",
+      "title": "TC-ROLE-10: Yetkisiz POST istekleri de 403 alır; yetki denetimi istek yönteminden önce yapılır.",
+      "outcome": "PASS",
+      "duration_s": 0.0427,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_manager_access",
+      "tc_id": "TC-ROLE-09",
+      "title": "TC-ROLE-09: Yönetici destek kuyruğuna ve yönetim paneline erişir (200).",
+      "outcome": "PASS",
+      "duration_s": 0.0256,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_requester_and_no_role_are_forbidden",
+      "tc_id": "TC-ROLE-07",
+      "title": "TC-ROLE-07: Talep Sahibi ve rolsüz kullanıcı destek kuyruğu ile yönetim paneline doğrudan adresle erişemez (403).",
+      "outcome": "PASS",
+      "duration_s": 0.0563,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_security.CsrfTests.test_state_changing_requests_require_csrf_token",
+      "tc_id": "TC-SEC-02",
+      "title": "TC-SEC-02: CSRF belirteci olmayan giriş ve çıkış POST istekleri 403 ile reddedilir; belirteçle kabul edilir.",
+      "outcome": "PASS",
+      "duration_s": 0.0229,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_security.PasswordStorageTests.test_password_hashing_and_rules",
+      "tc_id": "TC-SEC-01",
+      "title": "TC-SEC-01: Parola PBKDF2-SHA256 ile özetlenerek saklanır; kısa, yaygın ve yalnız rakamdan oluşan parolalar reddedilir.",
+      "outcome": "PASS",
+      "duration_s": 0.4682,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_security.SessionCookieTests.test_session_cookie_flags_and_lifetime",
+      "tc_id": "TC-SEC-03",
+      "title": "TC-SEC-03: Oturum çerezi HttpOnly ve SameSite=Lax'tır; oturum süresi 8 saattir (28.800 sn).",
+      "outcome": "PASS",
+      "duration_s": 0.5745,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_seed.SeedDemoUsersTests.test_seed_creates_one_user_per_role_idempotently",
+      "tc_id": "TC-SEED-01",
+      "title": "TC-SEED-01: Demo komutu her rol için bir kullanıcı oluşturur; tekrar çalıştırılınca kopya üretmez.",
+      "outcome": "PASS",
+      "duration_s": 4.5929,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_seed.SeedDemoUsersTests.test_seed_refuses_outside_development",
+      "tc_id": "TC-SEED-02",
+      "title": "TC-SEED-02: DEBUG kapalıyken komut çalışmayı reddeder; zayıf parola da reddedilir; kullanıcı oluşmaz.",
+      "outcome": "PASS",
+      "duration_s": 0.0027,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.EnvironmentParsingTests.test_environment_values_are_parsed_strictly",
+      "tc_id": "TC-CFG-05",
+      "title": "TC-CFG-05: Ortam değişkenleri katı ayrıştırılır; geçersiz bool/tam sayı değeri yapılandırma hatası verir.",
+      "outcome": "PASS",
+      "duration_s": 0.0081,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.ProductionProfileTests.test_deploy_check_passes_in_production",
+      "tc_id": "TC-CFG-03",
+      "title": "TC-CFG-03: Üretim profilinde `check --deploy --fail-level WARNING` geçer; oturum ve CSRF çerezleri Secure'dur.",
+      "outcome": "PASS",
+      "duration_s": 0.6766,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.ProductionProfileTests.test_production_refuses_unsafe_configuration",
+      "tc_id": "TC-CFG-02",
+      "title": "TC-CFG-02: Üretim profili SECRET_KEY veya ALLOWED_HOSTS tanımsızken ya da DEBUG açıkken başlamaz.",
+      "outcome": "PASS",
+      "duration_s": 0.6853,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_tooling.RtmBuilderTests.test_rtm_statuses_and_summary_counts",
+      "tc_id": "TC-QA-04",
+      "title": "TC-QA-04: RTM üretici gereksinim durumlarını doğru hesaplar ve özet tablosunda tam durum adlarıyla sayar.",
+      "outcome": "PASS",
+      "duration_s": 0.0031,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_tooling.TraceableRunnerTests.test_runner_records_every_outcome",
+      "tc_id": "TC-QA-03",
+      "title": "TC-QA-03: Test koşucusu PASS, FAIL, ERROR, SKIP ve alt test başarısızlığını TC kimliğiyle doğru kaydeder.",
+      "outcome": "PASS",
+      "duration_s": 0.009,
+      "detail": ""
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-SRS |
-| Sürüm | 0.1 (taslak) |
+| Sürüm | 0.2 (taslak) |
 | Tarih | 30.10.2026 |
 | Durum | Taslak, öğretim elemanı geri bildirimi bekliyor |
 | Hazırlayan | Burak Nigiz (2100002062). Tek kişilik proje. |
@@ -15,6 +15,7 @@
 | Sürüm | Tarih | Yazar | Değişiklik |
 |---|---|---|---|
 | 0.1 | 30.10.2026 | Burak Nigiz | Hafta 1: ilk kapsam, aktörler, rol-yetki matrisi (plan), FR-01..FR-37, NFR-01..NFR-16, SLA/KPI kuralları, kabul kriterleri ve haftalık plan |
+| 0.2 | 30.10.2026 | Burak Nigiz | Hafta 2: rol matrisi koddan üretildi (`roles.py`), Hafta 2'de uygulanan Django izinleri eklendi, Hafta 1-2 kabul kriterleri testlerle doğrulandı |
 
 Not: Hafta 1-3 belgeleri geç kayıt nedeniyle birlikte hazırlandı; tarihler gerçek hazırlanma tarihidir.
 
@@ -64,7 +65,7 @@ Sistem, kurum içi BT destek taleplerini kayıt altına alır, öncelik ve SLA h
 | Etkinlik kontrolü | Düzeltici faaliyetin amacına ulaşıp ulaşmadığının doğrulanması |
 | KPI | Anahtar performans göstergesi |
 | FR / NFR | Fonksiyonel / fonksiyonel olmayan gereksinim |
-| MOD | Mimari modül kimliği (modül listesi §2.2; tasarım belgesi SDD Hafta 2'de hazırlanacak) |
+| MOD | Mimari modül kimliği (bkz. [SDD.md](SDD.md)) |
 | TC | Test durumu kimliği (bkz. [TEST_PLAN.md](TEST_PLAN.md)) |
 | PT-Ü*n* | Proje talimatı, Ürün kapsamı madde *n* |
 | PT-YK | Proje talimatı, yetkilendirme kuralları paragrafı |
@@ -84,7 +85,7 @@ Standart baskıları, resmî bağlantılar ve madde numaralarının doğrulama d
 
 ### 2.1 Ürün perspektifi (29148 §9.6.4)
 
-Tarayıcıdan kullanılan, sunucu tarafında işlenen bağımsız bir web uygulamasıdır. Tek Django 5.2 LTS projesi içinde tek uygulama (`servicedesk`) bulunur; iç yapı modüllere (MOD) ayrılır. Yerel geliştirmede SQLite kullanılır. SLA kontrolü Hafta 7'de bir yönetim komutu olarak eklenecek ve işletim sistemi zamanlayıcısıyla (Windows Görev Zamanlayıcısı veya cron) çalıştırılacaktır. Bağlam diyagramı Hafta 2'de SDD'de çizilecektir; kullanıcı sınıfları ve sistem aktörü §2.3'te listelenmiştir.
+Tarayıcıdan kullanılan, sunucu tarafında işlenen bağımsız bir web uygulamasıdır. Tek Django 5.2 LTS projesi içinde tek uygulama (`servicedesk`) bulunur; iç yapı modüllere (MOD) ayrılır. Yerel geliştirmede SQLite kullanılır. SLA kontrolü Hafta 7'de bir yönetim komutu olarak eklenecek ve işletim sistemi zamanlayıcısıyla (Windows Görev Zamanlayıcısı veya cron) çalıştırılacaktır. Bağlam diyagramı: [SDD.md §3](SDD.md).
 
 ### 2.2 Ürün işlevleri (29148 §9.6.5)
 
@@ -194,7 +195,7 @@ Hafta 1, 2 ve 3 ayrı paketler ve ayrı ilerleme raporlarıyla teslim edilir.
 
 ## 4. Rol-yetki matrisi
 
-Bu matris Hafta 1'de belirlenen rol-yetki **tasarımıdır**. Hafta 2'de `servicedesk/roles.py` içinde koda aktarılacak, bu tablo koddan yeniden üretilecek ve panelde her kullanıcıya kendi rolünün satırları gösterilecektir. "Hafta" sütunu yeteneğin uygulanacağı haftadır.
+Matris koddaki tanımdan üretilmiştir (`servicedesk/roles.py`, `CAPABILITIES`). Panelde her kullanıcıya kendi rolünün satırları gösterilir.
 
 | Yetenek | Talep Sahibi | Destek Personeli | Yönetici | Hafta |
 |---|---|---|---|---|
@@ -218,7 +219,7 @@ Bu matris Hafta 1'de belirlenen rol-yetki **tasarımıdır**. Hafta 2'de `servic
 | Uygunsuzluk kaydı açma | - | Tam erişim | Tam erişim | 10 |
 | Kök neden, düzeltici faaliyet ve etkinlik kontrolü | - | - | Tam erişim | 10 |
 
-**Hafta 2 için planlanan Django izinleri** (Hafta 2'den itibaren her `migrate` sonrasında gruplara uygulanacak):
+**Hafta 2'de uygulanan Django izinleri** (her `migrate` sonrasında gruplara uygulanır):
 
 | Grup (rol) | İzinler |
 |---|---|
@@ -333,13 +334,13 @@ Gereksinim dili: "-malıdır / -melidir" zorunluluk bildirir. Her gereksinim tek
 - Zaman damgaları UTC saklanır (`USE_TZ=True`); gösterim Europe/Istanbul'dur (NFR-05).
 - İşlem geçmişi kayıtları yalnız eklenir; güncelleme ve silme arayüzden yapılamaz (FR-20).
 - Anket (talep başına bir) ve SLA bildirimleri (talep, ölçüt, olay türü başına bir) veritabanı tekillik kısıtıyla korunur (FR-30, FR-32).
-- Planlanan varlıklar ve ilişkileri Hafta 2'de SDD'nin bilgi görünümünde (ER diyagramı) tanımlanacaktır. Hafta 1'de yalnız özel kullanıcı modeli (`servicedesk.User`) vardır.
+- Planlanan varlıklar ve ilişkileri: [SDD.md §6](SDD.md) (bilgi görünümü, ER diyagramı).
 
 ### 5.6 Tasarım kısıtları (29148 §9.6.16)
 
 - Tek Django projesi, tek uygulama (`servicedesk`), modüler iç yapı; iş kuralları görünümlerden ayrı servis fonksiyonlarında tutulur (NFR-16, Hafta 3'ten itibaren).
 - Kimlik doğrulama, oturum, grup, izin, form ve ORM için Django'nun hazır altyapısı kullanılır.
-- Bağımlılıklar sabitlenir (`requirements*.txt`); yeni bağımlılık ekleme kararı gerekçesiyle karar günlüğüne yazılır (Hafta 1 kararları [PROJECT_STATE.md](PROJECT_STATE.md) §5'te; Hafta 2'den itibaren SDD karar günlüğünde).
+- Bağımlılıklar sabitlenir (`requirements*.txt`); yeni bağımlılık ekleme kararı gerekçesiyle [SDD.md §9](SDD.md) karar günlüğüne yazılır.
 
 ### 5.7 Standartlara uyum (29148 §9.6.17)
 
@@ -466,7 +467,7 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 
 | Yöntem | Kullanım | Örnek |
 |---|---|---|
-| Test | Otomatik birim, entegrasyon ve sistem testleri; Hafta 2'den itibaren tarayıcı (E2E) testleri | TC-CFG-*, TC-SEC-01; Hafta 2: TC-AUTH-*, TC-ROLE-*, TC-E2E-* |
+| Test | Otomatik birim, entegrasyon ve sistem (E2E) testleri | TC-AUTH-*, TC-ROLE-*, TC-E2E-* |
 | Analiz | Kapsam ve statik analiz ölçümleri | TC-QA-01, TC-QA-02 |
 | İnceleme | Kod/şablon incelemesi | TC-INS-01 |
 | Gösterim | Haftalık demoda canlı gösterim | Hafta sonu demo (ayrı kayıt) |
@@ -476,9 +477,9 @@ Bir gereksinim, eşlendiği tüm TC'ler gerçek koşuda PASS olduğunda "doğrul
 ## 9. Gereksinim kalitesi denetimi (29148 §5.2.5, §5.2.6)
 
 - **Tek anlamlılık ve ölçülebilirlik:** Belirsiz sıfatlar ("hızlı", "kolay") yerine eşik ve davranış yazıldı (ör. NFR-03: 28.800 sn; NFR-08: 4.5:1).
-- **Doğrulanabilirlik:** Hafta 1-2'nin her gereksinimi en az bir TC'ye bağlı; Hafta 2 testleri katalogda tanımlı ve "PLANLANDI" durumunda. RTM tutarlılık denetimi testsiz aktif gereksinime izin vermiyor.
+- **Doğrulanabilirlik:** Hafta 1-2'nin her gereksinimi en az bir TC'ye bağlı; RTM tutarlılık denetimi testsiz aktif gereksinime izin vermiyor.
 - **Tekillik:** FR-19 ve FR-30 birden fazla koşul içeriyor; Hafta 5 ve 7 başında alt gereksinimlere bölünecek.
-- **Tutarlılık:** Rol matrisi Hafta 2'de koda aktarılınca SRS §4 koddan yeniden üretilecek; o zamana kadar tablo plan niteliğindedir.
+- **Tutarlılık:** Rol matrisi koddan üretildi; SRS §4 ile uygulama aynı kaynaktan geliyor.
 - **İzlenebilirlik:** Her gereksinimin kaynağı (PT, DJ-SEC, EKİP) ve mimari bileşeni yazılı.
 
 ## 10. Açık konular

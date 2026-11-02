@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Erişim yok{% endblock %}
+
+{% block content %}
+<div class="sd-panel sd-error" data-testid="error-403">
+  <p class="sd-error__code">Hata 403</p>
+  <h1>Bu sayfa rolünüze kapalı</h1>
+  <p>
+    {% if role_label %}Hesabınızın rolü: <strong>{{ role_label }}</strong>.{% else %}Hesabınıza rol atanmamış.{% endif %}
+    İstediğiniz sayfa (<code>{{ request.path }}</code>) yalnız yetkili rollere açıktır.
+  </p>
+  <p>Bu sayfaya erişiminiz olması gerekiyorsa sistem yöneticinizden rol atamanızı kontrol etmesini isteyin.</p>
+  <a class="btn btn-primary" href="{% url 'servicedesk:dashboard' %}">Panelime dön</a>
+</div>
+{% endblock %}

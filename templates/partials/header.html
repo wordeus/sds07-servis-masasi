@@ -1,0 +1,48 @@
+{% with current=request.resolver_match.url_name %}
+<header class="sd-header">
+  <nav class="navbar navbar-expand-md" aria-label="Ana menü">
+    <div class="container-lg">
+      <a class="navbar-brand sd-brand" href="{% url 'servicedesk:dashboard' %}">{% include "partials/brand.html" %}</a>
+      {% if user.is_authenticated %}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ana-menu"
+              aria-controls="ana-menu" aria-expanded="false" aria-label="Menüyü aç veya kapat">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="ana-menu">
+        <ul class="navbar-nav me-auto" data-testid="main-nav">
+          <li class="nav-item">
+            <a class="nav-link{% if current == 'dashboard' %} active{% endif %}"{% if current == 'dashboard' %} aria-current="page"{% endif %}
+               href="{% url 'servicedesk:dashboard' %}">Panelim</a>
+          </li>
+          {% if perms.servicedesk.access_support_workspace %}
+          <li class="nav-item">
+            <a class="nav-link{% if current == 'support_workspace' %} active{% endif %}"{% if current == 'support_workspace' %} aria-current="page"{% endif %}
+               href="{% url 'servicedesk:support_workspace' %}" data-nav="support">Destek kuyruğu</a>
+          </li>
+          {% endif %}
+          {% if perms.servicedesk.access_manager_panel %}
+          <li class="nav-item">
+            <a class="nav-link{% if current == 'manager_panel' %} active{% endif %}"{% if current == 'manager_panel' %} aria-current="page"{% endif %}
+               href="{% url 'servicedesk:manager_panel' %}" data-nav="manager">Yönetim paneli</a>
+          </li>
+          {% endif %}
+          {% if user.is_staff %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin:index' %}" data-nav="admin">Yönetim sitesi</a>
+          </li>
+          {% endif %}
+        </ul>
+        <div class="sd-account">
+          <span class="sd-role{% if not role_label %} sd-role--none{% endif %}" data-testid="role-badge">{{ role_label|default:"Rol atanmamış" }}</span>
+          <span class="sd-account__name">{{ user.get_full_name|default:user.username }}</span>
+          <form method="post" action="{% url 'logout' %}" class="sd-account__logout">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-outline-dark" data-testid="logout">Çıkış yap</button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </nav>
+</header>
+{% endwith %}

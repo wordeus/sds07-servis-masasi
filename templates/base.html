@@ -1,0 +1,22 @@
+{% load static %}<!doctype html>
+<html lang="tr" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Servis Masası{% endblock %} | SDS-07 Servis Masası</title>
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap-5.3.8/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+{% block body %}
+  <a class="visually-hidden-focusable sd-skip" href="#icerik">İçeriğe geç</a>
+  {% include "partials/header.html" %}
+  <main id="icerik" class="container-lg sd-main" tabindex="-1">
+    {% include "partials/messages.html" %}
+    {% block content %}{% endblock %}
+  </main>
+  {% include "partials/footer.html" %}
+{% endblock %}
+  <script src="{% static 'vendor/bootstrap-5.3.8/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-PRC |
-| Sürüm | 0.1 |
+| Sürüm | 0.2 |
 | Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili | ISO 9001:2026 7.5.2 ve 7.5.3 (dokümante bilginin oluşturulması ve kontrolü); ISO/IEC/IEEE 12207:2026 6.3.5 ve 6.3.8 |
@@ -48,7 +48,7 @@
 - Commit kimliği, PR numarası, çalışma saati ve katkı oranı yalnız gerçek kayıttan yazılır.
 - Projedeki her kod ve belge, sunumda ve vizede açıklanabilecek düzeyde anlaşılır tutulur.
 
-## PRC-07 Rol-izin matrisinde değişiklik (Hafta 2'den itibaren)
+## PRC-07 Rol-izin matrisinde değişiklik
 
 1. `servicedesk/roles.py` içinde `ROLE_PERMISSIONS` ve gerekirse `CAPABILITIES` güncellenir.
 2. SRS §4 tablosu koddan yeniden üretilir.
@@ -56,3 +56,9 @@
 4. TC-ROLE testleri güncellenir; doğrudan adres ve POST testleri eklenir.
 
 Yönetim sitesinden gruplara elle izin eklemek kalıcı değildir; bir sonraki `migrate` matrise geri döndürür.
+
+## PRC-08 Tarayıcı (E2E) testlerinin koşulması
+
+- E2E testleri yalnız `tools/run_e2e.sh` ile koşulur. Betik koşudan önce portun boş olduğunu, koşudan sonra sunucunun kapandığını denetler; eski bir sunucuya karşı yanlış PASS alınmasını önler (RSK-20).
+- Her koşu geçici veritabanı ve rastgele demo parolasıyla yapılır; parola hiçbir dosyaya yazılmaz.
+- Ekran görüntüleri ilgili haftanın kanıt klasörüne yazılır ve incelenir; testin geçmesi tek başına yeterli sayılmaz (RSK-19).

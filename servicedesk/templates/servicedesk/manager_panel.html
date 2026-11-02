@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Yönetim paneli{% endblock %}
+
+{% block content %}
+<div class="sd-page-head">
+  <h1>Yönetim paneli</h1>
+  <p class="sd-lead">Yalnız Yönetici rolüne açık alan.</p>
+</div>
+
+<div class="row g-4">
+  <section class="col-lg-7">
+    <div class="sd-panel sd-empty" data-testid="manager-panel">
+      <h2>Göstergeler henüz hesaplanmıyor</h2>
+      <p>Hafta 9'da bu alanda talep sayıları, ortalama ilk yanıt ve çözüm süreleri, SLA uyum oranları ve memnuniyet puanı yer alacak.</p>
+      <p class="sd-muted">Bu sayfaya erişim, sunucuda <code>access_manager_panel</code> izniyle denetlenir.</p>
+    </div>
+  </section>
+  <section class="col-lg-5">
+    <div class="sd-panel">
+      <h2>Rol atamaları</h2>
+      <p>Kullanıcılar ve rol grupları Django yönetim sitesinden yönetilir. Bu işlem yalnız sistem yöneticisi hesabıyla yapılabilir.</p>
+      {% if user.is_staff %}
+      <a class="btn btn-outline-dark" href="{% url 'admin:servicedesk_user_changelist' %}">Kullanıcıları yönet</a>
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% endblock %}

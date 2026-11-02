@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Giriş yap{% endblock %}
+{% block body_class %}sd-login-page{% endblock %}
+
+{% block body %}
+<main class="sd-login" id="icerik">
+  <section class="sd-login__form" aria-labelledby="giris-baslik">
+    <div class="sd-login__inner">
+      <p class="sd-brand sd-brand--login">{% include "partials/brand.html" %}</p>
+
+      <h1 id="giris-baslik">Giriş yap</h1>
+      <p class="sd-lead">Servis masası hesabınızla oturum açın.</p>
+
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger" role="alert" id="giris-hatasi" data-testid="login-error">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+      </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'login' %}" class="sd-login__fields">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="mb-3">
+          <label class="form-label" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+          {{ form.username }}
+          {% for error in form.username.errors %}<div class="sd-field-error">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+          {{ form.password }}
+          {% for error in form.password.errors %}<div class="sd-field-error">{{ error }}</div>{% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100">Giriş yap</button>
+      </form>
+
+      <p class="sd-help">Hesabınız yoksa veya parolanızı unuttuysanız sistem yöneticinize başvurun.</p>
+    </div>
+  </section>
+
+  <section class="sd-login__process" aria-labelledby="surec-baslik">
+    <div class="sd-login__inner">
+      <h2 id="surec-baslik">Bir talep nasıl ilerler?</h2>
+      <p class="sd-process__intro">Her talep aynı dört adımdan geçer. İlk yanıt ve çözüm süreleri ayrı ayrı ölçülür.</p>
+
+      <ol class="sd-rail">
+        <li class="sd-rail__step" data-state="open">
+          <span class="sd-rail__dot" aria-hidden="true"></span>
+          <span class="sd-rail__name">Açık <span class="sd-rail__code" lang="en">Open</span></span>
+          <span class="sd-rail__text">Talep kaydedilir; ilk yanıt süresi başlar.</span>
+        </li>
+        <li class="sd-rail__step" data-state="progress">
+          <span class="sd-rail__dot" aria-hidden="true"></span>
+          <span class="sd-rail__name">İşlemde <span class="sd-rail__code" lang="en">In Progress</span></span>
+          <span class="sd-rail__text">Destek personeli talebi üstlenir ve çalışır.</span>
+        </li>
+        <li class="sd-rail__step" data-state="resolved">
+          <span class="sd-rail__dot" aria-hidden="true"></span>
+          <span class="sd-rail__name">Çözüldü <span class="sd-rail__code" lang="en">Resolved</span></span>
+          <span class="sd-rail__text">Çözüm açıklamasıyla talep sahibine sunulur.</span>
+        </li>
+        <li class="sd-rail__step" data-state="closed">
+          <span class="sd-rail__dot" aria-hidden="true"></span>
+          <span class="sd-rail__name">Kapandı <span class="sd-rail__code" lang="en">Closed</span></span>
+          <span class="sd-rail__text">Talep sahibi onaylar ve memnuniyet puanı verebilir.</span>
+        </li>
+      </ol>
+
+      <p class="sd-process__note">Her durum değişikliği, kimin yaptığı ve ne zaman yapıldığıyla birlikte işlem geçmişine yazılır.</p>
+    </div>
+  </section>
+</main>
+{% endblock %}

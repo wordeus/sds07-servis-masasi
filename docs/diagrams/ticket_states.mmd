@@ -1,0 +1,10 @@
+stateDiagram-v2
+  state "Open (Açık)" as OPEN
+  state "In Progress (İşlemde)" as IN_PROGRESS
+  state "Resolved (Çözüldü)" as RESOLVED
+  state "Closed (Kapandı)" as CLOSED
+  [*] --> OPEN: talep oluşturuldu (t0, SLA saatleri başlar)
+  OPEN --> IN_PROGRESS: atanmış destek personeli veya yönetici
+  IN_PROGRESS --> RESOLVED: çözüm açıklaması zorunlu (çözüm anı)
+  RESOLVED --> CLOSED: talep sahibi onayı veya yönetici
+  CLOSED --> [*]: memnuniyet puanı bir kez verilebilir

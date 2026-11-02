@@ -58,12 +58,12 @@
       "expect_header": "Hedef ID",
       "widths": [1100, 4000, 2400, 2436],
       "rows": [
-        ["PLN-01", "Giriş/çıkış (çıkış yalnız POST), güvenli next yönlendirmesi, genel hata mesajı (FR-01..FR-05)", "ISO 9001:2026 - 7.5.3; ISO/IEC 25010:2023 - 3.6.5", "Burak Nigiz - 16.10.2026 (Faz 1)"],
-        ["PLN-02", "Rol grupları, koddaki rol-izin matrisi, sunucu tarafı yetkilendirme, rol menüsü ve demo komutu (FR-06..FR-11)", "ISO 9001:2026 - 5.3; ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz - 16.10.2026 (Faz 1)"],
-        ["PLN-03", "Türkçe arayüz (Django Templates + Bootstrap 5.3.8), hata sayfaları; mobil, klavye ve kontrast; tarayıcı (E2E) testleri (NFR-06..NFR-08)", "ISO/IEC 25010:2023 - 3.4.3, 3.4.6; IEEE 1012-2024", "Burak Nigiz - 16.10.2026 (Faz 1)"],
-        ["PLN-04", "Mimari taslak SDD v0.1: bağlam, bileşim, bilgi ve durum görünümleri; karar günlüğü", "IEEE 1016-2009 (Context, Composition, Information, State dynamics)", "Burak Nigiz - 16.10.2026 (Faz 1)"],
-        ["PLN-05", "Talep oluşturma ve listeleme, kayıt bazlı erişim (başkasının kaydına 404), kategoriler (FR-12..FR-15)", "ISO 9001:2026 - 8.2.1, 8.5.1; ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz - 30.10.2026 (Faz 2)"],
-        ["PLN-06", "models/, services/, views/ paketleriyle modüler yapı (NFR-16); SDD v0.2", "ISO/IEC 25010:2023 - 3.7.1; IEEE 1016-2009", "Burak Nigiz - 30.10.2026 (Faz 2)"],
+        ["PLN-01", "Giriş/çıkış (çıkış yalnız POST), güvenli next yönlendirmesi, genel hata mesajı (FR-01..FR-05)", "ISO 9001:2026 - 7.5.3; ISO/IEC 25010:2023 - 3.6.5", "Burak Nigiz - 30.10.2026 (Faz 2)"],
+        ["PLN-02", "Rol grupları, koddaki rol-izin matrisi, sunucu tarafı yetkilendirme, rol menüsü ve demo komutu (FR-06..FR-11)", "ISO 9001:2026 - 5.3; ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz - 30.10.2026 (Faz 2)"],
+        ["PLN-03", "Türkçe arayüz (Django Templates + Bootstrap 5.3.8), hata sayfaları; mobil, klavye ve kontrast; tarayıcı (E2E) testleri (NFR-06..NFR-08)", "ISO/IEC 25010:2023 - 3.4.3, 3.4.6; IEEE 1012-2024", "Burak Nigiz - 30.10.2026 (Faz 2)"],
+        ["PLN-04", "Mimari taslak SDD v0.1: bağlam, bileşim, bilgi ve durum görünümleri; karar günlüğü", "IEEE 1016-2009 (Context, Composition, Information, State dynamics)", "Burak Nigiz - 30.10.2026 (Faz 2)"],
+        ["PLN-05", "Talep oluşturma ve listeleme, kayıt bazlı erişim (başkasının kaydına 404), kategoriler (FR-12..FR-15)", "ISO 9001:2026 - 8.2.1, 8.5.1; ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz - 13.11.2026 (Faz 3)"],
+        ["PLN-06", "models/, services/, views/ paketleriyle modüler yapı (NFR-16); SDD v0.2", "ISO/IEC 25010:2023 - 3.7.1; IEEE 1016-2009", "Burak Nigiz - 13.11.2026 (Faz 3)"],
         ["PLN-07", "Windows'ta elle temiz kurulum doğrulaması (TC-INST-01); GitHub deposu ve ilk CI koşusu tamamlandı (TC-CI-01 PASS)", "ISO/IEC/IEEE 12207:2026 - 6.3.5; IEEE 1012-2024", "Burak Nigiz - 13.11.2026 (Faz 3)"]
       ]
     }

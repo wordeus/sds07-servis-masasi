@@ -3,14 +3,21 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-RSK |
-| Sürüm | 0.1 (Hafta 1) |
+| Sürüm | 0.2 (Hafta 2) |
 | Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili süreç | ISO/IEC/IEEE 12207:2026 6.3.4 Risk management; ISO 9001:2026 6.1 |
 
 Ölçek: Olasılık ve etki Düşük / Orta / Yüksek. "Sorun" bu hafta gerçekten yaşanmış ve kanıtı olan durumdur; "Risk" henüz gerçekleşmemiştir. Kimlikler kalıcıdır: kapanan kayıt silinmez, yeni kayıt sıradaki numarayı alır. Proje tek kişilik olduğundan tüm kayıtların sorumlusu Burak Nigiz'dir.
 
-Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırlandı. Hafta 1 ve Hafta 2 kodu aynı gün yazıldı; o çalışmadaki geliştirme sorunları (ilk statik analiz koşusu, ilk temiz kurulum denemesi, arayüz sorunları) Hafta 2 paketinde kayıtlıdır.
+Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırlandı. Hafta 1 ve Hafta 2 kodu aynı gün yazıldı; o çalışmadaki geliştirme sorunları aşağıda §2'de (RSK-17..RSK-20) kayıtlıdır. Bu sorunların kanıtları o oturumda üretilen özgün dosyalardır (`evidence/hafta-02/ilk-denemeler/`); dosyalarda eski "Sprint" etiketleri ve eski dosya adları görülebilir.
+
+## Revizyon geçmişi
+
+| Sürüm | Tarih | Değişiklik |
+|---|---|---|
+| 0.1 | 30.10.2026 | Hafta 1: RSK-01..RSK-07 yaşanan sorunlar; RSK-08..RSK-16 riskler |
+| 0.2 | 30.10.2026 | Hafta 2: RSK-17..RSK-20 eklendi; RSK-07 Hafta 2 ölçümüyle güncellendi |
 
 ## 1. Hafta 1'de yaşanan sorunlar
 
@@ -20,11 +27,20 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | RSK-02 | Girdiler eksik: ayrıntılı SDS-07 proje dokümanı elde edilemedi; grup numarası atanmadı. | Orta | Girdi incelemesi | Proje talimatı esas alındı. Grup numarası atanmadığı için raporlarda öğrenci numarası ve ad kullanıldı (AK-06, AK-07). Ekip bilgisi netleşti: proje tek kişilik. | Açık | SRS §10 |
 | RSK-03 | Tek kişilik ekip: bağımsız kod/belge incelemesi ve görevler ayrılığı yapılamıyor; IEEE 1012'deki bağımsız V&V uygulanamıyor. | Orta | Proje planlaması (ekip bilgisi) | Doğrulama otomatik kapılara bağlandı: test, ruff, `check --deploy`, RTM `--strict`. İnceleme kontrol listesi kendi kendine uygulanır (PRC-03). Öğretim elemanı geri bildirimi bağımsız inceleme yerine kullanılır. | Açık (kısıt) | [PROCEDURES.md](PROCEDURES.md), [STANDARDS.md §4](STANDARDS.md) |
 | RSK-04 | Üretim profilinde `check --deploy`, HSTS preload ayarı için uyarı verdi (security.W021). Preload, alan adının tarayıcı ön yükleme listesine kalıcı olarak eklenmesini gerektirir; ders projesinde alan adı yok. | Düşük | Yapılandırma denetimi (`check --deploy --fail-level WARNING`) | `SECURE_HSTS_PRELOAD` açılmadı; uyarı gerekçesiyle `SILENCED_SYSTEM_CHECKS` içinde susturuldu. Diğer HSTS ayarları açık. Susturmasız koşu kanıt olarak saklandı. | Kapandı (gerekçeli) | `evidence/hafta-01/check-deploy-susturmasiz.txt`, `check-deploy.txt` |
-| RSK-05 | Uzak depo ve GitHub Actions yok. CI matrisi (Windows dahil) hiç koşmadı. Windows'ta kurulum doğrulanmadı. | Orta | Ortam kontrolü | Yerel eşdeğer komutlar Linux'ta Python 3.12 ve 3.13 ile koşuldu. `ci.yml` actionlint 1.7.12 ile statik denetlendi (0 bulgu). 02.11.2026: depo oluşturuldu, ilk CI koşusunda Ubuntu ve Windows × Python 3.12/3.13 işlerinin dördü de başarılı oldu (02.11.2026, koşu #1, commit 29f962c). | Kapandı | `evidence/hafta-01/manual-checks.json`, `ci-github-actions-2026-11-02.json` |
+| RSK-05 | Uzak depo ve GitHub Actions yok. CI matrisi (Windows dahil) hiç koşmadı. Windows'ta kurulum doğrulanmadı. | Orta | Ortam kontrolü | Yerel eşdeğer komutlar Linux'ta Python 3.12 ve 3.13 ile koşuldu. `ci.yml` actionlint 1.7.12 ile statik denetlendi (0 bulgu). 02.11.2026: depo oluşturuldu, Hafta 1 commit'inin ilk CI koşusunda Ubuntu ve Windows × Python 3.12/3.13 işlerinin dördü de başarılı oldu (02.11.2026, koşu #1, commit 29f962c). | Kapandı | `evidence/hafta-01/ci-github-actions-2026-11-02.json` |
 | RSK-06 | RTM üreticisi özet tablosunda "NOT RUN" durumunu "NOT" olarak sayıyordu (durum adı boşluktan bölünüyordu). Rapor sayılarının yanlış okunmasına yol açabilirdi. | Orta | Hafta 1 RTM üretim çıktısının incelenmesi | Sayım, parantezli ayrıntıyı atacak şekilde düzeltildi (`count_by_status`). Gerileme testi TC-QA-04 eklendi; hatalı kodla FAIL verdiği doğrulandı. | Kapandı | `evidence/hafta-01/rtm-ozet-hatasi-duzeltme-oncesi.txt`, `tc-qa-04-hatali-kodla.txt` |
-| RSK-07 | Araç kodunda karmaşıklık eşiği aşıldı: `tools/build_report.py::build` döngüsel karmaşıklığı 19 (hedef ≤ 10). Uygulama kodunda en yüksek değer 4. | Düşük | Kod analizi (ruff C901 ölçümü) | Uygulama kodu etkilenmiyor. Fonksiyon daha küçük parçalara bölünecek. | Açık | [QUALITY_METRICS.md](QUALITY_METRICS.md) |
+| RSK-07 | Araç kodunda karmaşıklık eşiği aşıldı: `tools/build_report.py::build` döngüsel karmaşıklığı 19 (hedef ≤ 10). Hafta 2 ölçümünde `e2e/week2_auth_roles.py::main` = 18 de eşiği aşıyor. Uygulama kodunda en yüksek değer 6. | Düşük | Kod analizi (ruff C901 ölçümü) | Uygulama kodu etkilenmiyor. İki fonksiyon daha küçük parçalara bölünecek. | Açık | [QUALITY_METRICS.md](QUALITY_METRICS.md) |
 
-## 2. Önümüzdeki haftaların riskleri
+## 2. Hafta 2'de yaşanan sorunlar
+
+| ID | Sorun / standart sapması | Etki | Tespit yöntemi (V&V) | Alınan önlem | Durum | Kanıt |
+|---|---|---|---|---|---|---|
+| RSK-17 | Hafta 1-2 kodunun statik analizdeki ilk koşusunda 13 bulgu çıktı: 9 satır uzunluğu (E501), 3 eski `timezone.utc` kullanımı (UP017), 1 alt süreç uyarısı (S603). Bulgular `config/test_runner.py`, `test_config.py`, `test_roles.py` ve `test_security.py` dosyalarındaydı. | Düşük | Statik analiz (ruff) | Kod düzeltildi. Test/araç dosyaları için gerekçeli muafiyetler `pyproject.toml`'a yazıldı. Şu an 0 bulgu var; CI'da kapı adımı. | Kapandı | `evidence/hafta-02/ilk-denemeler/ruff-ilk-kosu-13-bulgu.json`, `evidence/hafta-02/ruff.json` |
+| RSK-18 | Temiz kurulum denetiminin ilk denemesi başarısız oldu: E2E betiği (o zamanki adı `e2e/sprint1_smoke.py`) ve `tools/build_rtm.py` biçim/lint kapısından geçmiyordu. CI'da da aynı adım kırılırdı. | Orta | Temiz sanal ortamda kurulum ve CI eşdeğeri komutlar | Biçimlendirme uygulandı ve gerekçeli muafiyet eklendi. Linux'ta Python 3.12.13 ve 3.13.18 ile yeniden BAŞARILI. | Kapandı | `evidence/hafta-02/ilk-denemeler/install-check-*-ilk-deneme-basarisiz.log`, `evidence/hafta-02/install-check-linux-py31*.log` |
+| RSK-19 | TC-E2E-07'nin ilk sürümü yalnız sayfa düzeyindeki taşmayı ölçüyordu. Ekran görüntüsünde yetki tablosunun 360 px'te kırpıldığı görüldü (`table-responsive` 327 > 286 px). Test geçmesine rağmen kusur vardı. | Orta | Geçerleme: ekran görüntüsü incelemesi, ardından test iyileştirme | Dar ekranda tablo satırları alt alta dizildi. Test iç kapsayıcıları da ölçecek şekilde genişletildi. Düzeltme kaldırılınca testin FAIL verdiği doğrulandı. | Kapandı | `evidence/hafta-02/ilk-denemeler/e2e-regression-check-without-fix.json`, `ilk-denemeler/07-panel-mobil-360-duzeltme-oncesi.png`, `screenshots/07-panel-mobil-360.png` |
+| RSK-20 | Önceki E2E koşusundan kalan sunucu süreci kapanmamıştı. İkinci koşu eski şablonla çalışan sunucuya karşı yapıldı; CSS diskten güncel okunduğu için fark gizlendi (yanlış PASS riski). | Yüksek | Geçerleme: ekran görüntüsü ve DOM incelemesi (üst bilgi işaretlemesi eski sürümdü) | Eski süreçler kapatıldı. `tools/run_e2e.sh` koşu öncesi portun boş olduğunu, koşu sonrası sunucunun kapandığını denetliyor (PRC-08). E2E temiz sunucuyla yeniden koşuldu (9/9 PASS). | Kapandı | `tools/run_e2e.sh`, `evidence/hafta-02/e2e-output.txt` |
+
+## 3. Önümüzdeki haftaların riskleri
 
 | ID | Risk | Olasılık | Etki | Önlem | Hafta |
 |---|---|---|---|---|---|

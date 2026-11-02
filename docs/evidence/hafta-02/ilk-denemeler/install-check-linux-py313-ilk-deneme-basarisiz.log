@@ -1,0 +1,179 @@
+== TC-INST-01 [Linux, Python 3.13] başlangıç (UTC): 2026-10-29T22:33:25Z
+== kaynak kopyalanıyor (venv, db, reports hariç) -> /tmp/tmp.VhM1CBhi7K
+== Python 3.13.18
+== pip install -r requirements-dev.txt
+asgiref==3.13.0
+coverage==7.17.0
+Django==5.2.18
+ruff==0.17.3
+sqlparse==0.6.0
+== ruff format --check / ruff check
+unformatted: File would be reformatted
+   --> e2e/sprint1_smoke.py:107:29
+    |
+106 |             outcome, detail = "ERROR", traceback.format_exc(limit=3)
+    -         self.records.append({"tc_id": tc_id, "test": f"e2e/sprint1_smoke.py::{tc_id}", "title": title,
+    -                              "outcome": outcome, "detail": detail, "screenshots": shots})
+107 +         self.records.append(
+108 +             {
+109 +                 "tc_id": tc_id,
+110 +                 "test": f"e2e/sprint1_smoke.py::{tc_id}",
+111 +                 "title": title,
+112 +                 "outcome": outcome,
+113 +                 "detail": detail,
+114 +                 "screenshots": shots,
+115 +             }
+116 +         )
+117 |         print(f"{tc_id}: {outcome}  {title}")
+--------------------------------------------------------------------------------
+199 |             response = page.goto(f"{runner.base}/destek/")
+    -             assert response.status == 200 and page.is_visible("[data-testid=support-workspace]"), "Destek kuyruğu açılmadı"
+200 +             assert response.status == 200 and page.is_visible("[data-testid=support-workspace]"), (
+201 +                 "Destek kuyruğu açılmadı"
+202 +             )
+203 |             runner.shot(page, "04-destek-kuyrugu.png", shots)
+--------------------------------------------------------------------------------
+285 |             page.keyboard.press("Tab")
+    -             first = page.evaluate("[document.activeElement.textContent.trim(), getComputedStyle(document.activeElement).outlineStyle]")
+286 +             first = page.evaluate(
+287 +                 "[document.activeElement.textContent.trim(), getComputedStyle(document.activeElement).outlineStyle]"
+288 +             )
+289 |             page.keyboard.press("Tab")
+    |
+
+unformatted: File would be reformatted
+   --> tools/build_rtm.py:263:12
+    |
+262 |     ]
+    -     rtm += [f"- {p}" for p in problems] if problems else ["- Sorun bulunmadı (izlenemeyen test, testsiz aktif gereksinim veya başarısız test yok)."]
+263 +     rtm += (
+264 +         [f"- {p}" for p in problems]
+265 +         if problems
+266 +         else ["- Sorun bulunmadı (izlenemeyen test, testsiz aktif gereksinim veya başarısız test yok)."]
+267 +     )
+268 |     args.rtm_out.write_text("\n".join(rtm) + "\n", encoding="utf-8")
+    |
+
+2 files would be reformatted, 29 files already formatted
+E501 Line too long (123 > 120)
+   --> e2e/sprint1_smoke.py:192:121
+    |
+190 |             assert "support" in links and "manager" not in links, f"Menü: {links}"
+191 |             response = page.goto(f"{runner.base}/destek/")
+192 |             assert response.status == 200 and page.is_visible("[data-testid=support-workspace]"), "Destek kuyruğu açılmadı"
+    |                                                                                                                         ^^^
+193 |             runner.shot(page, "04-destek-kuyrugu.png", shots)
+194 |             response = page.goto(f"{runner.base}/yonetim/")
+    |
+
+E501 Line too long (135 > 120)
+   --> e2e/sprint1_smoke.py:276:121
+    |
+274 | …
+275 | …
+276 | …tContent.trim(), getComputedStyle(document.activeElement).outlineStyle]")
+    |                                                            ^^^^^^^^^^^^^^^
+277 | …
+278 | …
+    |
+
+E501 Line too long (121 > 120)
+   --> tools/build_rtm.py:211:121
+    |
+209 |         "",
+210 |         "> Bu dosya `tools/build_rtm.py` tarafından gerçek test çıktılarından üretilir; elle düzenlemeyin.",
+211 |         "> Kaynaklar: `docs/traceability/requirements.csv`, `docs/traceability/tests.csv` ve aşağıdaki sonuç dosyaları.",
+    |                                                                                                                         ^
+212 |         f"> Üretim: {generated} (Europe/Istanbul) · Aktif sprint: {args.sprint}",
+213 |         "",
+    |
+
+E501 Line too long (145 > 120)
+   --> tools/build_rtm.py:220:121
+    |
+218 | …
+219 | …
+220 | … bileşen (SDD) | Doğrulama yöntemi | Test ID (STD) | Sprint | Gerçek sonuç |",
+    |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+221 | …
+222 | …
+    |
+
+E501 Line too long (134 > 120)
+   --> tools/build_rtm.py:227:121
+    |
+225 |         test_cells = ", ".join(f"{t} ({tc_status.get(t, '?')})" for t in tests) or "-"
+226 |         rtm.append(
+227 |             "| {id} | {type} | {title} | {priority} | {source} | {modules} | {verification} | {tests} | {sprint} | {status} |".format(
+    |                                                                                                                         ^^^^^^^^^^^^^^
+228 |                 id=req["id"],
+229 |                 type=req["type"],
+    |
+
+E501 Line too long (148 > 120)
+   --> tools/build_rtm.py:263:121
+    |
+261 | …
+262 | …
+263 | …ulunmadı (izlenemeyen test, testsiz aktif gereksinim veya başarısız test yok)."]
+    |                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+264 | …
+    |
+
+E501 Line too long (122 > 120)
+   --> tools/build_rtm.py:275:121
+    |
+273 |         *run_lines,
+274 |         "",
+275 |         "| Test ID | Doğrulanan gereksinim | Test seviyesi | Ön koşul ve test girdisi | Beklenen çıktı | Sonuç | Kanıt |",
+    |                                                                                                                         ^^
+276 |         "|---|---|---|---|---|---|---|",
+277 |     ]
+    |
+
+Found 7 errors.
+== manage.py check / makemigrations --check
+System check identified no issues (0 silenced).
+No changes detected
+== migrate (temiz veritabanı)
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, servicedesk, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying servicedesk.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying sessions.0001_initial... OK
+  Rol grubu 'Talep Sahibi': oluşturuldu (+0 / -0 izin)
+  Rol grubu 'Destek Personeli': oluşturuldu (+1 / -0 izin)
+  Rol grubu 'Yönetici': oluşturuldu (+2 / -0 izin)
+== test + coverage
+Found 33 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.................................
+----------------------------------------------------------------------
+Ran 33 tests in 12.503s
+
+OK
+Destroying test database for alias 'default'...
+servicedesk/views.py                                    16      0      0      0   100%
+------------------------------------------------------------------------------------------------
+TOTAL                                                  374     27     68     10    91%
+== check --deploy (üretim profili)
+System check identified no issues (1 silenced).
+== bitiş (UTC): 2026-10-29T22:33:46Z | durum: BAŞARISIZ

@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-STD |
-| Sürüm | 0.1 (taslak) |
+| Sürüm | 0.2 (taslak) |
 | Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 
@@ -12,6 +12,7 @@
 | Sürüm | Tarih | Değişiklik |
 |---|---|---|
 | 0.1 | 30.10.2026 | Hafta 1: baskıların ve madde numaralarının resmî kaynaklardan doğrulanması; ISO 9001:2026 ve 12207:2026 eşlemesi; uyarlama |
+| 0.2 | 30.10.2026 | Hafta 2: eşleme durumları ve 12207 uygulama tablosu Hafta 2 çıktılarıyla güncellendi; Bootstrap ve yazı tipi sürümleri eklendi |
 
 Bu belge projede kullanılan standart baskılarını, resmî bağlantılarını ve hangi madde numaralarının nasıl doğrulandığını kaydeder. **Kural:** Doğrulanmamış madde numarası kullanılmaz. Doğrulanamayan konular "DOĞRULANMADI" diye işaretlenir. Hiçbir ifade belgelendirme veya uygunluk iddiası değildir.
 
@@ -48,12 +49,12 @@ Madde numaraları ve başlıkları FDIS içindekilerinden alınmıştır (§2). 
 | Madde (2026) | Başlık | Projedeki karşılık | Gereksinim | Durum |
 |---|---|---|---|---|
 | 5.1.2 | Customer focus | SLA ihlalinin yöneticiye eskalasyonu | FR-29 | Planlandı (Hafta 8) |
-| 5.3 | Roles, responsibilities and authorities | Rol grupları, rol-izin matrisi, sunucu tarafı yetki | FR-06..FR-10, FR-16, FR-23 | Planlandı (Hafta 2; FR-16 Hafta 4, FR-23 Hafta 6) |
+| 5.3 | Roles, responsibilities and authorities | Rol grupları, rol-izin matrisi, sunucu tarafı yetki | FR-06..FR-10, FR-16, FR-23 | Hafta 2'de FR-06..FR-10 uygulandı ve test edildi; FR-16 Hafta 4, FR-23 Hafta 6 |
 | 6.2 | Quality objectives and planning to achieve them | Önceliğe göre SLA hedefleri (ölçülebilir hedef) | FR-26 | Planlandı (Hafta 7) |
-| 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi (CI: Ubuntu ve Windows'ta PASS, 02.11.2026) |
+| 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi (Windows ve CI: NOT RUN) |
 | 7.1.5 | Monitoring and measuring resources | Doğru zaman ölçümü (UTC), test/ölçüm altyapısı | NFR-05, NFR-09 | Hafta 1'de uygulandı ve test edildi |
 | 7.4 | Communication | Uygulama içi bildirimler | FR-31 | Planlandı (Hafta 8) |
-| 7.5.3 | Control of documented information | Erişim kontrolü, işlem geçmişi, belgelerin sürüm kontrolü | FR-01..FR-05, FR-09, FR-20 | Planlandı (erişim Hafta 2; işlem geçmişi FR-20 Hafta 4-5) |
+| 7.5.3 | Control of documented information | Erişim kontrolü, işlem geçmişi, belgelerin sürüm kontrolü | FR-01..FR-05, FR-09, FR-20 | Hafta 2'de erişim kısmı uygulandı ve test edildi; işlem geçmişi (FR-20) Hafta 4-5 |
 | 8.2.1 / 8.2.2 | Customer communication / Determining requirements for products and services | Talep kaydı ve yorumlar | FR-12, FR-17 | Planlandı (Hafta 3-4) |
 | 8.5.1 | Control of production and service provision | Kontrollü talep akışı ve durum makinesi | FR-13, FR-18, FR-19 | Planlandı (Hafta 3, Hafta 5) |
 | 8.5.2 | Identification and traceability | Talep numarası, işlem geçmişi | FR-12, FR-20, FR-21 | Planlandı (Hafta 3-5) |
@@ -71,14 +72,14 @@ Not: 2015 baskısından farklı numaralar vardır. Örneğin FDIS içindekilerin
 
 ## 4. ISO/IEC/IEEE 12207:2026 süreç eşlemesi (vize Soru 1b)
 
-| Süreç (12207:2026) | Projede uygulanış (Hafta 1) | Kanıt |
+| Süreç (12207:2026) | Projede uygulanış (Hafta 1-2) | Kanıt |
 |---|---|---|
 | 6.4.2 Stakeholder needs and requirements definition | Kullanıcı hikâyeleri, iş kuralları | SRS §3 |
 | 6.4.3 System requirements definition | FR/NFR ve kabul kriterleri | SRS §5, §7 |
-| 6.4.4 System architecture definition | Hafta 2'de başlayacak (SDD v0.1: bağlam, bileşen, bilgi görünümleri) | - |
-| 6.4.7 Implementation | Django projesi, ayar profilleri, özel kullanıcı modeli | `config/`, `servicedesk/models.py` |
-| 6.4.9 Verification process | Birim/entegrasyon testleri, statik analiz, test araçlarının doğrulanması | TEST_PLAN, TEST_RESULTS |
-| 6.4.11 Validation process | Hafta 2'de: tarayıcıda rol senaryoları (E2E) | - |
+| 6.4.4 System architecture definition | Bağlam, bileşen ve bilgi görünümleri | SDD |
+| 6.4.7 Implementation | Hafta 1: Django projesi, ayarlar, kullanıcı modeli; Hafta 2: giriş/çıkış, roller, arayüz | `servicedesk/`, `config/` |
+| 6.4.9 Verification process | Birim/entegrasyon testleri, statik analiz, mutasyon denetimi | TEST_PLAN, TEST_RESULTS |
+| 6.4.11 Validation process | Tarayıcıda rol senaryoları (E2E); haftalık demo | TC-E2E-*, ekran görüntüleri |
 | 6.3.4 Risk management process | Risk listesi ve aksiyonlar | RISKS.md |
 | 6.3.5 Configuration management process | Sabit bağımlılıklar, sürüm, CI, değişiklik günlüğü | requirements*.txt, CHANGELOG, ci.yml |
 | 6.3.7 Measurement process | Kapsam, bulgu sayısı, test sayısı, karmaşıklık | QUALITY_METRICS.md |
@@ -99,7 +100,7 @@ Not: 2015 baskısından farklı numaralar vardır. Örneğin FDIS içindekilerin
 
 ## 5. IEEE 1016-2009 tasarım görünümleri (vize Soru 3)
 
-Hafta 2'de hazırlanacak SDD'de kullanılacak görünümler (adları ders belgesindeki adlandırmayla aynıdır): Context, Composition, Logical, Information. Ek olarak durum akışı için "State dynamics" görünümü kullanılacaktır (IEEE 1016-2009'daki görünüm adı; madde numarası verilmemiştir).
+Kullanılan görünümler (adları ders belgesindeki adlandırmayla aynıdır): Context, Composition, Logical, Information. Ek olarak durum akışı için "State dynamics" görünümü kullanılmıştır (IEEE 1016-2009'daki görünüm adı; madde numarası verilmemiştir). Ayrıntı ve paydaş kaygıları: [SDD.md](SDD.md).
 
 ## 6. ISO/IEC 25010:2023 karakteristikleri ve 2011 eşlemesi (vize Soru 4)
 
@@ -119,7 +120,7 @@ Kaynak: ISO/IEC 25010:2023 önsözündeki değişiklik listesi (iTeh örnek metn
 
 ## 7. IEEE 1012-2024 ile ilişki (vize Soru 5)
 
-Hafta 1'de uygulanan doğrulama etkinlikleri: gereksinim izlenebilirlik analizi (RTM tutarlılık denetimi), kod/yapılandırma statik analizi (ruff, `check --deploy`), birim ve entegrasyon testleri ve test araçlarının kendisinin doğrulanması (TC-QA-03, TC-QA-04). Sistem testi (tarayıcı E2E) ve mutasyon denetimi Hafta 2'de eklenecektir. Madde numarası kullanılmamıştır. Ayrıntı: [TEST_PLAN.md](TEST_PLAN.md).
+Projede uygulanan doğrulama/geçerleme etkinlikleri: gereksinim izlenebilirlik analizi (RTM tutarlılık denetimi), kod/yapılandırma statik analizi (ruff, `check --deploy`), birim ve entegrasyon testleri, sistem testi (tarayıcı E2E), test araçlarının kendisinin doğrulanması (TC-QA-03, TC-QA-04) ve testlerin hata yakalama yeteneğinin mutasyon denetimiyle sınanması. Madde numarası kullanılmamıştır. Ayrıntı: [TEST_PLAN.md](TEST_PLAN.md).
 
 ## 8. Kalite yönetimi ilkeleri
 
@@ -131,6 +132,7 @@ ISO'nun kalite yönetimi ilkeleri (müşteri odaklılık, liderlik, çalışanla
 |---|---|---|
 | Django | 5.2.18 (5.2 LTS'nin PyPI'deki son yaması, 06.10.2026; uzatılmış destek Nisan 2028'e kadar) | [djangoproject.com/download](https://djangoproject.com/download/), [PyPI Django](https://pypi.org/project/Django/) |
 | Python | 3.12 ve 3.13 test edildi (Django 5.2.18 PyPI meta verisi 3.10-3.14 bildirir; asgiref 3.13.0 ≥ 3.11 ister) | PyPI meta verisi |
-| Bootstrap | 5.3.8 seçildi (npm "latest"); Hafta 2'de arayüzle birlikte yerel dosya olarak eklenecek | [npm bootstrap](https://www.npmjs.com/package/bootstrap) |
+| Bootstrap | 5.3.8 (npm "latest") | [npm bootstrap](https://www.npmjs.com/package/bootstrap) |
+| IBM Plex Sans | @fontsource/ibm-plex-sans 5.3.0 (SIL OFL 1.1) | npm |
 
 Not: Django belge dizininde 5.2.19 sürüm notu sayfası görünüyor; PyPI ve indirme sayfası 30.10.2026 itibarıyla 5.2.18'i en son yayımlanmış yama olarak gösteriyor. 5.2.19 yayımlandığında güvenlik notları okunup sabitleme güncellenmelidir.

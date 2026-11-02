@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Bulunamadı{% endblock %}
+
+{% block content %}
+<div class="sd-panel sd-error" data-testid="error-404">
+  <p class="sd-error__code">Hata 404</p>
+  <h1>Sayfa veya kayıt bulunamadı</h1>
+  <p>Adres hatalı olabilir ya da bu kayda erişim yetkiniz yoktur.</p>
+  {% if user.is_authenticated %}
+  <a class="btn btn-primary" href="{% url 'servicedesk:dashboard' %}">Panelime dön</a>
+  {% else %}
+  <a class="btn btn-primary" href="{% url 'login' %}">Giriş sayfasına git</a>
+  {% endif %}
+</div>
+{% endblock %}

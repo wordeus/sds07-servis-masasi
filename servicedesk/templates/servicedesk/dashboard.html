@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Panelim{% endblock %}
+
+{% block content %}
+<div class="sd-page-head">
+  <h1>Merhaba, {{ user.first_name|default:user.username }}.</h1>
+  {% if role_label %}
+  <p class="sd-lead" data-testid="role-line">Bu hesapla <strong>{{ role_label }}</strong> rolüyle çalışıyorsunuz.</p>
+  {% else %}
+  <div class="alert alert-warning sd-alert" role="status" data-testid="no-role">
+    Hesabınıza henüz bir rol atanmamış. Talep açabilmek ve çalışma alanlarını kullanabilmek için
+    sistem yöneticinizden rol atamasını isteyin.
+  </div>
+  {% endif %}
+</div>
+
+<div class="row g-4">
+  <section class="col-lg-8" aria-labelledby="yetki-baslik">
+    <div class="sd-panel">
+      <h2 id="yetki-baslik">Rolünüzün yetkileri</h2>
+      <p class="sd-muted">Yetkiler her istekte sunucuda denetlenir. Menüde görünmeyen bir sayfaya adres yazarak da erişilemez.</p>
+      {% if capabilities %}
+      <div class="table-responsive">
+        <table class="table sd-table" data-testid="capability-table">
+          <thead>
+            <tr><th scope="col">Yetki</th><th scope="col">Kapsam</th><th scope="col">Durum</th></tr>
+          </thead>
+          <tbody>
+            {% for cap in capabilities %}
+            <tr>
+              <td data-label="Yetki">{{ cap.label }}</td>
+              <td data-label="Kapsam">{{ cap.scope }}</td>
+              <td data-label="Durum">{% if cap.available %}<span class="sd-chip sd-chip--on">Kullanılabilir</span>{% else %}<span class="sd-chip">Hafta {{ cap.week }}</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="sd-empty-text">Rol atanana kadar bu hesapla yalnız bu paneli görebilirsiniz.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <aside class="col-lg-4" aria-labelledby="alan-baslik">
+    <div class="sd-panel">
+      <h2 id="alan-baslik">Çalışma alanlarınız</h2>
+      <ul class="sd-links">
+        {% if perms.servicedesk.access_support_workspace %}
+        <li>
+          <a href="{% url 'servicedesk:support_workspace' %}">Destek kuyruğu</a>
+          <span>Talepleri karşılama, üstlenme ve çözme alanı.</span>
+        </li>
+        {% endif %}
+        {% if perms.servicedesk.access_manager_panel %}
+        <li>
+          <a href="{% url 'servicedesk:manager_panel' %}">Yönetim paneli</a>
+          <span>SLA uyumu, KPI'lar ve değişiklik onayları.</span>
+        </li>
+        {% endif %}
+        {% if user.is_staff %}
+        <li>
+          <a href="{% url 'admin:index' %}">Yönetim sitesi</a>
+          <span>Kullanıcı oluşturma ve rol atama.</span>
+        </li>
+        {% endif %}
+        {% if not perms.servicedesk.access_support_workspace and not user.is_staff %}
+        <li class="sd-links__note">Talep oluşturma ve kendi taleplerinizi izleme Hafta 3'te bu panele eklenecek.</li>
+        {% endif %}
+      </ul>
+    </div>
+  </aside>
+</div>
+{% endblock %}

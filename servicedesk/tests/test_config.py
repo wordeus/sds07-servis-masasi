@@ -1,4 +1,4 @@
-"""Yapılandırma testleri (MOD-CFG): NFR-03, NFR-04, NFR-05, NFR-11."""
+"""Yapılandırma testleri (MOD-CFG): NFR-03..NFR-06, NFR-11."""
 
 import os
 import secrets
@@ -71,6 +71,18 @@ class TimeZoneTests(TestCase):
 
         rendered = Template("{{ value|date:'d.m.Y H:i' }}").render(Context({"value": moment}))
         self.assertEqual(rendered, "15.01.2026 12:30")
+
+
+class InterfaceLanguageTests(TestCase):
+    def test_interface_is_turkish(self):
+        """TC-CFG-04: Arayüz Türkçedir: sayfa dili 'tr', giriş etiketleri ve 404 hata sayfası Türkçedir."""
+        self.assertEqual(settings.LANGUAGE_CODE, "tr")
+        response = self.client.get(reverse("login"))
+        self.assertContains(response, '<html lang="tr"')
+        for text in ("Kullanıcı adı", "Parola", "Giriş yap"):
+            self.assertContains(response, text)
+        missing = self.client.get("/olmayan-sayfa/")
+        self.assertContains(missing, "Sayfa veya kayıt bulunamadı", status_code=404)
 
 
 def _run_python(args: list[str], extra_env: dict) -> subprocess.CompletedProcess:

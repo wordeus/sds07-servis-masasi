@@ -107,6 +107,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "servicedesk.context_processors.role_context",
             ],
         },
     },
@@ -125,8 +126,10 @@ DATABASES = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --- Kimlik doğrulama (MOD-AUTH) ------------------------------------------------
-# Giriş/çıkış sayfaları Hafta 2'de eklenecek; bu hafta yalnız özel kullanıcı modeli var.
 AUTH_USER_MODEL = "servicedesk.User"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "servicedesk:dashboard"
+LOGOUT_REDIRECT_URL = "login"
 
 # NFR-01: parolalar Django'nun varsayılan PBKDF2-SHA256 hasher'ı ile saklanır.
 AUTH_PASSWORD_VALIDATORS = [
@@ -154,6 +157,7 @@ USE_TZ = True  # Zaman damgaları veritabanında UTC olarak saklanır
 
 # --- Statik dosyalar ---------------------------------------------------------
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Bootstrap uyarı sınıflarıyla eşleşme (error -> danger)

@@ -1,0 +1,71 @@
+erDiagram
+  USER ||--o{ USER_GROUPS : "üyedir"
+  GROUP ||--o{ USER_GROUPS : "içerir"
+  GROUP ||--o{ GROUP_PERMISSIONS : "taşır"
+  PERMISSION ||--o{ GROUP_PERMISSIONS : "verilir"
+  USER ||--o{ TICKET : "açar"
+  USER |o--o{ TICKET : "atanır"
+  CATEGORY ||--o{ TICKET : "sınıflar"
+  TICKET ||--o{ COMMENT : "içerir"
+  USER ||--o{ COMMENT : "yazar"
+  TICKET ||--o{ AUDIT_LOG : "geçmişi"
+  USER ||--o{ AUDIT_LOG : "aktör"
+  SLA_POLICY ||--o{ TICKET : "hedef verir"
+  TICKET ||--o{ SLA_EVENT : "uyarı ve ihlal"
+  USER ||--o{ NOTIFICATION : "alır"
+  SLA_EVENT ||--o{ NOTIFICATION : "üretir"
+  TICKET ||--o| SURVEY : "en fazla bir"
+  USER ||--o{ CHANGE_REQUEST : "açar ve onaylar"
+  CHANGE_REQUEST }o--o{ TICKET : "ilişkili"
+  TICKET |o--o{ NONCONFORMITY : "kaynak olabilir"
+  NONCONFORMITY ||--o{ CORRECTIVE_ACTION : "giderir"
+
+  USER {
+    bigint id PK
+    string username UK
+    string first_name
+    string last_name
+    string email
+    bool is_active
+    datetime date_joined "UTC"
+  }
+  GROUP {
+    int id PK
+    string name UK "Talep Sahibi | Destek Personeli | Yönetici"
+  }
+  PERMISSION {
+    int id PK
+    string codename "access_support_workspace vb."
+  }
+  TICKET {
+    bigint id PK
+    string number UK "INC-000123 (Hafta 3)"
+    string title
+    text description
+    string status "OPEN | IN_PROGRESS | RESOLVED | CLOSED"
+    string priority "P1..P4"
+    datetime created_at "UTC"
+    datetime first_response_at "UTC"
+    datetime resolved_at "UTC"
+    datetime closed_at "UTC"
+    bool escalated
+  }
+  SLA_EVENT {
+    bigint id PK
+    string metric "FIRST_RESPONSE | RESOLUTION"
+    string kind "WARNING | BREACH"
+    datetime occurred_at "UTC"
+    string unique_key UK "talep + ölçüt + tür"
+  }
+  SURVEY {
+    bigint id PK
+    bigint ticket_id UK
+    int score "1..5"
+  }
+  AUDIT_LOG {
+    bigint id PK
+    string action
+    string old_value
+    string new_value
+    datetime at "UTC, yalnız ekleme"
+  }

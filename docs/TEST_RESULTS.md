@@ -1,69 +1,69 @@
 # Doğrulama ve Geçerleme Test Sonuçları
 
 > Bu dosya `tools/build_rtm.py` tarafından üretilir. Sonuçlar yalnız gerçek çalıştırma kayıtlarından gelir.
-> Üretim: 02.11.2026 04:03 (Europe/Istanbul) · Aktif hafta: 1
+> Üretim: 30.10.2026 09:41 (Europe/Istanbul) · Aktif hafta: 2
 
 | Kaynak | Tür | Başlangıç (İstanbul) | Ortam | Özet |
 |---|---|---|---|---|
-| `docs/evidence/hafta-01/unit-results.json` | django-unit-integration | 30.10.2026 02:21 | python 3.13.18, django 5.2.18, platform Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 | run=8, failures=0, errors=0, skipped=0, successful=True |
-| `docs/evidence/hafta-01/manual-checks.json` | manual-and-scripted-checks | 30.10.2026 02:21 | platform Linux (bulut çalışma alanı) | run=3, failures=0, not_run=1 |
-| `docs/evidence/hafta-01/ci-github-actions-2026-11-02.json` | github-actions | - | platform GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13 | run=1, failures=0, jobs_passed=4, jobs_total=4 |
-| ölçüm | coverage_percent | - | - | 87.39 |
+| `docs/evidence/hafta-02/unit-results.json` | django-unit-integration | 30.10.2026 09:39 | python 3.13.18, django 5.2.18, platform Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 | run=35, failures=0, errors=0, skipped=0, successful=True |
+| `docs/evidence/hafta-02/e2e-results.json` | e2e-playwright | 30.10.2026 09:39 | browser chromium 153.0.8010.12, python 3.13.18, platform Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 | run=9, failures=0, errors=0, successful=True |
+| `docs/evidence/hafta-02/manual-checks.json` | manual-and-scripted-checks | 30.10.2026 09:41 | platform Linux (bulut çalışma alanı) | run=3, failures=0, not_run=1 |
+| ölçüm | coverage_percent | - | - | 92.08 |
 | ölçüm | ruff_findings | - | - | 0 |
 
 | Test ID | Doğrulanan gereksinim | Test seviyesi | Ön koşul ve test girdisi | Beklenen çıktı | Hafta | Sonuç | Kanıt |
 |---|---|---|---|---|---|---|---|
-| TC-AUTH-01 | FR-01 | Entegrasyon | Oturumsuz istemci; GET /hesap/giris/ | 200; login.html; username/password/csrf alanları var | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_login_page_renders |
-| TC-AUTH-02 | FR-01 | Entegrasyon | Etkin Talep Sahibi; doğru parola ile POST | 302 → /; oturumda doğru kullanıcı kimliği | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_valid_login_redirects_to_dashboard |
-| TC-AUTH-03 | FR-01 | Entegrasyon | Oturumu açık kullanıcı; GET /hesap/giris/ | 302 → / | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_authenticated_user_is_redirected_from_login |
-| TC-AUTH-04 | FR-02 | Entegrasyon | Yanlış parola ve bilinmeyen kullanıcı adı ile iki POST | 200; hata kodu invalid_login; iki yanıtta aynı mesaj; oturum yok; aria-invalid | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_wrong_credentials_show_generic_error |
-| TC-AUTH-05 | FR-02 | Entegrasyon | Pasif hesap; doğru parola ile POST | 200; invalid_login; oturum yok | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_inactive_user_cannot_login |
-| TC-AUTH-06 | FR-03 | Entegrasyon | Oturumu açık kullanıcı; POST /hesap/cikis/ | 302 → giriş; oturum silinmiş; / isteği girişe yönlenir | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_logout_post_ends_session |
-| TC-AUTH-07 | FR-03 | Entegrasyon | Oturumu açık kullanıcı; GET /hesap/cikis/ | 405; oturum açık kalır | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_logout_get_is_rejected |
-| TC-AUTH-08 | FR-04 | Entegrasyon | Oturumsuz istemci; /; /destek/; /yonetim/ için GET ve POST | 302 → /hesap/giris/?next=<adres> | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_anonymous_requests_redirect_to_login |
-| TC-AUTH-09 | FR-05 | Entegrasyon | Geçerli giriş POST; next=https://kotu.example/ ve //kotu.example/giris | 302 → / (dış adres yok sayılır) | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_external_next_is_ignored |
-| TC-AUTH-10 | FR-05 | Entegrasyon | Geçerli giriş POST; next=/destek/ | 302 → /destek/ | 2 | **PLANLANDI** | servicedesk/tests/test_auth.py::test_internal_next_is_followed |
-| TC-ROLE-01 | FR-06 | Entegrasyon | Boş test veritabanında migrate | Üç rol grubu mevcut | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_role_groups_exist_after_migrate |
-| TC-ROLE-02 | FR-06 | Entegrasyon | Migrate sonrası gruplar | Her grubun izinleri ROLE_PERMISSIONS ile birebir aynı | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_group_permissions_match_matrix |
-| TC-ROLE-03 | FR-06 | Entegrasyon | Senkronizasyon iki kez; ardından elle izin sapması | İkinci çalıştırmada değişiklik yok; sapma geri alınır (+1/-1) | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_sync_is_idempotent_and_repairs_drift |
-| TC-ROLE-04 | FR-07 | Entegrasyon | Superuser yönetim sitesinde kullanıcıya Destek Personeli grubunu atar; Talep Sahibi /admin/ açar | Atama kaydedilir (302); rol Destek Personeli; Talep Sahibi admin girişine yönlenir | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_superuser_assigns_role_in_admin |
-| TC-ROLE-05 | FR-08 | Birim | Çok gruplu; tek gruplu; grupsuz ve anonim kullanıcı | Yönetici > Destek Personeli > Talep Sahibi; grupsuz/anonim → rol yok | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_role_precedence |
-| TC-ROLE-06 | FR-08 | Entegrasyon | Her rol ve rolsüz kullanıcı ile GET / | Rol etiketi ve role açık yetkiler görünür; başka rolün yetkisi görünmez; rolsüzde uyarı | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_dashboard_shows_role_and_capabilities |
-| TC-ROLE-07 | FR-09 | Entegrasyon | Talep Sahibi ve rolsüz kullanıcı; GET /destek/ ve /yonetim/ | 403 (panel 200) | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_requester_and_no_role_are_forbidden |
-| TC-ROLE-08 | FR-09 | Entegrasyon | Destek Personeli; GET /destek/ ve /yonetim/ | 200 ve 403 | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_agent_access |
-| TC-ROLE-09 | FR-09 | Entegrasyon | Yönetici; GET /destek/ ve /yonetim/ | 200 ve 200 | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_manager_access |
-| TC-ROLE-10 | FR-09 | Entegrasyon | Yetkisiz ve yetkili kullanıcılarla POST | Yetkisizde 403; yetkilide 405 (yetki yöntemden önce denetlenir) | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_forbidden_post_requests |
-| TC-ROLE-11 | FR-09 | Entegrasyon | Talep Sahibi; GET /yonetim/ | 403; 403.html; Türkçe başlık; rol ve adres yazılı; Traceback yok | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_forbidden_page_is_explanatory |
-| TC-ROLE-12 | FR-10 | Entegrasyon | Her rol; rolsüz ve superuser ile GET / | Menüde yalnız yetkili bölümlerin bağlantıları | 2 | **PLANLANDI** | servicedesk/tests/test_roles.py::test_navigation_links_follow_permissions |
-| TC-SEED-01 | FR-11 | Entegrasyon | DEBUG açık; seed_demo_users iki kez | 3 demo kullanıcı; her biri tek doğru grupta; parola doğru; e-posta boş | 2 | **PLANLANDI** | servicedesk/tests/test_seed.py::test_seed_creates_one_user_per_role_idempotently |
-| TC-SEED-02 | FR-11 | Entegrasyon | DEBUG kapalı; ardından DEBUG açık ve zayıf parola | İki durumda CommandError; kullanıcı oluşmaz | 2 | **PLANLANDI** | servicedesk/tests/test_seed.py::test_seed_refuses_outside_development |
+| TC-AUTH-01 | FR-01 | Entegrasyon | Oturumsuz istemci; GET /hesap/giris/ | 200; login.html; username/password/csrf alanları var | 2 | **PASS** | unit-results.json |
+| TC-AUTH-02 | FR-01 | Entegrasyon | Etkin Talep Sahibi; doğru parola ile POST | 302 → /; oturumda doğru kullanıcı kimliği | 2 | **PASS** | unit-results.json |
+| TC-AUTH-03 | FR-01 | Entegrasyon | Oturumu açık kullanıcı; GET /hesap/giris/ | 302 → / | 2 | **PASS** | unit-results.json |
+| TC-AUTH-04 | FR-02 | Entegrasyon | Yanlış parola ve bilinmeyen kullanıcı adı ile iki POST | 200; hata kodu invalid_login; iki yanıtta aynı mesaj; oturum yok; aria-invalid | 2 | **PASS** | unit-results.json |
+| TC-AUTH-05 | FR-02 | Entegrasyon | Pasif hesap; doğru parola ile POST | 200; invalid_login; oturum yok | 2 | **PASS** | unit-results.json |
+| TC-AUTH-06 | FR-03 | Entegrasyon | Oturumu açık kullanıcı; POST /hesap/cikis/ | 302 → giriş; oturum silinmiş; / isteği girişe yönlenir | 2 | **PASS** | unit-results.json |
+| TC-AUTH-07 | FR-03 | Entegrasyon | Oturumu açık kullanıcı; GET /hesap/cikis/ | 405; oturum açık kalır | 2 | **PASS** | unit-results.json |
+| TC-AUTH-08 | FR-04 | Entegrasyon | Oturumsuz istemci; /; /destek/; /yonetim/ için GET ve POST | 302 → /hesap/giris/?next=<adres> | 2 | **PASS** | unit-results.json |
+| TC-AUTH-09 | FR-05 | Entegrasyon | Geçerli giriş POST; next=https://kotu.example/ ve //kotu.example/giris | 302 → / (dış adres yok sayılır) | 2 | **PASS** | unit-results.json |
+| TC-AUTH-10 | FR-05 | Entegrasyon | Geçerli giriş POST; next=/destek/ | 302 → /destek/ | 2 | **PASS** | unit-results.json |
+| TC-ROLE-01 | FR-06 | Entegrasyon | Boş test veritabanında migrate | Üç rol grubu mevcut | 2 | **PASS** | unit-results.json |
+| TC-ROLE-02 | FR-06 | Entegrasyon | Migrate sonrası gruplar | Her grubun izinleri ROLE_PERMISSIONS ile birebir aynı | 2 | **PASS** | unit-results.json |
+| TC-ROLE-03 | FR-06 | Entegrasyon | Senkronizasyon iki kez; ardından elle izin sapması | İkinci çalıştırmada değişiklik yok; sapma geri alınır (+1/-1) | 2 | **PASS** | unit-results.json |
+| TC-ROLE-04 | FR-07 | Entegrasyon | Superuser yönetim sitesinde kullanıcıya Destek Personeli grubunu atar; Talep Sahibi /admin/ açar | Atama kaydedilir (302); rol Destek Personeli; Talep Sahibi admin girişine yönlenir | 2 | **PASS** | unit-results.json |
+| TC-ROLE-05 | FR-08 | Birim | Çok gruplu; tek gruplu; grupsuz ve anonim kullanıcı | Yönetici > Destek Personeli > Talep Sahibi; grupsuz/anonim → rol yok | 2 | **PASS** | unit-results.json |
+| TC-ROLE-06 | FR-08 | Entegrasyon | Her rol ve rolsüz kullanıcı ile GET / | Rol etiketi ve role açık yetkiler görünür; başka rolün yetkisi görünmez; rolsüzde uyarı | 2 | **PASS** | unit-results.json |
+| TC-ROLE-07 | FR-09 | Entegrasyon | Talep Sahibi ve rolsüz kullanıcı; GET /destek/ ve /yonetim/ | 403 (panel 200) | 2 | **PASS** | unit-results.json |
+| TC-ROLE-08 | FR-09 | Entegrasyon | Destek Personeli; GET /destek/ ve /yonetim/ | 200 ve 403 | 2 | **PASS** | unit-results.json |
+| TC-ROLE-09 | FR-09 | Entegrasyon | Yönetici; GET /destek/ ve /yonetim/ | 200 ve 200 | 2 | **PASS** | unit-results.json |
+| TC-ROLE-10 | FR-09 | Entegrasyon | Yetkisiz ve yetkili kullanıcılarla POST | Yetkisizde 403; yetkilide 405 (yetki yöntemden önce denetlenir) | 2 | **PASS** | unit-results.json |
+| TC-ROLE-11 | FR-09 | Entegrasyon | Talep Sahibi; GET /yonetim/ | 403; 403.html; Türkçe başlık; rol ve adres yazılı; Traceback yok | 2 | **PASS** | unit-results.json |
+| TC-ROLE-12 | FR-10 | Entegrasyon | Her rol; rolsüz ve superuser ile GET / | Menüde yalnız yetkili bölümlerin bağlantıları | 2 | **PASS** | unit-results.json |
+| TC-SEED-01 | FR-11 | Entegrasyon | DEBUG açık; seed_demo_users iki kez | 3 demo kullanıcı; her biri tek doğru grupta; parola doğru; e-posta boş | 2 | **PASS** | unit-results.json |
+| TC-SEED-02 | FR-11 | Entegrasyon | DEBUG kapalı; ardından DEBUG açık ve zayıf parola | İki durumda CommandError; kullanıcı oluşmaz | 2 | **PASS** | unit-results.json |
 | TC-SEC-01 | NFR-01 | Birim | Kullanıcı oluşturma; zayıf parolalarla doğrulama | Özet pbkdf2_sha256$ ile başlar; düz parola yok; 3 zayıf parola reddedilir | 1 | **PASS** | unit-results.json |
-| TC-SEC-02 | NFR-02 | Entegrasyon | enforce_csrf_checks=True istemci; belirteçsiz ve belirteçli POST | Belirteçsizde 403 (403_csrf.html); belirteçli çıkış 302 | 2 | **PLANLANDI** | servicedesk/tests/test_security.py::test_state_changing_requests_require_csrf_token |
-| TC-SEC-03 | NFR-03 | Entegrasyon | Başarılı giriş yanıtı | sessionid çerezi HttpOnly; SameSite=Lax; max-age=28800 | 2 | **PLANLANDI** | servicedesk/tests/test_security.py::test_session_cookie_flags_and_lifetime |
+| TC-SEC-02 | NFR-02 | Entegrasyon | enforce_csrf_checks=True istemci; belirteçsiz ve belirteçli POST | Belirteçsizde 403 (403_csrf.html); belirteçli çıkış 302 | 2 | **PASS** | unit-results.json |
+| TC-SEC-03 | NFR-03 | Entegrasyon | Başarılı giriş yanıtı | sessionid çerezi HttpOnly; SameSite=Lax; max-age=28800 | 2 | **PASS** | unit-results.json |
 | TC-CFG-01 | NFR-05 | Entegrasyon | date_joined = 2026-01-15 09:30 UTC | Veritabanında 09:30 (UTC); şablonda 15.01.2026 12:30 | 1 | **PASS** | unit-results.json |
 | TC-CFG-02 | NFR-04 | Sistem (yapılandırma) | Üretim profili; eksik SECRET_KEY / ALLOWED_HOSTS ya da DEBUG=1 | Süreç hata koduyla durur; mesaj eksik değişkeni adlandırır | 1 | **PASS** | unit-results.json |
 | TC-CFG-03 | NFR-03; NFR-04 | Sistem (yapılandırma) | Üretim profili; tam ortam değişkenleri | check --deploy --fail-level WARNING çıkış kodu 0; Secure çerezler ve SSL yönlendirme açık | 1 | **PASS** | unit-results.json |
-| TC-CFG-04 | NFR-06 | Entegrasyon | GET /hesap/giris/ ve olmayan adres | lang=tr; Türkçe etiketler; Türkçe 404 sayfası | 2 | **PLANLANDI** | servicedesk/tests/test_config.py::test_interface_is_turkish |
+| TC-CFG-04 | NFR-06 | Entegrasyon | GET /hesap/giris/ ve olmayan adres | lang=tr; Türkçe etiketler; Türkçe 404 sayfası | 2 | **PASS** | unit-results.json |
 | TC-CFG-05 | NFR-04 | Birim | Geçerli; boş ve geçersiz ortam değişkeni değerleri | Doğru ayrıştırma; geçersiz değerde ImproperlyConfigured | 1 | **PASS** | unit-results.json |
 | TC-CFG-06 | NFR-11 | Entegrasyon | Superuser; GET yönetim sitesi kullanıcı listesi ve ekleme formu | AUTH_USER_MODEL=servicedesk.User; iki sayfa 200; kullanıcı ve Rol grupları sütunu görünür | 1 | **PASS** | unit-results.json |
-| TC-QA-01 | NFR-09 | Statik analiz | coverage run manage.py test; coverage json | Üretim kodu satır+dal kapsamı ≥ %80 | 1 | **PASS** | coverage.json (Kapsam %87.39 (eşik %80.0)) |
+| TC-QA-01 | NFR-09 | Statik analiz | coverage run manage.py test; coverage json | Üretim kodu satır+dal kapsamı ≥ %80 | 1 | **PASS** | coverage.json (Kapsam %92.08 (eşik %80.0)) |
 | TC-QA-02 | NFR-10 | Statik analiz | ruff check . --output-format json | 0 bulgu | 1 | **PASS** | ruff.json (0 bulgu) |
 | TC-QA-03 | NFR-09 | Birim | Bilinçli PASS/FAIL/ERROR/SKIP/alt test örnekleri | Her sonuç TC kimliğiyle doğru kaydedilir; JSON özeti doğru | 1 | **PASS** | unit-results.json |
 | TC-QA-04 | NFR-09 | Birim | Örnek test durumları ve gereksinim satırları (PASS/NOT RUN/FAIL/planlı/testsiz) | Gereksinim durumu ve özet sayıları doğru; FAIL baskın; 'NOT RUN' bölünmeden sayılır | 1 | **PASS** | unit-results.json |
 | TC-INST-01 | NFR-11 | Kurulum | Temiz sanal ortam; pip install -r requirements.txt; migrate; test | Kurulum ve testler hatasız (her işletim sistemi ayrı kaydedilir) | 1 | **PASS** | manual-checks.json |
-| TC-CI-01 | NFR-11 | CI | GitHub Actions matrisi: ubuntu/windows × Python 3.12/3.13 | Tüm işler yeşil | 1 | **PASS** | ci-github-actions-2026-11-02.json; manual-checks.json |
+| TC-CI-01 | NFR-11 | CI | GitHub Actions matrisi: ubuntu/windows × Python 3.12/3.13 | Tüm işler yeşil | 1 | **NOT RUN** | manual-checks.json |
 | TC-INS-01 | NFR-12 | İnceleme | User modeli; seed komutu ve şablonların incelenmesi | Yalnız kullanıcı adı/ad/soyad/e-posta; demo verisinde gerçek kişi yok | 1 | **PASS** | manual-checks.json |
-| TC-E2E-01 | FR-01; NFR-06 | Sistem (E2E) | Chromium; GET /hesap/giris/ | Sayfa yüklenir; konsol hatası yok; Türkçe başlık | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-02 | FR-01; FR-08; FR-10 | Sistem (E2E) | demo.talep ile tarayıcıdan giriş | Panel; rol rozeti Talep Sahibi; Destek/Yönetim bağlantısı yok | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-03 | FR-09 | Sistem (E2E) | demo.talep oturumunda adres çubuğuna /yonetim/ ve /destek/ | 403 sayfası; rol bilgisi görünür | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-04 | FR-09 | Sistem (E2E) | demo.destek ile giriş; /destek/ ve /yonetim/ | Destek kuyruğu açılır; yönetim paneli 403 | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-05 | FR-09; FR-10 | Sistem (E2E) | demo.yonetici ile giriş | Menüde iki bağlantı; /destek/ ve /yonetim/ açılır | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-06 | FR-03 | Sistem (E2E) | Oturum açıkken Çıkış yap düğmesi | Giriş sayfası; / isteği girişe yönlenir | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-07 | NFR-07 | Sistem (E2E) | 360×740 görünüm alanı; giriş ve panel | scrollWidth ≤ clientWidth (yatay kaydırma yok) | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-08 | NFR-08 | Sistem (E2E) | Yalnız klavye: Tab/Enter ile giriş; panelde Tab | Giriş tamamlanır; odaklanan öğede görünür odak çizgisi | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
-| TC-E2E-09 | NFR-08 | Sistem (E2E) | Hesaplanan renklerle kontrast ölçümü (WCAG formülü) | Gövde metni; ikincil metin ve birincil düğme ≥ 4.5:1 | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
+| TC-E2E-01 | FR-01; NFR-06 | Sistem (E2E) | Chromium; GET /hesap/giris/ | Sayfa yüklenir; konsol hatası yok; Türkçe başlık | 2 | **PASS** | e2e-results.json (Plex Sans yüklendi=True) |
+| TC-E2E-02 | FR-01; FR-08; FR-10 | Sistem (E2E) | demo.talep ile tarayıcıdan giriş | Panel; rol rozeti Talep Sahibi; Destek/Yönetim bağlantısı yok | 2 | **PASS** | e2e-results.json (menü: yalnız Panelim) |
+| TC-E2E-03 | FR-09 | Sistem (E2E) | demo.talep oturumunda adres çubuğuna /yonetim/ ve /destek/ | 403 sayfası; rol bilgisi görünür | 2 | **PASS** | e2e-results.json (/yonetim/ → 403; /destek/ → 403) |
+| TC-E2E-04 | FR-09 | Sistem (E2E) | demo.destek ile giriş; /destek/ ve /yonetim/ | Destek kuyruğu açılır; yönetim paneli 403 | 2 | **PASS** | e2e-results.json (/destek/ 200, /yonetim/ 403) |
+| TC-E2E-05 | FR-09; FR-10 | Sistem (E2E) | demo.yonetici ile giriş | Menüde iki bağlantı; /destek/ ve /yonetim/ açılır | 2 | **PASS** | e2e-results.json (menüde iki bağlantı; iki sayfa 200) |
+| TC-E2E-06 | FR-03 | Sistem (E2E) | Oturum açıkken Çıkış yap düğmesi | Giriş sayfası; / isteği girişe yönlenir | 2 | **PASS** | e2e-results.json (çıkış sonrası / → giriş) |
+| TC-E2E-07 | NFR-07 | Sistem (E2E) | 360×740 görünüm alanı; giriş ve panel | scrollWidth ≤ clientWidth (yatay kaydırma yok) | 2 | **PASS** | e2e-results.json (giriş: sayfa 360/360 px, iç taşma yok; panel: sayfa 360/360 px, iç taşma yok) |
+| TC-E2E-08 | NFR-08 | Sistem (E2E) | Yalnız klavye: Tab/Enter ile giriş; panelde Tab | Giriş tamamlanır; odaklanan öğede görünür odak çizgisi | 2 | **PASS** | e2e-results.json (ilk odak: İçeriğe geç; ikinci odak çizgisi: solid 3px) |
+| TC-E2E-09 | NFR-08 | Sistem (E2E) | Hesaplanan renklerle kontrast ölçümü (WCAG formülü) | Gövde metni; ikincil metin ve birincil düğme ≥ 4.5:1 | 2 | **PASS** | e2e-results.json |
 
 | Sonuç | Test sayısı |
 |---|---|
-| PASS | 13 |
-| PLANLANDI | 36 |
+| NOT RUN | 1 |
+| PASS | 48 |

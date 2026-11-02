@@ -1,0 +1,71 @@
+{
+  "template_check": {"banner_contains": "İKİ HAFTALIK PROJE İLERLEME RAPORU"},
+  "core": {
+    "title": "SDS-07 Proje İlerleme Raporu #2 (Hafta 2)",
+    "creator": "Burak Nigiz (2100002062)",
+    "description": "Hafta 2 ilerleme raporu"
+  },
+  "info": {
+    "Rapor Numarası:": "Rapor #2 (Hafta 2)",
+    "Teslim Tarihi:": "30.10.2026 (Faz 2 son teslim tarihi)",
+    "Proje Adı:": "SDS-07: ISO 9001 İlkelerini Destekleyen IT Servis Masası ve Süreç Takip Sistemi",
+    "Proje Grup No:": "2100002062 Burak Nigiz",
+    "Referans Standartlar:": "ISO 9001:2026 (ana alan), ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009, ISO/IEC 25010:2023, IEEE 1012-2024",
+    "Genel Tamamlanma (%):": ["%14 (14 haftalık planın 2 haftası tamamlandı)", "Gereksinim bazında: 53 gereksinimin 22'si doğrulandı, 1'i kısmi"],
+    "GitHub / Repo Linki:": "https://github.com/wordeus/sds07-servis-masasi/tree/hafta-2",
+    "Aktif Sprint / Faz:": "Faz 2, Hafta 2: Giriş/çıkış, roller, yetkilendirme, arayüz ve mimari taslak"
+  },
+  "summary": [
+    "Bu haftada Hafta 1 altyapısının üzerine kimlik doğrulama, rol ve arayüz katmanları kuruldu. Giriş/çıkış (çıkış yalnız POST), güvenli yönlendirme ve genel hata mesajı; Talep Sahibi, Destek Personeli ve Yönetici rol grupları ile her migrate sonunda koddaki matrise eşitlenen izinler; doğrudan adres ve form isteklerini de kapsayan sunucu tarafı yetkilendirme uygulandı, arayüz Django Templates ve Bootstrap 5.3.8 ile Türkçe hazırlandı. Mimari taslak (SDD v0.1) IEEE 1016-2009 görünümleriyle yazıldı ve SRS v0.2'de rol-yetki matrisi koddan üretildi. Doğrulamada 35 Django testi ile 9 tarayıcı (E2E) senaryosunun tamamı geçti, üretim kodu kapsamı %87,39'dan %92,08'e çıktı, statik analiz bulgusu 0'dır ve mutasyon denetiminde bilinçli eklenen 4 hatanın 4'ü yakalandı. Rapor #1'e göre doğrulanan gereksinim sayısı 6'dan 22'ye yükseldi; Windows ve CI koşusu depo olmadığı için hâlâ NOT RUN durumundadır."
+  ],
+  "tables": {
+    "2": {
+      "expect_header": "İş Paketi ID",
+      "widths": [1050, 3000, 2185, 1400, 2300],
+      "rows": [
+        ["WP-01", "Giriş/çıkış (çıkış yalnız POST), güvenli next yönlendirmesi, üç durumda aynı genel hata mesajı (MOD-AUTH)", "ISO 9001:2026 - 7.5.3; ISO/IEC 25010:2023 - 3.6.5", "Burak Nigiz", "config/urls.py, servicedesk/forms.py; TC-AUTH-01..10 PASS"],
+        ["WP-02", "Rol grupları, koddaki rol-izin matrisi (post_migrate eşitleme), sunucu tarafı yetkilendirme, rol menüsü, yönetim sitesinden rol atama ve demo kullanıcı komutu (MOD-ROLE)", "ISO 9001:2026 - 5.3, 7.5.3", "Burak Nigiz", "servicedesk/roles.py, views.py; TC-ROLE-01..12, TC-SEED-01..02 PASS"],
+        ["WP-03", "CSRF koruması ve oturum çerezi kuralları (NFR-02, NFR-03)", "ISO/IEC 25010:2023 - 3.6.1, 3.6.2", "Burak Nigiz", "config/settings.py; TC-SEC-02, TC-SEC-03 PASS"],
+        ["WP-04", "Türkçe arayüz, Bootstrap 5.3.8 teması, 403/404/500/CSRF sayfaları; mobil, klavye ve kontrast ölçümleri (MOD-UI)", "ISO/IEC 25010:2023 - 3.4.3, 3.4.6", "Burak Nigiz", "templates/, static/css/app.css; TC-CFG-04, TC-E2E-07..09 PASS"],
+        ["WP-05", "Mimari taslak: bağlam, bileşim, mantıksal, bilgi, durum ve etkileşim görünümleri; karar günlüğü KRR-01..KRR-10", "IEEE 1016-2009 (Context, Composition, Logical, Information, State dynamics)", "Burak Nigiz", "docs/SDD.md v0.1, docs/diagrams/"],
+        ["WP-06", "Tarayıcı (E2E) testleri, port denetimli koşu betiği ve mutasyon denetimi; RTM --week 2", "IEEE 1012-2024; ISO/IEC/IEEE 12207:2026 - 6.4.9, 6.4.11", "Burak Nigiz", "docs/RTM.md, docs/TEST_RESULTS.md: 48 PASS, 1 NOT RUN; mutation-check.md: 4/4"],
+        ["WP-07", "SRS v0.2 (rol matrisi koddan), risk listesi v0.2, test planı v0.2, kalite ölçümleri ve E2E koşu prosedürü (PRC-08)", "ISO/IEC/IEEE 29148:2018 - 9.6; ISO/IEC/IEEE 12207:2026 - 6.3.4, 6.3.7", "Burak Nigiz", "docs/SRS.md §4, docs/RISKS.md, docs/QUALITY_METRICS.md, docs/PROCEDURES.md"]
+      ],
+      "notes": ["Not: Depo henüz oluşturulmadığı için commit ve PR kimliği yoktur; ilk push sonrasında kanıt sütununa eklenecektir. Test sonuçları 30.10.2026 koşusuna aittir (docs/evidence/hafta-02)."]
+    },
+    "3": {
+      "expect_header": "Öğrenci No",
+      "widths": [1450, 1650, 1700, 3335, 1800],
+      "rows": [
+        ["2100002062", "Burak Nigiz", "Tek kişilik proje: gereksinim, mimari, geliştirme ve test/QA rollerinin tümü", ["Hafta 2: giriş/çıkış ve roller; sunucu tarafı yetkilendirme; Türkçe arayüz ve hata sayfaları; SDD v0.1; E2E testleri ve mutasyon denetimi; SRS v0.2 ve Rapor #2."], "ÖLÇÜLMEDİ (efor kaydı tutulmadı) / %100"]
+      ],
+      "notes": ["Not: Zaman kaydı tutulmadığı için saat ÖLÇÜLMEDİ yazıldı; proje tek kişilik olduğundan pay %100'dür."]
+    },
+    "4": {
+      "expect_header": "Risk / Sorun ID",
+      "widths": [1000, 3100, 900, 2000, 2935],
+      "rows": [
+        ["RSK-17", "Hafta 1-2 kodunun statik analizdeki ilk koşusunda 13 bulgu çıktı: 9 satır uzunluğu, 3 eski timezone.utc kullanımı, 1 alt süreç uyarısı.", "Düşük", "Statik kod analizi (ruff)", "Kod düzeltildi; gerekçeli muafiyetler pyproject.toml'a yazıldı. Bulgu sayısı 0; CI'da kapı adımı."],
+        ["RSK-18", "Temiz kurulum denetiminin ilk denemesi başarısız: E2E betiği ve tools/build_rtm.py biçim/lint kapısından geçmiyordu.", "Orta", "Temiz sanal ortamda kurulum (CI eşdeğeri komutlar)", "Biçimlendirme ve gerekçeli muafiyet uygulandı; Python 3.12.13 ve 3.13.18 ile yeniden BAŞARILI."],
+        ["RSK-19", "Mobil düzen testi (TC-E2E-07) geçmesine rağmen yetki tablosu 360 px'te kırpılıyordu (327 > 286 px); test yalnız sayfa düzeyini ölçüyordu.", "Orta", "Geçerleme: ekran görüntüsü incelemesi, ardından test iyileştirme", "Tablo dar ekranda alt alta dizildi; test iç kapsayıcıları ölçecek şekilde genişletildi; düzeltme kaldırılınca testin FAIL verdiği doğrulandı."],
+        ["RSK-20", "Önceki koşudan kalan sunucu süreci kapanmadığı için bir E2E koşusu eski şablonla yapıldı (yanlış PASS riski).", "Yüksek", "Geçerleme: ekran görüntüsü ve DOM incelemesi", "Süreçler kapatıldı; tools/run_e2e.sh koşu öncesi port ve koşu sonrası kapanma denetimi yapıyor (PRC-08); E2E temiz sunucuyla yeniden koşuldu (9/9 PASS)."],
+        ["RSK-05", "Uzak depo ve GitHub Actions olmadığı için CI matrisi (Windows dahil) hâlâ koşulamadı.", "Orta", "Ortam kontrolü; iş akışının statik denetimi (actionlint)", "Yerel eşdeğer komutlar koşuldu; ci.yml actionlint ile 0 bulgu. Depo oluşturulunca TC-CI-01 koşulacak (açık)."],
+        ["RSK-07", "Araç kodunda karmaşıklık eşiği aşılıyor: build_report.build = 19; Hafta 2'de e2e/week2_auth_roles.py::main = 18 (hedef ≤ 10).", "Düşük", "Kod analizi (ruff C901 ölçümü)", "Uygulama kodunda en yüksek değer 6; araç fonksiyonları bölünecek (açık)."]
+      ],
+      "notes": ["Ayrıntılar ve kanıt dosyaları: docs/RISKS.md v0.2 ve docs/evidence/hafta-02 (ilk denemelerin özgün kayıtları ilk-denemeler/ klasöründedir)."]
+    },
+    "5": {
+      "expect_header": "Hedef ID",
+      "widths": [1100, 4000, 2400, 2436],
+      "rows": [
+        ["PLN-01", "Ticket ve Category modelleri; talep oluşturma, listeleme, filtreleme ve sayfalama (FR-12, FR-13)", "ISO 9001:2026 - 8.2.1, 8.5.2; ISO/IEC/IEEE 29148:2018 - 5.2.5", "Burak Nigiz - 13.11.2026 (Faz 3)"],
+        ["PLN-02", "Kayıt bazlı erişim politikası: talep sahibi yalnız kendi kayıtlarını görür; başka kayda doğrudan adresle 404 testleri (FR-14, RSK-08)", "ISO/IEC 25010:2023 - 3.6.1; ISO 9001:2026 - 7.5.3", "Burak Nigiz - 13.11.2026 (Faz 3)"],
+        ["PLN-03", "Kategori ekleme ve pasifleştirme (FR-15)", "ISO 9001:2026 - 8.5.1", "Burak Nigiz - 13.11.2026 (Faz 3)"],
+        ["PLN-04", "models/, services/, views/ paketleriyle modüler yapı ve mimari kural testi (NFR-16); SDD v0.2", "ISO/IEC 25010:2023 - 3.7.1; IEEE 1016-2009", "Burak Nigiz - 13.11.2026 (Faz 3)"],
+        ["PLN-05", "Atama ve üzerine alma (FR-16), yorumlar (FR-17), işlem geçmişinin ilk sürümü (FR-20)", "ISO 9001:2026 - 5.3, 8.2.1, 8.5.2", "Burak Nigiz - 27.11.2026 (Faz 4)"],
+        ["PLN-06", "GitHub deposu, ilk CI koşusu ve Windows kurulum doğrulaması (TC-CI-01)", "ISO/IEC/IEEE 12207:2026 - 6.3.5; IEEE 1012-2024", "Burak Nigiz - 13.11.2026 (Faz 3)"],
+        ["PLN-07", "Açık konuların öğretim elemanıyla netleştirilmesi: standart baskıları, yeniden açma akışı, önceliği kimin seçeceği (AK-01, AK-03, AK-05)", "ISO/IEC/IEEE 12207:2026 - 6.4.2", "Burak Nigiz - 13.11.2026 (Faz 3)"]
+      ]
+    }
+  }
+}

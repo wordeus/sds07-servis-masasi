@@ -1,0 +1,22 @@
+flowchart LR
+  TS["Talep Sahibi"]
+  DP["Destek Personeli"]
+  YN["Yönetici"]
+  SA["Sistem yöneticisi<br/>(superuser)"]
+  ZM["İşletim sistemi zamanlayıcısı<br/>(Hafta 7)"]
+  SYS["SDS-07 Servis Masası<br/>Django 5.2 web uygulaması"]
+  DB[("SQLite veritabanı<br/>zamanlar UTC")]
+  CI["GitHub Actions CI<br/>(geliştirme bağlamı)"]
+
+  TS -- "HTTPS: talep, yorum, puan" --> SYS
+  DP -- "HTTPS: üstlenme, çözüm, değişiklik" --> SYS
+  YN -- "HTTPS: atama, onay/ret, KPI, DÖF" --> SYS
+  SA -- "yönetim sitesi: kullanıcı ve rol" --> SYS
+  ZM -- "manage.py check_sla" --> SYS
+  SYS -- "Django ORM" --> DB
+  SYS -. "uygulama içi uyarı" .-> DP
+  SYS -. "eskalasyon bildirimi" .-> YN
+  CI -. "test, statik analiz, RTM" .-> SYS
+
+  classDef planned stroke-dasharray: 5 4,color:#4f5b6b;
+  class ZM,CI planned;

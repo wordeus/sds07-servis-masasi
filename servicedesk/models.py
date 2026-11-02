@@ -1,7 +1,8 @@
-"""MOD-AUTH veri modeli (Hafta 1).
+"""MOD-AUTH / MOD-ROLE veri modeli.
 
-Bu hafta yalnız özel kullanıcı modeli vardır. Django belgeleri yeni projelerde
-baştan özel kullanıcı modeli tanımlanmasını önerir; sonradan geçiş zordur.
+Özel kullanıcı modeli Hafta 1'de oluşturuldu; Hafta 2'de rol izinleri (Meta.permissions)
+eklendi. Django belgeleri yeni projelerde baştan özel kullanıcı modeli tanımlanmasını
+önerir; sonradan geçiş zordur.
 Model, Django'nun hazır AbstractUser altyapısını değiştirmeden kullanır.
 
 NFR-12 (kişisel veri asgarisi): yalnız kullanıcı adı, ad, soyad ve e-posta tutulur.
@@ -14,6 +15,11 @@ class User(AbstractUser):
     class Meta(AbstractUser.Meta):
         verbose_name = "kullanıcı"
         verbose_name_plural = "kullanıcılar"
+        # Uygulama düzeyi izinler. Rol grupları bu izinleri taşır (roles.py).
+        permissions = [
+            ("access_support_workspace", "Destek kuyruğu çalışma alanına erişebilir"),
+            ("access_manager_panel", "Yönetim paneline erişebilir"),
+        ]
 
     def __str__(self) -> str:
         full_name = self.get_full_name()

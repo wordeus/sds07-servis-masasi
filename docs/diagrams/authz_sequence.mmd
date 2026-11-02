@@ -1,0 +1,16 @@
+sequenceDiagram
+  actor U as Talep Sahibi
+  participant B as Tarayıcı
+  participant MW as Middleware (Session, CSRF, Auth)
+  participant V as ManagerPanelView
+  participant P as PermissionRequiredMixin
+  participant DB as SQLite
+  U->>B: /yonetim/ adresini yazar
+  B->>MW: GET /yonetim/ (sessionid çerezi)
+  MW->>DB: oturumu ve kullanıcıyı yükle
+  MW->>V: request.user hazır
+  V->>P: dispatch(): has_perm("servicedesk.access_manager_panel")
+  P->>DB: kullanıcının grup izinlerini sorgula
+  DB-->>P: izin yok
+  P-->>B: HTTP 403 (403.html: rol ve istenen adres)
+  Note over V,P: Denetim görünüm çalışmadan önce yapılır, GET ve POST için aynıdır (TC-ROLE-10)
