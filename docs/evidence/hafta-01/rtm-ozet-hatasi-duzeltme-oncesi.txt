@@ -1,0 +1,12 @@
+# koşu (UTC): 2026-10-29T23:20:29Z | düzeltme öncesi tools/build_rtm.py ile Hafta 1 RTM üretimi (RSK-06 kanıtı)
+$ python tools/build_rtm.py --week 1 --strict --results docs/evidence/hafta-01/unit-results.json docs/evidence/hafta-01/manual-checks.json --coverage docs/evidence/hafta-01/coverage.json --ruff docs/evidence/hafta-01/ruff.json
+RTM yazıldı: /tmp/claude-0/-home-claude/56b63d8d-ce2f-54c0-97cf-c4252034c5bd/scratchpad/rtm-buggy.md | Test sonuçları: /tmp/claude-0/-home-claude/56b63d8d-ce2f-54c0-97cf-c4252034c5bd/scratchpad/tr-buggy.md
+Gereksinim durumları: {'KISMİ': 1, 'PASS': 6, 'PLANLANDI': 46}
+Test durumları: {'NOT': 1, 'PASS': 11, 'PLANLANDI': 36}
+çıkış kodu: 0
+--- TEST_RESULTS.md özet tablosu (düzeltme öncesi):
+| Sonuç | Test sayısı |
+|---|---|
+| NOT | 1 |
+| PASS | 11 |
+| PLANLANDI | 36 |

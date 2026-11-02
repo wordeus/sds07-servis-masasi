@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+*.log
+# Kanıt klasöründeki koşu kayıtları depoda tutulur (RSK-24)
+!docs/evidence/**/*.log
+
+# Test ve kalite çıktıları: yalnız kök dizindeki reports/ klasörü yok sayılır.
+# Kanıt kopyaları docs/evidence/, ilerleme raporları docs/reports/ altında depoda tutulur (RSK-24).
+/reports/
+.coverage
+htmlcov/
+
+# Ortam ve editör
+.env
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Araç önbellekleri
+.ruff_cache/

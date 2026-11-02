@@ -1,0 +1,26 @@
+# koşu (UTC): 2026-10-29T23:20:56Z | TC-QA-04 hata yakalama denetimi: kopyada düzeltme geri alındı (split(" ")), test koşuldu
+Found 1 test(s).
+Skipping setup of unused database(s): default.
+System check identified no issues (0 silenced).
+test_rtm_statuses_and_summary_counts (servicedesk.tests.test_tooling.RtmBuilderTests.test_rtm_statuses_and_summary_counts)
+TC-QA-04: RTM üretici gereksinim durumlarını doğru hesaplar ve özet tablosunda tam durum adlarıyla sayar. ... FAIL
+
+======================================================================
+FAIL: test_rtm_statuses_and_summary_counts (servicedesk.tests.test_tooling.RtmBuilderTests.test_rtm_statuses_and_summary_counts)
+TC-QA-04: RTM üretici gereksinim durumlarını doğru hesaplar ve özet tablosunda tam durum adlarıyla sayar.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/56b63d8d-ce2f-54c0-97cf-c4252034c5bd/scratchpad/w1-mut/servicedesk/tests/test_tooling.py", line 116, in test_rtm_statuses_and_summary_counts
+    self.assertEqual(counts, {"KISMİ": 1, "NOT RUN": 2, "PASS": 1, "PLANLANDI": 1})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'KISMİ': 1, 'NOT': 2, 'PASS': 1, 'PLANLANDI': 1} != {'KISMİ': 1, 'NOT RUN': 2, 'PASS': 1, 'PLANLANDI': 1}
+- {'KISMİ': 1, 'NOT': 2, 'PASS': 1, 'PLANLANDI': 1}
++ {'KISMİ': 1, 'NOT RUN': 2, 'PASS': 1, 'PLANLANDI': 1}
+?                  ++++
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=1)
+çıkış kodu: 1

@@ -1,0 +1,50 @@
+id,level,requirements,precondition_input,expected,automation,sprint,week
+TC-AUTH-01,Entegrasyon,FR-01,Oturumsuz istemci; GET /hesap/giris/,200; login.html; username/password/csrf alanları var,servicedesk/tests/test_auth.py::test_login_page_renders,1,2
+TC-AUTH-02,Entegrasyon,FR-01,Etkin Talep Sahibi; doğru parola ile POST,302 → /; oturumda doğru kullanıcı kimliği,servicedesk/tests/test_auth.py::test_valid_login_redirects_to_dashboard,1,2
+TC-AUTH-03,Entegrasyon,FR-01,Oturumu açık kullanıcı; GET /hesap/giris/,302 → /,servicedesk/tests/test_auth.py::test_authenticated_user_is_redirected_from_login,1,2
+TC-AUTH-04,Entegrasyon,FR-02,Yanlış parola ve bilinmeyen kullanıcı adı ile iki POST,200; hata kodu invalid_login; iki yanıtta aynı mesaj; oturum yok; aria-invalid,servicedesk/tests/test_auth.py::test_wrong_credentials_show_generic_error,1,2
+TC-AUTH-05,Entegrasyon,FR-02,Pasif hesap; doğru parola ile POST,200; invalid_login; oturum yok,servicedesk/tests/test_auth.py::test_inactive_user_cannot_login,1,2
+TC-AUTH-06,Entegrasyon,FR-03,Oturumu açık kullanıcı; POST /hesap/cikis/,302 → giriş; oturum silinmiş; / isteği girişe yönlenir,servicedesk/tests/test_auth.py::test_logout_post_ends_session,1,2
+TC-AUTH-07,Entegrasyon,FR-03,Oturumu açık kullanıcı; GET /hesap/cikis/,405; oturum açık kalır,servicedesk/tests/test_auth.py::test_logout_get_is_rejected,1,2
+TC-AUTH-08,Entegrasyon,FR-04,Oturumsuz istemci; /; /destek/; /yonetim/ için GET ve POST,302 → /hesap/giris/?next=<adres>,servicedesk/tests/test_auth.py::test_anonymous_requests_redirect_to_login,1,2
+TC-AUTH-09,Entegrasyon,FR-05,Geçerli giriş POST; next=https://kotu.example/ ve //kotu.example/giris,302 → / (dış adres yok sayılır),servicedesk/tests/test_auth.py::test_external_next_is_ignored,1,2
+TC-AUTH-10,Entegrasyon,FR-05,Geçerli giriş POST; next=/destek/,302 → /destek/,servicedesk/tests/test_auth.py::test_internal_next_is_followed,1,2
+TC-ROLE-01,Entegrasyon,FR-06,Boş test veritabanında migrate,Üç rol grubu mevcut,servicedesk/tests/test_roles.py::test_role_groups_exist_after_migrate,1,2
+TC-ROLE-02,Entegrasyon,FR-06,Migrate sonrası gruplar,Her grubun izinleri ROLE_PERMISSIONS ile birebir aynı,servicedesk/tests/test_roles.py::test_group_permissions_match_matrix,1,2
+TC-ROLE-03,Entegrasyon,FR-06,Senkronizasyon iki kez; ardından elle izin sapması,İkinci çalıştırmada değişiklik yok; sapma geri alınır (+1/-1),servicedesk/tests/test_roles.py::test_sync_is_idempotent_and_repairs_drift,1,2
+TC-ROLE-04,Entegrasyon,FR-07,Superuser yönetim sitesinde kullanıcıya Destek Personeli grubunu atar; Talep Sahibi /admin/ açar,Atama kaydedilir (302); rol Destek Personeli; Talep Sahibi admin girişine yönlenir,servicedesk/tests/test_roles.py::test_superuser_assigns_role_in_admin,1,2
+TC-ROLE-05,Birim,FR-08,Çok gruplu; tek gruplu; grupsuz ve anonim kullanıcı,Yönetici > Destek Personeli > Talep Sahibi; grupsuz/anonim → rol yok,servicedesk/tests/test_roles.py::test_role_precedence,1,2
+TC-ROLE-06,Entegrasyon,FR-08,Her rol ve rolsüz kullanıcı ile GET /,Rol etiketi ve role açık yetkiler görünür; başka rolün yetkisi görünmez; rolsüzde uyarı,servicedesk/tests/test_roles.py::test_dashboard_shows_role_and_capabilities,1,2
+TC-ROLE-07,Entegrasyon,FR-09,Talep Sahibi ve rolsüz kullanıcı; GET /destek/ ve /yonetim/,403 (panel 200),servicedesk/tests/test_roles.py::test_requester_and_no_role_are_forbidden,1,2
+TC-ROLE-08,Entegrasyon,FR-09,Destek Personeli; GET /destek/ ve /yonetim/,200 ve 403,servicedesk/tests/test_roles.py::test_agent_access,1,2
+TC-ROLE-09,Entegrasyon,FR-09,Yönetici; GET /destek/ ve /yonetim/,200 ve 200,servicedesk/tests/test_roles.py::test_manager_access,1,2
+TC-ROLE-10,Entegrasyon,FR-09,Yetkisiz ve yetkili kullanıcılarla POST,Yetkisizde 403; yetkilide 405 (yetki yöntemden önce denetlenir),servicedesk/tests/test_roles.py::test_forbidden_post_requests,1,2
+TC-ROLE-11,Entegrasyon,FR-09,Talep Sahibi; GET /yonetim/,403; 403.html; Türkçe başlık; rol ve adres yazılı; Traceback yok,servicedesk/tests/test_roles.py::test_forbidden_page_is_explanatory,1,2
+TC-ROLE-12,Entegrasyon,FR-10,Her rol; rolsüz ve superuser ile GET /,Menüde yalnız yetkili bölümlerin bağlantıları,servicedesk/tests/test_roles.py::test_navigation_links_follow_permissions,1,2
+TC-SEED-01,Entegrasyon,FR-11,DEBUG açık; seed_demo_users iki kez,3 demo kullanıcı; her biri tek doğru grupta; parola doğru; e-posta boş,servicedesk/tests/test_seed.py::test_seed_creates_one_user_per_role_idempotently,1,2
+TC-SEED-02,Entegrasyon,FR-11,DEBUG kapalı; ardından DEBUG açık ve zayıf parola,İki durumda CommandError; kullanıcı oluşmaz,servicedesk/tests/test_seed.py::test_seed_refuses_outside_development,1,2
+TC-SEC-01,Birim,NFR-01,Kullanıcı oluşturma; zayıf parolalarla doğrulama,Özet pbkdf2_sha256$ ile başlar; düz parola yok; 3 zayıf parola reddedilir,servicedesk/tests/test_security.py::test_password_hashing_and_rules,1,1
+TC-SEC-02,Entegrasyon,NFR-02,enforce_csrf_checks=True istemci; belirteçsiz ve belirteçli POST,Belirteçsizde 403 (403_csrf.html); belirteçli çıkış 302,servicedesk/tests/test_security.py::test_state_changing_requests_require_csrf_token,1,2
+TC-SEC-03,Entegrasyon,NFR-03,Başarılı giriş yanıtı,sessionid çerezi HttpOnly; SameSite=Lax; max-age=28800,servicedesk/tests/test_security.py::test_session_cookie_flags_and_lifetime,1,2
+TC-CFG-01,Entegrasyon,NFR-05,date_joined = 2026-01-15 09:30 UTC,Veritabanında 09:30 (UTC); şablonda 15.01.2026 12:30,servicedesk/tests/test_config.py::test_utc_storage_and_istanbul_display,1,1
+TC-CFG-02,Sistem (yapılandırma),NFR-04,Üretim profili; eksik SECRET_KEY / ALLOWED_HOSTS ya da DEBUG=1,Süreç hata koduyla durur; mesaj eksik değişkeni adlandırır,servicedesk/tests/test_config.py::test_production_refuses_unsafe_configuration,1,1
+TC-CFG-03,Sistem (yapılandırma),NFR-03; NFR-04,Üretim profili; tam ortam değişkenleri,check --deploy --fail-level WARNING çıkış kodu 0; Secure çerezler ve SSL yönlendirme açık,servicedesk/tests/test_config.py::test_deploy_check_passes_in_production,1,1
+TC-CFG-04,Entegrasyon,NFR-06,GET /hesap/giris/ ve olmayan adres,lang=tr; Türkçe etiketler; Türkçe 404 sayfası,servicedesk/tests/test_config.py::test_interface_is_turkish,1,2
+TC-CFG-05,Birim,NFR-04,Geçerli; boş ve geçersiz ortam değişkeni değerleri,Doğru ayrıştırma; geçersiz değerde ImproperlyConfigured,servicedesk/tests/test_config.py::test_environment_values_are_parsed_strictly,1,1
+TC-CFG-06,Entegrasyon,NFR-11,Superuser; GET yönetim sitesi kullanıcı listesi ve ekleme formu,AUTH_USER_MODEL=servicedesk.User; iki sayfa 200; kullanıcı ve Rol grupları sütunu görünür,servicedesk/tests/test_config.py::test_admin_works_with_custom_user_model,1,1
+TC-QA-01,Statik analiz,NFR-09,coverage run manage.py test; coverage json,Üretim kodu satır+dal kapsamı ≥ %80,tools/build_rtm.py (reports/coverage.json),1,1
+TC-QA-02,Statik analiz,NFR-10,ruff check . --output-format json,0 bulgu,tools/build_rtm.py (reports/ruff.json),1,1
+TC-QA-03,Birim,NFR-09,Bilinçli PASS/FAIL/ERROR/SKIP/alt test örnekleri,Her sonuç TC kimliğiyle doğru kaydedilir; JSON özeti doğru,servicedesk/tests/test_tooling.py::test_runner_records_every_outcome,1,1
+TC-QA-04,Birim,NFR-09,Örnek test durumları ve gereksinim satırları (PASS/NOT RUN/FAIL/planlı/testsiz),Gereksinim durumu ve özet sayıları doğru; FAIL baskın; 'NOT RUN' bölünmeden sayılır,servicedesk/tests/test_tooling.py::test_rtm_statuses_and_summary_counts,1,1
+TC-INST-01,Kurulum,NFR-11,Temiz sanal ortam; pip install -r requirements.txt; migrate; test,Kurulum ve testler hatasız (her işletim sistemi ayrı kaydedilir),docs/evidence/hafta-NN/manual-checks.json,1,1
+TC-CI-01,CI,NFR-11,GitHub Actions matrisi: ubuntu/windows × Python 3.12/3.13,Tüm işler yeşil,.github/workflows/ci.yml,1,1
+TC-INS-01,İnceleme,NFR-12,User modeli; seed komutu ve şablonların incelenmesi,Yalnız kullanıcı adı/ad/soyad/e-posta; demo verisinde gerçek kişi yok,docs/evidence/hafta-NN/manual-checks.json,1,1
+TC-E2E-01,Sistem (E2E),FR-01; NFR-06,Chromium; GET /hesap/giris/,Sayfa yüklenir; konsol hatası yok; Türkçe başlık,e2e/week2_auth_roles.py,1,2
+TC-E2E-02,Sistem (E2E),FR-01; FR-08; FR-10,demo.talep ile tarayıcıdan giriş,Panel; rol rozeti Talep Sahibi; Destek/Yönetim bağlantısı yok,e2e/week2_auth_roles.py,1,2
+TC-E2E-03,Sistem (E2E),FR-09,demo.talep oturumunda adres çubuğuna /yonetim/ ve /destek/,403 sayfası; rol bilgisi görünür,e2e/week2_auth_roles.py,1,2
+TC-E2E-04,Sistem (E2E),FR-09,demo.destek ile giriş; /destek/ ve /yonetim/,Destek kuyruğu açılır; yönetim paneli 403,e2e/week2_auth_roles.py,1,2
+TC-E2E-05,Sistem (E2E),FR-09; FR-10,demo.yonetici ile giriş,Menüde iki bağlantı; /destek/ ve /yonetim/ açılır,e2e/week2_auth_roles.py,1,2
+TC-E2E-06,Sistem (E2E),FR-03,Oturum açıkken Çıkış yap düğmesi,Giriş sayfası; / isteği girişe yönlenir,e2e/week2_auth_roles.py,1,2
+TC-E2E-07,Sistem (E2E),NFR-07,360×740 görünüm alanı; giriş ve panel,scrollWidth ≤ clientWidth (yatay kaydırma yok),e2e/week2_auth_roles.py,1,2
+TC-E2E-08,Sistem (E2E),NFR-08,Yalnız klavye: Tab/Enter ile giriş; panelde Tab,Giriş tamamlanır; odaklanan öğede görünür odak çizgisi,e2e/week2_auth_roles.py,1,2
+TC-E2E-09,Sistem (E2E),NFR-08,Hesaplanan renklerle kontrast ölçümü (WCAG formülü),Gövde metni; ikincil metin ve birincil düğme ≥ 4.5:1,e2e/week2_auth_roles.py,1,2

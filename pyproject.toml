@@ -1,0 +1,45 @@
+[project]
+name = "sds07-servis-masasi"
+version = "0.1.0"
+description = "ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi (SDS-07)"
+requires-python = ">=3.12"
+
+# Bağımlılıklar requirements.txt / requirements-dev.txt dosyalarında sabitlenmiştir.
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["static", "staticfiles", "docs", ".venv"]
+
+[tool.ruff.lint]
+# E/W: pycodestyle, F: pyflakes, I: import sırası, B: bugbear, DJ: Django, S: güvenlik (bandit), UP: modern sözdizimi
+select = ["E", "W", "F", "I", "B", "DJ", "S", "UP"]
+ignore = [
+    "S101",  # Testlerde assert kullanımı
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Testler: örnek parolalar gerçek sır değildir (S105/S106); alt süreç yalnız sabit argümanla
+# sys.executable çağırır (S603); test başlıkları tek satırlık TC açıklamasıdır (E501).
+"servicedesk/tests/*" = ["S105", "S106", "S603", "E501"]
+"servicedesk/migrations/*" = ["E501"]
+"config/settings.py" = ["S105"]  # Yalnız geliştirme profilindeki işaretli anahtar
+"config/test_runner.py" = ["S603"]
+"e2e/*" = ["S603", "S607", "S105", "S106"]
+# Araçlar: Markdown tablo başlık/satır kalıpları okunurluk için tek satırda tutulur (E501).
+"tools/*" = ["S603", "S607", "E501"]
+
+[tool.coverage.run]
+branch = true
+source = ["config", "servicedesk"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",  # Ölçüm üretim koduna yapılır; test dosyaları kapsam dışı
+    "config/asgi.py",
+    "config/wsgi.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 80

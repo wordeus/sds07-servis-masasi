@@ -1,0 +1,54 @@
+# koşu (UTC): 2026-10-29T23:21:05Z | Python 3.13.18 | Django 5.2.18
+$ coverage run manage.py test -v 2 --results-json docs/evidence/hafta-01/unit-results.json
+Found 8 test(s).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, auth, contenttypes, servicedesk, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying servicedesk.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+test_admin_works_with_custom_user_model (servicedesk.tests.test_config.AdminSiteSmokeTests.test_admin_works_with_custom_user_model)
+TC-CFG-06: Kurulumdan sonra yönetim sitesi özel kullanıcı modeliyle açılır: kullanıcı listesi ve ekleme formu. ... ok
+test_utc_storage_and_istanbul_display (servicedesk.tests.test_config.TimeZoneTests.test_utc_storage_and_istanbul_display)
+TC-CFG-01: Zaman damgası veritabanında UTC saklanır ve arayüzde Europe/Istanbul (UTC+3) saatiyle gösterilir. ... ok
+test_password_hashing_and_rules (servicedesk.tests.test_security.PasswordStorageTests.test_password_hashing_and_rules)
+TC-SEC-01: Parola PBKDF2-SHA256 ile özetlenerek saklanır; kısa, yaygın ve yalnız rakamdan oluşan parolalar reddedilir. ... ok
+test_environment_values_are_parsed_strictly (servicedesk.tests.test_config.EnvironmentParsingTests.test_environment_values_are_parsed_strictly)
+TC-CFG-05: Ortam değişkenleri katı ayrıştırılır; geçersiz bool/tam sayı değeri yapılandırma hatası verir. ... ok
+test_deploy_check_passes_in_production (servicedesk.tests.test_config.ProductionProfileTests.test_deploy_check_passes_in_production)
+TC-CFG-03: Üretim profilinde `check --deploy --fail-level WARNING` geçer; oturum ve CSRF çerezleri Secure'dur. ... ok
+test_production_refuses_unsafe_configuration (servicedesk.tests.test_config.ProductionProfileTests.test_production_refuses_unsafe_configuration)
+TC-CFG-02: Üretim profili SECRET_KEY veya ALLOWED_HOSTS tanımsızken ya da DEBUG açıkken başlamaz. ... ok
+test_rtm_statuses_and_summary_counts (servicedesk.tests.test_tooling.RtmBuilderTests.test_rtm_statuses_and_summary_counts)
+TC-QA-04: RTM üretici gereksinim durumlarını doğru hesaplar ve özet tablosunda tam durum adlarıyla sayar. ... ok
+test_runner_records_every_outcome (servicedesk.tests.test_tooling.TraceableRunnerTests.test_runner_records_every_outcome)
+TC-QA-03: Test koşucusu PASS, FAIL, ERROR, SKIP ve alt test başarısızlığını TC kimliğiyle doğru kaydeder. ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.698s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+çıkış kodu: 0

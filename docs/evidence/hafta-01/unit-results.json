@@ -1,0 +1,91 @@
+{
+  "kind": "django-unit-integration",
+  "started_at_utc": "2026-10-29T23:21:05+00:00",
+  "finished_at_utc": "2026-10-29T23:21:07+00:00",
+  "environment": {
+    "python": "3.13.18",
+    "django": "5.2.18",
+    "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "argv": [
+      "manage.py",
+      "test",
+      "-v",
+      "2",
+      "--results-json",
+      "docs/evidence/hafta-01/unit-results.json"
+    ]
+  },
+  "totals": {
+    "run": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "successful": true
+  },
+  "results": [
+    {
+      "test": "servicedesk.tests.test_config.AdminSiteSmokeTests.test_admin_works_with_custom_user_model",
+      "tc_id": "TC-CFG-06",
+      "title": "TC-CFG-06: Kurulumdan sonra yönetim sitesi özel kullanıcı modeliyle açılır: kullanıcı listesi ve ekleme formu.",
+      "outcome": "PASS",
+      "duration_s": 0.1062,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.TimeZoneTests.test_utc_storage_and_istanbul_display",
+      "tc_id": "TC-CFG-01",
+      "title": "TC-CFG-01: Zaman damgası veritabanında UTC saklanır ve arayüzde Europe/Istanbul (UTC+3) saatiyle gösterilir.",
+      "outcome": "PASS",
+      "duration_s": 0.0018,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_security.PasswordStorageTests.test_password_hashing_and_rules",
+      "tc_id": "TC-SEC-01",
+      "title": "TC-SEC-01: Parola PBKDF2-SHA256 ile özetlenerek saklanır; kısa, yaygın ve yalnız rakamdan oluşan parolalar reddedilir.",
+      "outcome": "PASS",
+      "duration_s": 0.4552,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.EnvironmentParsingTests.test_environment_values_are_parsed_strictly",
+      "tc_id": "TC-CFG-05",
+      "title": "TC-CFG-05: Ortam değişkenleri katı ayrıştırılır; geçersiz bool/tam sayı değeri yapılandırma hatası verir.",
+      "outcome": "PASS",
+      "duration_s": 0.0078,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.ProductionProfileTests.test_deploy_check_passes_in_production",
+      "tc_id": "TC-CFG-03",
+      "title": "TC-CFG-03: Üretim profilinde `check --deploy --fail-level WARNING` geçer; oturum ve CSRF çerezleri Secure'dur.",
+      "outcome": "PASS",
+      "duration_s": 0.5283,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_config.ProductionProfileTests.test_production_refuses_unsafe_configuration",
+      "tc_id": "TC-CFG-02",
+      "title": "TC-CFG-02: Üretim profili SECRET_KEY veya ALLOWED_HOSTS tanımsızken ya da DEBUG açıkken başlamaz.",
+      "outcome": "PASS",
+      "duration_s": 0.5859,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_tooling.RtmBuilderTests.test_rtm_statuses_and_summary_counts",
+      "tc_id": "TC-QA-04",
+      "title": "TC-QA-04: RTM üretici gereksinim durumlarını doğru hesaplar ve özet tablosunda tam durum adlarıyla sayar.",
+      "outcome": "PASS",
+      "duration_s": 0.0019,
+      "detail": ""
+    },
+    {
+      "test": "servicedesk.tests.test_tooling.TraceableRunnerTests.test_runner_records_every_outcome",
+      "tc_id": "TC-QA-03",
+      "title": "TC-QA-03: Test koşucusu PASS, FAIL, ERROR, SKIP ve alt test başarısızlığını TC kimliğiyle doğru kaydeder.",
+      "outcome": "PASS",
+      "duration_s": 0.0075,
+      "detail": ""
+    }
+  ]
+}

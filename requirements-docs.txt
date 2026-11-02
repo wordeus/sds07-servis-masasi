@@ -1,0 +1,2 @@
+# Rapor üretimi için (tools/build_report.py). Uygulamanın çalışması için gerekmez.
+lxml==6.1.3

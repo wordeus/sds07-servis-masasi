@@ -1,0 +1,14 @@
+# Metin dosyaları depoda LF ile saklanır; Windows'ta çalışma kopyası Git ayarına göre dönüştürülür.
+* text=auto
+*.py text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.ps1 text eol=crlf
+
+# İkili dosyalar
+*.png binary
+*.woff2 binary
+*.docx binary
+*.sqlite3 binary

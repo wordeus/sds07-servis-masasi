@@ -1,0 +1,7 @@
+# koşu (UTC): 2026-10-29T23:21:04Z | Python 3.13.18 | Django 5.2.18
+$ python manage.py check
+System check identified no issues (0 silenced).
+çıkış kodu: 0
+$ python manage.py makemigrations --check --dry-run
+No changes detected
+çıkış kodu: 0

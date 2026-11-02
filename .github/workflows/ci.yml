@@ -1,0 +1,90 @@
+# SDS-07 sürekli entegrasyon
+# Doğrulama adımları IEEE 1012-2024 V&V etkinlikleriyle ilişkilendirilmiştir (docs/TEST_PLAN.md).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Aktif proje haftası: RTM, bu haftadan sonraki gereksinimleri PLANLANDI olarak gösterir.
+  PROJECT_WEEK: "1"
+  # Python UTF-8 kipi: Windows'ta yönlendirilmiş çıktı varsayılan olarak cp1252 kullanır ve
+  # Türkçe karakterli çıktıda UnicodeEncodeError verir (RSK-25).
+  PYTHONUTF8: "1"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.12", "3.13"]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      - name: Bağımlılıkları kur (sabitlenmiş sürümler)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Statik analiz (ruff)
+        run: |
+          mkdir -p reports
+          ruff format --check .
+          ruff check . --output-format json --output-file reports/ruff.json || true
+          ruff check .
+
+      - name: Django sistem kontrolü ve migration denetimi
+        run: |
+          python manage.py check
+          python manage.py makemigrations --check --dry-run
+
+      - name: Birim ve entegrasyon testleri (kapsam ölçümüyle)
+        run: |
+          coverage run manage.py test -v 2 --results-json reports/unit-results.json
+          coverage report
+          coverage json -q -o reports/coverage.json
+
+      - name: Üretim profili güvenlik denetimi (check --deploy)
+        env:
+          DJANGO_ENV: production
+          DJANGO_ALLOWED_HOSTS: sds07.example
+        run: |
+          export DJANGO_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(50))')"
+          python manage.py check --deploy --fail-level WARNING
+
+      - name: RTM ve test sonuç tablosunu gerçek sonuçlardan üret
+        run: |
+          python tools/build_rtm.py --week "$PROJECT_WEEK" --strict \
+            --results reports/unit-results.json \
+            --coverage reports/coverage.json --ruff reports/ruff.json \
+            --rtm-out reports/RTM.md --results-out reports/TEST_RESULTS.md
+
+      - name: Raporları sakla
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: reports-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: reports/
+          if-no-files-found: warn

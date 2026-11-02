@@ -1,0 +1,71 @@
+{
+  "template_check": {"banner_contains": "İKİ HAFTALIK PROJE İLERLEME RAPORU"},
+  "core": {
+    "title": "SDS-07 Proje İlerleme Raporu #1 (Hafta 1)",
+    "creator": "Burak Nigiz (2100002062)",
+    "description": "Hafta 1 ilerleme raporu"
+  },
+  "info": {
+    "Rapor Numarası:": "Rapor #1 (Hafta 1)",
+    "Teslim Tarihi:": "16.10.2026 (Faz 1 son teslim tarihi)",
+    "Proje Adı:": "SDS-07: ISO 9001 İlkelerini Destekleyen IT Servis Masası ve Süreç Takip Sistemi",
+    "Proje Grup No:": "2100002062 Burak Nigiz",
+    "Referans Standartlar:": "ISO 9001:2026 (ana alan), ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009, ISO/IEC 25010:2023, IEEE 1012-2024",
+    "Genel Tamamlanma (%):": ["%7 (14 haftalık planın 1. haftası tamamlandı)", "Gereksinim bazında: 53 gereksinimin 6'sı doğrulandı, 1'i kısmi"],
+    "GitHub / Repo Linki:": "https://github.com/wordeus/sds07-servis-masasi/tree/hafta-1",
+    "Aktif Sprint / Faz:": "Faz 1, Hafta 1: Kapsam, gereksinimler, standartlar, kurulum ve doğrulama altyapısı"
+  },
+  "summary": [
+    "Bu raporda projenin ilk haftası özetlenmektedir. SDS-07'nin kapsamı, aktörleri, planlanan rol-yetki matrisi ve 37 fonksiyonel ile 16 fonksiyonel olmayan gereksinimi ISO/IEC/IEEE 29148:2018'e göre kabul kriterleri ve haftalık dağıtım planıyla tanımlandı (SRS v0.1); standart baskıları resmî kaynaklardan doğrulandı ve ISO 9001:2026 ile ISO/IEC/IEEE 12207:2026 baskılarının yayımlandığı belirlendi. Django 5.2.18 LTS kuruldu; development/production ayar profilleri, UTC saklama ve İstanbul saatiyle gösterim, özel kullanıcı modeli ve sonuçları TC kimlikleriyle kaydeden test altyapısı hazırlandı. 8 Django testinin 8'i geçti, üretim kodu kapsamı %87,39, statik analiz bulgusu 0'dır; temiz kurulum Linux'ta Python 3.12 ve 3.13 ile başarılı oldu, Windows ve CI koşusu depo olmadığı için yapılamadı (NOT RUN). Gerçek sonuçlardan üretilen RTM'ye göre Hafta 1'in 7 gereksiniminin 6'sı doğrulandı, 1'i kısmi kaldı; bu ilk rapor olduğundan önceki rapora kıyas yoktur."
+  ],
+  "tables": {
+    "2": {
+      "expect_header": "İş Paketi ID",
+      "widths": [1050, 3000, 2185, 1400, 2300],
+      "rows": [
+        ["WP-01", "Kapsam, aktörler ve planlanan rol-yetki matrisi; FR-01..FR-37 ve NFR-01..NFR-16 gereksinimleri; SLA/KPI tanım kuralları, kabul kriterleri ve haftalık plan", "ISO/IEC/IEEE 29148:2018 - 5.2.5, 9.6", "Burak Nigiz", "docs/SRS.md v0.1 §1-§7"],
+        ["WP-02", "Standart baskılarının ve madde numaralarının resmî kaynaklardan doğrulanması; ISO 9001:2026 madde eşlemesi ve 12207 uyarlaması (tek kişilik ekip dahil)", "ISO 9001:2026 - madde 4-10 (FDIS içindekiler); ISO/IEC/IEEE 12207:2026 - madde 6", "Burak Nigiz", "docs/STANDARDS.md v0.1 §1-§4"],
+        ["WP-03", "Django 5.2.18 kurulumu, sabitlenmiş bağımlılıklar, development/production profilleri, katı ortam değişkeni ayrıştırma, UTC saklama ve İstanbul gösterimi (MOD-CFG)", "ISO/IEC/IEEE 12207:2026 - 6.4.7; ISO 9001:2026 - 7.1.3, 7.1.5", "Burak Nigiz", "config/settings.py; TC-CFG-01, 02, 03, 05 PASS"],
+        ["WP-04", "Özel kullanıcı modeli, yönetim sitesi kaydı ve parola kuralları (MOD-AUTH veri modeli)", "ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz", "servicedesk/models.py; TC-CFG-06, TC-SEC-01 PASS"],
+        ["WP-05", "TC kimlikli test koşucusu, gerçek sonuçlardan RTM üretimi (--week 1) ve test araçlarının kendisinin doğrulanması", "IEEE 1012-2024; ISO/IEC/IEEE 12207:2026 - 6.4.9", "Burak Nigiz", "docs/RTM.md, docs/TEST_RESULTS.md; TC-QA-01..04 PASS"],
+        ["WP-06", "CI iş akışı, temiz kurulum denetimi, kalite ölçümleri, risk listesi ve prosedürler", "ISO/IEC/IEEE 12207:2026 - 6.3.4, 6.3.5, 6.3.7, 6.3.8", "Burak Nigiz", "ci.yml (actionlint 0 bulgu; GitHub'da NOT RUN); TC-INST-01 PASS; docs/QUALITY_METRICS.md, docs/RISKS.md"]
+      ],
+      "notes": ["Not: Depo henüz oluşturulmadığı için commit ve PR kimliği yoktur; ilk push sonrasında kanıt sütununa eklenecektir. Test sonuçları 30.10.2026 koşusuna aittir (docs/evidence/hafta-01)."]
+    },
+    "3": {
+      "expect_header": "Öğrenci No",
+      "widths": [1450, 1650, 1700, 3335, 1800],
+      "rows": [
+        ["2100002062", "Burak Nigiz", "Tek kişilik proje: gereksinim, mimari, geliştirme ve test/QA rollerinin tümü", ["Hafta 1: SRS v0.1 ve standart araştırması; Django kurulumu, ayar profilleri ve kullanıcı modeli; test koşucusu, RTM üretimi ve CI iş akışı; risk listesi ve Rapor #1."], "ÖLÇÜLMEDİ (efor kaydı tutulmadı) / %100"]
+      ],
+      "notes": ["Not: Zaman kaydı tutulmadığı için saat ÖLÇÜLMEDİ yazıldı; proje tek kişilik olduğundan pay %100'dür."]
+    },
+    "4": {
+      "expect_header": "Risk / Sorun ID",
+      "widths": [1000, 3100, 900, 2000, 2935],
+      "rows": [
+        ["RSK-01", "ISO 9001:2026 (16.09.2026) ve ISO/IEC/IEEE 12207:2026 (2026-04) yayımlanmış. Ders belgeleri eski yapıyı kullanıyor (ör. ISO/IEC 25010'da 8 karakteristik); 2026 madde numaraları 2015'ten farklı.", "Yüksek", "Kaynak doğrulaması: resmî ISO/IEEE sayfaları ve dağıtıcı örnek içindekiler", "Güncel baskılar seçildi; madde numaraları FDIS/örnek sayfalarından doğrulandı; 2011-2023 eşlemesi eklendi; öğretim elemanına danışılacak (AK-05)."],
+        ["RSK-02", "Girdiler eksik: ayrıntılı proje dokümanı elde edilemedi; grup numarası atanmadı.", "Orta", "Girdi incelemesi", "Proje talimatı esas alındı; grup numarası atanmadığı için bilgi tablosuna öğrenci numarası ve ad yazıldı (AK-06); proje tek kişilik."],
+        ["RSK-03", "Tek kişilik ekip: bağımsız inceleme ve bağımsız V&V yapılamıyor.", "Orta", "Proje planlaması", "Doğrulama otomatik kapılara bağlandı (test, ruff, check --deploy, RTM --strict); öğretim elemanı geri bildirimi bağımsız inceleme yerine kullanılacak."],
+        ["RSK-04", "Üretim profilinde check --deploy, HSTS preload için uyarı verdi (security.W021); alan adı olmadığı için preload uygulanamaz.", "Düşük", "Yapılandırma denetimi (check --deploy --fail-level WARNING)", "Uyarı gerekçesiyle susturuldu; diğer HSTS ayarları açık; susturmasız koşu kanıt olarak saklandı."],
+        ["RSK-05", "Uzak depo ve GitHub Actions olmadığı için CI matrisi (Windows dahil) koşulamadı.", "Orta", "Ortam kontrolü; iş akışının statik denetimi (actionlint)", "Yerel eşdeğer komutlar Linux'ta koşuldu; ci.yml actionlint 1.7.12 ile 0 bulgu. Depo oluşturulunca TC-CI-01 koşulacak (açık)."],
+        ["RSK-06", "RTM üreticisi özet tablosunda \"NOT RUN\" durumunu \"NOT\" olarak sayıyordu.", "Orta", "Hafta 1 RTM çıktısının incelenmesi", "Sayım düzeltildi; gerileme testi TC-QA-04 eklendi ve hatalı kodla FAIL verdiği doğrulandı."],
+        ["RSK-07", "Araç kodunda karmaşıklık eşiği aşıldı: tools/build_report.py::build = 19 (hedef ≤ 10).", "Düşük", "Kod analizi (ruff C901 ölçümü)", "Uygulama kodu etkilenmiyor (en yüksek 4); fonksiyon daha küçük parçalara bölünecek (açık)."]
+      ],
+      "notes": ["Ayrıntılar, kanıt dosyaları ve önümüzdeki haftaların riskleri (RSK-08..RSK-16): docs/RISKS.md"]
+    },
+    "5": {
+      "expect_header": "Hedef ID",
+      "widths": [1100, 4000, 2400, 2436],
+      "rows": [
+        ["PLN-01", "Giriş/çıkış (çıkış yalnız POST), güvenli next yönlendirmesi, genel hata mesajı (FR-01..FR-05)", "ISO 9001:2026 - 7.5.3; ISO/IEC 25010:2023 - 3.6.5", "Burak Nigiz - 16.10.2026 (Faz 1)"],
+        ["PLN-02", "Rol grupları, koddaki rol-izin matrisi, sunucu tarafı yetkilendirme, rol menüsü ve demo komutu (FR-06..FR-11)", "ISO 9001:2026 - 5.3; ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz - 16.10.2026 (Faz 1)"],
+        ["PLN-03", "Türkçe arayüz (Django Templates + Bootstrap 5.3.8), hata sayfaları; mobil, klavye ve kontrast; tarayıcı (E2E) testleri (NFR-06..NFR-08)", "ISO/IEC 25010:2023 - 3.4.3, 3.4.6; IEEE 1012-2024", "Burak Nigiz - 16.10.2026 (Faz 1)"],
+        ["PLN-04", "Mimari taslak SDD v0.1: bağlam, bileşim, bilgi ve durum görünümleri; karar günlüğü", "IEEE 1016-2009 (Context, Composition, Information, State dynamics)", "Burak Nigiz - 16.10.2026 (Faz 1)"],
+        ["PLN-05", "Talep oluşturma ve listeleme, kayıt bazlı erişim (başkasının kaydına 404), kategoriler (FR-12..FR-15)", "ISO 9001:2026 - 8.2.1, 8.5.1; ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz - 30.10.2026 (Faz 2)"],
+        ["PLN-06", "models/, services/, views/ paketleriyle modüler yapı (NFR-16); SDD v0.2", "ISO/IEC 25010:2023 - 3.7.1; IEEE 1016-2009", "Burak Nigiz - 30.10.2026 (Faz 2)"],
+        ["PLN-07", "GitHub deposu, ilk CI koşusu ve Windows kurulum doğrulaması (TC-CI-01)", "ISO/IEC/IEEE 12207:2026 - 6.3.5; IEEE 1012-2024", "Burak Nigiz - 13.11.2026 (Faz 3)"]
+      ]
+    }
+  }
+}

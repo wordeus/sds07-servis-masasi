@@ -1,0 +1,6 @@
+# koşu (UTC): 2026-10-29T23:21:04Z | Python 3.13.18 | Django 5.2.18
+$ ruff format --check .
+22 files already formatted
+çıkış kodu: 0
+$ ruff --version
+ruff 0.17.3
