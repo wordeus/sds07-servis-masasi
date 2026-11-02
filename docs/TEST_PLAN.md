@@ -61,7 +61,7 @@ Sistem testi (E2E) ve mutasyon denetimi Hafta 2'de eklenir.
 | Python | 3.13.18 (ana koşu); 3.12.13 ve 3.13.18 (temiz kurulum denetimi) |
 | Django | 5.2.18 |
 | Veritabanı | SQLite (testlerde bellek içi) |
-| Windows | **NOT RUN** (CI matrisinde tanımlı, depo yok) |
+| Windows | GitHub Actions windows-latest, Python 3.12 ve 3.13: PASS (02.11.2026, koşu #1, commit 29f962c). Windows'ta elle kurulum NOT RUN |
 
 ## 6. Çalıştırma
 
@@ -89,9 +89,9 @@ python tools/build_rtm.py --week 1 --strict \
 | Statik analiz / ölçüm (TC-QA-01/02) | 2 | 2 | 2 | 0 | 0 |
 | Kurulum (TC-INST-01, Linux 3.12 ve 3.13) | 1 | 1 | 1 | 0 | 0 |
 | İnceleme (TC-INS-01) | 1 | 1 | 1 | 0 | 0 |
-| CI matrisi (TC-CI-01) | 1 | 0 | 0 | 0 | 1 |
+| CI matrisi (TC-CI-01) | 1 | 1 | 1 | 0 | 0 |
 
-Katalogdaki 49 testin 36'sı Hafta 2'ye planlıdır. Sayılar 30.10.2026 koşusuna aittir; güncel durum her zaman [TEST_RESULTS.md](TEST_RESULTS.md) dosyasındadır.
+Katalogdaki 49 testin 36'sı Hafta 2'ye planlıdır. Sayılar 30.10.2026 koşusuna, TC-CI-01 sonucu 02.11.2026 GitHub Actions koşusuna aittir; güncel durum her zaman [TEST_RESULTS.md](TEST_RESULTS.md) dosyasındadır.
 
 ## 8. Bilinen sınırlar
 

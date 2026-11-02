@@ -1,12 +1,13 @@
 # Doğrulama ve Geçerleme Test Sonuçları
 
 > Bu dosya `tools/build_rtm.py` tarafından üretilir. Sonuçlar yalnız gerçek çalıştırma kayıtlarından gelir.
-> Üretim: 30.10.2026 02:21 (Europe/Istanbul) · Aktif hafta: 1
+> Üretim: 02.11.2026 04:03 (Europe/Istanbul) · Aktif hafta: 1
 
 | Kaynak | Tür | Başlangıç (İstanbul) | Ortam | Özet |
 |---|---|---|---|---|
 | `docs/evidence/hafta-01/unit-results.json` | django-unit-integration | 30.10.2026 02:21 | python 3.13.18, django 5.2.18, platform Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 | run=8, failures=0, errors=0, skipped=0, successful=True |
 | `docs/evidence/hafta-01/manual-checks.json` | manual-and-scripted-checks | 30.10.2026 02:21 | platform Linux (bulut çalışma alanı) | run=3, failures=0, not_run=1 |
+| `docs/evidence/hafta-01/ci-github-actions-2026-11-02.json` | github-actions | - | platform GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13 | run=1, failures=0, jobs_passed=4, jobs_total=4 |
 | ölçüm | coverage_percent | - | - | 87.39 |
 | ölçüm | ruff_findings | - | - | 0 |
 
@@ -50,7 +51,7 @@
 | TC-QA-03 | NFR-09 | Birim | Bilinçli PASS/FAIL/ERROR/SKIP/alt test örnekleri | Her sonuç TC kimliğiyle doğru kaydedilir; JSON özeti doğru | 1 | **PASS** | unit-results.json |
 | TC-QA-04 | NFR-09 | Birim | Örnek test durumları ve gereksinim satırları (PASS/NOT RUN/FAIL/planlı/testsiz) | Gereksinim durumu ve özet sayıları doğru; FAIL baskın; 'NOT RUN' bölünmeden sayılır | 1 | **PASS** | unit-results.json |
 | TC-INST-01 | NFR-11 | Kurulum | Temiz sanal ortam; pip install -r requirements.txt; migrate; test | Kurulum ve testler hatasız (her işletim sistemi ayrı kaydedilir) | 1 | **PASS** | manual-checks.json |
-| TC-CI-01 | NFR-11 | CI | GitHub Actions matrisi: ubuntu/windows × Python 3.12/3.13 | Tüm işler yeşil | 1 | **NOT RUN** | manual-checks.json |
+| TC-CI-01 | NFR-11 | CI | GitHub Actions matrisi: ubuntu/windows × Python 3.12/3.13 | Tüm işler yeşil | 1 | **PASS** | ci-github-actions-2026-11-02.json; manual-checks.json |
 | TC-INS-01 | NFR-12 | İnceleme | User modeli; seed komutu ve şablonların incelenmesi | Yalnız kullanıcı adı/ad/soyad/e-posta; demo verisinde gerçek kişi yok | 1 | **PASS** | manual-checks.json |
 | TC-E2E-01 | FR-01; NFR-06 | Sistem (E2E) | Chromium; GET /hesap/giris/ | Sayfa yüklenir; konsol hatası yok; Türkçe başlık | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
 | TC-E2E-02 | FR-01; FR-08; FR-10 | Sistem (E2E) | demo.talep ile tarayıcıdan giriş | Panel; rol rozeti Talep Sahibi; Destek/Yönetim bağlantısı yok | 2 | **PLANLANDI** | e2e/week2_auth_roles.py |
@@ -64,6 +65,5 @@
 
 | Sonuç | Test sayısı |
 |---|---|
-| NOT RUN | 1 |
-| PASS | 12 |
+| PASS | 13 |
 | PLANLANDI | 36 |

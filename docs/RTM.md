@@ -2,7 +2,7 @@
 
 > Bu dosya `tools/build_rtm.py` tarafından gerçek test çıktılarından üretilir; elle düzenlemeyin.
 > Kaynaklar: `docs/traceability/requirements.csv`, `docs/traceability/tests.csv` ve aşağıdaki sonuç dosyaları.
-> Üretim: 30.10.2026 02:21 (Europe/Istanbul) · Aktif hafta: 1
+> Üretim: 02.11.2026 04:03 (Europe/Istanbul) · Aktif hafta: 1
 
 ## Çalıştırma kayıtları
 
@@ -10,6 +10,7 @@
 |---|---|---|---|---|
 | `docs/evidence/hafta-01/unit-results.json` | django-unit-integration | 30.10.2026 02:21 | python 3.13.18, django 5.2.18, platform Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 | run=8, failures=0, errors=0, skipped=0, successful=True |
 | `docs/evidence/hafta-01/manual-checks.json` | manual-and-scripted-checks | 30.10.2026 02:21 | platform Linux (bulut çalışma alanı) | run=3, failures=0, not_run=1 |
+| `docs/evidence/hafta-01/ci-github-actions-2026-11-02.json` | github-actions | - | platform GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13 | run=1, failures=0, jobs_passed=4, jobs_total=4 |
 | ölçüm | coverage_percent | - | - | 87.39 |
 | ölçüm | ruff_findings | - | - | 0 |
 
@@ -64,7 +65,7 @@
 | NFR-08 | NFR | Klavye erişimi; görünür odak ve 4.5:1 kontrast | Orta | EKİP | MOD-UI | Test | TC-E2E-08 (PLANLANDI), TC-E2E-09 (PLANLANDI) | 2 | PLANLANDI (Hafta 2) |
 | NFR-09 | NFR | Otomatik test; ≥ %80 kapsam ve makinece okunur sonuç | Yüksek | PT-KNT; PT-ÇB | MOD-CFG | Analiz; Test | TC-QA-01 (PASS), TC-QA-03 (PASS), TC-QA-04 (PASS) | 1 | PASS |
 | NFR-10 | NFR | Statik analizde sıfır bulgu | Orta | PT-ÇB | MOD-CFG | Analiz | TC-QA-02 (PASS) | 1 | PASS |
-| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (NOT RUN) | 1 | KISMİ (2/3 PASS; diğerleri NOT RUN) |
+| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (PASS) | 1 | PASS |
 | NFR-12 | NFR | Kişisel veri asgarisi | Yüksek | EKİP | MOD-AUTH | İnceleme | TC-INS-01 (PASS) | 1 | PASS |
 | NFR-13 | NFR | Talep listesi yanıt süresi (p95 < 500 ms; 1.000 kayıt) | Orta | EKİP | MOD-TICKET | Test | - | 11-12 | PLANLANDI (Hafta 11-12) |
 | NFR-14 | NFR | Yetkisiz erişim denemelerinin günlüğe yazılması | Orta | EKİP | MOD-ROLE | Test | - | 11-12 | PLANLANDI (Hafta 11-12) |
@@ -75,8 +76,7 @@
 
 | Durum | Gereksinim sayısı |
 |---|---|
-| KISMİ | 1 |
-| PASS | 6 |
+| PASS | 7 |
 | PLANLANDI | 46 |
 
 ## Standart eşlemesi (bilgi amaçlı)

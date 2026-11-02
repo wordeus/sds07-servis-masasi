@@ -5,7 +5,7 @@
 | Doküman kimliği | SDS07-INS |
 | Sürüm | 0.1 (Hafta 1) |
 | Tarih | 30.10.2026 |
-| Doğrulama | Linux'ta Python 3.12.13 ve 3.13.18 ile temiz kurulum yapıldı (TC-INST-01, `docs/evidence/hafta-01/install-check-*.log`). **Windows adımları bu ortamda çalıştırılmadı (NOT RUN)**; ilk Windows kurulumunda sonucu `docs/evidence/hafta-01/` altına yeni dosya olarak ekleyin. |
+| Doğrulama | Linux'ta Python 3.12.13 ve 3.13.18 ile temiz kurulum yapıldı (TC-INST-01, `docs/evidence/hafta-01/install-check-*.log`). GitHub Actions'ta Ubuntu ve Windows üzerinde Python 3.12 ve 3.13 ile kurulum ve testler başarılı (02.11.2026, koşu #1, commit 29f962c, TC-CI-01). Windows'ta elle kurulum henüz yapılmadı; ilk denemede sonucu `docs/evidence/` altına yeni dosya olarak ekleyin. |
 
 ## 1. Gereksinimler
 

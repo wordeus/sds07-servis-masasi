@@ -19,7 +19,7 @@ Kural: Ölçülmeyen değer "ÖLÇÜLMEDİ" yazılır. Değerler araç çıktıl
 | Functional suitability / functional correctness (3.1.2) | Hafta 1 otomatik test geçme oranı | %100 | %100 (8/8 Django testi) | Hedefi karşılıyor | `unit-results.json` |
 | Security / resistance (3.6.6) | `check --deploy` uyarı sayısı (üretim profili) | 0 (gerekçeli susturma hariç) | 0; 1 gerekçeli susturma (security.W021) | Hedefi karşılıyor | `check-deploy.txt`, `check-deploy-susturmasiz.txt` |
 | Security / confidentiality (3.6.1) | Parola özet algoritması | PBKDF2-SHA256 veya daha güçlü | PBKDF2-SHA256 | Hedefi karşılıyor | TC-SEC-01 |
-| Flexibility / installability | Temiz ortam kurulumunun başarısı | Linux ve Windows, Python 3.12 ve 3.13 | Linux 3.12.13 ve 3.13.18 BAŞARILI; Windows **NOT RUN** | Kısmi | TC-INST-01, TC-CI-01 |
+| Flexibility / installability | Temiz ortam kurulumunun başarısı | Linux ve Windows, Python 3.12 ve 3.13 | Linux 3.12.13 ve 3.13.18 BAŞARILI; GitHub Actions'ta Ubuntu ve Windows × 3.12/3.13 BAŞARILI (02.11.2026); Windows'ta elle kurulum NOT RUN | Hedefi karşılıyor | TC-INST-01, TC-CI-01 |
 | Interaction capability (3.4) | Mobil düzen, klavye, kontrast | - | **ÖLÇÜLMEDİ** (arayüz Hafta 2'de) | - | NFR-07, NFR-08 |
 | Performance efficiency / time behaviour (3.2.1) | Talep listesi p95 yanıt süresi | < 500 ms | **ÖLÇÜLMEDİ** (özellik Hafta 3'te, ölçüm Hafta 11-12'de) | - | NFR-13 |
 | Reliability | Hata/arıza oranı | Tanımlanacak | **ÖLÇÜLMEDİ** | - | - |

@@ -57,4 +57,4 @@ Ortam değişkenleri `env_bool`, `env_int`, `env_list` fonksiyonlarıyla katı o
 
 - **"Hafta 1'de neden ekran yok?"** Bu hafta gereksinimler, standartlar ve kurulum altyapısı kuruldu. Giriş/çıkış ve roller Hafta 2'de bu altyapının üstüne eklenir.
 - **"Testlerin geçtiğini nasıl kanıtlıyorsunuz?"** RTM'nin sonuç sütunu test çıktısından otomatik üretiliyor; JSON ve günlükler `docs/evidence/hafta-01` altında.
-- **"CI neden koşmadı?"** Uzak depo henüz yok. `ci.yml` statik olarak denetlendi (actionlint, 0 bulgu); depo açılınca ilk koşu TC-CI-01'in kanıtı olacak.
+- **"CI'da ne denetleniyor?"** Her push'ta Ubuntu ve Windows üzerinde, Python 3.12 ve 3.13 ile kurulum, biçim ve statik analiz, Django testleri (kapsamla), üretim güvenlik denetimi ve RTM üretimi koşar. İlk koşu (02.11.2026) dört işin dördünde başarılı oldu (TC-CI-01).

@@ -50,7 +50,7 @@ Madde numaraları ve başlıkları FDIS içindekilerinden alınmıştır (§2). 
 | 5.1.2 | Customer focus | SLA ihlalinin yöneticiye eskalasyonu | FR-29 | Planlandı (Hafta 8) |
 | 5.3 | Roles, responsibilities and authorities | Rol grupları, rol-izin matrisi, sunucu tarafı yetki | FR-06..FR-10, FR-16, FR-23 | Planlandı (Hafta 2; FR-16 Hafta 4, FR-23 Hafta 6) |
 | 6.2 | Quality objectives and planning to achieve them | Önceliğe göre SLA hedefleri (ölçülebilir hedef) | FR-26 | Planlandı (Hafta 7) |
-| 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi (Windows ve CI: NOT RUN) |
+| 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi (CI: Ubuntu ve Windows'ta PASS, 02.11.2026) |
 | 7.1.5 | Monitoring and measuring resources | Doğru zaman ölçümü (UTC), test/ölçüm altyapısı | NFR-05, NFR-09 | Hafta 1'de uygulandı ve test edildi |
 | 7.4 | Communication | Uygulama içi bildirimler | FR-31 | Planlandı (Hafta 8) |
 | 7.5.3 | Control of documented information | Erişim kontrolü, işlem geçmişi, belgelerin sürüm kontrolü | FR-01..FR-05, FR-09, FR-20 | Planlandı (erişim Hafta 2; işlem geçmişi FR-20 Hafta 4-5) |

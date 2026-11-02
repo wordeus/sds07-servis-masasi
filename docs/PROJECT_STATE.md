@@ -34,7 +34,7 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | Django projesi, sabit bağımlılıklar, development/production profilleri, katı ortam değişkeni ayrıştırma, UTC/İstanbul | `config/`, `requirements*.txt` | TC-CFG-01, 02, 03, 05 |
 | Özel kullanıcı modeli ve yönetim sitesi kaydı; parola kuralları | `servicedesk/models.py`, `admin.py`, `config/settings.py` | TC-CFG-06, TC-SEC-01 |
 | TC kimlikli test koşucusu, RTM/test sonuç üretici (`--week`), rapor üretici, temiz kurulum denetimi | `config/test_runner.py`, `tools/` | TC-QA-03, TC-QA-04, TC-INST-01 |
-| CI iş akışı (Ubuntu/Windows × 3.12/3.13), actionlint 0 bulgu | `.github/workflows/ci.yml` | TC-CI-01 **NOT RUN** |
+| CI iş akışı (Ubuntu/Windows × 3.12/3.13), actionlint 0 bulgu | `.github/workflows/ci.yml` | TC-CI-01 PASS (02.11.2026, koşu #1, commit 29f962c; 4/4 iş) |
 | Risk listesi, test planı, kalite ölçümleri, prosedürler, kurulum, kod rehberi, değişiklik günlüğü | `docs/*.md`, `CHANGELOG.md` | - |
 | Rapor #1 (özgün şablon, beş başlık korunarak) | `docs/reports/Rapor-01_Hafta-1.docx` (+ `rapor-01.content.json`) | XSD doğrulaması |
 
@@ -47,9 +47,10 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | ruff | 0 bulgu | `evidence/hafta-01/ruff.json` |
 | `check --deploy` (üretim) | 0 sorun, 1 gerekçeli susturma (W021); susturmasız koşuda W021 görülür | `evidence/hafta-01/check-deploy*.txt` |
 | Temiz kurulum (TC-INST-01) | Linux 3.12.13 ve 3.13.18 BAŞARILI | `evidence/hafta-01/install-check-linux-py31*.log` |
-| RTM (`--week 1`) | Hafta 1'in 7 gereksiniminin 6'sı PASS, 1'i KISMİ (NFR-11: Windows/CI NOT RUN); 46 gereksinim PLANLANDI. Test kataloğu: 12 PASS, 1 NOT RUN (TC-CI-01), 36 PLANLANDI | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
+| RTM (`--week 1`) | Hafta 1'in 7 gereksiniminin 7'si PASS; 46 gereksinim PLANLANDI. Test kataloğu: 13 PASS, 36 PLANLANDI | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
 | Bulunan ve düzeltilen hata | RTM özet tablosu "NOT RUN"ı "NOT" sayıyordu (RSK-06); TC-QA-04 eklendi, hatalı kodla FAIL verdiği doğrulandı | `evidence/hafta-01/rtm-ozet-hatasi-duzeltme-oncesi.txt`, `tc-qa-04-hatali-kodla.txt` |
-| NOT RUN / ÖLÇÜLMEDİ | TC-CI-01 (GitHub yok), Windows kurulumu, efor saatleri | - |
+| GitHub Actions (TC-CI-01) | Ubuntu ve Windows × Python 3.12 ve 3.13: 4/4 iş başarılı (02.11.2026, koşu #1, commit 29f962c) | `evidence/hafta-01/ci-github-actions-2026-11-02.json`, `ci-kosu-1-ozet.png` |
+| NOT RUN / ÖLÇÜLMEDİ | Windows'ta elle kurulum, efor saatleri | - |
 
 ## 5. Kararlar (Hafta 1)
 
@@ -65,7 +66,7 @@ Hafta 1 kararları burada tutulur; Hafta 2'den itibaren karar günlüğü SDD §
 
 ## 6. Açık işler
 
-- [ ] Hafta 1'in GitHub Actions sonucunu TC-CI-01 kanıtı olarak eklemek (`docs/INSTALL.md §7`).
+- [x] Hafta 1'in GitHub Actions sonucu TC-CI-01 kanıtı olarak eklendi (PASS, 02.11.2026, koşu #1, commit 29f962c).
 - [ ] Windows'ta kurulum ve testleri bir kez çalıştırıp sonucu kaydetmek (NFR-11).
 - [ ] TC-INS-01 incelemesini tekrarlayıp onaylamak.
 - [ ] Ayrıntılı SDS-07 proje dokümanı elde edilirse SRS ile karşılaştırmak (AK-07).
