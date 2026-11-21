@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-PRC |
-| Sürüm | 0.2 |
+| Sürüm | 0.3 |
 | Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili | ISO 9001:2026 7.5.2 ve 7.5.3 (dokümante bilginin oluşturulması ve kontrolü); ISO/IEC/IEEE 12207:2026 6.3.5 ve 6.3.8 |
@@ -60,5 +60,15 @@ Yönetim sitesinden gruplara elle izin eklemek kalıcı değildir; bir sonraki `
 ## PRC-08 Tarayıcı (E2E) testlerinin koşulması
 
 - E2E testleri yalnız `tools/run_e2e.sh` ile koşulur. Betik koşudan önce portun boş olduğunu, koşudan sonra sunucunun kapandığını denetler; eski bir sunucuya karşı yanlış PASS alınmasını önler (RSK-20).
+- Sunucu `DJANGO_DEBUG=0` ile çalışır; böylece hata sayfaları üretimdeki gibi görünür (RSK-23, KRR-15).
+- Gezinme başlatan her tıklama `page.expect_navigation()` içinde yapılır; aksi hâlde sonraki adım isteği iptal edebilir (RSK-22).
 - Her koşu geçici veritabanı ve rastgele demo parolasıyla yapılır; parola hiçbir dosyaya yazılmaz.
 - Ekran görüntüleri ilgili haftanın kanıt klasörüne yazılır ve incelenir; testin geçmesi tek başına yeterli sayılmaz (RSK-19).
+
+## PRC-09 Yeni ekran veya işlem eklerken (Hafta 3'ten itibaren)
+
+1. İş kuralı `servicedesk/services/` içinde bir fonksiyon olarak yazılır; görünüm yalnız bu fonksiyonu çağırır (`.objects` görünümde kullanılmaz).
+2. Kayıt okuyan her görünümün sorgu kümesi `visible_tickets_for` gibi bir politika fonksiyonundan gelir; başka kullanıcının kaydı için doğrudan adres testi yazılır (404 beklenir).
+3. Görünüm sınıfı `LoginRequiredMixin` veya `PermissionRequiredMixin` içerir; gerekiyorsa izin `ROLE_PERMISSIONS`'a eklenir (PRC-07).
+4. Durum değiştiren işlem yalnız POST ve CSRF belirteciyle yapılır; GET için 405 testi yazılır.
+5. TC-ARCH-01 ve TC-ARCH-02 kuralı otomatik denetler; mutasyon denetimine yeni kural için bir mutasyon eklenir (`tools/mutation_check.py`).

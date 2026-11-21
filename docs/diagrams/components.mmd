@@ -1,13 +1,13 @@
 flowchart TB
   subgraph UI["Sunum katmanı (MOD-UI)"]
     TPL["Şablonlar + Bootstrap 5.3.8<br/>templates/, servicedesk/templates/"]
-    VIEWS["Görünümler<br/>servicedesk/views.py"]
-    FORMS["Formlar<br/>servicedesk/forms.py"]
+    VIEWS["Görünümler: views/<br/>dashboard.py, tickets.py, categories.py"]
+    FORMS["Formlar: forms.py<br/>LoginForm, TicketForm, TicketFilterForm, CategoryForm"]
   end
   subgraph APP["Uygulama ve iş kuralları"]
-    AUTH["MOD-AUTH<br/>LoginView, LogoutView, LoginForm"]
-    ROLE["MOD-ROLE<br/>roles.py: get_role, ROLE_PERMISSIONS,<br/>sync_role_groups, CAPABILITIES"]
-    TICKET["MOD-TICKET (Hafta 3-4)"]
+    AUTH["MOD-AUTH<br/>LoginView, LogoutView"]
+    ROLE["MOD-ROLE<br/>roles.py: ROLE_PERMISSIONS,<br/>CAPABILITIES, sync_role_groups"]
+    TICKET["MOD-TICKET: services/tickets.py<br/>visible_tickets_for, create_ticket,<br/>filter_tickets, kategoriler"]
     WF["MOD-WF (Hafta 5)"]
     AUDIT["MOD-AUDIT (Hafta 4-5)"]
     CHANGE["MOD-CHANGE (Hafta 6)"]
@@ -17,8 +17,8 @@ flowchart TB
     KPI["MOD-KPI (Hafta 9)"]
     CAPA["MOD-CAPA (Hafta 10)"]
   end
-  subgraph DATA["Veri katmanı"]
-    MODELS["models.py: User (AbstractUser)<br/>Group, Permission (django.contrib.auth)"]
+  subgraph DATA["Veri katmanı: models/"]
+    MODELS["user.py: User (AbstractUser)<br/>ticket.py: Category, Ticket"]
     DB[("SQLite")]
   end
   subgraph CFG["Altyapı (MOD-CFG)"]
@@ -29,14 +29,17 @@ flowchart TB
 
   MW --> VIEWS
   VIEWS --> AUTH
-  VIEWS --> ROLE
+  VIEWS --> FORMS
   VIEWS --> TPL
-  FORMS --> AUTH
+  VIEWS -- "izin adları" --> ROLE
+  VIEWS -- "tüm sorgular" --> TICKET
+  FORMS --> TICKET
+  TICKET --> ROLE
+  TICKET --> MODELS
   ROLE --> MODELS
   AUTH --> MODELS
   MODELS --> DB
   SET -.-> MW
-  TICKET --> ROLE
   WF --> TICKET
   WF --> AUDIT
   CHANGE --> AUDIT
@@ -48,4 +51,4 @@ flowchart TB
   CAPA --> AUDIT
 
   classDef planned stroke-dasharray: 5 4,color:#4f5b6b,fill:#f2f4f6;
-  class TICKET,WF,AUDIT,CHANGE,SLA,NOTIF,SURVEY,KPI,CAPA planned;
+  class WF,AUDIT,CHANGE,SLA,NOTIF,SURVEY,KPI,CAPA planned;

@@ -1,0 +1,32 @@
+{# Talep tablosu. Bağlam: tickets (sorgu kümesi veya sayfa), show_requester (bool). #}
+<div class="table-responsive">
+<table class="table sd-table sd-tickets" data-testid="ticket-table">
+  <caption class="visually-hidden">{{ caption|default:"Talepler" }}</caption>
+  <thead>
+    <tr>
+      <th scope="col">Numara</th>
+      <th scope="col">Başlık</th>
+      <th scope="col">Durum</th>
+      <th scope="col">Öncelik</th>
+      <th scope="col">Kategori</th>
+      {% if show_requester %}<th scope="col">Talep sahibi</th>{% endif %}
+      <th scope="col">Atanan</th>
+      <th scope="col">Oluşturulma</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ticket in tickets %}
+    <tr data-ticket="{{ ticket.pk }}">
+      <td data-label="Numara"><a class="sd-ticket-no" href="{% url 'servicedesk:ticket_detail' ticket.pk %}">{{ ticket.number }}</a></td>
+      <td data-label="Başlık" class="sd-cell-title">{{ ticket.title }}</td>
+      <td data-label="Durum">{% include "partials/ticket_status.html" with status=ticket.status label=ticket.get_status_display %}</td>
+      <td data-label="Öncelik" class="sd-cell-meta">{{ ticket.get_priority_display }}</td>
+      <td data-label="Kategori" class="sd-cell-meta">{{ ticket.category.name }}</td>
+      {% if show_requester %}<td data-label="Talep sahibi" class="sd-cell-meta">{{ ticket.requester.get_full_name|default:ticket.requester.username }}</td>{% endif %}
+      <td data-label="Atanan" class="sd-cell-meta">{% if ticket.assignee %}{{ ticket.assignee.get_full_name|default:ticket.assignee.username }}{% else %}<span class="sd-muted">Atanmadı</span>{% endif %}</td>
+      <td data-label="Oluşturulma" class="sd-cell-meta"><time datetime="{{ ticket.created_at|date:'c' }}">{{ ticket.created_at|date:"d.m.Y H:i" }}</time></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>

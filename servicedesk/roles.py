@@ -20,7 +20,7 @@ from django.db import DEFAULT_DB_ALIAS, transaction
 
 # Aktif proje haftası. Yetenek satırları bu haftaya göre "Kullanılabilir" veya
 # "Hafta N" olarak gösterilir (docs/SRS.md §2.6 haftalık plan).
-CURRENT_WEEK = 2
+CURRENT_WEEK = 3
 
 
 @dataclass(frozen=True)
@@ -40,13 +40,32 @@ ROLES_BY_PRECEDENCE: tuple[Role, ...] = tuple(sorted(ROLES, key=lambda r: r.prec
 
 PERM_SUPPORT_WORKSPACE = "servicedesk.access_support_workspace"
 PERM_MANAGER_PANEL = "servicedesk.access_manager_panel"
+# Hafta 3 (MOD-TICKET). Django'nun model başına ürettiği izinler (add/view/change)
+# ve Ticket modelindeki özel izin. Kayıt düzeyindeki kural (talep sahibi yalnız kendi
+# kayıtlarını görür) services/tickets.py içindeki tek politika fonksiyonundadır.
+PERM_ADD_TICKET = "servicedesk.add_ticket"
+PERM_VIEW_TICKET = "servicedesk.view_ticket"  # Talep ekranlarına erişim (kendi talepleri)
+PERM_VIEW_ALL_TICKETS = "servicedesk.view_all_tickets"  # Tüm talepleri görme
+PERM_VIEW_CATEGORY = "servicedesk.view_category"
+PERM_ADD_CATEGORY = "servicedesk.add_category"
+PERM_CHANGE_CATEGORY = "servicedesk.change_category"
 
-# Rol-izin matrisi (Hafta 2). Sonraki haftalarda talep, değişiklik, KPI ve
-# DÖF izinleri bu tabloya eklenecek.
+_TICKET_BASE = frozenset({PERM_ADD_TICKET, PERM_VIEW_TICKET})
+
+# Rol-izin matrisi (Hafta 3). Sonraki haftalarda yorum, atama, durum, değişiklik,
+# KPI ve DÖF izinleri bu tabloya eklenecek (PRC-07).
 ROLE_PERMISSIONS: dict[str, frozenset[str]] = {
-    REQUESTER.key: frozenset(),
-    AGENT.key: frozenset({PERM_SUPPORT_WORKSPACE}),
-    MANAGER.key: frozenset({PERM_SUPPORT_WORKSPACE, PERM_MANAGER_PANEL}),
+    REQUESTER.key: _TICKET_BASE,
+    AGENT.key: _TICKET_BASE | {PERM_VIEW_ALL_TICKETS, PERM_SUPPORT_WORKSPACE},
+    MANAGER.key: _TICKET_BASE
+    | {
+        PERM_VIEW_ALL_TICKETS,
+        PERM_SUPPORT_WORKSPACE,
+        PERM_MANAGER_PANEL,
+        PERM_VIEW_CATEGORY,
+        PERM_ADD_CATEGORY,
+        PERM_CHANGE_CATEGORY,
+    },
 }
 
 

@@ -13,7 +13,7 @@ permissions:
 
 env:
   # Aktif proje haftası: RTM, bu haftadan sonraki gereksinimleri PLANLANDI olarak gösterir.
-  PROJECT_WEEK: "2"
+  PROJECT_WEEK: "3"
   # Python UTF-8 kipi: Windows'ta yönlendirilmiş çıktı varsayılan olarak cp1252 kullanır ve
   # Türkçe karakterli çıktıda UnicodeEncodeError verir (RSK-25).
   PYTHONUTF8: "1"

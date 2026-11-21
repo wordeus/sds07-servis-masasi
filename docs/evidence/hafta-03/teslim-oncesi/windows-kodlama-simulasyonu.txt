@@ -1,0 +1,81 @@
+# Windows çıktı kodlaması simülasyonu (RSK-25)
+# Gerçek komut çıktılarıdır; uzun hata izleri kısaltılmıştır (yalnız hatanın kaynağı ve hata satırı).
+
+## 1. Düzeltme öncesi: Windows'un yönlendirilmiş çıktı kodlaması (cp1252) taklit edildi
+
+### Paket: sds07-servis-masasi (Hafta 1) | PYTHONIOENCODING=cp1252 | 2026-10-30T10:35:07Z | Python 3.13.18
+$ python manage.py test -v 2 --results-json reports/unit-results.json
+çıkış kodu: 1
+    Ran 8 tests in 2.248s
+    FAILED (errors=3)
+$ python tools/build_rtm.py --week 1 --strict --results docs/evidence/hafta-01/unit-results.json --coverage docs/evidence/hafta-01/coverage.json --ruff docs/evidence/hafta-01/ruff.json --rtm-out reports/RTM.md --results-out reports/TEST_RESULTS.md
+çıkış kodu: 1
+      File "/tmp/tmp.QNVK2PBYB3/tools/build_rtm.py", line 302, in main
+        print(f"RTM yaz\u0131ld\u0131: {args.rtm_out} | Test sonu�lar\u0131: {args.results_out}")
+    UnicodeEncodeError: 'charmap' codec can't encode character '\u0131' in position 7: character maps to <undefined>
+
+### Paket: sds07-servis-masasi (Hafta 2) | PYTHONIOENCODING=cp1252 | 2026-10-30T10:35:10Z | Python 3.13.18
+$ python manage.py test -v 2 --results-json reports/unit-results.json
+çıkış kodu: 1
+        response = receiver(signal=self, sender=sender, **named)
+      File "/tmp/tmp.onj4BGrks4/servicedesk/roles.py", line 206, in sync_role_groups_on_migrate
+        sys.stdout.write(
+    UnicodeEncodeError: 'charmap' codec can't encode character '\u015f' in position 31: character maps to <undefined>
+$ python tools/build_rtm.py --week 2 --strict --results docs/evidence/hafta-02/unit-results.json --coverage docs/evidence/hafta-02/coverage.json --ruff docs/evidence/hafta-02/ruff.json --rtm-out reports/RTM.md --results-out reports/TEST_RESULTS.md
+çıkış kodu: 1
+      File "/tmp/tmp.onj4BGrks4/tools/build_rtm.py", line 302, in main
+        print(f"RTM yaz\u0131ld\u0131: {args.rtm_out} | Test sonu�lar\u0131: {args.results_out}")
+    UnicodeEncodeError: 'charmap' codec can't encode character '\u0131' in position 7: character maps to <undefined>
+
+### Paket: sds07-servis-masasi (Hafta 3) | PYTHONIOENCODING=cp1252 | 2026-10-30T10:35:10Z | Python 3.13.18
+$ python manage.py test -v 2 --results-json reports/unit-results.json
+çıkış kodu: 1
+        response = receiver(signal=self, sender=sender, **named)
+      File "/tmp/tmp.LP6ZNjD1Ce/servicedesk/roles.py", line 225, in sync_role_groups_on_migrate
+        sys.stdout.write(
+    UnicodeEncodeError: 'charmap' codec can't encode character '\u015f' in position 31: character maps to <undefined>
+$ python tools/build_rtm.py --week 3 --strict --results docs/evidence/hafta-03/unit-results.json --coverage docs/evidence/hafta-03/coverage.json --ruff docs/evidence/hafta-03/ruff.json --rtm-out reports/RTM.md --results-out reports/TEST_RESULTS.md
+çıkış kodu: 1
+      File "/tmp/tmp.LP6ZNjD1Ce/tools/build_rtm.py", line 302, in main
+        print(f"RTM yaz\u0131ld\u0131: {args.rtm_out} | Test sonu�lar\u0131: {args.results_out}")
+    UnicodeEncodeError: 'charmap' codec can't encode character '\u0131' in position 7: character maps to <undefined>
+
+## 2. Düzeltme sonrası etki: UTF-8 kipinin standart çıktıya etkisi (PYTHONIOENCODING=utf-8) taklit edildi
+
+### Paket: sds07-servis-masasi (Hafta 1) | PYTHONIOENCODING=utf-8 | 2026-10-30T10:36:08Z | Python 3.13.18
+$ python manage.py test -v 2 --results-json reports/unit-results.json
+çıkış kodu: 0
+    Ran 8 tests in 2.306s
+    OK
+$ python tools/build_rtm.py --week 1 --strict --results docs/evidence/hafta-01/unit-results.json --coverage docs/evidence/hafta-01/coverage.json --ruff docs/evidence/hafta-01/ruff.json --rtm-out reports/RTM.md --results-out reports/TEST_RESULTS.md
+çıkış kodu: 0
+    RTM yazıldı: reports/RTM.md | Test sonuçları: reports/TEST_RESULTS.md
+    Gereksinim durumları: {'KISMİ': 1, 'NOT RUN': 1, 'PASS': 5, 'PLANLANDI': 46}
+    Test durumları: {'NOT RUN': 3, 'PASS': 10, 'PLANLANDI': 36}
+
+### Paket: sds07-servis-masasi (Hafta 2) | PYTHONIOENCODING=utf-8 | 2026-10-30T10:36:11Z | Python 3.13.18
+$ python manage.py test -v 2 --results-json reports/unit-results.json
+çıkış kodu: 0
+    Ran 35 tests in 14.922s
+    OK
+$ python tools/build_rtm.py --week 2 --strict --results docs/evidence/hafta-02/unit-results.json --coverage docs/evidence/hafta-02/coverage.json --ruff docs/evidence/hafta-02/ruff.json --rtm-out reports/RTM.md --results-out reports/TEST_RESULTS.md
+çıkış kodu: 0
+    RTM yazıldı: reports/RTM.md | Test sonuçları: reports/TEST_RESULTS.md
+    Gereksinim durumları: {'KISMİ': 7, 'NOT RUN': 3, 'PASS': 13, 'PLANLANDI': 30}
+    Test durumları: {'NOT RUN': 12, 'PASS': 37}
+
+### Paket: sds07-servis-masasi (Hafta 3) | PYTHONIOENCODING=utf-8 | 2026-10-30T10:36:26Z | Python 3.13.18
+$ python manage.py test -v 2 --results-json reports/unit-results.json
+çıkış kodu: 0
+    Ran 49 tests in 15.183s
+    OK
+$ python tools/build_rtm.py --week 3 --strict --results docs/evidence/hafta-03/unit-results.json --coverage docs/evidence/hafta-03/coverage.json --ruff docs/evidence/hafta-03/ruff.json --rtm-out reports/RTM.md --results-out reports/TEST_RESULTS.md
+çıkış kodu: 0
+    RTM yazıldı: reports/RTM.md | Test sonuçları: reports/TEST_RESULTS.md
+    Gereksinim durumları: {'KISMİ': 11, 'NOT RUN': 3, 'PASS': 14, 'PLANLANDI': 25}
+    Test durumları: {'NOT RUN': 16, 'PASS': 51}
+
+## 3. İş akışı statik denetimi (PYTHONUTF8 eklendikten sonra)
+actionlint 1.7.12, Hafta 1 paketi .github/workflows/ci.yml: 0 bulgu
+actionlint 1.7.12, Hafta 2 paketi .github/workflows/ci.yml: 0 bulgu
+actionlint 1.7.12, Hafta 3 paketi .github/workflows/ci.yml: 0 bulgu

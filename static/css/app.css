@@ -160,7 +160,7 @@ main:focus:not(:focus-visible) { outline: none; }
   border-color: var(--sd-link);
   box-shadow: 0 0 0 0.25rem rgba(36, 73, 184, 0.25);
 }
-.form-control[aria-invalid="true"] { border-color: var(--sd-danger); }
+.form-control[aria-invalid="true"], .form-select[aria-invalid="true"] { border-color: var(--sd-danger); }
 .sd-field-error { color: var(--sd-danger); font-size: var(--sd-size-sm); margin-top: 0.35rem; }
 
 /* ---- Üst bilgi ------------------------------------------------------------- */
@@ -310,3 +310,85 @@ main:focus:not(:focus-visible) { outline: none; }
   .sd-table td[data-label="Kapsam"] { grid-column: 1; grid-row: 2; color: var(--sd-muted); font-size: var(--sd-size-sm); }
   .sd-table td[data-label="Durum"] { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 }
+
+/* ---- Hafta 3: talepler ----------------------------------------------------- */
+/* Talep durumu rozeti. Durum renkleri yalnız burada ve süreç şeridinde kullanılır. */
+.sd-status {
+  display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; white-space: nowrap;
+  font-size: var(--sd-size-sm); font-weight: 500; line-height: 1.5;
+}
+.sd-status[data-status="OPEN"] { color: var(--sd-open); background: var(--sd-open-bg); }
+.sd-status[data-status="IN_PROGRESS"] { color: var(--sd-progress); background: var(--sd-progress-bg); }
+.sd-status[data-status="RESOLVED"] { color: var(--sd-resolved); background: var(--sd-resolved-bg); }
+.sd-status[data-status="CLOSED"] { color: var(--sd-closed); background: var(--sd-closed-bg); }
+
+.sd-page-head--split { max-width: none; display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; }
+.sd-page-head--split > div { max-width: 46rem; }
+
+.sd-filter {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 0.75rem 1rem; align-items: end;
+  background: var(--sd-surface); border: 1px solid var(--sd-rule); border-radius: 0.5rem; padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+}
+.sd-filter .form-label { font-size: var(--sd-size-sm); color: var(--sd-muted); margin-bottom: 0.25rem; }
+.sd-filter__actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+.sd-panel--flush { padding: 0.25rem 1.25rem; }
+.sd-ticket-no { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sd-cell-title { font-weight: 500; }
+.sd-cell-sub { display: block; color: var(--sd-muted); font-size: var(--sd-size-sm); }
+.sd-tickets td, .sd-categories td { padding-top: 0.7rem; padding-bottom: 0.7rem; }
+.sd-categories form { margin: 0; }
+
+.sd-pager { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem 1.5rem; flex-wrap: wrap; margin: 1rem 0; color: var(--sd-muted); font-size: var(--sd-size-sm); }
+.sd-pager__links { display: flex; gap: 1.25rem; }
+.sd-form-actions { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.5rem; }
+.sd-links li > strong { display: block; }
+.sd-back { margin-top: 2rem; }
+
+/* Talep ayrıntısı */
+.sd-ticket-head { margin-bottom: 1.5rem; }
+.sd-ticket-head__no { color: var(--sd-muted); font-weight: 500; font-variant-numeric: tabular-nums; margin-bottom: 0.25rem; }
+.sd-ticket-head h1 { overflow-wrap: anywhere; }
+.sd-description { white-space: pre-line; overflow-wrap: anywhere; margin-bottom: 0; }
+.sd-meta { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1.25rem; margin: 0 0 1rem; }
+.sd-meta dt { color: var(--sd-muted); font-weight: 500; font-size: var(--sd-size-sm); padding-top: 0.1rem; }
+.sd-meta dd { margin: 0; overflow-wrap: anywhere; }
+.sd-meta-note { font-size: var(--sd-size-sm); }
+
+/* Süreç şeridi (açık zemin): giriş sayfasındaki dört adımın talebe uygulanmış hâli */
+.sd-steps { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+.sd-steps__item { border-top: 4px solid var(--sd-rule); padding-top: 0.6rem; }
+.sd-steps__name { display: block; font-weight: 600; color: var(--sd-muted); }
+.sd-steps__text { display: block; color: var(--sd-muted); font-size: var(--sd-size-sm); line-height: 1.45; }
+.sd-steps__item[data-state="done"] { border-top-color: var(--sd-closed); }
+.sd-steps__item[data-state="current"] .sd-steps__name { color: var(--sd-ink); }
+.sd-steps__item[data-state="current"] .sd-steps__text { color: var(--sd-ink); }
+.sd-steps__item[data-state="current"][data-status="OPEN"] { border-top-color: var(--sd-open); }
+.sd-steps__item[data-state="current"][data-status="IN_PROGRESS"] { border-top-color: var(--sd-progress); }
+.sd-steps__item[data-state="current"][data-status="RESOLVED"] { border-top-color: var(--sd-resolved); }
+.sd-steps__item[data-state="current"][data-status="CLOSED"] { border-top-color: var(--sd-closed); }
+
+/* Panel özeti */
+.sd-summary { margin-top: 1.5rem; }
+.sd-summary__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.sd-summary__list li { display: flex; justify-content: space-between; align-items: center; }
+.sd-summary__list a { text-decoration: none; }
+.sd-summary__count { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 575.98px) {
+  .sd-panel--flush { padding: 0.25rem 1rem; }
+  .sd-tickets td, .sd-categories td { padding: 0.1rem 0; }
+  .sd-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sd-meta { grid-template-columns: 1fr; gap: 0.1rem; }
+  .sd-meta dd { margin-bottom: 0.5rem; }
+  /* Talep satırı kart gibi okunur: numara ve durum üstte, başlık altında, diğerleri etiketli */
+  .sd-tickets td[data-label="Numara"] { grid-column: 1; grid-row: 1; }
+  .sd-tickets td[data-label="Durum"] { grid-column: 2; grid-row: 1; justify-self: end; }
+  .sd-tickets td[data-label="Başlık"] { grid-column: 1 / -1; overflow-wrap: anywhere; }
+  .sd-tickets td.sd-cell-meta, .sd-categories td.sd-cell-meta { grid-column: 1 / -1; color: var(--sd-muted); font-size: var(--sd-size-sm); }
+  .sd-tickets td.sd-cell-meta::before, .sd-categories td.sd-cell-meta::before { content: attr(data-label) ": "; }
+  .sd-categories td[data-label="Kategori"] { grid-column: 1; grid-row: 1; }
+  .sd-categories td[data-label="Durum"] { grid-column: 2; grid-row: 1; justify-self: end; }
+  .sd-categories td[data-label="İşlem"] { grid-column: 1 / -1; padding-top: 0.35rem; }
+}
+

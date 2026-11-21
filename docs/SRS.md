@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-SRS |
-| Sürüm | 0.2 (taslak) |
+| Sürüm | 0.3 (taslak) |
 | Tarih | 30.10.2026 |
 | Durum | Taslak, öğretim elemanı geri bildirimi bekliyor |
 | Hazırlayan | Burak Nigiz (2100002062). Tek kişilik proje. |
@@ -16,6 +16,7 @@
 |---|---|---|---|
 | 0.1 | 30.10.2026 | Burak Nigiz | Hafta 1: ilk kapsam, aktörler, rol-yetki matrisi (plan), FR-01..FR-37, NFR-01..NFR-16, SLA/KPI kuralları, kabul kriterleri ve haftalık plan |
 | 0.2 | 30.10.2026 | Burak Nigiz | Hafta 2: rol matrisi koddan üretildi (`roles.py`), Hafta 2'de uygulanan Django izinleri eklendi, Hafta 1-2 kabul kriterleri testlerle doğrulandı |
+| 0.3 | 30.10.2026 | Burak Nigiz | Hafta 3: FR-12..FR-15 ve NFR-16 kabul kriterleri ayrıntılandırıldı (§7.1); Hafta 3 izinleri; AK-03 için geçici karar; NFR-07 kapsamı talep ekranlarına genişletildi; FR-10 kabul kriteri güncellendi |
 
 Not: Hafta 1-3 belgeleri geç kayıt nedeniyle birlikte hazırlandı; tarihler gerçek hazırlanma tarihidir.
 
@@ -219,13 +220,15 @@ Matris koddaki tanımdan üretilmiştir (`servicedesk/roles.py`, `CAPABILITIES`)
 | Uygunsuzluk kaydı açma | - | Tam erişim | Tam erişim | 10 |
 | Kök neden, düzeltici faaliyet ve etkinlik kontrolü | - | - | Tam erişim | 10 |
 
-**Hafta 2'de uygulanan Django izinleri** (her `migrate` sonrasında gruplara uygulanır):
+**Hafta 3'te uygulanan Django izinleri** (her `migrate` sonrasında gruplara uygulanır; tablo koddan üretildi):
 
 | Grup (rol) | İzinler |
 |---|---|
-| Talep Sahibi | (yok; Hafta 3'te `add_ticket` ve `view_ticket` eklenecek) |
-| Destek Personeli | `servicedesk.access_support_workspace` |
-| Yönetici | `servicedesk.access_support_workspace`, `servicedesk.access_manager_panel` |
+| Talep Sahibi | `servicedesk.add_ticket`, `servicedesk.view_ticket` |
+| Destek Personeli | `servicedesk.access_support_workspace`, `servicedesk.add_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_ticket` |
+| Yönetici | `servicedesk.access_manager_panel`, `servicedesk.access_support_workspace`, `servicedesk.add_category`, `servicedesk.add_ticket`, `servicedesk.change_category`, `servicedesk.view_all_tickets`, `servicedesk.view_category`, `servicedesk.view_ticket` |
+
+`view_ticket` talep ekranlarına erişimi verir; hangi kayıtların görüleceğini `view_all_tickets` izni ve kayıt bazlı politika (`services/tickets.py`, `visible_tickets_for`) belirler: bu izni olmayan kullanıcı yalnız kendi açtığı talepleri görür (FR-14).
 
 Sistem yöneticisi (superuser) tüm izinlere sahiptir ve yönetim sitesine (`/admin/`) erişen tek hesap türüdür.
 
@@ -320,7 +323,7 @@ Gereksinim dili: "-malıdır / -melidir" zorunluluk bildirir. Her gereksinim tek
 | ID | Gereksinim | Öncelik | Doğrulama |
 |---|---|---|---|
 | NFR-06 | Arayüz Türkçe olmalı; sayfa dili `lang="tr"` bildirilmeli; form etiketleri ve hata sayfaları Türkçe olmalıdır. | Yüksek | Test |
-| NFR-07 | Giriş ve panel sayfaları 360 px genişlikte sayfa düzeyinde ve iç kapsayıcılarda yatay kaydırma gerektirmeden kullanılabilmelidir. | Orta | Test (E2E) |
+| NFR-07 | Giriş ve panel sayfaları (Hafta 3'ten itibaren talep listesi ve talep ayrıntısı da) 360 px genişlikte sayfa düzeyinde ve iç kapsayıcılarda yatay kaydırma gerektirmeden kullanılabilmelidir. | Orta | Test (E2E) |
 | NFR-08 | Giriş akışı yalnız klavyeyle tamamlanabilmeli, odaklanan öğe görünür odak çizgisiyle belirtilmeli; metin ve düğme kontrastı en az 4.5:1 olmalıdır (WCAG 2.1 AA hedefi; uyum iddiası değildir). Hafta 2'de giriş ve panel ekranları, Hafta 11-12'de tüm ekranlar ölçülür. | Orta | Test (E2E) |
 
 ### 5.4 Performans gereksinimleri (29148 §9.6.14)
@@ -334,11 +337,11 @@ Gereksinim dili: "-malıdır / -melidir" zorunluluk bildirir. Her gereksinim tek
 - Zaman damgaları UTC saklanır (`USE_TZ=True`); gösterim Europe/Istanbul'dur (NFR-05).
 - İşlem geçmişi kayıtları yalnız eklenir; güncelleme ve silme arayüzden yapılamaz (FR-20).
 - Anket (talep başına bir) ve SLA bildirimleri (talep, ölçüt, olay türü başına bir) veritabanı tekillik kısıtıyla korunur (FR-30, FR-32).
-- Planlanan varlıklar ve ilişkileri: [SDD.md §6](SDD.md) (bilgi görünümü, ER diyagramı).
+- Varlıklar ve ilişkileri (Hafta 3: User, Category, Ticket; diğerleri planlı): [SDD.md §6](SDD.md) (bilgi görünümü, ER diyagramı).
 
 ### 5.6 Tasarım kısıtları (29148 §9.6.16)
 
-- Tek Django projesi, tek uygulama (`servicedesk`), modüler iç yapı; iş kuralları görünümlerden ayrı servis fonksiyonlarında tutulur (NFR-16, Hafta 3'ten itibaren).
+- Tek Django projesi, tek uygulama (`servicedesk`), modüler iç yapı; iş kuralları görünümlerden ayrı servis fonksiyonlarında tutulur. Hafta 3'te `models/`, `services/`, `views/` paketleri kuruldu; katman kuralı TC-ARCH-01 ile her test koşusunda denetlenir (NFR-16).
 - Kimlik doğrulama, oturum, grup, izin, form ve ORM için Django'nun hazır altyapısı kullanılır.
 - Bağımlılıklar sabitlenir (`requirements*.txt`); yeni bağımlılık ekleme kararı gerekçesiyle [SDD.md §9](SDD.md) karar günlüğüne yazılır.
 
@@ -425,7 +428,7 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 
 ## 7. Kabul kriterleri
 
-### 7.1 Hafta 1 ve Hafta 2 (ayrıntılı)
+### 7.1 Hafta 1, 2 ve 3 (ayrıntılı)
 
 | Gereksinim | Kabul kriteri (Verilen / Olduğunda / Beklenen) | Test |
 |---|---|---|
@@ -438,7 +441,7 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 | FR-07 | Superuser yönetim sitesinde kullanıcıya Destek Personeli grubunu kaydettiğinde kullanıcının rolü Destek Personeli olur. Talep Sahibi `/admin/` açtığında yönetim girişine yönlendirilir. | TC-ROLE-04 |
 | FR-08 | Her rol için panel açıldığında rol etiketi ve yalnız o role ait yetkiler görünür; rolsüz kullanıcıda "Rol atanmamış" uyarısı çıkar; çok gruplu kullanıcıda öncelik kuralı uygulanır. | TC-ROLE-05, TC-ROLE-06, TC-E2E-02 |
 | FR-09 | Talep Sahibi ve rolsüz kullanıcı `/destek/` ve `/yonetim/` için 403 alır; Destek Personeli `/destek/` 200, `/yonetim/` 403 alır; Yönetici ikisinde 200 alır. Yetkisiz POST da 403 alır. 403 sayfası Türkçedir ve rolü ve adresi gösterir. | TC-ROLE-07..11, TC-E2E-03..05 |
-| FR-10 | Menüde Talep Sahibi yalnız "Panelim"i, Destek Personeli ek olarak "Destek kuyruğu"nu, Yönetici ek olarak "Yönetim paneli"ni, superuser ek olarak "Yönetim sitesi"ni görür. | TC-ROLE-12, TC-E2E-02, TC-E2E-05 |
+| FR-10 | Menüde Talep Sahibi "Panelim"i, Destek Personeli ek olarak "Destek kuyruğu"nu, Yönetici ek olarak "Yönetim paneli"ni, superuser ek olarak "Yönetim sitesi"ni görür. Hafta 3'ten itibaren talep izni olan her rolde "Talepler", yalnız Yönetici ve superuser'da "Kategoriler" bağlantısı da görünür. | TC-ROLE-12, TC-ROLE-13, TC-E2E-02, TC-E2E-05 |
 | FR-11 | DEBUG açıkken komut iki kez çalıştırıldığında tam 3 demo kullanıcı vardır, her biri tek doğru gruptadır. DEBUG kapalıyken veya zayıf parolayla komut hata verir ve kullanıcı oluşturmaz. | TC-SEED-01, TC-SEED-02 |
 | NFR-01 | Parola özeti `pbkdf2_sha256$` ile başlar; düz parola saklanmaz; "Kisa1!", "password123" ve "12345678901" reddedilir. | TC-SEC-01 |
 | NFR-02 | CSRF denetimi açık istemciyle belirteçsiz giriş/çıkış POST'u 403 alır; belirteçli çıkış 302 alır. | TC-SEC-02 |
@@ -446,16 +449,21 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 | NFR-04 | Üretim profili eksik anahtar/host veya DEBUG=1 ile başlamaz; `check --deploy --fail-level WARNING` çıkış kodu 0'dır; geçersiz bool/tam sayı ortam değeri hata verir. | TC-CFG-02, TC-CFG-03, TC-CFG-05 |
 | NFR-05 | 2026-01-15 09:30 UTC değeri veritabanında 09:30 olarak durur ve şablonda "15.01.2026 12:30" gösterilir. | TC-CFG-01 |
 | NFR-06 | Giriş sayfasında `lang="tr"`, "Kullanıcı adı", "Parola", "Giriş yap" bulunur; 404 sayfası Türkçedir. | TC-CFG-04, TC-E2E-01 |
-| NFR-07 | 360×740 görünüm alanında giriş ve panelde `scrollWidth ≤ clientWidth` olur ve iç kapsayıcı taşması yoktur. | TC-E2E-07 |
+| NFR-07 | 360×740 görünüm alanında giriş ve panelde (Hafta 3'ten itibaren talep listesi ve ayrıntısında) `scrollWidth ≤ clientWidth` olur ve iç kapsayıcı taşması yoktur. | TC-E2E-07, TC-E2E-12 |
 | NFR-08 | Yalnız klavyeyle giriş tamamlanır; ilk Tab "İçeriğe geç" bağlantısına gelir; odak çizgisi görünür; ölçülen kontrast oranları ≥ 4.5:1'dir. | TC-E2E-08, TC-E2E-09 |
 | NFR-09 | Üretim kodu kapsamı ≥ %80'dir; test koşucusu PASS/FAIL/ERROR/SKIP ve alt test başarısızlığını doğru kaydeder; RTM üretici gereksinim durumlarını doğru hesaplar ve sayar. | TC-QA-01, TC-QA-03, TC-QA-04 |
 | NFR-10 | `ruff check .` sıfır bulgu verir. | TC-QA-02 |
 | NFR-11 | Temiz sanal ortamda kurulum, migrate ve testler Linux'ta Python 3.12 ve 3.13 ile hatasız tamamlanır; GitHub Actions matrisinde (Ubuntu/Windows × 3.12/3.13) tüm işler yeşil olur; yönetim sitesi özel kullanıcı modeliyle açılır. | TC-INST-01, TC-CFG-06, TC-CI-01 |
 | NFR-12 | User modelinde ek kişisel veri alanı yoktur; demo kullanıcılarının adı "Demo" ve e-postası boştur. | TC-INS-01 |
+| FR-12 | Talep Sahibi geçerli formu (başlık 5-200 karakter, açıklama, etkin kategori, P1-P4) gönderdiğinde talep `INC-000NNN` numarası, Open durumu, UTC oluşturma zamanı ve talep sahibi olarak kendisiyle kaydedilir ve ayrıntı sayfasına yönlendirilir. Kısa/uzun başlık, boş açıklama, pasif/olmayan kategori veya geçersiz öncelikle kayıt oluşmaz; forma eklenen durum, talep sahibi veya atanan alanı yok sayılır. Rolsüz kullanıcı 403 alır. | TC-TKT-01, TC-TKT-02, TC-TKT-03, TC-TKT-08, TC-E2E-10 |
+| FR-13 | Liste durum, öncelik, kategori ve atanan (atanmamış dahil) filtreleriyle daralır; filtreler birlikte uygulanabilir; geçersiz filtre değeri yok sayılır. 30 talepte 1. sayfada 25, 2. sayfada 5 kayıt vardır; en yeni talep önce gelir; sayfa bağlantıları filtreyi korur; aralık dışı sayfa 404 döner. | TC-TKT-04, TC-TKT-05, TC-TKT-06, TC-E2E-10, TC-E2E-12 |
+| FR-14 | Talep Sahibi listede yalnız kendi taleplerini görür; başkasının talebinin ayrıntı adresine GET isteği 404 döner ve yanıt var olmayan numarayla aynıdır (başlık ve numara görünmez). Destek Personeli ve Yönetici tüm talepleri görür. Filtre görünürlüğü genişletmez. | TC-TKT-04, TC-TKT-05, TC-TKT-07, TC-TKT-08, TC-E2E-11 |
+| FR-15 | Yönetici kategori ekler; aynı ad (Türkçe büyük/küçük harf farkıyla da) ve boş ad reddedilir. Pasifleştirilen kategori yeni talep formunda listelenmez ve doğrudan POST ile seçilemez; mevcut talepler kategorisini korur; kategori silinemez. Durum değişikliği yalnız CSRF belirteçli POST ile yapılır; diğer roller 403 alır. | TC-TKT-02, TC-CAT-01, TC-CAT-02, TC-CAT-03, TC-E2E-13 |
+| NFR-16 | `views/` modülleri model yöneticilerine (`.objects`) doğrudan erişmez; `services/` modülleri görünüm, şablon ve HTTP modüllerini içe aktarmaz; `models/` modülleri `services/` ve `views/`'i içe aktarmaz; her görünüm sınıfı oturum veya izin denetimi içerir. | TC-ARCH-01, TC-ARCH-02 |
 
 ### 7.2 Sonraki haftalar (özet; ilgili hafta başında ayrıntılandırılacak)
 
-- FR-12..FR-17: Geçerli/geçersiz talep formu; numaralandırma; filtre ve sayfalama; başka kullanıcının talebine doğrudan adresle 404; pasif kategori; atama rol kontrolü; Closed talebe yorum reddi.
+- FR-16, FR-17: Atama rol kontrolü; üzerine alma; başka kullanıcının talebine yorum adresiyle 404; Closed talebe yorum reddi.
 - FR-18..FR-21: İzin verilen/verilmeyen her geçiş çifti; rol ve atama koşulları; çözüm açıklaması zorunluluğu; her işlem için tek denetim kaydı; kayıtların değiştirilemezliği.
 - FR-22..FR-25: Zorunlu alanlar; onay/ret yetkisi; kendi kaydını onaylama reddi; onaysız uygulama reddi (doğrudan POST dahil); sonuç sonrası değişmezlik.
 - FR-26..FR-31: Sınır anları (hedef zamana eşit, 1 sn önce/sonra); uyarı eşiği; komutun iki kez çalıştırılmasında tek bildirim; kesinti sonrası tamamlama; bildirim kutusunun kişiye özel olması.
@@ -467,8 +475,8 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 
 | Yöntem | Kullanım | Örnek |
 |---|---|---|
-| Test | Otomatik birim, entegrasyon ve sistem (E2E) testleri | TC-AUTH-*, TC-ROLE-*, TC-E2E-* |
-| Analiz | Kapsam ve statik analiz ölçümleri | TC-QA-01, TC-QA-02 |
+| Test | Otomatik birim, entegrasyon ve sistem (E2E) testleri | TC-AUTH-*, TC-ROLE-*, TC-TKT-*, TC-CAT-*, TC-E2E-* |
+| Analiz | Kapsam, statik analiz ve mimari kural denetimi | TC-QA-01, TC-QA-02, TC-ARCH-01, TC-ARCH-02 |
 | İnceleme | Kod/şablon incelemesi | TC-INS-01 |
 | Gösterim | Haftalık demoda canlı gösterim | Hafta sonu demo (ayrı kayıt) |
 
@@ -477,7 +485,7 @@ Bir gereksinim, eşlendiği tüm TC'ler gerçek koşuda PASS olduğunda "doğrul
 ## 9. Gereksinim kalitesi denetimi (29148 §5.2.5, §5.2.6)
 
 - **Tek anlamlılık ve ölçülebilirlik:** Belirsiz sıfatlar ("hızlı", "kolay") yerine eşik ve davranış yazıldı (ör. NFR-03: 28.800 sn; NFR-08: 4.5:1).
-- **Doğrulanabilirlik:** Hafta 1-2'nin her gereksinimi en az bir TC'ye bağlı; RTM tutarlılık denetimi testsiz aktif gereksinime izin vermiyor.
+- **Doğrulanabilirlik:** Hafta 1-3'ün her gereksinimi en az bir TC'ye bağlı; RTM tutarlılık denetimi testsiz aktif gereksinime izin vermiyor.
 - **Tekillik:** FR-19 ve FR-30 birden fazla koşul içeriyor; Hafta 5 ve 7 başında alt gereksinimlere bölünecek.
 - **Tutarlılık:** Rol matrisi koddan üretildi; SRS §4 ile uygulama aynı kaynaktan geliyor.
 - **İzlenebilirlik:** Her gereksinimin kaynağı (PT, DJ-SEC, EKİP) ve mimari bileşeni yazılı.
@@ -488,7 +496,7 @@ Bir gereksinim, eşlendiği tüm TC'ler gerçek koşuda PASS olduğunda "doğrul
 |---|---|---|
 | AK-01 | Resolved → In Progress "yeniden açma" geçişi eklenecek mi? (Proje talimatındaki akışta yok.) | Burak Nigiz / öğretim elemanı |
 | AK-02 | Resolved talep, talep sahibi onaylamazsa belirli süre sonra otomatik kapansın mı? | Burak Nigiz |
-| AK-03 | Önceliği talep sahibi mi seçecek, destek personeli mi belirleyecek? | Burak Nigiz |
+| AK-03 | Önceliği talep sahibi mi seçecek, destek personeli mi belirleyecek? **Geçici karar (Hafta 3, KRR-13):** FR-12'ye uygun olarak talep sahibi formda seçer; öncelik değişikliği Hafta 4'te destek personeline açılacak ve işlem geçmişine yazılacak (FR-20). Öğretim elemanı geri bildirimiyle değişebilir. | Burak Nigiz / öğretim elemanı |
 | AK-04 | Yönetici rolü kullanıcı/rol yönetimi yapabilsin mi, yoksa yalnız superuser mı? | Burak Nigiz |
 | AK-05 | Ders hangi baskıları bekliyor? ISO 9001:2015 mi 2026 mı, ISO/IEC 25010:2011 mi 2023 mü, ISO/IEC/IEEE 12207:2017 mi 2026 mı? | Öğretim elemanı |
 | AK-06 | Grup numarası (ekip tek kişi: Burak Nigiz, 2100002062) | Burak Nigiz |

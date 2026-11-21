@@ -1,14 +1,14 @@
-# PROJECT_STATE: SDS-07 Servis Masası (Hafta 2 paketi)
+# PROJECT_STATE: SDS-07 Servis Masası (Hafta 3 paketi)
 
-**Son güncelleme:** 30.10.2026 (Europe/Istanbul). **Hafta 2: TAMAMLANDI**. **Sıradaki: Hafta 3**: talep oluşturma ve listeleme, kayıt bazlı erişim, kategoriler, modüler mimari.
+**Son güncelleme:** 30.10.2026 (Europe/Istanbul). **Hafta 3: TAMAMLANDI**. **Sıradaki: Hafta 4**: atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü.
 
-> Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırlandı. Kanıt dosyalarındaki tarihler gerçek koşu tarihleridir; geriye tarih atılmadı. Hafta 1 ve Hafta 2 kodu aynı gün yazıldı; bu paket o kodun Hafta 2 sonundaki anlık görüntüsüdür ve buradaki bütün test ve ölçümler bu anlık görüntü üzerinde koşuldu.
+> Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırlandı. Kanıt dosyalarındaki tarihler gerçek koşu tarihleridir; geriye tarih atılmadı. Hafta 3 kodu 30.10.2026 sabahı (İstanbul saatiyle yaklaşık 09:15-09:40) Hafta 2 paketinin üzerine yazıldı; bu paketteki bütün test ve ölçümler bu kod üzerinde koşuldu.
 
 ## 0. Belgelerin okunma sırası
 
-1. Bu dosyayı, sonra `docs/SRS.md` (§2.6 haftalık plan, §10 açık konular), `docs/SDD.md` ve `docs/RTM.md` dosyalarını okuyun.
-2. Kodun güncel kopyası: https://github.com/wordeus/sds07-servis-masasi (Hafta 2: `hafta-2` etiketi).
-3. Kurulum: `docs/INSTALL.md`. Testler ve RTM: `docs/TEST_PLAN.md §6`.
+1. Bu dosyayı, sonra `docs/SRS.md` (§2.6 haftalık plan, §7.2 sonraki haftalar, §10 açık konular), `docs/SDD.md` ve `docs/RTM.md` dosyalarını okuyun.
+2. Kodun güncel kopyası: https://github.com/wordeus/sds07-servis-masasi (Hafta 3: `hafta-3` etiketi).
+3. Kurulum: `docs/INSTALL.md`. Testler ve RTM: `docs/TEST_PLAN.md §6`. Yeni ekran eklerken: `docs/PROCEDURES.md` PRC-09.
 4. Yalnız aktif haftanın kapsamını uygulayın (proje talimatı). Gerçek kanıt kuralı geçerlidir: koşulmayan test NOT RUN, yapılmayan ölçüm ÖLÇÜLMEDİ.
 
 ## 1. Proje ve kapsam
@@ -22,87 +22,94 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | Django | 5.2.18 (5.2 LTS'nin PyPI'deki son yaması, 06.10.2026; uzatılmış destek Nisan 2028) |
 | Python | 3.13.18 ve 3.12.13 ile test edildi (Linux) |
 | Bootstrap | 5.3.8 (yerel dosya); yazı tipi IBM Plex Sans 5.3.0 (OFL, yerel) |
-| Diğer sabitler | asgiref 3.13.0, sqlparse 0.6.0, tzdata 2026.6 (yalnız Windows), coverage 7.17.0, ruff 0.17.3, playwright 1.63.0, lxml 6.1.3 |
+| Diğer sabitler | asgiref 3.13.0, sqlparse 0.6.0, tzdata 2026.6 (yalnız Windows), coverage 7.17.0, ruff 0.17.3, playwright 1.63.0, lxml 6.1.3. Hafta 3'te yeni bağımlılık eklenmedi. |
 | Standart baskıları | ISO 9001:2026, ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009 (Inactive-Reserved), ISO/IEC 25010:2023, IEEE 1012-2024. Ayrıntı: `docs/STANDARDS.md` |
 | Test ortamı | Linux (bulut sunucu), tarayıcı testleri için Playwright/Chromium. Windows'ta elle henüz çalıştırılmadı; Windows doğrulaması GitHub Actions ile yapılıyor. Depo: https://github.com/wordeus/sds07-servis-masasi |
 
-## 3. Hafta 2'de tamamlananlar
+## 3. Hafta 3'te tamamlananlar
 
 | İş | Çıktı | Kanıt |
 |---|---|---|
-| Giriş/çıkış (POST), güvenli `next`, genel hata mesajı | `config/urls.py`, `servicedesk/forms.py` | TC-AUTH-01..10 |
-| Rol grupları (post_migrate senkronizasyonu), rol-izin matrisi, sunucu tarafı yetki, rol menüsü, admin rol atama, demo komutu | `servicedesk/roles.py`, `views.py`, `admin.py`, `seed_demo_users.py`, migration 0002 | TC-ROLE-01..12, TC-SEED-01..02 |
-| CSRF ve oturum çerezi kuralları | `config/settings.py` | TC-SEC-02, TC-SEC-03 |
-| Arayüz: Türkçe, Bootstrap teması, giriş sayfası süreç paneli, 403/404/500/CSRF sayfaları, mobil tablo düzeni | `templates/`, `static/css/app.css` | TC-CFG-04, TC-E2E-01..09, ekran görüntüleri |
-| E2E betiği (port denetimli), mutasyon denetimi | `e2e/week2_auth_roles.py`, `tools/run_e2e.sh`, `tools/mutation_check.py` | `evidence/hafta-02/` |
-| SDD v0.1 (bağlam, bileşen, ER, durum, etkileşim), karar günlüğü KRR-01..KRR-10 | `docs/SDD.md`, `docs/diagrams/` | - |
-| SRS v0.2 (rol matrisi koddan), STANDARDS v0.2, RISKS v0.2, TEST_PLAN v0.2, kalite ölçümleri, prosedürler, kod rehberi | `docs/*.md`, `CHANGELOG.md` | - |
-| Rapor #2 (özgün şablon, beş başlık korunarak) | `docs/reports/Rapor-02_Hafta-2.docx` (+ `rapor-02.content.json`) | XSD doğrulaması |
+| Category ve Ticket modelleri, başlangıç kategorileri, talep numarası (`INC-000123`) | `servicedesk/models/ticket.py`, migration 0003 ve 0004 | TC-TKT-01, TC-CAT-01 |
+| Talep oluşturma, liste (filtre, 25'li sayfa), ayrıntı ve süreç şeridi | `services/tickets.py`, `views/tickets.py`, `forms.py`, şablonlar | TC-TKT-01..08, TC-E2E-10, TC-E2E-12 |
+| Kayıt bazlı erişim politikası (başkasının talebine 404) | `services/tickets.py::visible_tickets_for` | TC-TKT-04, 05, 07, TC-E2E-11, mutasyon M5/M6 |
+| Kategori ekleme ve pasifleştirme (Yönetici); Türkçe kurallı tekil ad | `views/categories.py`, `models/ticket.py::Category.clean`, `text.py` | TC-CAT-01..03, TC-E2E-13 |
+| `models/`, `services/`, `views/` katmanları ve mimari testleri | `servicedesk/tests/test_architecture.py` | TC-ARCH-01, TC-ARCH-02 |
+| Rol-izin matrisi Hafta 3 izinleri; menüde Talepler/Kategoriler; panelde durum özeti; destek kuyruğunda açık talepler | `roles.py`, şablonlar | TC-ROLE-13, TC-E2E-12 |
+| E2E iyileştirmeleri (DEBUG kapalı sunucu, gezinme bekleme) ve Hafta 3 senaryoları | `tools/run_e2e.sh`, `e2e/week3_tickets.py` | `evidence/hafta-03/e2e-*.json` |
+| Rapor aracının bölünmesi (19 → 4) | `tools/build_report.py` | `evidence/hafta-03/build-report-esdegerlik.txt` |
+| SRS v0.3, SDD v0.2, STANDARDS v0.3, RISKS v0.3, TEST_PLAN v0.3, PROCEDURES v0.3, kalite ölçümleri, kod rehberi | `docs/*.md`, `CHANGELOG.md` | - |
+| Rapor #3 (özgün şablon, beş başlık korunarak) | `docs/reports/Rapor-03_Hafta-3.docx` (+ `rapor-03.content.json`) | XSD doğrulaması |
+| Teslim öncesi kontrol: depo dışlama denetimi ve Windows çıktı kodlaması simülasyonu; iki hata bulundu ve düzeltildi (üç pakette `.gitignore` ve `ci.yml`) | `.gitignore`, `.github/workflows/ci.yml`, INSTALL §2 ve §7 | `evidence/hafta-03/teslim-oncesi/` (RSK-24, RSK-25) |
 
 ## 4. Gerçek test ve ölçüm sonuçları (30.10.2026)
 
 | Grup | Sonuç | Kaynak |
 |---|---|---|
-| Django birim/entegrasyon/sistem | 35/35 PASS (Python 3.13.18, Django 5.2.18) | `evidence/hafta-02/unit-results.json` |
-| Tarayıcı E2E (Chromium 153.0.8010.12) | 9/9 PASS | `evidence/hafta-02/e2e-results.json` |
-| Kapsam (üretim kodu, `-v 2`) | %92,08 (eşik %80) | `evidence/hafta-02/coverage.json` |
-| ruff | 0 bulgu (Hafta 1-2 kodunun ilk koşusunda 13, RSK-17) | `evidence/hafta-02/ruff.json` |
-| `check --deploy` (üretim) | 0 sorun, 1 gerekçeli susturma (W021) | `evidence/hafta-02/check-deploy.txt` |
-| Temiz kurulum (TC-INST-01) | Linux 3.12.13 ve 3.13.18 BAŞARILI | `evidence/hafta-02/install-check-linux-py31*.log` |
-| Mutasyon denetimi | 4/4 yakalandı (35 test) | `evidence/hafta-02/mutation-check.md` |
-| GitHub Actions (TC-CI-01) | Ubuntu ve Windows × Python 3.12 ve 3.13: 4/4 iş başarılı (02.11.2026, koşu #3, commit 6dd3dc9) | `evidence/hafta-02/ci-github-actions-2026-11-02.json`, `ci-kosu-3-ozet.png` |
-| RTM (`--week 2`) | Hafta 1-2'nin 23 gereksiniminin 23'ü PASS; 30 gereksinim PLANLANDI. Test kataloğu: 49 PASS | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
-| NOT RUN / ÖLÇÜLMEDİ | Windows'ta elle kurulum, Firefox E2E, performans (NFR-13), efor saatleri | - |
+| Django birim/entegrasyon/sistem/mimari | 49/49 PASS (Python 3.13.18, Django 5.2.18) | `evidence/hafta-03/unit-results.json` |
+| Tarayıcı E2E (Chromium 153.0.8010.12) | 13/13 PASS (9 Hafta 2 gerilemesi + 4 Hafta 3) | `evidence/hafta-03/e2e-results.json`, `e2e-week3-results.json` |
+| Kapsam (üretim kodu, `-v 2`) | %94,21 (eşik %80) | `evidence/hafta-03/coverage.json` |
+| ruff | 0 bulgu | `evidence/hafta-03/ruff.json` |
+| `check --deploy` (üretim) | 0 sorun, 1 gerekçeli susturma (W021) | `evidence/hafta-03/check-deploy.txt` |
+| Temiz kurulum (TC-INST-01) | Linux 3.12.13 ve 3.13.18 BAŞARILI | `evidence/hafta-03/install-check-linux-py31*.log` |
+| Mutasyon denetimi | 8/8 yakalandı (49 test) | `evidence/hafta-03/mutation-check.md` |
+| RTM (`--week 3`) | Hafta 1-3'ün 28 gereksiniminin 27'si PASS, 1'i KISMİ (NFR-11); 25 gereksinim PLANLANDI. Test kataloğu: 66 PASS, 1 NOT RUN (TC-CI-01) | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
+| Bu hafta bulunan sorunlar | RSK-21 (Türkçe büyük harf), RSK-22 (E2E giriş beklemesi), RSK-23 (E2E'de DEBUG 404 sayfası); üçü de kapandı | `docs/RISKS.md`, `evidence/hafta-03/` |
+| Teslim öncesi kontrolde bulunanlar | RSK-24: `.gitignore` raporları ve kanıt günlüklerini depo dışında bırakıyordu (kapandı). RSK-25: Windows'ta yönlendirilmiş çıktıda Türkçe karakter `UnicodeEncodeError` veriyordu; CI'a UTF-8 kipi eklendi; Hafta 1-2 CI koşularında Windows işleri geçti (kapandı) | `evidence/hafta-03/teslim-oncesi/` |
+| NOT RUN / ÖLÇÜLMEDİ | TC-CI-01 (GitHub yok), Windows kurulumu, Firefox E2E, performans (NFR-13), efor saatleri | - |
 
 ## 5. Açık işler
 
-- [x] Hafta 2'nin GitHub Actions sonucu TC-CI-01 kanıtı olarak eklendi (PASS, 02.11.2026, koşu #3, commit 6dd3dc9; Hafta 1: koşu #1, commit 29f962c).
-- [ ] Windows'ta kurulum ve testleri bir kez elle çalıştırıp sonucu kaydetmek (NFR-11).
+- [ ] Hafta 3'ün GitHub Actions sonucunu TC-CI-01 kanıtı olarak eklemek (Hafta 1: koşu #1, commit 29f962c; Hafta 2: koşu #3, commit 6dd3dc9; ikisinde de 4/4 iş başarılı).
+- [ ] Windows'ta kurulum ve testleri bir kez elle çalıştırıp sonucu kaydetmek (NFR-11, TC-INST-01). Çıktı dosyaya yönlendirilecekse önce `$env:PYTHONUTF8 = "1"` (RSK-25).
 - [ ] TC-INS-01 incelemesini tekrarlayıp onaylamak.
-- [ ] Açık konuları netleştirmek: yeniden açma akışı (AK-01), önceliği kimin seçeceği (AK-03). Standart baskıları için karar: en güncel baskılar (AK-05).
+- [ ] Açık konuları netleştirmek: yeniden açma akışı (AK-01), önceliği kimin seçeceği (AK-03; geçici karar KRR-13). Standart baskıları için karar: en güncel baskılar (AK-05).
 
 ## 6. Önemli kararlar
 
-KRR-01 tek proje + tek uygulama; KRR-02 özel User; KRR-03 iki ayar profili; KRR-04 JSON test sonucu + otomatik RTM; KRR-05 haftalık paketler ve `--week`; KRR-06 rol = grup, yetki = izin, matris kodda, `post_migrate` eşitleme; KRR-07 rol düzeyinde 403, kayıt düzeyinde 404; KRR-08 yerel Bootstrap/yazı tipi; KRR-09 çıkış yalnız POST; KRR-10 SLA için yönetim komutu + işletim sistemi zamanlayıcısı. Ayrıntı: SDD §9.
+KRR-01..KRR-10 (Hafta 1-2) ve Hafta 3'te eklenenler: KRR-11 katmanlı yapı ve mimari testleri; KRR-12 talep numarası birincil anahtardan; KRR-13 önceliği talep sahibi seçer (geçici); KRR-14 kategori silinmez, pasifleştirilir; KRR-15 E2E sunucusu DEBUG kapalı. Ayrıntı: SDD §9.
 
-## 7. Hafta 3 planı
+## 7. Hafta 4 planı
 
 | ID | İş | Gereksinim |
 |---|---|---|
-| PLN-01 | Ticket ve Category modelleri; talep oluşturma, listeleme, filtre (durum, öncelik, kategori, atanan), sayfalama (25) | FR-12, FR-13 |
-| PLN-02 | Kayıt bazlı erişim politikası (tek politika fonksiyonu), başkasının talebine doğrudan adresle 404 testleri | FR-14, RSK-08 |
-| PLN-03 | Kategori ekleme ve pasifleştirme (Yönetici) | FR-15 |
-| PLN-04 | `models/`, `services/`, `views/` paketleri; görünümlerin model sorgusunu doğrudan yapmadığını denetleyen mimari testi; SDD v0.2 | NFR-16 |
-| PLN-05 | GitHub + ilk CI koşusu + Windows doğrulaması | NFR-11, TC-CI-01 |
-| PLN-06 | RTM `--week 3`; Rapor #3 | - |
+| PLN-01 | Talebi üzerine alma (Destek Personeli) ve atama (Yönetici yalnız Destek Personeli rolüne) | FR-16 |
+| PLN-02 | Yorumlar: talep sahibi kendi talebine, personel ve yönetici tüm taleplere; Closed talebe yorum yok; yorum adresinde başkasının talebi için 404 | FR-17, FR-14, RSK-08 |
+| PLN-03 | İşlem geçmişinin ilk sürümü: oluşturma, atama, öncelik değişikliği; yalnız ekleme | FR-20 |
+| PLN-04 | Öncelik değişikliğini destek personeline açma (AK-03 / KRR-13) | FR-12, FR-20 |
+| PLN-05 | Windows'ta elle temiz kurulum doğrulaması (GitHub deposu ve CI koşuları tamamlandı) | NFR-11, TC-INST-01 |
+| PLN-06 | `e2e/week2_auth_roles.py::main` bölünmesi (RSK-07) | - |
+| PLN-07 | RTM `--week 4`; Rapor #4 | - |
 
-Hafta 3 başında yapılacaklar: Django 5.2.19 yayımlandıysa sürüm notlarını okuyup sabitlemeyi güncelleyin. `ROLE_PERMISSIONS`'a `add_ticket`, `view_ticket` ve benzeri izinleri ekleyin (PRC-07). `CURRENT_WEEK` değerini 3 yapın.
+Hafta 4 başında yapılacaklar: Django 5.2.19 yayımlandıysa sürüm notlarını okuyup sabitlemeyi güncelleyin. `CURRENT_WEEK` değerini 4 yapın; yorum ve atama izinlerini `ROLE_PERMISSIONS`'a ekleyin (PRC-07, PRC-09).
 
 ## 8. Bilinen teknik borç ve notlar
 
-- `tools/build_report.py::build` (19) ve `e2e/week2_auth_roles.py::main` (18) döngüsel karmaşıklık eşiğini aşıyor (RSK-07).
-- Destek kuyruğu ve yönetim paneli şimdilik yalnız erişim kontrollü iskelet sayfalardır.
+- `e2e/week2_auth_roles.py::main` döngüsel karmaşıklığı 18 (RSK-07, kısmen kapandı).
+- Kategori adı tekilliği uygulama düzeyinde (Türkçe kurallı) denetlenir; veritabanındaki `unique` kısıtı yalnız birebir aynı adı engeller. Aynı anda iki yöneticinin aynı adı farklı yazımla eklemesi teorik olarak mümkündür; kategori sayısı az ve işlem yalnız Yönetici rolünde olduğu için kabul edildi.
+- Talep ayrıntısındaki `form_valid` içindeki doğrulama hatası dalı (pasif kategori servis kontrolü) normal akışta formdan önce yakalandığı için kapsam dışında kaldı (`views/tickets.py` 67-69); savunma katmanıdır.
 - E2E çalıştırmadan önce açık sunucu olmadığını doğrulayın (RSK-20); `tools/run_e2e.sh` bunu denetler.
-- Kapsam değeri ayrıntı düzeyine göre değişir; resmî ölçüm `-v 2` iledir.
+- RSK-25'in kalıcı çözümü (komut çıktısının kod sayfasından bağımsız olması: `roles.py` eşitleme çıktısı, `tools/build_rtm.py` çıktısı) Hafta 4'te değerlendirilecek. O zamana kadar Windows'ta yönlendirilmiş çıktı için `PYTHONUTF8=1` gerekir.
 - Rapor şablonundaki "ŞABLONU" ifadesi, üst bilgiyi koruma kuralı nedeniyle olduğu gibi bırakıldı.
 
 ## 9. Dosya haritası
 
 ```
-config/settings.py           profiller, güvenlik, saat dilimi
-config/test_runner.py        TC sonuçlarını JSON'a yazan koşucu
-servicedesk/roles.py         roller, ROLE_PERMISSIONS, CAPABILITIES, CURRENT_WEEK, sync_role_groups
-servicedesk/views.py         panel, destek kuyruğu, yönetim paneli
-servicedesk/tests/           test_auth, test_roles, test_security, test_config, test_seed, test_tooling
-templates/                   base, partials, registration/login, 403/404/500/403_csrf
-e2e/week2_auth_roles.py      Playwright senaryoları (TC-E2E-01..09)
-tools/build_rtm.py           RTM + TEST_RESULTS üretici (--week)
-tools/run_e2e.sh             E2E koşu betiği (port denetimli)
-tools/install_check.sh       temiz kurulum denetimi (TC-INST-01)
-tools/mutation_check.py      mutasyon denetimi
-tools/build_report.py        Word rapor üretici (şablon + JSON içerik)
-docs/traceability/*.csv      gereksinim ve test kataloğu (RTM kaynağı)
-docs/evidence/hafta-01/      Hafta 1 koşu kayıtları
-docs/evidence/hafta-02/      Hafta 2 koşu kayıtları, ekran görüntüleri, ilk denemeler
-docs/reports/                Rapor #1 ve #2 (docx) ve içerik dosyaları
+config/settings.py              profiller, güvenlik, saat dilimi
+config/test_runner.py           TC sonuçlarını JSON'a yazan koşucu
+servicedesk/models/             user.py (User), ticket.py (Category, Ticket)
+servicedesk/services/tickets.py görünürlük politikası, talep, filtre, kategori, süreç şeridi
+servicedesk/views/              dashboard.py, tickets.py, categories.py
+servicedesk/forms.py            LoginForm, TicketForm, TicketFilterForm, CategoryForm
+servicedesk/roles.py            roller, ROLE_PERMISSIONS, CAPABILITIES, CURRENT_WEEK, sync_role_groups
+servicedesk/text.py             Türkçe kurallı karşılaştırma anahtarı
+servicedesk/tests/              test_auth, test_roles, test_security, test_config, test_seed, test_tooling,
+                                test_tickets, test_categories, test_architecture
+templates/, servicedesk/templates/  ortak şablonlar; tickets/, categories/
+e2e/week2_auth_roles.py         Playwright senaryoları TC-E2E-01..09 (ortak yardımcılar)
+e2e/week3_tickets.py            Playwright senaryoları TC-E2E-10..13
+tools/                          build_rtm.py, build_report.py, run_e2e.sh, install_check.sh, mutation_check.py
+docs/traceability/*.csv         gereksinim ve test kataloğu (RTM kaynağı)
+docs/evidence/hafta-01..03/     haftalık gerçek koşu kayıtları
+docs/reports/                   Rapor #1, #2, #3 (docx) ve içerik dosyaları
 ```

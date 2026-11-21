@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ ticket.number }}{% endblock %}
+
+{% block content %}
+<div class="sd-page-head sd-ticket-head">
+  <p class="sd-ticket-head__no" data-testid="ticket-number">{{ ticket.number }}</p>
+  <h1>{{ ticket.title }}</h1>
+  <p>{% include "partials/ticket_status.html" with status=ticket.status label=ticket.get_status_display %}</p>
+</div>
+
+<ol class="sd-steps" aria-label="Talebin süreçteki yeri" data-testid="ticket-steps">
+  {% for step in steps %}
+  <li class="sd-steps__item" data-state="{{ step.state }}" data-status="{{ step.code }}"{% if step.state == "current" %} aria-current="step"{% endif %}>
+    <span class="sd-steps__name">{{ step.label }}</span>
+    <span class="sd-steps__text">{% if step.state == "current" %}{{ step.text }}{% elif step.state == "done" %}Geçildi{% else %}Sırada{% endif %}</span>
+  </li>
+  {% endfor %}
+</ol>
+
+<div class="row g-4">
+  <section class="col-lg-8" aria-labelledby="aciklama-baslik">
+    <div class="sd-panel">
+      <h2 id="aciklama-baslik">Açıklama</h2>
+      <p class="sd-description" data-testid="ticket-description">{{ ticket.description }}</p>
+    </div>
+  </section>
+  <aside class="col-lg-4" aria-labelledby="bilgi-baslik">
+    <div class="sd-panel">
+      <h2 id="bilgi-baslik">Talep bilgileri</h2>
+      <dl class="sd-meta" data-testid="ticket-meta">
+        <dt>Öncelik</dt><dd>{{ ticket.get_priority_display }}</dd>
+        <dt>Kategori</dt><dd>{{ ticket.category.name }}</dd>
+        <dt>Talep sahibi</dt><dd>{{ ticket.requester.get_full_name|default:ticket.requester.username }}</dd>
+        <dt>Atanan</dt><dd>{% if ticket.assignee %}{{ ticket.assignee.get_full_name|default:ticket.assignee.username }}{% else %}Henüz atanmadı{% endif %}</dd>
+        <dt>Oluşturulma</dt><dd><time datetime="{{ ticket.created_at|date:'c' }}" data-testid="ticket-created">{{ ticket.created_at|date:"d.m.Y H:i" }}</time></dd>
+      </dl>
+      <p class="sd-muted sd-meta-note">Saatler İstanbul saatiyle gösterilir. Yorum ve atama Hafta 4'te, durum geçişleri Hafta 5'te bu sayfaya eklenecek.</p>
+    </div>
+  </aside>
+</div>
+
+<p class="sd-back"><a href="{% url 'servicedesk:ticket_list' %}">Talep listesine dön</a></p>
+{% endblock %}

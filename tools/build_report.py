@@ -8,7 +8,7 @@ vurguyla işaretlenir.
 
 Kullanım:
     python tools/build_report.py --template <şablon.docx> \
-        --content docs/reports/rapor-01.content.json --output docs/reports/Rapor-01_Hafta-1-2.docx
+        --content docs/reports/rapor-03.content.json --output docs/reports/Rapor-03_Hafta-3.docx
 
 Gereksinim: lxml (requirements-docs.txt). Standart xml kütüphanesi kullanılmaz; çünkü
 Word'ün mc:Ignorable ad alanı bildirimlerini korumaz.
@@ -233,32 +233,25 @@ def note_paragraph(base_paragraph, text: str):
 
 
 # --- Ana akış ------------------------------------------------------------------
-def build(template: Path, content: dict, output: Path) -> None:
-    with zipfile.ZipFile(template) as source:
-        entries = [(info, source.read(info.filename)) for info in source.infolist()]
-
-    files = {info.filename: data for info, data in entries}
-    root = etree.fromstring(files["word/document.xml"])
-    body = root.find("w:body", NS)
-    children = list(body)
+# build() küçük adımlara bölündü (Hafta 3, RSK-07): her adım tek iş yapar ve ayrı okunur.
+def _template_parts(root):
+    """Belge gövdesindeki tabloları ve "1. ".."5. " başlıklarını bulur."""
+    children = list(root.find("w:body", NS))
     tables = [c for c in children if etree.QName(c).localname == "tbl"]
     headings = {}
     for child in children:
-        if etree.QName(child).localname == "p":
-            match = re.match(r"^([1-5])\. ", text_of(child))
-            if match:
-                headings[int(match.group(1))] = child
+        match = re.match(r"^([1-5])\. ", text_of(child)) if etree.QName(child).localname == "p" else None
+        if match:
+            headings[int(match.group(1))] = child
     if sorted(headings) != [1, 2, 3, 4, 5]:
         raise ValueError(f"Şablonda beş başlık bulunamadı: {sorted(headings)}")
-    for heading in headings.values():
-        keep_with_next(heading)  # Başlık sayfa sonunda tablosundan ayrı kalmasın
-    banner_text = text_of(tables[0])
-    if content["template_check"]["banner_contains"] not in banner_text:
-        raise ValueError("Şablon üst bilgi bandı beklenen metni içermiyor.")
+    return tables, headings
 
-    # Bilgi tablosu: etiket hücresinin sağındaki değer hücresi doldurulur.
-    pending = dict(content["info"])
-    for row in tables[1].findall("w:tr", NS):
+
+def _fill_info(info_table, info: dict) -> None:
+    """Bilgi tablosu: etiket hücresinin sağındaki değer hücresi doldurulur."""
+    pending = dict(info)
+    for row in info_table.findall("w:tr", NS):
         cells = row.findall("w:tc", NS)
         for label_cell, value_cell in zip(cells[0::2], cells[1::2], strict=True):
             label = text_of(label_cell).strip()
@@ -267,52 +260,75 @@ def build(template: Path, content: dict, output: Path) -> None:
     if pending:
         raise ValueError(f"Bilgi tablosunda bulunamayan alanlar: {list(pending)}")
 
-    # 1. Dönem özeti: başlıktan sonraki yer tutucu paragraf
-    placeholder = headings[1].getnext()
+
+def _fill_summary(placeholder, paragraphs: list[str]) -> None:
+    """1. Dönem özeti: başlıktan sonraki yer tutucu paragraf ve gerekirse kopyaları."""
     base_rpr = first_text_rpr(placeholder)
     previous = placeholder
-    for index, paragraph_text in enumerate(content["summary"]):
+    for index, paragraph_text in enumerate(paragraphs):
         target = placeholder if index == 0 else copy.deepcopy(placeholder)
         fill_paragraph(target, paragraph_text, base_rpr, italic=False)
         if index:
             previous.addnext(target)
         previous = target
 
-    # 2-5. Tablolar ve notlar
+
+def _fill_sections(headings: dict, specs: dict, note_template) -> None:
+    """2-5. Başlıktan sonraki tablo doldurulur; notlar tablonun altına eklenir."""
     for section in (2, 3, 4, 5):
         table = headings[section].getnext()
         if etree.QName(table).localname != "tbl":
             raise ValueError(f"{section}. başlıktan sonra tablo yok.")
-        spec = content["tables"][str(section)]
+        spec = specs[str(section)]
         fill_table(table, spec)
         anchor = table
         for note in spec.get("notes", []):
-            paragraph = note_paragraph(placeholder, note)
+            paragraph = note_paragraph(note_template, note)
             anchor.addnext(paragraph)
             anchor = paragraph
 
-    files["word/document.xml"] = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
-    # Belge özellikleri
-    core = etree.fromstring(files["docProps/core.xml"])
+def _core_properties(core_xml: bytes, core: dict) -> bytes:
+    root = etree.fromstring(core_xml)
     core_ns = {
         "dc": "http://purl.org/dc/elements/1.1/",
         "cp": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
         "dcterms": "http://purl.org/dc/terms/",
     }
     now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-    for xpath, value in (
-        ("dc:title", content["core"]["title"]),
-        ("dc:creator", content["core"]["creator"]),
-        ("dc:description", content["core"]["description"]),
-        ("cp:lastModifiedBy", content["core"]["creator"]),
+    values = (
+        ("dc:title", core["title"]),
+        ("dc:creator", core["creator"]),
+        ("dc:description", core["description"]),
+        ("cp:lastModifiedBy", core["creator"]),
         ("dcterms:created", now),
         ("dcterms:modified", now),
-    ):
-        element = core.find(xpath, core_ns)
+    )
+    for xpath, value in values:
+        element = root.find(xpath, core_ns)
         if element is not None:
             element.text = value
-    files["docProps/core.xml"] = etree.tostring(core, xml_declaration=True, encoding="UTF-8", standalone=True)
+    return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+
+def build(template: Path, content: dict, output: Path) -> None:
+    with zipfile.ZipFile(template) as source:
+        entries = [(info, source.read(info.filename)) for info in source.infolist()]
+    files = {info.filename: data for info, data in entries}
+
+    root = etree.fromstring(files["word/document.xml"])
+    tables, headings = _template_parts(root)
+    for heading in headings.values():
+        keep_with_next(heading)  # Başlık sayfa sonunda tablosundan ayrı kalmasın
+    if content["template_check"]["banner_contains"] not in text_of(tables[0]):
+        raise ValueError("Şablon üst bilgi bandı beklenen metni içermiyor.")
+
+    _fill_info(tables[1], content["info"])
+    placeholder = headings[1].getnext()
+    _fill_summary(placeholder, content["summary"])
+    _fill_sections(headings, content["tables"], placeholder)
+    files["word/document.xml"] = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+    files["docProps/core.xml"] = _core_properties(files["docProps/core.xml"], content["core"])
 
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as target:

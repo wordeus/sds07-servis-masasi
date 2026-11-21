@@ -2,7 +2,7 @@
 
 ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. İstanbul Kültür Üniversitesi "Software Development with Standards" dersi kapsamında Burak Nigiz (2100002062) tarafından geliştirilmektedir (tek kişilik proje).
 
-**Durum: Hafta 2 paketi (sürüm 0.2.0).** Hafta 1 altyapısının üzerine giriş/çıkış, üç rol grubu, sunucu tarafı yetkilendirme, Türkçe arayüz ve tarayıcı (E2E) testleri eklendi; SDD v0.1 hazırlandı. Talep işlemleri Hafta 3'te eklenir. Güncel durum: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md).
+**Durum: Hafta 3 paketi (sürüm 0.3.0).** Talep oluşturma, listeleme (durum, öncelik, kategori, atanan filtresi; sayfa başına 25), kayıt bazlı erişim (talep sahibi yalnız kendi taleplerini görür; başkasının talebine 404), kategori ekleme ve pasifleştirme eklendi. Kod `models/`, `services/`, `views/` katmanlarına ayrıldı; katman kuralı testle denetlenir. SDD v0.2 hazırlandı. Atama ve yorumlar Hafta 4'te eklenir. Güncel durum: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md).
 
 ## Teknoloji
 
@@ -25,9 +25,12 @@ Ayrıntılı kurulum, Linux adımları, demo kullanıcılar ve testler: [docs/IN
 
 ```
 config/                 Django proje ayarları, URL'ler, izlenebilir test koşucusu
-servicedesk/            Uygulama (MOD-AUTH, MOD-ROLE, MOD-UI)
+servicedesk/            Uygulama (MOD-AUTH, MOD-ROLE, MOD-UI, MOD-TICKET)
+  models/               Veri: User, Category, Ticket
+  services/             İş kuralları: görünürlük politikası, talep, filtre, kategori
+  views/                Görünümler: panel, talepler, kategoriler
   roles.py              Rol tanımları, rol-izin matrisi, grup senkronizasyonu
-  tests/                TC kimlikli birim ve entegrasyon testleri
+  tests/                TC kimlikli birim, entegrasyon ve mimari testler
 templates/              Ortak şablonlar, giriş ve hata sayfaları
 static/                 app.css, Bootstrap 5.3.8 ve IBM Plex Sans (yerel)
 e2e/                    Playwright tarayıcı senaryoları
@@ -43,14 +46,14 @@ docs/                   SRS, SDD, RTM, test planı ve sonuçları, riskler, stan
 |---|---|
 | [SRS](docs/SRS.md) | Kapsam, roller, FR/NFR, SLA/KPI kuralları, kabul kriterleri, haftalık plan |
 | [SDD](docs/SDD.md) | Bağlam, bileşim/mantık, bilgi (ER), durum görünümleri; karar günlüğü |
-| [RTM](docs/RTM.md) | Gereksinim → modül → test → gerçek sonuç (otomatik üretilir, `--week 2`) |
+| [RTM](docs/RTM.md) | Gereksinim → modül → test → gerçek sonuç (otomatik üretilir, `--week 3`) |
 | [Test planı](docs/TEST_PLAN.md) / [Sonuçlar](docs/TEST_RESULTS.md) | V&V yaklaşımı ve gerçek sonuçlar |
 | [Riskler](docs/RISKS.md) | Yaşanan sorunlar ve riskler |
 | [Standartlar](docs/STANDARDS.md) | Kullanılan baskılar, resmî bağlantılar, madde doğrulama durumu |
 | [Kalite ölçümleri](docs/QUALITY_METRICS.md) | ISO/IEC 25010:2023 ile ilişkili ölçümler |
 | [Prosedürler](docs/PROCEDURES.md) | Dal, commit, inceleme, belge kontrolü, E2E koşu kuralları |
-| [Kod rehberi](docs/KOD_REHBERI.md) | Hafta 1-2 kodunun sunumda anlatılacak özeti, vize malzemesi |
-| [Rapor 1](docs/reports/Rapor-01_Hafta-1.docx) / [Rapor 2](docs/reports/Rapor-02_Hafta-2.docx) | Haftalık ilerleme raporları |
+| [Kod rehberi](docs/KOD_REHBERI.md) | Hafta 1-3 kodunun sunumda anlatılacak özeti, vize malzemesi |
+| [Rapor 1](docs/reports/Rapor-01_Hafta-1.docx) / [Rapor 2](docs/reports/Rapor-02_Hafta-2.docx) / [Rapor 3](docs/reports/Rapor-03_Hafta-3.docx) | Haftalık ilerleme raporları |
 | [Kanıtlar](docs/evidence/) | Haftalara göre test JSON'ları, günlükler, ekran görüntüleri, mutasyon denetimi |
 | [Değişiklik günlüğü](CHANGELOG.md) | Sürüm geçmişi |
 

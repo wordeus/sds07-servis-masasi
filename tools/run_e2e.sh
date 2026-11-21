@@ -3,7 +3,7 @@
 #
 # 1) Port boş mu? (Eski bir sunucu açık kalırsa testler eski kodla koşar; Hafta 2'de yaşandı, RSK-08.)
 # 2) Geçici veritabanı + migrate + rastgele parolayla demo kullanıcılar
-# 3) Sunucuyu başlat, hazır olmasını bekle, E2E betiğini koş
+# 3) Sunucuyu başlat, hazır olmasını bekle, E2E betiklerini koş (Hafta 2 ve Hafta 3)
 # 4) Sunucuyu kapat ve portun boşaldığını doğrula
 set -euo pipefail
 
@@ -13,6 +13,7 @@ PYTHON="${PYTHON:-python}"
 E2E_PYTHON="${E2E_PYTHON:-$PYTHON}"
 OUT_DIR="${E2E_OUT_DIR:-reports/screenshots}"
 RESULTS="${E2E_RESULTS:-reports/e2e-results.json}"
+RESULTS_W3="${E2E_RESULTS_W3:-reports/e2e-week3-results.json}"
 TMP_DIR="$(mktemp -d)"
 export DJANGO_SQLITE_PATH="$TMP_DIR/e2e.sqlite3"
 export E2E_PASSWORD="E2e-$("$PYTHON" -c 'import secrets; print(secrets.token_urlsafe(12))')"
@@ -27,7 +28,10 @@ fi
 "$PYTHON" manage.py migrate -v 0
 "$PYTHON" manage.py seed_demo_users --password "$E2E_PASSWORD" > /dev/null
 
-"$PYTHON" manage.py runserver "127.0.0.1:$PORT" --noreload > "$TMP_DIR/server.log" 2>&1 &
+# Sunucu DEBUG kapalı çalışır: kullanıcı, özel hata sayfalarını (403/404) üretimdeki gibi görür.
+# DEBUG açıkken Django 404 için kendi hata ayıklama sayfasını gösterir (Hafta 3'te bulundu, RSK-23).
+# --insecure: DEBUG kapalıyken statik dosyaları yalnız bu yerel test sunucusunda sunar.
+DJANGO_DEBUG=0 "$PYTHON" manage.py runserver "127.0.0.1:$PORT" --noreload --insecure > "$TMP_DIR/server.log" 2>&1 &
 SERVER_PID=$!
 cleanup() {
   kill "$SERVER_PID" 2> /dev/null || true
@@ -43,8 +47,12 @@ done
 port_in_use || { echo "HATA: sunucu başlamadı"; cat "$TMP_DIR/server.log"; exit 4; }
 
 set +e
+# Hafta 2 senaryoları önce (gerileme), ardından Hafta 3 senaryoları aynı sunucuya karşı koşulur.
 "$E2E_PYTHON" e2e/week2_auth_roles.py --base-url "http://127.0.0.1:$PORT" --out-dir "$OUT_DIR" --results-json "$RESULTS"
 STATUS=$?
+"$E2E_PYTHON" e2e/week3_tickets.py --base-url "http://127.0.0.1:$PORT" --out-dir "$OUT_DIR" --results-json "$RESULTS_W3"
+STATUS_W3=$?
+[ "$STATUS" -eq 0 ] && STATUS=$STATUS_W3
 set -e
 
 cleanup

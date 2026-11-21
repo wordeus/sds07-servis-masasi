@@ -4,12 +4,22 @@
 {% block content %}
 <div class="sd-page-head">
   <h1>Destek kuyruğu</h1>
-  <p class="sd-lead">Destek Personeli ve Yönetici rollerine açık çalışma alanı.</p>
+  <p class="sd-lead">Açık talepler, en eski talep en üstte. Destek Personeli ve Yönetici rollerine açık çalışma alanı.</p>
 </div>
 
-<div class="sd-panel sd-empty" data-testid="support-workspace">
-  <h2>Kuyrukta henüz talep yok</h2>
-  <p>Talep kayıtları Hafta 3'te bu listeye gelecek. Her satırda kategori, öncelik, atanan kişi ve durum yer alacak.</p>
-  <p class="sd-muted">Bu sayfaya erişim, sunucuda <code>access_support_workspace</code> izniyle denetlenir.</p>
+<div class="sd-panel{% if not queue %} sd-empty{% else %} sd-panel--flush{% endif %}" data-testid="support-workspace">
+  {% if queue %}
+  {% include "servicedesk/tickets/_table.html" with tickets=queue show_requester=True caption="Açık talepler" %}
+  {% else %}
+  <h2>Kuyrukta açık talep yok</h2>
+  <p>Yeni açılan talepler burada listelenir. Üstlenme ve atama Hafta 4'te eklenecek.</p>
+  {% endif %}
 </div>
+{% if queue %}
+<p class="sd-pager" data-testid="queue-total">
+  <span>{{ queue_total }} açık talep{% if queue_total > queue|length %}; en eski {{ queue|length }} tanesi gösteriliyor{% endif %}.</span>
+  <a href="{% url 'servicedesk:ticket_list' %}?status=OPEN">Açık talepleri listede filtrele</a>
+</p>
+{% endif %}
+<p class="sd-muted">Bu sayfaya erişim, sunucuda <code>access_support_workspace</code> izniyle denetlenir.</p>
 {% endblock %}

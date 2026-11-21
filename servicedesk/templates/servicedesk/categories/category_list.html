@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Kategoriler{% endblock %}
+
+{% block content %}
+<div class="sd-page-head">
+  <h1>Kategoriler</h1>
+  <p class="sd-lead">Talepler bu kategorilerle sınıflanır. Kategori silinmez; pasifleştirilen kategori yeni talep formunda listelenmez, eski talepler kategorisini korur.</p>
+</div>
+
+<div class="row g-4">
+  <section class="col-lg-8" aria-labelledby="liste-baslik">
+    <div class="sd-panel">
+      <h2 id="liste-baslik">Kategori listesi</h2>
+      <div class="table-responsive">
+      <table class="table sd-table sd-categories" data-testid="category-table">
+        <thead>
+          <tr><th scope="col">Kategori</th><th scope="col">Talep</th><th scope="col">Durum</th><th scope="col"><span class="visually-hidden">İşlem</span></th></tr>
+        </thead>
+        <tbody>
+          {% for category in categories %}
+          <tr data-category="{{ category.name }}">
+            <td data-label="Kategori"><span class="sd-cell-title">{{ category.name }}</span>{% if category.description %}<span class="sd-cell-sub">{{ category.description }}</span>{% endif %}</td>
+            <td data-label="Talep" class="sd-cell-meta">{{ category.ticket_count }}</td>
+            <td data-label="Durum">{% if category.is_active %}<span class="sd-chip sd-chip--on">Etkin</span>{% else %}<span class="sd-chip">Pasif</span>{% endif %}</td>
+            <td data-label="İşlem">
+              <form method="post" action="{% url 'servicedesk:category_toggle' category.pk %}">
+                {% csrf_token %}
+                {% if category.is_active %}
+                <input type="hidden" name="active" value="0">
+                <button type="submit" class="btn btn-sm btn-outline-dark" data-action="deactivate">Pasifleştir</button>
+                {% else %}
+                <input type="hidden" name="active" value="1">
+                <button type="submit" class="btn btn-sm btn-outline-dark" data-action="activate">Etkinleştir</button>
+                {% endif %}
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+  <aside class="col-lg-4" aria-labelledby="ekle-baslik">
+    <div class="sd-panel">
+      <h2 id="ekle-baslik">Kategori ekle</h2>
+      <form method="post" novalidate data-testid="category-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}<div class="sd-field-error" id="{{ field.name }}-hata">{{ error }}</div>{% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Kategoriyi ekle</button>
+      </form>
+    </div>
+  </aside>
+</div>
+{% endblock %}

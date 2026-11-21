@@ -14,6 +14,12 @@
             <a class="nav-link{% if current == 'dashboard' %} active{% endif %}"{% if current == 'dashboard' %} aria-current="page"{% endif %}
                href="{% url 'servicedesk:dashboard' %}">Panelim</a>
           </li>
+          {% if perms.servicedesk.view_ticket %}
+          <li class="nav-item">
+            <a class="nav-link{% if current in ticket_pages %} active{% endif %}"{% if current in ticket_pages %} aria-current="page"{% endif %}
+               href="{% url 'servicedesk:ticket_list' %}" data-nav="tickets">Talepler</a>
+          </li>
+          {% endif %}
           {% if perms.servicedesk.access_support_workspace %}
           <li class="nav-item">
             <a class="nav-link{% if current == 'support_workspace' %} active{% endif %}"{% if current == 'support_workspace' %} aria-current="page"{% endif %}
@@ -24,6 +30,12 @@
           <li class="nav-item">
             <a class="nav-link{% if current == 'manager_panel' %} active{% endif %}"{% if current == 'manager_panel' %} aria-current="page"{% endif %}
                href="{% url 'servicedesk:manager_panel' %}" data-nav="manager">Yönetim paneli</a>
+          </li>
+          {% endif %}
+          {% if perms.servicedesk.view_category %}
+          <li class="nav-item">
+            <a class="nav-link{% if current == 'category_list' %} active{% endif %}"{% if current == 'category_list' %} aria-current="page"{% endif %}
+               href="{% url 'servicedesk:category_list' %}" data-nav="categories">Kategoriler</a>
           </li>
           {% endif %}
           {% if user.is_staff %}

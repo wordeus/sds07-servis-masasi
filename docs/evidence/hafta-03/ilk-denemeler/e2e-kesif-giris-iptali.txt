@@ -1,0 +1,8 @@
+# 30.10.2026 06:29 UTC (hata ekran görüntüsünün zamanı) | Hafta 3 tarayıcı keşif koşusu (scratch betik, Playwright/Chromium, port 8781)
+# Kaynak: koşunun konsol çıktısı; betik geçici çalışma alanındaydı, çıktının ilgili satırları buraya aktarıldı.
+# Giriş adımı Hafta 2 E2E yardımcısıyla aynı kalıptaydı: page.click(...) ardından page.wait_for_load_state("networkidle").
+HATA TimeoutError http://127.0.0.1:8781/hesap/giris/?next=/talepler/yeni/
+playwright._impl._errors.TimeoutError: Page.fill: Timeout 30000ms exceeded.
+# Yorum: giriş gönderildikten hemen sonra çağrılan page.goto("/talepler/yeni/") giriş gezinmesini iptal etti;
+# oturum açılmadığı için istek giriş sayfasına yönlendi. Aynı kullanıcı ve parolayla tek başına koşulan giriş denemesi
+# başarılıydı ("after login url: http://127.0.0.1:8781/"). Düzeltme: with page.expect_navigation(): page.click(...) (RSK-22).

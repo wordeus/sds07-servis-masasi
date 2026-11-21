@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Yeni talep{% endblock %}
+
+{% block content %}
+<div class="sd-page-head">
+  <h1>Yeni talep</h1>
+  <p class="sd-lead">Sorunu tarif edin. Talebe bir numara verilir ve durumu Açık olarak başlar.</p>
+</div>
+
+<div class="row g-4">
+  <section class="col-lg-8">
+    <div class="sd-panel">
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger" role="alert">{% for error in form.non_field_errors %}{{ error }} {% endfor %}</div>
+      {% endif %}
+      <form method="post" novalidate data-testid="ticket-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+          {% for error in field.errors %}<div class="sd-field-error" id="{{ field.name }}-hata">{{ error }}</div>{% endfor %}
+        </div>
+        {% endfor %}
+        <div class="sd-form-actions">
+          <button type="submit" class="btn btn-primary">Talebi gönder</button>
+          <a href="{% url 'servicedesk:ticket_list' %}">Vazgeç</a>
+        </div>
+      </form>
+    </div>
+  </section>
+  <aside class="col-lg-4">
+    <div class="sd-panel">
+      <h2>Gönderdikten sonra</h2>
+      <ul class="sd-links">
+        <li><strong>Numara verilir.</strong><span>Talebinizi INC ile başlayan numarayla izlersiniz.</span></li>
+        <li><strong>Durum Açık olur.</strong><span>Destek personeli talebi kuyrukta görür.</span></li>
+        <li><strong>Yalnız siz ve destek ekibi görür.</strong><span>Diğer talep sahipleri talebinize erişemez.</span></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+{% endblock %}

@@ -2,6 +2,28 @@
 
 Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımını, sürüm numaraları anlamsal sürümlemeyi izler. Her haftalık paket bir sürümdür.
 
+## [0.3.0] - 2026-10-30 (Hafta 3, yayımlanmadı)
+
+### Eklendi
+- Category ve Ticket modelleri (migration 0003) ve başlangıç kategorileri (veri migration'ı 0004); talep numarası `INC-000123` birincil anahtardan türetilir.
+- Talep oluşturma (`/talepler/yeni/`), listeleme ve filtreleme (durum, öncelik, kategori, atanan; sayfa başına 25), talep ayrıntısı ve süreç şeridi.
+- Kayıt bazlı erişim politikası (`services/tickets.py::visible_tickets_for`): talep sahibi yalnız kendi taleplerini görür; başkasının talebine 404.
+- Kategori ekleme ve pasifleştirme (`/kategoriler/`, yalnız Yönetici); kategori silinmez.
+- Destek kuyruğunda açık talepler; panelde talep durum özeti; menüde Talepler ve Kategoriler bağlantıları.
+- Rol-izin matrisine talep ve kategori izinleri; `CURRENT_WEEK = 3`.
+- 14 yeni TC kimlikli Django testi (toplam 49): TC-TKT-01..08, TC-CAT-01..03, TC-ARCH-01..02, TC-ROLE-13; 4 yeni tarayıcı senaryosu (`e2e/week3_tickets.py`, TC-E2E-10..13); 4 yeni mutasyon (toplam 8).
+- SDD v0.2 (katmanlı yapı, kayıt düzeyi erişim diyagramı, KRR-11..KRR-15); SRS v0.3, STANDARDS v0.3, RISKS v0.3, TEST_PLAN v0.3, PROCEDURES v0.3; Rapor #3.
+
+### Değişti
+- `models.py` → `models/` paketi, `views.py` → `views/` paketi; iş kuralları `services/` paketinde (NFR-16).
+- E2E sunucusu `DJANGO_DEBUG=0` ve `--insecure` ile çalışır (RSK-23); E2E giriş yardımcısı gezinmeyi bekler (RSK-22).
+- `tools/build_report.py::build` küçük fonksiyonlara bölündü (19 → 4); çıktı bayt bayt aynı (RSK-07).
+
+### Düzeltildi
+- Kategori adı tekilliğinin Türkçe büyük harfleri (I/ı, İ/i) kaçırması (RSK-21).
+- Teslim öncesi kontrol (30.10.2026): `.gitignore`'daki `reports/` ve `*.log` kalıpları `docs/reports/` altındaki raporları ve `docs/evidence/` altındaki kurulum günlüklerini depo dışında bırakıyordu; kalıp köke bağlandı ve kanıt günlükleri için istisna eklendi (RSK-24). Aynı düzeltme Hafta 1 ve 2 paketlerine de uygulandı.
+- Teslim öncesi kontrol (30.10.2026): Windows'ta yönlendirilmiş çıktıda Türkçe karakterlerin `UnicodeEncodeError` vermesi; CI'a Python UTF-8 kipi (`PYTHONUTF8: "1"`) eklendi, INSTALL.md'ye Windows notu yazıldı (RSK-25). Aynı CI ayarı Hafta 1 ve 2 paketlerine de eklendi.
+
 ## [0.2.0] - 2026-10-30 (Hafta 2, yayımlanmadı)
 
 ### Eklendi
@@ -15,11 +37,6 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımın
 
 ### Değişti
 - Kök adres yönetim sitesi yerine kullanıcı paneline yönlenir.
-
-### Düzeltildi (teslim öncesi kontrol, 30.10.2026)
-Hafta 3 paketinin teslim öncesi kontrolünde bulundu ve ilk commit'ten önce bu pakete de uygulandı. Kod ve testler değişmedi. Ayrıntı ve kanıt Hafta 3 paketindedir: RISKS.md (RSK-24, RSK-25) ve docs/evidence/hafta-03/teslim-oncesi klasörü.
-- `.gitignore`: `reports/` ve `*.log` kalıpları `docs/reports/` altındaki raporları ve `docs/evidence/` altındaki kurulum günlüklerini de dışlıyordu; kalıp köke bağlandı (`/reports/`) ve kanıt günlükleri için istisna eklendi.
-- CI: Windows işlerinde Türkçe karakterli çıktının `UnicodeEncodeError` vermemesi için Python UTF-8 kipi (`PYTHONUTF8: "1"`) eklendi.
 
 ## [0.1.0] - 2026-10-30 (Hafta 1, yayımlanmadı)
 

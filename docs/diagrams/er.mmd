@@ -37,18 +37,28 @@ erDiagram
     int id PK
     string codename "access_support_workspace vb."
   }
-  TICKET {
+  CATEGORY {
     bigint id PK
-    string number UK "INC-000123 (Hafta 3)"
-    string title
+    string name UK "Türkçe kurallı tekil (Hafta 3)"
+    string description
+    bool is_active "silinmez, pasifleştirilir"
+    datetime created_at "UTC"
+  }
+  TICKET {
+    bigint id PK "numara = INC-{id:06d} (hesaplanır)"
+    string title "5-200 karakter"
     text description
     string status "OPEN | IN_PROGRESS | RESOLVED | CLOSED"
     string priority "P1..P4"
+    bigint category_id FK "PROTECT"
+    bigint requester_id FK "PROTECT"
+    bigint assignee_id FK "boş olabilir"
     datetime created_at "UTC"
-    datetime first_response_at "UTC"
-    datetime resolved_at "UTC"
-    datetime closed_at "UTC"
-    bool escalated
+    datetime updated_at "UTC"
+    datetime first_response_at "UTC (Hafta 5)"
+    datetime resolved_at "UTC (Hafta 5)"
+    datetime closed_at "UTC (Hafta 5)"
+    bool escalated "Hafta 8"
   }
   SLA_EVENT {
     bigint id PK

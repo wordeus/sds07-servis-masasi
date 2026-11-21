@@ -1,0 +1,4 @@
+# koşu (UTC): 2026-10-30T06:38:52Z | Python 3.13.18 | Django 5.2.18
+$ DJANGO_ENV=production DJANGO_ALLOWED_HOSTS=sds07.example DJANGO_SECRET_KEY=<rastgele> python manage.py check --deploy --fail-level WARNING
+System check identified no issues (1 silenced).
+çıkış kodu: 0

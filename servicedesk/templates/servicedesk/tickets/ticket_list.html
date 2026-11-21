@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Talepler{% endblock %}
+
+{% block content %}
+<div class="sd-page-head sd-page-head--split">
+  <div>
+    <h1>Talepler</h1>
+    <p class="sd-lead" data-testid="list-scope">{% if sees_all %}Sistemdeki bütün talepler.{% else %}Açtığınız talepler. Başkalarının talepleri bu listede görünmez.{% endif %}</p>
+  </div>
+  {% if perms.servicedesk.add_ticket %}
+  <a class="btn btn-primary" href="{% url 'servicedesk:ticket_create' %}" data-testid="new-ticket">Yeni talep</a>
+  {% endif %}
+</div>
+
+<form method="get" class="sd-filter" data-testid="ticket-filter" aria-label="Talepleri filtrele">
+  {% for field in filter_form %}
+  <div class="sd-filter__field">
+    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+  </div>
+  {% endfor %}
+  <div class="sd-filter__actions">
+    <button type="submit" class="btn btn-outline-dark">Filtrele</button>
+    {% if is_filtered %}<a href="{% url 'servicedesk:ticket_list' %}">Filtreyi temizle</a>{% endif %}
+  </div>
+</form>
+
+{% if tickets %}
+<div class="sd-panel sd-panel--flush">
+  {% include "servicedesk/tickets/_table.html" with show_requester=sees_all caption="Talepler" %}
+</div>
+<nav class="sd-pager" aria-label="Sayfalar" data-testid="pager">
+  <span>{{ paginator.count }} talep{% if paginator.num_pages > 1 %}, sayfa {{ page_obj.number }} / {{ paginator.num_pages }}{% endif %}</span>
+  {% if is_paginated %}
+  <span class="sd-pager__links">
+    {% if page_obj.has_previous %}<a href="?{% if filter_query %}{{ filter_query }}&amp;{% endif %}page={{ page_obj.previous_page_number }}" rel="prev">Önceki sayfa</a>{% endif %}
+    {% if page_obj.has_next %}<a href="?{% if filter_query %}{{ filter_query }}&amp;{% endif %}page={{ page_obj.next_page_number }}" rel="next">Sonraki sayfa</a>{% endif %}
+  </span>
+  {% endif %}
+</nav>
+{% else %}
+<div class="sd-panel sd-empty" data-testid="ticket-empty">
+  {% if is_filtered %}
+  <h2>Bu filtreye uyan talep yok</h2>
+  <p>Ölçütlerden birini değiştirin veya <a href="{% url 'servicedesk:ticket_list' %}">filtreyi temizleyin</a>.</p>
+  {% elif sees_all %}
+  <h2>Sistemde henüz talep yok</h2>
+  <p>Talep sahipleri talep açtığında burada listelenecek.</p>
+  {% else %}
+  <h2>Henüz talep açmadınız</h2>
+  <p>Bir sorun yaşadığınızda yeni talep açın; numarası ve durumu burada görünür.</p>
+  {% if perms.servicedesk.add_ticket %}<a class="btn btn-primary" href="{% url 'servicedesk:ticket_create' %}">Yeni talep</a>{% endif %}
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

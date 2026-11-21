@@ -1,0 +1,3 @@
+# koşu (UTC): 2026-10-30T06:38:28Z | RSK-07: tools/build_report.py::build bölündü (19 -> 4). Eski (Hafta 2) ve yeni (Hafta 3) araçla aynı içerikten üretilen .docx dosyalarının bütün parçaları karşılaştırıldı.
+rapor-01.content.json: parça sayısı 17 | içeriği farklı parça: yok (bayt bayt aynı)
+rapor-02.content.json: parça sayısı 17 | içeriği farklı parça: yok (bayt bayt aynı)

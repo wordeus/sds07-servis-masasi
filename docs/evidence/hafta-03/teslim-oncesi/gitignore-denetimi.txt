@@ -1,0 +1,57 @@
+### .gitignore denetimi (düzeltme öncesi) | 2026-10-30T10:35:44Z | git 2.43.0
+Yöntem: paket boş bir git deposuna kopyalandı; 'git status --porcelain --ignored' ile yok sayılacak dosyalar listelendi.
+--- Hafta 1 paketi: yok sayılan yollar
+    docs/evidence/hafta-01/install-check-linux-py312.log
+    docs/evidence/hafta-01/install-check-linux-py313.log
+    docs/reports/
+    docs/reports/ içindeki dosyalar: Rapor-01_Hafta-1.docx rapor-01.content.json 
+--- Hafta 2 paketi: yok sayılan yollar
+    docs/evidence/hafta-01/install-check-linux-py312.log
+    docs/evidence/hafta-01/install-check-linux-py313.log
+    docs/evidence/hafta-02/ilk-denemeler/install-check-linux-py312-ilk-deneme-basarisiz.log
+    docs/evidence/hafta-02/ilk-denemeler/install-check-linux-py313-ilk-deneme-basarisiz.log
+    docs/evidence/hafta-02/install-check-linux-py312.log
+    docs/evidence/hafta-02/install-check-linux-py313.log
+    docs/reports/
+    docs/reports/ içindeki dosyalar: Rapor-01_Hafta-1.docx Rapor-02_Hafta-2.docx rapor-01.content.json rapor-02.content.json 
+--- Hafta 3 paketi: yok sayılan yollar
+    docs/evidence/hafta-01/install-check-linux-py312.log
+    docs/evidence/hafta-01/install-check-linux-py313.log
+    docs/evidence/hafta-02/ilk-denemeler/install-check-linux-py312-ilk-deneme-basarisiz.log
+    docs/evidence/hafta-02/ilk-denemeler/install-check-linux-py313-ilk-deneme-basarisiz.log
+    docs/evidence/hafta-02/install-check-linux-py312.log
+    docs/evidence/hafta-02/install-check-linux-py313.log
+    docs/evidence/hafta-03/install-check-linux-py312.log
+    docs/evidence/hafta-03/install-check-linux-py313.log
+    docs/reports/
+    docs/reports/ içindeki dosyalar: Rapor-01_Hafta-1.docx Rapor-02_Hafta-2.docx Rapor-03_Hafta-3.docx rapor-01.content.json rapor-02.content.json rapor-03.content.json 
+
+### .gitignore denetimi (düzeltme sonrası) | 2026-10-30T10:36:00Z | git 2.43.0
+Yöntem: aynı denetim; ek olarak yok sayılması gereken örnek dosyalar oluşturuldu (reports/unit-results.json, sunucu.log, db.sqlite3, .venv/, .coverage, servicedesk/__pycache__/).
+--- Hafta 1 paketi: yok sayılan yollar
+    .coverage
+    .venv/
+    db.sqlite3
+    reports/
+    servicedesk/__pycache__/
+    sunucu.log
+    docs/ altında yok sayılan dosya sayısı: 0
+    depoya eklenecek kanıt .log dosyası: 2; docs/reports dosyası: 2
+--- Hafta 2 paketi: yok sayılan yollar
+    .coverage
+    .venv/
+    db.sqlite3
+    reports/
+    servicedesk/__pycache__/
+    sunucu.log
+    docs/ altında yok sayılan dosya sayısı: 0
+    depoya eklenecek kanıt .log dosyası: 6; docs/reports dosyası: 4
+--- Hafta 3 paketi: yok sayılan yollar
+    .coverage
+    .venv/
+    db.sqlite3
+    reports/
+    servicedesk/__pycache__/
+    sunucu.log
+    docs/ altında yok sayılan dosya sayısı: 0
+    depoya eklenecek kanıt .log dosyası: 8; docs/reports dosyası: 6

@@ -1,8 +1,9 @@
-"""MOD-AUTH / MOD-ROLE veri modeli.
+"""MOD-AUTH / MOD-ROLE veri modeli: özel kullanıcı modeli.
 
 Özel kullanıcı modeli Hafta 1'de oluşturuldu; Hafta 2'de rol izinleri (Meta.permissions)
-eklendi. Django belgeleri yeni projelerde baştan özel kullanıcı modeli tanımlanmasını
-önerir; sonradan geçiş zordur.
+eklendi; Hafta 3'te `models.py` dosyası `models/` paketine bölündü (NFR-16). Django
+belgeleri yeni projelerde baştan özel kullanıcı modeli tanımlanmasını önerir; sonradan
+geçiş zordur.
 Model, Django'nun hazır AbstractUser altyapısını değiştirmeden kullanır.
 
 NFR-12 (kişisel veri asgarisi): yalnız kullanıcı adı, ad, soyad ve e-posta tutulur.

@@ -1,0 +1,17 @@
+sequenceDiagram
+  actor U as Talep Sahibi (ayse)
+  participant B as Tarayıcı
+  participant V as TicketDetailView
+  participant P as PermissionRequiredMixin
+  participant S as services.tickets.visible_tickets_for
+  participant DB as SQLite
+  U->>B: /talepler/42/ adresini yazar (talep 42 başka kullanıcının)
+  B->>V: GET /talepler/42/ (sessionid çerezi)
+  V->>P: dispatch(): has_perm("servicedesk.view_ticket")
+  P-->>V: izin var (rol düzeyi geçti)
+  V->>S: get_queryset(): visible_tickets_for(ayse)
+  S-->>V: Ticket.objects.filter(requester=ayse)
+  V->>DB: ... WHERE requester_id = ayse AND id = 42
+  DB-->>V: kayıt yok
+  V-->>B: HTTP 404 (404.html: "Sayfa veya kayıt bulunamadı")
+  Note over V,DB: Yanıt hiç var olmayan bir numarayla aynıdır, kaydın varlığı sızmaz (FR-14, TC-TKT-07)

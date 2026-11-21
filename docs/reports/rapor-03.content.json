@@ -1,0 +1,73 @@
+{
+  "template_check": {"banner_contains": "İKİ HAFTALIK PROJE İLERLEME RAPORU"},
+  "core": {
+    "title": "SDS-07 Proje İlerleme Raporu #3 (Hafta 3)",
+    "creator": "Burak Nigiz (2100002062)",
+    "description": "Hafta 3 ilerleme raporu"
+  },
+  "info": {
+    "Rapor Numarası:": "Rapor #3 (Hafta 3)",
+    "Teslim Tarihi:": "13.11.2026 (Faz 3 son teslim tarihi)",
+    "Proje Adı:": "SDS-07: ISO 9001 İlkelerini Destekleyen IT Servis Masası ve Süreç Takip Sistemi",
+    "Proje Grup No:": "2100002062 Burak Nigiz",
+    "Referans Standartlar:": "ISO 9001:2026 (ana alan), ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009, ISO/IEC 25010:2023, IEEE 1012-2024",
+    "Genel Tamamlanma (%):": ["%21 (14 haftalık planın 3 haftası tamamlandı)", "Gereksinim bazında: 53 gereksinimin 27'si doğrulandı; NFR-11 bu haftanın CI koşusuyla tamamlanacak"],
+    "GitHub / Repo Linki:": "https://github.com/wordeus/sds07-servis-masasi/tree/hafta-3",
+    "Aktif Sprint / Faz:": "Faz 3, Hafta 3: Talep işlemleri, kayıt bazlı erişim, kategoriler ve modüler mimari"
+  },
+  "summary": [
+    "Bu haftada incident işlemlerinin ilk bölümü ve modüler mimari uygulandı: talep oluşturma (INC numarası ve Open durumu), durum, öncelik, kategori ve atanan kişiye göre filtrelenen 25'li sayfalı talep listesi ve Yönetici için kategori ekleme ve pasifleştirme. Kayıt bazlı erişim tek bir politika fonksiyonunda toplandı; talep sahibi yalnız kendi taleplerini görüyor ve başkasının talebine doğrudan adresle 404 alıyor. Kod models, services ve views katmanlarına ayrıldı, katman kuralı kaynak kod üzerinde otomatik testle denetleniyor ve SDD v0.2 bu yapıyla güncellendi. Doğrulamada 49 Django testi ile 13 tarayıcı senaryosunun tamamı geçti, kapsam %94,21'e çıktı ve mutasyon denetiminde 8 hatanın 8'i yakalandı; geliştirme sırasında Türkçe büyük harfli kategori adlarının kopya sayılmaması dahil üç gerçek sorun bulunup düzeltildi, teslim öncesi kontrolde de iki yapılandırma hatası bulundu (RSK-24, RSK-25). Rapor #2'ye göre doğrulanan gereksinim sayısı 23'ten 27'ye yükseldi; NFR-11'in Hafta 3 doğrulaması bu haftanın commit'inin GitHub Actions koşusuyla tamamlanacak."
+  ],
+  "tables": {
+    "2": {
+      "expect_header": "İş Paketi ID",
+      "widths": [1050, 3000, 2185, 1400, 2300],
+      "rows": [
+        ["WP-01", "Category ve Ticket modelleri, başlangıç kategorileri, birincil anahtardan türetilen talep numarası; talep oluşturma formu ve doğrulaması (FR-12)", "ISO 9001:2026 - 8.2.1, 8.5.2", "Burak Nigiz", "models/ticket.py, migration 0003-0004; TC-TKT-01, 02, 08 PASS"],
+        ["WP-02", "Talep listesi: durum, öncelik, kategori ve atanan filtreleri, 25'li sayfalama; destek kuyruğu ve panel durum özeti (FR-13)", "ISO 9001:2026 - 8.5.1; ISO/IEC 25010:2023 - 3.4.3", "Burak Nigiz", "views/tickets.py, services/tickets.py; TC-TKT-04..06, TC-E2E-12 PASS"],
+        ["WP-03", "Kayıt bazlı erişim politikası: talep sahibi yalnız kendi kayıtlarını görür; başkasının talebine doğrudan adresle 404 (FR-14)", "ISO/IEC 25010:2023 - 3.6.1; ISO 9001:2026 - 7.5.3", "Burak Nigiz", "services/tickets.py::visible_tickets_for; TC-TKT-07, TC-E2E-11 PASS; mutasyon M5, M6 yakalandı"],
+        ["WP-04", "Kategori ekleme ve pasifleştirme, Türkçe kurallı tekil kategori adı (FR-15)", "ISO 9001:2026 - 8.5.1", "Burak Nigiz", "views/categories.py, Category.clean; TC-CAT-01..03, TC-E2E-13 PASS"],
+        ["WP-05", "models/, services/, views/ katmanları ve kaynak kod üzerinde mimari kural testleri; SDD v0.2 (bileşim, bilgi ve etkileşim görünümleri; KRR-11..KRR-15)", "IEEE 1016-2009 (Composition, Information, Interaction); ISO/IEC 25010:2023 - 3.7.1", "Burak Nigiz", "docs/SDD.md v0.2; TC-ARCH-01, 02 PASS"],
+        ["WP-06", "Hafta 3 tarayıcı testleri, E2E altyapı düzeltmeleri, mutasyon denetiminin genişletilmesi ve rapor aracının bölünmesi; RTM --week 3", "IEEE 1012-2024; ISO/IEC/IEEE 12207:2026 - 6.4.9, 6.4.11", "Burak Nigiz", "e2e/week3_tickets.py; RTM: 66 PASS, 1 NOT RUN; mutation-check.md 8/8"],
+        ["WP-07", "SRS v0.3 (Hafta 3 kabul kriterleri, AK-03 geçici kararı), risk listesi v0.3, test planı v0.3, yeni ekran ekleme prosedürü (PRC-09)", "ISO/IEC/IEEE 29148:2018 - 5.2.5, 9.6; ISO/IEC/IEEE 12207:2026 - 6.3.4", "Burak Nigiz", "docs/SRS.md §7.1, docs/RISKS.md, docs/PROCEDURES.md"]
+      ],
+      "notes": ["Not: Hafta 3 çalışması depoda hafta-3 etiketiyle işaretlidir; commit kimliği ve CI sonucu push sonrasında eklenecektir. Test sonuçları 30.10.2026 koşusuna aittir (docs/evidence/hafta-03)."]
+    },
+    "3": {
+      "expect_header": "Öğrenci No",
+      "widths": [1450, 1650, 1700, 3335, 1800],
+      "rows": [
+        ["2100002062", "Burak Nigiz", "Tek kişilik proje: gereksinim, mimari, geliştirme ve test/QA rollerinin tümü", ["Hafta 3: talep ve kategori modelleri; talep oluşturma, liste, ayrıntı; kayıt bazlı erişim; kategori yönetimi; katmanlı yapı ve mimari testleri; SDD v0.2; E2E ve mutasyon denetimi; SRS v0.3 ve Rapor #3."], "ÖLÇÜLMEDİ (efor kaydı tutulmadı) / %100"]
+      ],
+      "notes": ["Not: Zaman kaydı tutulmadığı için saat ÖLÇÜLMEDİ yazıldı; proje tek kişilik olduğundan pay %100'dür."]
+    },
+    "4": {
+      "expect_header": "Risk / Sorun ID",
+      "widths": [1000, 3100, 900, 2000, 2935],
+      "rows": [
+        ["RSK-21", "Kategori adı tekilliği Türkçe büyük harfleri yakalamıyordu: SQLite'ın büyük/küçük harf duyarsız karşılaştırması yalnız ASCII harflerde çalışıyor; \"DONANIM\" ve \"AĞ VE BAĞLANTI\" kopya sayılmadı.", "Orta", "Keşif denemesi, ardından TC-CAT-01 genişletmesi (düzeltme öncesi 4 alt test FAIL)", "Türkçe kurallı karşılaştırma anahtarı eklendi ve kural modele taşındı (Category.clean); yönetim sitesi de aynı kuralı uygular; mutasyon M8 yakalandı."],
+        ["RSK-22", "E2E giriş yardımcısı gezinmenin bitmesini beklemiyordu; ardından gelen adres isteği girişi iptal edebiliyordu (kararsız test riski).", "Orta", "Geçerleme: tarayıcı keşif koşusu", "Giriş ve form gönderimleri expect_navigation ile bekleniyor (PRC-08); 13/13 senaryo PASS."],
+        ["RSK-23", "E2E sunucusu DEBUG açık çalıştığı için 404 yanıtı özel Türkçe sayfa yerine Django hata ayıklama sayfasıyla döndü; TC-E2E-11 ilk koşuda FAIL.", "Orta", "Sistem testi (TC-E2E-11)", "E2E sunucusu DJANGO_DEBUG=0 ve --insecure ile başlatılıyor (KRR-15); yeniden koşuda PASS. Üretimde DEBUG zaten açılamaz (NFR-04)."],
+        ["RSK-24", "Depo dışlama kuralı (.gitignore) fazla genişti: docs/reports altındaki raporlar ve docs/evidence altındaki kurulum günlükleri depoya girmeyecekti.", "Orta", "Konfigürasyon denetimi (teslim öncesi): boş git deposunda git status --ignored", "Kalıp köke bağlandı (/reports/), kanıt günlükleri için istisna eklendi; docs altında yok sayılan dosya 0. Üç pakete ilk commit'ten önce uygulandı (kapandı)."],
+        ["RSK-25", "Windows'ta yönlendirilmiş çıktı (CI günlüğü dahil) cp1252 kullandığı için Türkçe karakterli çıktı UnicodeEncodeError veriyordu; CI'daki Windows işleri kırılırdı.", "Orta", "Ortam simülasyonu (teslim öncesi): CI komutlarının PYTHONIOENCODING=cp1252 ile koşulması", "CI'a Python UTF-8 kipi (PYTHONUTF8=1), INSTALL'a Windows notu eklendi; UTF-8 çıktıyla komutlar geçti. Hafta 1 ve Hafta 2 CI koşularında Windows işleri başarılı (kapandı)."],
+        ["RSK-07", "Araç kodunda karmaşıklık eşiği aşılıyordu: build_report.build = 19, e2e/week2_auth_roles.py::main = 18 (hedef ≤ 10).", "Düşük", "Kod analizi (ruff C901 ölçümü)", "build 19 → 4'e indirildi; eski ve yeni araçla üretilen raporlar bayt bayt aynı. E2E main (18) Hafta 4'te bölünecek (kısmen kapandı)."],
+        ["RSK-08", "Risk: kayıt bazlı yetki atlaması (IDOR); talep sahibi başkasının kaydına numarayla erişebilir.", "Yüksek", "Entegrasyon ve sistem testleri; mutasyon denetimi", "Liste ve ayrıntı tek politika fonksiyonundan geçiyor; TC-TKT-04/05/07, TC-E2E-11 PASS. Yorum, işlem ve anket adresleri geldikçe aynı testler eklenecek."],
+        ["RSK-05", "Uzak depo ve GitHub Actions olmadığı için CI matrisi (Windows dahil) koşulamadı.", "Orta", "Ortam kontrolü; iş akışının statik denetimi (actionlint)", "Yerel eşdeğer komutlar koşuldu; ci.yml actionlint ile 0 bulgu. Depo oluşturuldu; Hafta 1 ve Hafta 2 commit'lerinin CI koşularında Ubuntu ve Windows × Python 3.12/3.13 işlerinin dördü de başarılı (kapandı)."]
+      ],
+      "notes": ["Ayrıntılar ve kanıt dosyaları: docs/RISKS.md v0.3 ve docs/evidence/hafta-03 (ilk denemelerin özgün kayıtları ilk-denemeler/, teslim öncesi kontroller teslim-oncesi/ klasöründedir)."]
+    },
+    "5": {
+      "expect_header": "Hedef ID",
+      "widths": [1100, 4000, 2400, 2436],
+      "rows": [
+        ["PLN-01", "Talebi üzerine alma (Destek Personeli) ve atama (Yönetici, yalnız Destek Personeli rolüne) (FR-16)", "ISO 9001:2026 - 5.3, 8.5.1", "Burak Nigiz - 27.11.2026 (Faz 4)"],
+        ["PLN-02", "Yorumlar; Closed talebe yorum reddi; yorum adresinde başkasının talebine 404 (FR-17, FR-14)", "ISO 9001:2026 - 8.2.1; ISO/IEC 25010:2023 - 3.6.1", "Burak Nigiz - 27.11.2026 (Faz 4)"],
+        ["PLN-03", "İşlem geçmişinin ilk sürümü: oluşturma, atama ve öncelik değişikliği; yalnız ekleme (FR-20)", "ISO 9001:2026 - 7.5.3, 8.5.2", "Burak Nigiz - 27.11.2026 (Faz 4)"],
+        ["PLN-04", "Durum geçişleri (Open → In Progress → Resolved → Closed), rol ve atama koşulları, işlem geçmişi görünümü (FR-18, FR-19, FR-21)", "ISO 9001:2026 - 8.5.1, 8.6", "Burak Nigiz - 11.12.2026 (Faz 5)"],
+        ["PLN-05", "Windows'ta elle temiz kurulum doğrulaması (TC-INST-01); GitHub deposu ve CI koşuları tamamlandı (TC-CI-01 PASS)", "ISO/IEC/IEEE 12207:2026 - 6.3.5; IEEE 1012-2024", "Burak Nigiz - 27.11.2026 (Faz 4)"],
+        ["PLN-06", "e2e/week2_auth_roles.py::main fonksiyonunun bölünmesi (RSK-07)", "ISO/IEC 25010:2023 - Maintainability (3.7)", "Burak Nigiz - 27.11.2026 (Faz 4)"],
+        ["PLN-07", "Açık konuların öğretim elemanıyla netleştirilmesi: yeniden açma akışı ve öncelik kararı (AK-01, AK-03); standart baskıları için en güncel baskılar kullanılıyor (AK-05)", "ISO/IEC/IEEE 12207:2026 - 6.4.2", "Burak Nigiz - 27.11.2026 (Faz 4)"]
+      ]
+    }
+  }
+}

@@ -16,7 +16,7 @@ Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştiril
 | `ci-github-actions-2026-11-02.json` | Hafta 2 commit'inin GitHub Actions koşusu (koşu #3, commit 6dd3dc9): Ubuntu ve Windows × Python 3.12/3.13, 4/4 iş başarılı | TC-CI-01, RSK-05 |
 | `ci-kosu-3-ozet.png` | Aynı koşunun Actions özet sayfası (ekran görüntüsü, 02.11.2026) | TC-CI-01 |
 
-## `ilk-denemeler/`: Hafta 1-2 geliştirme oturumunun özgün kayıtları
+## `ilk-denemeler/`: Hafta 1-2 geliştirme çalışmasının özgün kayıtları
 
 Bu dosyalar Hafta 1 ve Hafta 2 kodu aynı gün yazılırken (30.10.2026, haftalık paketlere ayırmadan önce) üretildi. İçlerinde o zamanki "Sprint" etiketleri ve eski dosya adları (`e2e/sprint1_smoke.py`) görülür; değiştirilmeden saklanmıştır.
 

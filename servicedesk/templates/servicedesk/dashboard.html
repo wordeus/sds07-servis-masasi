@@ -46,6 +46,18 @@
     <div class="sd-panel">
       <h2 id="alan-baslik">Çalışma alanlarınız</h2>
       <ul class="sd-links">
+        {% if perms.servicedesk.add_ticket %}
+        <li>
+          <a href="{% url 'servicedesk:ticket_create' %}" data-testid="dashboard-new-ticket">Yeni talep</a>
+          <span>Bir sorunu kaydedin; numarası ve durumu hemen oluşur.</span>
+        </li>
+        {% endif %}
+        {% if perms.servicedesk.view_ticket %}
+        <li>
+          <a href="{% url 'servicedesk:ticket_list' %}">{% if perms.servicedesk.view_all_tickets %}Tüm talepler{% else %}Taleplerim{% endif %}</a>
+          <span>Durum, öncelik ve kategoriye göre filtreleyin.</span>
+        </li>
+        {% endif %}
         {% if perms.servicedesk.access_support_workspace %}
         <li>
           <a href="{% url 'servicedesk:support_workspace' %}">Destek kuyruğu</a>
@@ -58,17 +70,36 @@
           <span>SLA uyumu, KPI'lar ve değişiklik onayları.</span>
         </li>
         {% endif %}
+        {% if perms.servicedesk.view_category %}
+        <li>
+          <a href="{% url 'servicedesk:category_list' %}">Kategoriler</a>
+          <span>Talep kategorilerini ekleyin veya pasifleştirin.</span>
+        </li>
+        {% endif %}
         {% if user.is_staff %}
         <li>
           <a href="{% url 'admin:index' %}">Yönetim sitesi</a>
           <span>Kullanıcı oluşturma ve rol atama.</span>
         </li>
         {% endif %}
-        {% if not perms.servicedesk.access_support_workspace and not user.is_staff %}
-        <li class="sd-links__note">Talep oluşturma ve kendi taleplerinizi izleme Hafta 3'te bu panele eklenecek.</li>
+        {% if not perms.servicedesk.view_ticket and not user.is_staff %}
+        <li class="sd-links__note">Rol atandığında çalışma alanlarınız burada listelenir.</li>
         {% endif %}
       </ul>
     </div>
+    {% if status_counts %}
+    <div class="sd-panel sd-summary" data-testid="status-summary">
+      <h2>{% if perms.servicedesk.view_all_tickets %}Talep özeti{% else %}Taleplerimin durumu{% endif %}</h2>
+      <ul class="sd-summary__list">
+        {% for row in status_counts %}
+        <li>
+          <a href="{% url 'servicedesk:ticket_list' %}?status={{ row.code }}">{% include "partials/ticket_status.html" with status=row.code label=row.label %}</a>
+          <span class="sd-summary__count" data-status-count="{{ row.code }}">{{ row.count }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
   </aside>
 </div>
 {% endblock %}

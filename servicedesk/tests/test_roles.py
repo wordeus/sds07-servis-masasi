@@ -220,3 +220,24 @@ class NavigationTests(RoleUsersMixin, TestCase):
                         self.assertContains(response, marker)
                     else:
                         self.assertNotContains(response, marker)
+
+    def test_ticket_navigation_links_follow_permissions(self):
+        """TC-ROLE-13: Menüde "Talepler" bağlantısı talep izni olan rollere, "Kategoriler" bağlantısı yalnız Yönetici ve sistem yöneticisine görünür."""
+        superuser = get_user_model().objects.create_superuser("kok.hafta3", email=None, password=None)
+        expectations = (
+            (self.requester, {"tickets"}),
+            (self.no_role, set()),
+            (self.agent, {"tickets"}),
+            (self.manager, {"tickets", "categories"}),
+            (superuser, {"tickets", "categories"}),
+        )
+        for user, visible in expectations:
+            with self.subTest(user=user.username):
+                self.client.force_login(user)
+                response = self.client.get(DASHBOARD)
+                for link in ("tickets", "categories"):
+                    marker = f'data-nav="{link}"'
+                    if link in visible:
+                        self.assertContains(response, marker)
+                    else:
+                        self.assertNotContains(response, marker)

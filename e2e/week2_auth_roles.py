@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hafta 2 tarayıcı (E2E) doğrulaması - TC-E2E-01..TC-E2E-09.
+"""Hafta 2 tarayıcı (E2E) doğrulaması - TC-E2E-01..TC-E2E-09 (Hafta 3'te de gerileme olarak koşulur).
 
 Çalışan bir sunucuya karşı Playwright (Chromium) kullanır.
 Django birim/entegrasyon testlerinin tamamlayıcısıdır: gerçek tarayıcıda giriş, rol
@@ -70,11 +70,24 @@ def contrast_ratio(fg: str, bg: str) -> float:
     return round((high + 0.05) / (low + 0.05), 2)
 
 
+# Sayfa ve iç kapsayıcılar (tablo sarmalayıcısı, paneller) yatay taşmamalı (NFR-07).
+OVERFLOW_JS = """
+() => {
+  const doc = document.documentElement;
+  const inner = [...document.querySelectorAll('.table-responsive, .sd-panel, main, header')]
+    .filter(el => el.scrollWidth > el.clientWidth + 1)
+    .map(el => `${el.tagName.toLowerCase()}.${el.className} ${el.scrollWidth}>${el.clientWidth}`);
+  return { page: [doc.scrollWidth, doc.clientWidth], inner };
+}
+"""
+
+
 class Runner:
-    def __init__(self, base_url: str, password: str, out_dir: Path):
+    def __init__(self, base_url: str, password: str, out_dir: Path, script: str = "e2e/week2_auth_roles.py"):
         self.base = base_url.rstrip("/")
         self.password = password
         self.out_dir = out_dir
+        self.script = script
         self.records: list[dict] = []
 
     # --- yardımcılar -------------------------------------------------------
@@ -88,7 +101,9 @@ class Runner:
         page.wait_for_load_state("networkidle")
         page.fill("#id_username", username)
         page.fill("#id_password", self.password)
-        page.click("form.sd-login__fields button[type=submit]")
+        # Gezinme bitmeden sonraki adıma geçilirse giriş isteği iptal olabilir (Hafta 3'te bulundu, RSK-22).
+        with page.expect_navigation():
+            page.click("form.sd-login__fields button[type=submit]")
         page.wait_for_load_state("networkidle")
 
     def nav_links(self, page: Page) -> set[str]:
@@ -107,7 +122,7 @@ class Runner:
         self.records.append(
             {
                 "tc_id": tc_id,
-                "test": f"e2e/week2_auth_roles.py::{tc_id}",
+                "test": f"{self.script}::{tc_id}",
                 "title": title,
                 "outcome": outcome,
                 "detail": detail,
@@ -172,7 +187,7 @@ def main() -> int:
             assert badge == "Talep Sahibi", f"Rol rozeti: {badge}"
             links = runner.nav_links(page)
             assert not ({"support", "manager", "admin"} & links), f"Yetkisiz menü bağlantısı: {links}"
-            notes.append("menü: yalnız Panelim")
+            notes.append("menü bağlantıları: Panelim" + "".join(f", {link}" for link in sorted(links)))
             runner.shot(page, "02-panel-talep-sahibi.png", shots)
 
         runner.run("TC-E2E-02", "Talep Sahibi girişi; rol rozeti ve kısıtlı menü", tc02)
@@ -240,16 +255,7 @@ def main() -> int:
         context.close()
 
         # TC-E2E-07 -----------------------------------------------------------
-        # Sayfa ve iç kapsayıcılar (tablo sarmalayıcısı, paneller) yatay taşmamalı.
-        overflow_js = """
-        () => {
-          const doc = document.documentElement;
-          const inner = [...document.querySelectorAll('.table-responsive, .sd-panel, main, header')]
-            .filter(el => el.scrollWidth > el.clientWidth + 1)
-            .map(el => `${el.tagName.toLowerCase()}.${el.className} ${el.scrollWidth}>${el.clientWidth}`);
-          return { page: [doc.scrollWidth, doc.clientWidth], inner };
-        }
-        """
+        overflow_js = OVERFLOW_JS
 
         def tc07(shots, notes):
             context, page = new_page(MOBILE)

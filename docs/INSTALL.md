@@ -3,9 +3,9 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-INS |
-| Sürüm | 0.2 (Hafta 2) |
+| Sürüm | 0.3 (Hafta 3) |
 | Tarih | 30.10.2026 |
-| Doğrulama | Linux'ta Python 3.12.13 ve 3.13.18 ile temiz kurulum yapıldı (TC-INST-01, `docs/evidence/hafta-02/install-check-*.log`). GitHub Actions'ta Ubuntu ve Windows üzerinde Python 3.12 ve 3.13 ile kurulum ve testler başarılı (02.11.2026, koşu #3, commit 6dd3dc9, TC-CI-01). Windows'ta elle kurulum NOT RUN; yapıldığında sonucu `docs/evidence/hafta-02/` altına yeni dosya olarak ekleyin. |
+| Doğrulama | Linux'ta Python 3.12.13 ve 3.13.18 ile temiz kurulum yapıldı (TC-INST-01, `docs/evidence/hafta-03/install-check-*.log`). **Windows adımları bu ortamda çalıştırılmadı (NOT RUN)**; ilk Windows kurulumunda sonucu `docs/evidence/hafta-03/` altına yeni dosya olarak ekleyin. |
 
 ## 1. Gereksinimler
 
@@ -50,6 +50,10 @@ python manage.py runserver
 
 Demo kullanıcıları: `demo.talep` (Talep Sahibi), `demo.destek` (Destek Personeli), `demo.yonetici` (Yönetici). Parola, `SDS07_DEMO_PASSWORD` ile verdiğiniz değerdir.
 
+Başlangıç kategorileri (Donanım, Yazılım, Ağ ve bağlantı, Hesap ve erişim, Diğer) `migrate` sırasında veri migration'ıyla oluşur (Hafta 3). Talepler `/talepler/`, kategori yönetimi `/kategoriler/` adresindedir.
+
+**Çıktıyı dosyaya kaydedecekseniz** (ör. `> kayit.txt` veya `Tee-Object`), aynı pencerede önce `$env:PYTHONUTF8 = "1"` çalıştırın. Windows, yönlendirilmiş çıktıda varsayılan olarak cp1252 kod sayfasını kullanır; Türkçe "ş" ve "ı" karakterlerinde `UnicodeEncodeError` oluşur (RSK-25). Etkileşimli PowerShell penceresinde bu ayar gerekmez, zararı da yoktur. CI iş akışı bu ayarı kendisi yapar.
+
 ## 3. Linux / macOS
 
 ```bash
@@ -92,7 +96,7 @@ Remove-Item Env:DJANGO_ENV, Env:DJANGO_ALLOWED_HOSTS, Env:DJANGO_SECRET_KEY
 
 Tarayıcı testleri Django testlerinin tamamlayıcısıdır. Ayrı bir veritabanı kullanın.
 
-**Linux/macOS:** `pip install -r requirements-e2e.txt`, `playwright install chromium`, ardından `bash tools/run_e2e.sh`. Betik portun boş olduğunu denetler, geçici veritabanı ve rastgele parola kullanır, koşudan sonra sunucuyu kapatır.
+**Linux/macOS:** `pip install -r requirements-e2e.txt`, `playwright install chromium`, ardından `bash tools/run_e2e.sh`. Betik portun boş olduğunu denetler, geçici veritabanı ve rastgele parola kullanır, sunucuyu DEBUG kapalı başlatır, Hafta 2 ve Hafta 3 senaryolarını koşar ve sunucuyu kapatır.
 
 **Windows (iki PowerShell penceresi):**
 
@@ -105,7 +109,9 @@ $env:DJANGO_SQLITE_PATH = "$PWD\e2e.sqlite3"
 $env:E2E_PASSWORD = "E2e-Gecici-Parola-2026"
 python manage.py migrate
 python manage.py seed_demo_users --password $env:E2E_PASSWORD
-python manage.py runserver 127.0.0.1:8765 --noreload
+# Sunucu DEBUG kapalı çalışır; özel hata sayfaları üretimdeki gibi görünür (KRR-15)
+$env:DJANGO_DEBUG = "0"
+python manage.py runserver 127.0.0.1:8765 --noreload --insecure
 ```
 
 ```powershell
@@ -113,7 +119,10 @@ python manage.py runserver 127.0.0.1:8765 --noreload
 .\.venv\Scripts\Activate.ps1
 $env:E2E_PASSWORD = "E2e-Gecici-Parola-2026"
 python e2e\week2_auth_roles.py --base-url http://127.0.0.1:8765 --out-dir reports\screenshots --results-json reports\e2e-results.json
+python e2e\week3_tickets.py --base-url http://127.0.0.1:8765 --out-dir reports\screenshots --results-json reports\e2e-week3-results.json
 ```
+
+Hafta 3 betiği veritabanına talep ve kategori yazar; yalnız bu geçici E2E veritabanıyla koşun.
 
 Bitince Pencere 1'de `Ctrl+C` ile sunucuyu durdurun. `Get-NetTCPConnection -LocalPort 8765 -ErrorAction SilentlyContinue` komutu boş dönmelidir. Açık kalan eski sunucu, testlerin eski kodla koşmasına yol açar (RSK-20).
 
@@ -121,31 +130,70 @@ Bitince Pencere 1'de `Ctrl+C` ile sunucuyu durdurun. `Get-NetTCPConnection -Loca
 
 ```bash
 bash tools/install_check.sh python3.13 linux-py313 reports/install-check-linux-py313.log   # TC-INST-01
-python tools/mutation_check.py --week 2 --out reports/mutation-check.md                    # testlerin hata yakalama yeteneği
+python tools/mutation_check.py --week 3 --out reports/mutation-check.md                    # testlerin hata yakalama yeteneği
 ```
 
 ## 6. RTM ve test sonuç tablosu
 
 ```powershell
-python tools\build_rtm.py --week 2 --strict `
-  --results reports\unit-results.json reports\e2e-results.json docs\evidence\hafta-02\manual-checks.json `
+python tools\build_rtm.py --week 3 --strict `
+  --results reports\unit-results.json reports\e2e-results.json reports\e2e-week3-results.json docs\evidence\hafta-03\manual-checks.json `
   --coverage reports\coverage.json --ruff reports\ruff.json
 ```
 
-Çıktılar: `docs/RTM.md` ve `docs/TEST_RESULTS.md`. `--week 2`, 2. haftadan sonraya planlanan gereksinim ve testleri "PLANLANDI" olarak gösterir.
+Çıktılar: `docs/RTM.md` ve `docs/TEST_RESULTS.md`. `--week 3`, 3. haftadan sonraya planlanan gereksinim ve testleri "PLANLANDI" olarak gösterir.
 
-## 7. İlk commit ve GitHub (kullanıcı tarafından yapılacak)
+## 7. GitHub'a gönderim (kullanıcı tarafından yapılacak)
+
+Hafta 1, 2 ve 3 paketleri sırayla üç commit olarak gönderilir; her commit kendi haftasının etiketini alır (`hafta-1`, `hafta-2`, `hafta-3`). Commit tarihleri gerçek gönderim tarihidir; geriye tarih atılmaz. GitHub'da depo boş oluşturulmalıdır (README, `.gitignore` veya lisans eklemeden).
 
 ```powershell
+# Paketleri açın: C:\Projeler\paketler altında sds07-servis-masasi-hafta-1, -hafta-2, -hafta-3 oluşur
+Expand-Archive "$HOME\Downloads\SDS07_Hafta-1.zip" -DestinationPath C:\Projeler\paketler
+Expand-Archive "$HOME\Downloads\SDS07_Hafta-2.zip" -DestinationPath C:\Projeler\paketler
+Expand-Archive "$HOME\Downloads\SDS07_Hafta-3.zip" -DestinationPath C:\Projeler\paketler
+
+# Depo klasörü
+New-Item -ItemType Directory C:\Projeler\sds07-servis-masasi | Out-Null
+cd C:\Projeler\sds07-servis-masasi
 git init -b main
-git add .
-git commit -m "feat: Hafta 2 - giriş/çıkış, rol grupları, yetkilendirme, arayüz ve E2E"
-git tag hafta-2
-git remote add origin https://github.com/wordeus/sds07-servis-masasi.git
+git config user.name "Burak Nigiz"
+git config user.email "<GitHub e-posta adresiniz>"
+git remote add origin https://github.com/<kullanici-adi>/sds07-servis-masasi.git
+
+# Hafta 1
+Copy-Item -Recurse -Force C:\Projeler\paketler\sds07-servis-masasi-hafta-1\* .
+git add -A
+git commit -m "feat: Hafta 1 - proje iskeleti, ayar profilleri, kullanıcı modeli, testler ve CI"
+git tag hafta-1
 git push -u origin main --tags
 ```
 
-Push sonrası GitHub'da **Actions** sekmesinde "CI" iş akışının dört işi (Ubuntu/Windows × Python 3.12/3.13) koşmalıdır. Sonuç TC-CI-01'in kanıtıdır; bağlantısını rapora ve `docs/PROJECT_STATE.md` dosyasına ekleyin.
+Her push'tan sonra GitHub'da **Actions** sekmesindeki "CI" koşusunun dört işi (Ubuntu/Windows × Python 3.12/3.13) bitene kadar bekleyin. İş akışı aynı dalda yeni koşu başlayınca eskisini iptal eder (`cancel-in-progress`); beklemeden yapılan ikinci push önceki haftanın koşusunu iptal eder.
+
+```powershell
+# Hafta 2: önce izlenen dosyaları kaldırın (silinen ve taşınan dosyalar böylece commit'e yansır)
+git rm -r -q .
+Get-ChildItem -Force          # yalnız .git kalmalı
+Copy-Item -Recurse -Force C:\Projeler\paketler\sds07-servis-masasi-hafta-2\* .
+git add -A
+git commit -m "feat: Hafta 2 - giriş/çıkış, rol grupları, yetkilendirme, arayüz ve E2E"
+git tag hafta-2
+git push origin main --tags
+
+# Hafta 2 koşusu bitince Hafta 3
+git rm -r -q .
+Get-ChildItem -Force          # yalnız .git kalmalı
+Copy-Item -Recurse -Force C:\Projeler\paketler\sds07-servis-masasi-hafta-3\* .
+git add -A
+git commit -m "feat: Hafta 3 - talepler, kayıt bazlı erişim, kategoriler ve katmanlı yapı"
+git tag hafta-3
+git push origin main --tags
+
+git log --oneline --decorate   # üç commit ve üç etiket görünmeli
+```
+
+Her koşunun sonucu TC-CI-01'in o haftaya ait kanıtıdır. Koşu bağlantılarını ve `git log --oneline --decorate` çıktısını kaydedin; rapora ve `docs/PROJECT_STATE.md` dosyasına eklenir. Bir iş kırmızı biterse sonucu değiştirmeye çalışmayın: o işin günlüğünü kaydedin, sonraki haftayı yine gönderin; hata yeni bir commit ile düzeltilir ve RISKS.md'ye yazılır.
 
 ## 8. Üretim profili ortam değişkenleri
 
@@ -169,7 +217,7 @@ Dersin rapor şablonu depoda tutulmaz (öğretim elemanının belgesi). Şablonu
 ```powershell
 pip install -r requirements-docs.txt
 python tools\build_report.py --template "C:\Ders\IKU_Iki_Haftalik_Ilerleme_Raporu_Sablonu.docx" `
-  --content docs\reports\rapor-02.content.json --output docs\reports\Rapor-02_Hafta-2.docx
+  --content docs\reports\rapor-03.content.json --output docs\reports\Rapor-03_Hafta-3.docx
 ```
 
-Araç şablonun üst bilgi bandını, bilgi tablosunu ve beş başlığını korur. Yalnız yer tutucuları ve tablo satırlarını doldurur. Köşeli parantezli alanlar sarı vurguludur ve sizin doldurmanız gerekir. Sonraki rapor için `rapor-02.content.json` dosyasını kopyalayıp içeriğini güncelleyin.
+Araç şablonun üst bilgi bandını, bilgi tablosunu ve beş başlığını korur. Yalnız yer tutucuları ve tablo satırlarını doldurur. Köşeli parantezli alanlar sarı vurguludur ve sizin doldurmanız gerekir. Sonraki rapor için `rapor-03.content.json` dosyasını kopyalayıp içeriğini güncelleyin.

@@ -1,0 +1,142 @@
+# koşu (UTC): 2026-10-30T06:38:36Z | Python 3.13.18 | Django 5.2.18
+$ coverage run manage.py test -v 2 --results-json docs/evidence/hafta-03/unit-results.json
+Found 49 test(s).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, auth, contenttypes, servicedesk, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying servicedesk.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying servicedesk.0002_user_role_permissions... OK
+  Applying servicedesk.0003_category_ticket... OK
+  Applying servicedesk.0004_default_categories... OK
+  Applying sessions.0001_initial... OK
+  Rol grubu 'Talep Sahibi': oluşturuldu (+2 / -0 izin)
+  Rol grubu 'Destek Personeli': oluşturuldu (+4 / -0 izin)
+  Rol grubu 'Yönetici': oluşturuldu (+8 / -0 izin)
+System check identified no issues (0 silenced).
+test_anonymous_requests_redirect_to_login (servicedesk.tests.test_auth.AuthenticationRequiredTests.test_anonymous_requests_redirect_to_login)
+TC-AUTH-08: Oturumsuz GET ve POST istekleri `next` korunarak giriş sayfasına yönlendirilir. ... ok
+test_authenticated_user_is_redirected_from_login (servicedesk.tests.test_auth.LoginTests.test_authenticated_user_is_redirected_from_login)
+TC-AUTH-03: Oturumu açık kullanıcı giriş sayfasını açtığında paneline yönlendirilir. ... ok
+test_external_next_is_ignored (servicedesk.tests.test_auth.LoginTests.test_external_next_is_ignored)
+TC-AUTH-09: Dış alan adına işaret eden `next` yok sayılır; kullanıcı kendi paneline yönlendirilir. ... ok
+test_inactive_user_cannot_login (servicedesk.tests.test_auth.LoginTests.test_inactive_user_cannot_login)
+TC-AUTH-05: Pasif hesap doğru parolayla da giriş yapamaz; hesabın durumu açığa vurulmaz. ... ok
+test_internal_next_is_followed (servicedesk.tests.test_auth.LoginTests.test_internal_next_is_followed)
+TC-AUTH-10: Site içi `next` adresi korunur ve girişten sonra o adrese yönlendirilir. ... ok
+test_login_page_renders (servicedesk.tests.test_auth.LoginTests.test_login_page_renders)
+TC-AUTH-01: Giriş sayfası 200 döner; kullanıcı adı, parola ve CSRF alanlarını içerir. ... ok
+test_valid_login_redirects_to_dashboard (servicedesk.tests.test_auth.LoginTests.test_valid_login_redirects_to_dashboard)
+TC-AUTH-02: Geçerli kimlik bilgisiyle giriş oturum açar ve kullanıcıyı paneline yönlendirir. ... ok
+test_wrong_credentials_show_generic_error (servicedesk.tests.test_auth.LoginTests.test_wrong_credentials_show_generic_error)
+TC-AUTH-04: Hatalı parola veya bilinmeyen kullanıcı oturum açmaz; ikisinde de aynı genel hata gösterilir. ... ok
+test_logout_get_is_rejected (servicedesk.tests.test_auth.LogoutTests.test_logout_get_is_rejected)
+TC-AUTH-07: GET ile çıkış isteği HTTP 405 ile reddedilir ve oturum açık kalır. ... ok
+test_logout_post_ends_session (servicedesk.tests.test_auth.LogoutTests.test_logout_post_ends_session)
+TC-AUTH-06: POST ile çıkış oturumu sonlandırır ve giriş sayfasına yönlendirir. ... ok
+test_category_management_is_manager_only (servicedesk.tests.test_categories.CategoryTests.test_category_management_is_manager_only)
+TC-CAT-03: Talep Sahibi, Destek Personeli ve rolsüz kullanıcı kategori sayfasına ve durum adresine GET ve POST ile 403 alır. ... ok
+test_inactive_category_is_hidden_from_new_tickets (servicedesk.tests.test_categories.CategoryTests.test_inactive_category_is_hidden_from_new_tickets)
+TC-CAT-02: Yönetici kategoriyi POST ile pasifleştirir; pasif kategori yeni talep formunda listelenmez ve doğrudan POST ile seçilemez; eski talepler korunur; kategori silinemez; GET ile ve CSRF belirteçsiz değiştirilemez. ... ok
+test_manager_adds_category (servicedesk.tests.test_categories.CategoryTests.test_manager_adds_category)
+TC-CAT-01: Yönetici kategori ekler; aynı ad büyük/küçük harf farkıyla da (Türkçe I/ı, İ/i dahil) ikinci kez eklenemez; boş ad reddedilir. ... ok
+test_admin_works_with_custom_user_model (servicedesk.tests.test_config.AdminSiteSmokeTests.test_admin_works_with_custom_user_model)
+TC-CFG-06: Kurulumdan sonra yönetim sitesi özel kullanıcı modeliyle açılır: kullanıcı listesi ve ekleme formu. ... ok
+test_interface_is_turkish (servicedesk.tests.test_config.InterfaceLanguageTests.test_interface_is_turkish)
+TC-CFG-04: Arayüz Türkçedir: sayfa dili 'tr', giriş etiketleri ve 404 hata sayfası Türkçedir. ... ok
+test_utc_storage_and_istanbul_display (servicedesk.tests.test_config.TimeZoneTests.test_utc_storage_and_istanbul_display)
+TC-CFG-01: Zaman damgası veritabanında UTC saklanır ve arayüzde Europe/Istanbul (UTC+3) saatiyle gösterilir. ... ok
+test_superuser_assigns_role_in_admin (servicedesk.tests.test_roles.AdminRoleAssignmentTests.test_superuser_assigns_role_in_admin)
+TC-ROLE-04: Sistem yöneticisi yönetim sitesinden kullanıcıya rol grubu atar; diğer roller yönetim sitesine giremez. ... ok
+test_navigation_links_follow_permissions (servicedesk.tests.test_roles.NavigationTests.test_navigation_links_follow_permissions)
+TC-ROLE-12: Menü yalnız kullanıcının yetkili olduğu bölümlerin bağlantılarını gösterir. ... ok
+test_ticket_navigation_links_follow_permissions (servicedesk.tests.test_roles.NavigationTests.test_ticket_navigation_links_follow_permissions)
+TC-ROLE-13: Menüde "Talepler" bağlantısı talep izni olan rollere, "Kategoriler" bağlantısı yalnız Yönetici ve sistem yöneticisine görünür. ... ok
+test_group_permissions_match_matrix (servicedesk.tests.test_roles.RoleGroupSyncTests.test_group_permissions_match_matrix)
+TC-ROLE-02: Her rol grubunun izinleri koddaki rol-yetki matrisiyle birebir aynıdır. ... ok
+test_role_groups_exist_after_migrate (servicedesk.tests.test_roles.RoleGroupSyncTests.test_role_groups_exist_after_migrate)
+TC-ROLE-01: `migrate` sonrasında üç rol grubu (Talep Sahibi, Destek Personeli, Yönetici) bulunur. ... ok
+test_sync_is_idempotent_and_repairs_drift (servicedesk.tests.test_roles.RoleGroupSyncTests.test_sync_is_idempotent_and_repairs_drift)
+TC-ROLE-03: Senkronizasyon tekrarlandığında kopya üretmez ve elle yapılan izin sapmasını düzeltir. ... ok
+test_dashboard_shows_role_and_capabilities (servicedesk.tests.test_roles.RoleResolutionTests.test_dashboard_shows_role_and_capabilities)
+TC-ROLE-06: Panel kullanıcının rolünü ve yalnız o role açık yetkileri gösterir; rolsüz kullanıcı uyarı görür. ... ok
+test_role_precedence (servicedesk.tests.test_roles.RoleResolutionTests.test_role_precedence)
+TC-ROLE-05: Rol çözümlemesi Yönetici > Destek Personeli > Talep Sahibi önceliğini uygular; grupsuz kullanıcının rolü yoktur. ... ok
+test_agent_access (servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_agent_access)
+TC-ROLE-08: Destek Personeli destek kuyruğuna erişir (200), yönetim paneline erişemez (403). ... ok
+test_forbidden_page_is_explanatory (servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_forbidden_page_is_explanatory)
+TC-ROLE-11: 403 yanıtı Türkçe, rolü ve istenen adresi belirten özel hata sayfasıyla döner; teknik ayrıntı sızdırmaz. ... ok
+test_forbidden_post_requests (servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_forbidden_post_requests)
+TC-ROLE-10: Yetkisiz POST istekleri de 403 alır; yetki denetimi istek yönteminden önce yapılır. ... ok
+test_manager_access (servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_manager_access)
+TC-ROLE-09: Yönetici destek kuyruğuna ve yönetim paneline erişir (200). ... ok
+test_requester_and_no_role_are_forbidden (servicedesk.tests.test_roles.ServerSideAuthorizationTests.test_requester_and_no_role_are_forbidden)
+TC-ROLE-07: Talep Sahibi ve rolsüz kullanıcı destek kuyruğu ile yönetim paneline doğrudan adresle erişemez (403). ... ok
+test_state_changing_requests_require_csrf_token (servicedesk.tests.test_security.CsrfTests.test_state_changing_requests_require_csrf_token)
+TC-SEC-02: CSRF belirteci olmayan giriş ve çıkış POST istekleri 403 ile reddedilir; belirteçle kabul edilir. ... ok
+test_password_hashing_and_rules (servicedesk.tests.test_security.PasswordStorageTests.test_password_hashing_and_rules)
+TC-SEC-01: Parola PBKDF2-SHA256 ile özetlenerek saklanır; kısa, yaygın ve yalnız rakamdan oluşan parolalar reddedilir. ... ok
+test_session_cookie_flags_and_lifetime (servicedesk.tests.test_security.SessionCookieTests.test_session_cookie_flags_and_lifetime)
+TC-SEC-03: Oturum çerezi HttpOnly ve SameSite=Lax'tır; oturum süresi 8 saattir (28.800 sn). ... ok
+test_seed_creates_one_user_per_role_idempotently (servicedesk.tests.test_seed.SeedDemoUsersTests.test_seed_creates_one_user_per_role_idempotently)
+TC-SEED-01: Demo komutu her rol için bir kullanıcı oluşturur; tekrar çalıştırılınca kopya üretmez. ... ok
+test_seed_refuses_outside_development (servicedesk.tests.test_seed.SeedDemoUsersTests.test_seed_refuses_outside_development)
+TC-SEED-02: DEBUG kapalıyken komut çalışmayı reddeder; zayıf parola da reddedilir; kullanıcı oluşmaz. ... ok
+test_invalid_ticket_input_is_rejected (servicedesk.tests.test_tickets.TicketCreateTests.test_invalid_ticket_input_is_rejected)
+TC-TKT-02: Kısa/uzun başlık, boş açıklama, pasif veya olmayan kategori ve geçersiz öncelikle talep oluşmaz; forma eklenen durum, talep sahibi ve atanan alanları yok sayılır. ... ok
+test_requester_creates_ticket (servicedesk.tests.test_tickets.TicketCreateTests.test_requester_creates_ticket)
+TC-TKT-01: Talep Sahibi geçerli formla talep açar: INC-000NNN numarası, Open durumu, talep sahibi kendisi, UTC oluşturma zamanı; ayrıntıya yönlendirilir. ... ok
+test_users_without_ticket_permission_are_refused (servicedesk.tests.test_tickets.TicketCreateTests.test_users_without_ticket_permission_are_refused)
+TC-TKT-03: Rolsüz kullanıcı talep listesi, yeni talep ve ayrıntı adreslerine GET ve POST ile 403 alır; oturumsuz istek giriş sayfasına yönlenir. ... ok
+test_other_users_ticket_is_not_revealed (servicedesk.tests.test_tickets.TicketDetailTests.test_other_users_ticket_is_not_revealed)
+TC-TKT-07: Talep Sahibi başkasının talebinin ayrıntı adresine 404 alır; yanıt var olmayan numarayla aynıdır ve kaydın varlığını açığa vurmaz. ... ok
+test_staff_see_any_ticket_detail (servicedesk.tests.test_tickets.TicketDetailTests.test_staff_see_any_ticket_detail)
+TC-TKT-08: Destek Personeli, Yönetici ve talebin sahibi ayrıntıyı görür; sayfa numara, durum, öncelik, kategori, talep sahibi ve İstanbul saatiyle oluşturma zamanını gösterir. ... ok
+test_filters_narrow_the_visible_set (servicedesk.tests.test_tickets.TicketListTests.test_filters_narrow_the_visible_set)
+TC-TKT-05: Durum, öncelik, kategori ve atanan filtreleri sonucu daraltır; geçersiz değer yok sayılır; filtre görünürlüğü genişletmez. ... ok
+test_list_is_paginated_by_25 (servicedesk.tests.test_tickets.TicketListTests.test_list_is_paginated_by_25)
+TC-TKT-06: Liste sayfa başına 25 talep gösterir, en yeni talep önce gelir; filtre parametreleri sayfa bağlantılarında korunur; aralık dışı sayfa 404 döner. ... ok
+test_list_shows_only_visible_tickets (servicedesk.tests.test_tickets.TicketListTests.test_list_shows_only_visible_tickets)
+TC-TKT-04: Talep Sahibi listede yalnız kendi taleplerini görür; Destek Personeli ve Yönetici tüm talepleri görür. ... ok
+test_every_view_class_checks_access (servicedesk.tests.test_architecture.LayeringTests.test_every_view_class_checks_access)
+TC-ARCH-02: views/ paketindeki her görünüm sınıfı oturum veya izin denetimi içerir (LoginRequiredMixin veya PermissionRequiredMixin). ... ok
+test_layers_follow_dependency_rules (servicedesk.tests.test_architecture.LayeringTests.test_layers_follow_dependency_rules)
+TC-ARCH-01: Görünümler model yöneticilerine (.objects) doğrudan erişmez; services katmanı views, şablon ve HTTP modüllerini içe aktarmaz; models katmanı services ve views'i içe aktarmaz. ... ok
+test_environment_values_are_parsed_strictly (servicedesk.tests.test_config.EnvironmentParsingTests.test_environment_values_are_parsed_strictly)
+TC-CFG-05: Ortam değişkenleri katı ayrıştırılır; geçersiz bool/tam sayı değeri yapılandırma hatası verir. ... ok
+test_deploy_check_passes_in_production (servicedesk.tests.test_config.ProductionProfileTests.test_deploy_check_passes_in_production)
+TC-CFG-03: Üretim profilinde `check --deploy --fail-level WARNING` geçer; oturum ve CSRF çerezleri Secure'dur. ... ok
+test_production_refuses_unsafe_configuration (servicedesk.tests.test_config.ProductionProfileTests.test_production_refuses_unsafe_configuration)
+TC-CFG-02: Üretim profili SECRET_KEY veya ALLOWED_HOSTS tanımsızken ya da DEBUG açıkken başlamaz. ... ok
+test_rtm_statuses_and_summary_counts (servicedesk.tests.test_tooling.RtmBuilderTests.test_rtm_statuses_and_summary_counts)
+TC-QA-04: RTM üretici gereksinim durumlarını doğru hesaplar ve özet tablosunda tam durum adlarıyla sayar. ... ok
+test_runner_records_every_outcome (servicedesk.tests.test_tooling.TraceableRunnerTests.test_runner_records_every_outcome)
+TC-QA-03: Test koşucusu PASS, FAIL, ERROR, SKIP ve alt test başarısızlığını TC kimliğiyle doğru kaydeder. ... ok
+
+----------------------------------------------------------------------
+Ran 49 tests in 15.042s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+çıkış kodu: 0

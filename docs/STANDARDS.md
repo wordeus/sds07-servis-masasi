@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-STD |
-| Sürüm | 0.2 (taslak) |
+| Sürüm | 0.3 (taslak) |
 | Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 
@@ -13,6 +13,7 @@
 |---|---|---|
 | 0.1 | 30.10.2026 | Hafta 1: baskıların ve madde numaralarının resmî kaynaklardan doğrulanması; ISO 9001:2026 ve 12207:2026 eşlemesi; uyarlama |
 | 0.2 | 30.10.2026 | Hafta 2: eşleme durumları ve 12207 uygulama tablosu Hafta 2 çıktılarıyla güncellendi; Bootstrap ve yazı tipi sürümleri eklendi |
+| 0.3 | 30.10.2026 | Hafta 3: talep, kayıt bazlı erişim ve kategori gereksinimlerinin eşleme durumları; 12207 tablosuna mimari kural testleri eklendi |
 
 Bu belge projede kullanılan standart baskılarını, resmî bağlantılarını ve hangi madde numaralarının nasıl doğrulandığını kaydeder. **Kural:** Doğrulanmamış madde numarası kullanılmaz. Doğrulanamayan konular "DOĞRULANMADI" diye işaretlenir. Hiçbir ifade belgelendirme veya uygunluk iddiası değildir.
 
@@ -51,13 +52,13 @@ Madde numaraları ve başlıkları FDIS içindekilerinden alınmıştır (§2). 
 | 5.1.2 | Customer focus | SLA ihlalinin yöneticiye eskalasyonu | FR-29 | Planlandı (Hafta 8) |
 | 5.3 | Roles, responsibilities and authorities | Rol grupları, rol-izin matrisi, sunucu tarafı yetki | FR-06..FR-10, FR-16, FR-23 | Hafta 2'de FR-06..FR-10 uygulandı ve test edildi; FR-16 Hafta 4, FR-23 Hafta 6 |
 | 6.2 | Quality objectives and planning to achieve them | Önceliğe göre SLA hedefleri (ölçülebilir hedef) | FR-26 | Planlandı (Hafta 7) |
-| 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi (CI: Ubuntu ve Windows'ta PASS, 02.11.2026) |
+| 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi (Windows ve CI: NOT RUN) |
 | 7.1.5 | Monitoring and measuring resources | Doğru zaman ölçümü (UTC), test/ölçüm altyapısı | NFR-05, NFR-09 | Hafta 1'de uygulandı ve test edildi |
 | 7.4 | Communication | Uygulama içi bildirimler | FR-31 | Planlandı (Hafta 8) |
-| 7.5.3 | Control of documented information | Erişim kontrolü, işlem geçmişi, belgelerin sürüm kontrolü | FR-01..FR-05, FR-09, FR-20 | Hafta 2'de erişim kısmı uygulandı ve test edildi; işlem geçmişi (FR-20) Hafta 4-5 |
-| 8.2.1 / 8.2.2 | Customer communication / Determining requirements for products and services | Talep kaydı ve yorumlar | FR-12, FR-17 | Planlandı (Hafta 3-4) |
-| 8.5.1 | Control of production and service provision | Kontrollü talep akışı ve durum makinesi | FR-13, FR-18, FR-19 | Planlandı (Hafta 3, Hafta 5) |
-| 8.5.2 | Identification and traceability | Talep numarası, işlem geçmişi | FR-12, FR-20, FR-21 | Planlandı (Hafta 3-5) |
+| 7.5.3 | Control of documented information | Erişim kontrolü, işlem geçmişi, belgelerin sürüm kontrolü | FR-01..FR-05, FR-09, FR-14, FR-20 | Hafta 2'de oturum ve rol erişimi, Hafta 3'te kayıt bazlı erişim (FR-14) uygulandı ve test edildi; işlem geçmişi (FR-20) Hafta 4-5 |
+| 8.2.1 / 8.2.2 | Customer communication / Determining requirements for products and services | Talep kaydı ve yorumlar | FR-12, FR-17 | Hafta 3'te talep kaydı (FR-12) uygulandı ve test edildi; yorumlar (FR-17) Hafta 4 |
+| 8.5.1 | Control of production and service provision | Kontrollü talep akışı ve durum makinesi | FR-13, FR-15, FR-18, FR-19 | Hafta 3'te listeleme, filtre ve kategori yönetimi (FR-13, FR-15) uygulandı ve test edildi; durum makinesi Hafta 5 |
+| 8.5.2 | Identification and traceability | Talep numarası, işlem geçmişi | FR-12, FR-20, FR-21 | Hafta 3'te talep numarası (FR-12) uygulandı; işlem geçmişi Hafta 4-5 |
 | 8.5.6 | Control of changes | Değişiklik kaydı, onay, onaysız uygulama engeli | FR-22..FR-25 | Planlandı (Hafta 6) |
 | 8.6 | Release of products and services | Çözümün talep sahibi onayıyla kapanması | FR-19 | Planlandı (Hafta 5) |
 | 9.1.1 | Monitoring, measurement, analysis and evaluation: General | SLA ölçümü, uyarı | FR-26..FR-30 | Planlandı (Hafta 7-8) |
@@ -72,13 +73,13 @@ Not: 2015 baskısından farklı numaralar vardır. Örneğin FDIS içindekilerin
 
 ## 4. ISO/IEC/IEEE 12207:2026 süreç eşlemesi (vize Soru 1b)
 
-| Süreç (12207:2026) | Projede uygulanış (Hafta 1-2) | Kanıt |
+| Süreç (12207:2026) | Projede uygulanış (Hafta 1-3) | Kanıt |
 |---|---|---|
 | 6.4.2 Stakeholder needs and requirements definition | Kullanıcı hikâyeleri, iş kuralları | SRS §3 |
 | 6.4.3 System requirements definition | FR/NFR ve kabul kriterleri | SRS §5, §7 |
-| 6.4.4 System architecture definition | Bağlam, bileşen ve bilgi görünümleri | SDD |
-| 6.4.7 Implementation | Hafta 1: Django projesi, ayarlar, kullanıcı modeli; Hafta 2: giriş/çıkış, roller, arayüz | `servicedesk/`, `config/` |
-| 6.4.9 Verification process | Birim/entegrasyon testleri, statik analiz, mutasyon denetimi | TEST_PLAN, TEST_RESULTS |
+| 6.4.4 System architecture definition | Bağlam, bileşen ve bilgi görünümleri; Hafta 3'te katmanlı yapı ve kayıt düzeyi erişim etkileşimi | SDD v0.2, TC-ARCH-01/02 |
+| 6.4.7 Implementation | Hafta 1: Django projesi, ayarlar, kullanıcı modeli; Hafta 2: giriş/çıkış, roller, arayüz; Hafta 3: talep ve kategori işlemleri | `servicedesk/`, `config/` |
+| 6.4.9 Verification process | Birim/entegrasyon testleri, statik analiz, mimari kural testleri, mutasyon denetimi | TEST_PLAN, TEST_RESULTS |
 | 6.4.11 Validation process | Tarayıcıda rol senaryoları (E2E); haftalık demo | TC-E2E-*, ekran görüntüleri |
 | 6.3.4 Risk management process | Risk listesi ve aksiyonlar | RISKS.md |
 | 6.3.5 Configuration management process | Sabit bağımlılıklar, sürüm, CI, değişiklik günlüğü | requirements*.txt, CHANGELOG, ci.yml |
@@ -120,7 +121,7 @@ Kaynak: ISO/IEC 25010:2023 önsözündeki değişiklik listesi (iTeh örnek metn
 
 ## 7. IEEE 1012-2024 ile ilişki (vize Soru 5)
 
-Projede uygulanan doğrulama/geçerleme etkinlikleri: gereksinim izlenebilirlik analizi (RTM tutarlılık denetimi), kod/yapılandırma statik analizi (ruff, `check --deploy`), birim ve entegrasyon testleri, sistem testi (tarayıcı E2E), test araçlarının kendisinin doğrulanması (TC-QA-03, TC-QA-04) ve testlerin hata yakalama yeteneğinin mutasyon denetimiyle sınanması. Madde numarası kullanılmamıştır. Ayrıntı: [TEST_PLAN.md](TEST_PLAN.md).
+Projede uygulanan doğrulama/geçerleme etkinlikleri: gereksinim izlenebilirlik analizi (RTM tutarlılık denetimi), kod/yapılandırma statik analizi (ruff, `check --deploy`), mimari kural denetimi (TC-ARCH-01/02), birim ve entegrasyon testleri, sistem testi (tarayıcı E2E), test araçlarının kendisinin doğrulanması (TC-QA-03, TC-QA-04) ve testlerin hata yakalama yeteneğinin mutasyon denetimiyle sınanması. Madde numarası kullanılmamıştır. Ayrıntı: [TEST_PLAN.md](TEST_PLAN.md).
 
 ## 8. Kalite yönetimi ilkeleri
 
