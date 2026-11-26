@@ -11,7 +11,7 @@
 ## PRC-01 Sürüm kontrolü ve dal stratejisi
 
 - Ana dal `main` her zaman çalışır durumdadır; CI yeşil olmadan birleştirme yapılmaz.
-- Her iş için kısa ömürlü dal açılır: `feat/<kısa-ad>`, `fix/<kısa-ad>`, `docs/<kısa-ad>`.
+- Her iş için kısa ömürlü dal açılır: `feat/<kısa-ad>`, `fix/<kısa-ad>`, `docs/<kısa-ad>`. Hafta 4'ten itibaren dal adı haftayla başlar: `hafta-N/<kısa-ad>` (ör. `hafta-4/atama`); PR başlığı `Hafta N: <özet>`. Böylece GitHub Actions listesinde koşular haftaya göre okunur.
 - Değişiklik Pull Request ile gelir. Proje tek kişilik olduğundan PR'ı açan kişi PRC-03 kontrol listesini kendisi uygular ve CI yeşil olmadan birleştirmez. Bağımsız inceleme yerine öğretim elemanı geri bildirimi kullanılır (RSK-03).
 
 ## PRC-02 Commit mesajları (Conventional Commits)

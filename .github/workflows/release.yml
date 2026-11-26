@@ -2,6 +2,7 @@
 # Release'e o haftanın raporu (docx) ve kanıt klasörü (zip) eklenir.
 # Etiket main'deki son commit'e konmadan önce CI'ın yeşil olduğu doğrulanmalıdır (PRC-05).
 name: Release
+run-name: "Release · ${{ inputs.tag || github.ref_name }}"
 
 on:
   push:
