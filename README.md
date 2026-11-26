@@ -2,7 +2,7 @@
 
 ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. İstanbul Kültür Üniversitesi "Software Development with Standards" dersi kapsamında Burak Nigiz (2100002062) tarafından geliştirilmektedir (tek kişilik proje).
 
-Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: Open → In Progress → Resolved → Closed. Proje 14 haftalık plana göre faz faz ilerler; her faz bir haftalık paket, bir ilerleme raporu ve bir GitHub etiketiyle (`hafta-N`) teslim edilir.
+Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: Open → In Progress → Resolved → Closed. Proje beş fazda tamamlanır; **Faz 5 bitiş fazıdır**. Her faz bir paket, bir ilerleme raporu ve bir GitHub etiketiyle (`hafta-N`) teslim edilir.
 
 ## 1. Durum özeti
 
@@ -12,8 +12,7 @@ Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: O
 | 2 | Giriş/çıkış, roller, yetkilendirme, arayüz, tarayıcı testleri | 30.10.2026 | Tamamlandı | [`hafta-2`](https://github.com/wordeus/sds07-servis-masasi/tree/hafta-2) | [Rapor #2](docs/reports/Rapor-02_Hafta-2.docx) |
 | 3 | Talep oluşturma ve listeleme, kayıt bazlı erişim, kategoriler, modüler mimari | 13.11.2026 | Tamamlandı | [`hafta-3`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-3) | [Rapor #3](docs/reports/Rapor-03_Hafta-3.docx) |
 | 4 | Atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü | 27.11.2026 | **Sıradaki** | - | - |
-| 5 | Durum geçişleri ve işlem geçmişi görünümü | 11.12.2026 | Planlandı | - | - |
-| 6-14 | Değişiklik yönetimi, SLA, bildirim, anket ve KPI, DÖF, sertleştirme, final | SRS §2.6 | Planlandı | - | - |
+| 5 (bitiş) | Durum geçişleri ve işlem geçmişi görünümü; final belgesi, sunum ve demo | 11.12.2026 | Planlandı | - | - |
 
 Güncel ayrıntı ve açık işler: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md).
 
@@ -45,9 +44,16 @@ Güncel ayrıntı ve açık işler: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.m
 3. İşlem geçmişinin ilk sürümü (oluşturma, atama, öncelik değişikliği; yalnız ekleme): FR-20
 4. RTM `--week 4` ve Rapor #4
 
-### Faz 5 ve sonrası
+### Faz 5 (Hafta 5): Durum geçişleri ve proje bitişi
 
-Faz 5 durum geçişlerini ve işlem geçmişi görünümünü (FR-18, FR-19, FR-21) kapsar. Faz 6-14: değişiklik yönetimi, SLA ve eskalasyon, bildirim kutusu, memnuniyet anketi ve KPI paneli, uygunsuzluk ve DÖF, güvenlik ve performans, final teslimi. Ayrıntı: [SRS §2.6](docs/SRS.md).
+1. Durum geçişleri (Open → In Progress → Resolved → Closed), rol ve atama koşulları, çözüm açıklaması zorunluluğu: FR-18, FR-19
+2. İşlem geçmişi görünümü; kayıtlar değiştirilemez: FR-21
+3. Final belgesi, sunum ve demo; RTM `--week 5` ve Rapor #5
+4. `hafta-5` etiketi ve Release (son teslim)
+
+### Gelecek çalışma (kapsam dışı)
+
+Proje Faz 5'te bittiği için 14 haftalık ilk plandaki şu modüller bu teslimde yapılmaz; SRS'te "gelecek çalışma" olarak işaretlenir (karar Hafta 4 paketinde kayıtlıdır): değişiklik yönetimi (FR-22..FR-25), SLA ve eskalasyon (FR-26..FR-30), bildirim kutusu (FR-31), memnuniyet anketi ve KPI paneli (FR-32..FR-34), uygunsuzluk ve DÖF (FR-35..FR-37), performans ve tarayıcı uyumu ölçümleri (NFR-13..NFR-15).
 
 ## 3. Kurulum (Windows PowerShell)
 
