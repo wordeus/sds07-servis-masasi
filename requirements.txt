@@ -4,6 +4,6 @@
 # Bu proje CI'da Python 3.12 ve 3.13 ile test edilecek şekilde yapılandırılmıştır.
 Django==5.2.18
 asgiref==3.13.0
-sqlparse==0.6.0
+sqlparse==0.6.1
 # Windows'ta IANA saat dilimi verisi (Europe/Istanbul) için zorunludur.
 tzdata==2026.6; sys_platform == "win32"
