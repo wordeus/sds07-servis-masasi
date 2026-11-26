@@ -9,6 +9,7 @@ Girdi:
   --coverage reports/coverage.json     TC-QA-01 (kapsam eşiği)
   --ruff     reports/ruff.json         TC-QA-02 (statik analiz bulgusu)
   --week N                             aktif hafta: N'den sonraki haftalara planlananlar PLANLANDI olur
+                                       hafta sütunu 'kapsam dışı' olan gereksinim KAPSAM DIŞI olur (KRR-18)
 
 Çıktı:
   docs/RTM.md, docs/TEST_RESULTS.md
@@ -126,8 +127,13 @@ def merge_outcome(records: list[dict]) -> str:
     return "NOT RUN"
 
 
+OUT_OF_SCOPE = "kapsam dışı"
+
+
 def requirement_status(req: dict, tc_status: dict, current_week: int) -> str:
     tests = split_ids(req["tests"])
+    if req["week"].strip().casefold() == OUT_OF_SCOPE:
+        return "KAPSAM DIŞI (gelecek çalışma)"
     if first_number(req["week"]) > current_week:
         return f"PLANLANDI (Hafta {req['week']})"
     if not tests:

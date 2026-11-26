@@ -5,6 +5,8 @@ Kurallar:
   tutulmaz, böylece eşzamanlı kayıtta numara çakışması olamaz (KRR-12).
 * Durum alanı formlarda düzenlenemez (`editable=False`). Yeni talep her zaman
   "Open" durumunda başlar; geçişler Hafta 5'te durum makinesiyle eklenecek (FR-18).
+* Atama ve öncelik değişikliği yalnız servis katmanından yapılır ve işlem geçmişine
+  yazılır (FR-16, FR-20; services/assignment.py).
 * Kategori silinmez, pasifleştirilir; talebi olan kategori veritabanı düzeyinde
   korunur (`on_delete=PROTECT`, FR-15).
 * Zaman damgaları UTC saklanır (`USE_TZ=True`, NFR-05).
@@ -83,7 +85,13 @@ class Ticket(models.Model):
         ordering = ["-created_at", "-pk"]
         verbose_name = "talep"
         verbose_name_plural = "talepler"
-        permissions = [("view_all_tickets", "Tüm talepleri görüntüleyebilir")]
+        permissions = [
+            ("view_all_tickets", "Tüm talepleri görüntüleyebilir"),
+            # Hafta 4 (FR-16, AK-03)
+            ("take_ticket", "Atanmamış talebi üzerine alabilir"),
+            ("assign_ticket", "Talebi destek personeline atayabilir"),
+            ("change_ticket_priority", "Talep önceliğini değiştirebilir"),
+        ]
 
     def __str__(self) -> str:
         return f"{self.number} {self.title}"

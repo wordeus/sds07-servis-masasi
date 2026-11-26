@@ -3,9 +3,9 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-SDD |
-| Sürüm | 0.2 (taslak) |
-| Tarih | 30.10.2026 |
-| Durum | Taslak: Hafta 1-3'te uygulanmış yapı + sonraki haftalar için planlanan yapı |
+| Sürüm | 0.3 (taslak) |
+| Tarih | 26.11.2026 |
+| Durum | Taslak: Hafta 1-4'te uygulanmış yapı + Faz 5 için planlanan yapı (proje Faz 5'te biter, KRR-18) |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | Dayanak | IEEE 1016-2009 tasarım görünümleri (IEEE SA'da Inactive-Reserved; ders kapsamında kullanılıyor) |
 
@@ -15,6 +15,7 @@
 |---|---|---|---|
 | 0.1 | 30.10.2026 | Burak Nigiz | Hafta 2: bağlam, bileşim/mantıksal, bilgi, durum dinamikleri ve etkileşim görünümleri; karar günlüğü KRR-01..KRR-10 (KRR-01..KRR-05 Hafta 1 kararlarıdır) |
 | 0.2 | 30.10.2026 | Burak Nigiz | Hafta 3: `models/`, `services/`, `views/` paketleri; MOD-TICKET bileşeni ve arayüz sözleşmeleri; Category ve Ticket bilgi görünümü; kayıt düzeyi erişim etkileşimi (404); mimari kural testleri; karar günlüğü KRR-11..KRR-15 |
+| 0.3 | 26.11.2026 | Burak Nigiz | Hafta 4: Comment ve TicketEvent bilgi görünümü; `services/assignment.py`, `services/comments.py`, `services/audit.py`; `views/ticket_actions.py`; işlem geçmişi bütünlük kuralları; karar günlüğü KRR-16..KRR-18 |
 
 Diyagram kaynakları `docs/diagrams/*.mmd` dosyalarındadır (Mermaid). PNG/SVG çıktıları aynı klasördedir ve `mmdc` ile yeniden üretilebilir.
 
@@ -284,12 +285,16 @@ erDiagram
 | Zaman damgaları UTC | `USE_TZ=True`; tüm `DateTimeField` alanları | NFR-05 |
 | Talep başına en fazla bir anket | `SURVEY.ticket_id` tekil kısıt | FR-32 |
 | Aynı SLA olayı için tek kayıt | `SLA_EVENT` (talep, ölçüt, tür) tekil kısıt | FR-30 |
-| İşlem geçmişi yalnız eklenir | Yönetim sitesinde salt okunur; model düzeyinde güncelleme/silme engeli | FR-20 |
+| İşlem geçmişi yalnız eklenir | `TicketEvent.save()` ikinci kayıtta ve `delete()` her zaman `ImmutableEventError` verir; yönetim sitesinde ekleme/değiştirme/silme kapalı; kayıt işlemle aynı veritabanı işleminde yazılır (KRR-16, Hafta 4) | FR-20 |
 | Grup adları sabit | Rol matrisi kodda; `migrate` sonrası eşitlenir | FR-06 |
 | Talep numarası benzersiz | Birincil anahtardan türetilir: `INC-{id:06d}` (KRR-12) | FR-12 |
 | Talep durumu formdan değiştirilemez | `status` alanı `editable=False`; yeni talep Open başlar | FR-12, FR-18 |
 | Kategori silinmez | `on_delete=PROTECT`; yönetim sitesinde silme kapalı; pasifleştirme (KRR-14) | FR-15 |
 | Kategori adı tekil | Veritabanında `unique`; Türkçe büyük/küçük harf farkı `Category.clean` ile denetlenir (RSK-21) | FR-15 |
+| Atama yalnız Destek Personeline | `services/assignment.py::agents()` (rol grubu + etkin); servis ve form aynı kümeyi kullanır (Hafta 4) | FR-16 |
+| Aynı talebi iki kişi üzerine alamaz | Üzerine alma işlem içinde talebi kilitleyerek (`select_for_update`) yeniden okur ve atananı denetler (Hafta 4) | FR-16 |
+| Kapanmış talep değişmez | Yorum, atama ve öncelik servisleri Closed talebi reddeder (Hafta 4) | FR-17, FR-16 |
+| Yorum ve geçmiş silinmez | `Comment` ve `TicketEvent` talebe `PROTECT` ile bağlı; yönetim sitesinde silme kapalı (Hafta 4) | FR-17, FR-20 |
 
 ### 6.2 Saklama ve gizlilik
 
@@ -381,3 +386,6 @@ sequenceDiagram
 | KRR-13 | Öncelik talep formunda talep sahibince seçilir; AK-03 için geçici karar (Hafta 3) | FR-12 metni; talep sahibinin aciliyet bilgisi kaybolmaz. Hafta 4'te destek personeli değiştirebilecek ve işlem geçmişine yazılacak | Önceliği yalnız destek personeli belirler |
 | KRR-14 | Kategori silinmez, pasifleştirilir (`PROTECT` + yönetim sitesinde silme kapalı) (Hafta 3) | Eski taleplerin sınıflaması ve izlenebilirlik bozulmaz (ISO 9001:2026 8.5.2) | Silip talepleri "Diğer"e taşımak: geçmiş değişir |
 | KRR-15 | Tarayıcı testlerinde sunucu `DJANGO_DEBUG=0` ve `runserver --insecure` ile çalışır (Hafta 3) | Kullanıcı üretimdeki özel hata sayfalarını görür (RSK-23) | DEBUG açık: 404 için Django hata ayıklama sayfası görünür, test gerçek deneyimi ölçmez |
+| KRR-16 | İşlem geçmişinin değiştirilemezliği uygulama düzeyinde sağlanır: model `save()`/`delete()` engeli, salt okunur yönetim sitesi, yazımın tek modülden (`services/audit.py`) yapılması (Hafta 4) | FR-20'nin "arayüzden düzenlenemez/silinemez" koşulunu karşılar; SQLite'ta ek araç gerektirmez; testle doğrulanır (TC-AUD-02, mutasyon M13) | Veritabanı tetikleyicisi: veritabanına bağımlı, taşınabilirliği azaltır; doğrudan SQL erişimine karşı koruma kapsam dışı |
+| KRR-17 | AK-03 kararı: talep sahibi önceliği talep açarken seçer; Destek Personeli ve Yönetici değiştirebilir; değişiklik işlem geçmişine yazılır (Hafta 4; KRR-13'ün yerine) | Talep sahibinin aciliyet bilgisi korunur, uzman değerlendirmesi izlenebilir biçimde uygulanır | Önceliği yalnız personel belirler: talep sahibinin bilgisi kaybolur |
+| KRR-18 | Proje Faz 5'te (11.12.2026) biter: Faz 4 atama/yorum/işlem geçmişi, Faz 5 durum geçişleri + işlem geçmişi görünümü + final; FR-22..FR-37 ve NFR-13..NFR-15 gelecek çalışma (Hafta 4) | Kalan sürede çekirdek talep akışı uçtan uca, testli ve belgeli tamamlanır; yarım modül bırakılmaz | 25 gereksinimin tümünü iki faza sıkıştırmak: test ve kanıt kalitesi düşer |

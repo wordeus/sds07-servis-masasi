@@ -1,9 +1,12 @@
-"""Django yönetim sitesi (FR-07): kullanıcı oluşturma ve rol (grup) atama; Hafta 3'te kategori ve talep kayıtları."""
+"""Django yönetim sitesi (FR-07): kullanıcı oluşturma ve rol (grup) atama.
+
+Hafta 3'te kategori ve talep, Hafta 4'te yorum ve işlem geçmişi (salt okunur) kayıtları eklendi.
+"""
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
-from .models import Category, Ticket, User
+from .models import Category, Comment, Ticket, TicketEvent, User
 
 
 @admin.register(User)
@@ -41,4 +44,35 @@ class TicketAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         # İzlenebilirlik (ISO 9001:2026 8.5.2): talep kaydı silinmez; kapatma Hafta 5'te durum akışıyla yapılır.
+        return False
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("ticket", "author", "created_at")
+    list_select_related = ("ticket", "author")
+    readonly_fields = ("ticket", "author", "body", "created_at")
+
+    def has_add_permission(self, request):
+        return False  # Yorum talep sayfasından eklenir (FR-17)
+
+    def has_delete_permission(self, request, obj=None):
+        return False  # İzlenebilirlik: yorum silinmez
+
+
+@admin.register(TicketEvent)
+class TicketEventAdmin(admin.ModelAdmin):
+    """İşlem geçmişi salt okunurdur: eklenemez, değiştirilemez, silinemez (FR-20)."""
+
+    list_display = ("ticket", "kind", "old_value", "new_value", "actor", "created_at")
+    list_filter = ("kind",)
+    list_select_related = ("ticket", "actor")
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
         return False

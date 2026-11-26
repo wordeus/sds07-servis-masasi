@@ -241,3 +241,32 @@ class NavigationTests(RoleUsersMixin, TestCase):
                         self.assertContains(response, marker)
                     else:
                         self.assertNotContains(response, marker)
+
+
+class Week4PermissionTests(RoleUsersMixin, TestCase):
+    def test_week4_permissions_follow_matrix(self):
+        """TC-ROLE-14: Hafta 4 izinleri: Talep Sahibi yalnız yorum ekler; Destek Personeli yorum, üzerine alma ve öncelik değiştirme; Yönetici bunlara ek olarak atama yapar; panelde Hafta 4 yetenekleri kullanılabilir, Hafta 5 yetenekleri "Hafta 5", kapsam dışı yetenekler "Kapsam dışı" görünür."""
+        perms = (
+            "servicedesk.add_comment",
+            "servicedesk.take_ticket",
+            "servicedesk.change_ticket_priority",
+            "servicedesk.assign_ticket",
+        )
+        expected = {
+            self.requester: (True, False, False, False),
+            self.agent: (True, True, True, False),
+            self.manager: (True, True, True, True),
+            self.no_role: (False, False, False, False),
+        }
+        for user, flags in expected.items():
+            with self.subTest(user=user.username):
+                user = get_user_model().objects.get(pk=user.pk)  # izin önbelleğini temizle
+                self.assertEqual(tuple(user.has_perm(p) for p in perms), flags)
+        self.client.force_login(self.manager)
+        rows = {row["label"]: row for row in self.client.get(DASHBOARD).context["capabilities"]}
+        for label in ("Talebe yorum ekleme", "Talebi üzerine alma", "Talebi destek personeline atama"):
+            self.assertTrue(rows[label]["available"], label)
+        self.assertFalse(rows["Durum ilerletme (Açık → İşlemde → Çözüldü)"]["available"])
+        self.assertTrue(rows["KPI paneli"]["out_of_scope"])
+        self.assertContains(self.client.get(DASHBOARD), '<span class="sd-chip">Kapsam dışı</span>', html=False)
+        self.assertContains(self.client.get(DASHBOARD), '<span class="sd-chip">Hafta 5</span>', html=False)

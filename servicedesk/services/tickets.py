@@ -16,10 +16,12 @@ from dataclasses import dataclass
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.db.models import Count, Q, QuerySet
 
-from ..models import Category, Ticket
+from ..models import Category, Ticket, TicketEvent
 from ..roles import AGENT, PERM_VIEW_ALL_TICKETS, PERM_VIEW_TICKET
+from .audit import record_event
 
 UNASSIGNED = "none"  # Atanan filtresinde "atanmamış" seçeneğinin değeri
 
@@ -74,12 +76,17 @@ def status_counts(user) -> list[dict]:
 
 
 def create_ticket(*, requester, title: str, description: str, category: Category, priority: str) -> Ticket:
-    """Yeni talep (FR-12). Durum her zaman Open; numara kayıttan sonra oluşur."""
+    """Yeni talep (FR-12). Durum her zaman Open; numara kayıttan sonra oluşur.
+
+    Oluşturma işlem geçmişine aynı veritabanı işleminde yazılır (FR-20).
+    """
     if not category.is_active:
         raise ValidationError({"category": "Pasif kategoriyle talep açılamaz."})
     ticket = Ticket(requester=requester, title=title, description=description, category=category, priority=priority)
     ticket.full_clean()
-    ticket.save()
+    with transaction.atomic():
+        ticket.save()
+        record_event(ticket, requester, TicketEvent.Kind.CREATED, new_value=priority)
     return ticket
 
 

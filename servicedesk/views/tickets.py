@@ -1,4 +1,4 @@
-"""MOD-TICKET görünümleri: talep listesi, yeni talep, talep ayrıntısı (Hafta 3).
+"""MOD-TICKET görünümleri: talep listesi, yeni talep, talep ayrıntısı (Hafta 3-4).
 
 Yetki iki katmanda denetlenir:
 1. Rol düzeyi (403): `PermissionRequiredMixin` görünüm çalışmadan önce izni sorar (FR-09).
@@ -13,8 +13,16 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import redirect
 from django.views.generic import DetailView, FormView, ListView
 
-from ..forms import TicketFilterForm, TicketForm
-from ..roles import PERM_ADD_TICKET, PERM_VIEW_ALL_TICKETS, PERM_VIEW_TICKET
+from ..forms import AssignForm, CommentForm, PriorityForm, TicketFilterForm, TicketForm
+from ..roles import (
+    PERM_ADD_TICKET,
+    PERM_ASSIGN_TICKET,
+    PERM_CHANGE_PRIORITY,
+    PERM_VIEW_ALL_TICKETS,
+    PERM_VIEW_TICKET,
+)
+from ..services.assignment import can_take
+from ..services.comments import can_comment, comments_for
 from ..services.tickets import create_ticket, filter_tickets, status_steps, visible_tickets_for
 
 PAGE_SIZE = 25  # FR-13
@@ -23,6 +31,9 @@ FILTER_FIELDS = ("status", "priority", "category", "assignee")
 
 def add_validation_errors(form, error: ValidationError) -> None:
     """Servis katmanının doğrulama hatalarını forma taşır (alan dışı hatalar genel hata olur)."""
+    if not hasattr(error, "error_dict"):
+        form.add_error(None, error.messages)
+        return
     for field, messages_ in error.message_dict.items():
         form.add_error(field if field in form.fields else None, messages_)
 
@@ -83,5 +94,22 @@ class TicketDetailView(PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["steps"] = status_steps(self.object.status)
+        context.update(ticket_detail_context(self.request.user, self.object, kwargs))
         return context
+
+
+def ticket_detail_context(user, ticket, bound_forms: dict | None = None) -> dict:
+    """Ayrıntı sayfasının içeriği. Hatalı gönderilen form (bound) boş formun yerine geçer."""
+    bound_forms = bound_forms or {}
+    is_open = ticket.status != ticket.Status.CLOSED
+    return {
+        "steps": status_steps(ticket.status),
+        "comments": comments_for(ticket),
+        "can_comment": can_comment(user, ticket),
+        "comment_form": bound_forms.get("comment_form") or CommentForm(),
+        "can_take": can_take(user, ticket),
+        "can_assign": user.has_perm(PERM_ASSIGN_TICKET) and is_open,
+        "assign_form": bound_forms.get("assign_form") or AssignForm(),
+        "can_change_priority": user.has_perm(PERM_CHANGE_PRIORITY) and is_open,
+        "priority_form": bound_forms.get("priority_form") or PriorityForm(initial={"priority": ticket.priority}),
+    }

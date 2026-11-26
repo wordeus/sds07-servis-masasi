@@ -99,6 +99,46 @@ MUTATIONS = (
         "        if any(name == self.name for name in others):",
         "Kategori adı tekilliğinde Türkçe büyük/küçük harf kuralı kaldırıldı",
     ),
+    Mutation(
+        "M9_comment_visibility_check_removed",
+        4,
+        "servicedesk/services/comments.py",
+        "    if not author.has_perm(PERM_ADD_COMMENT) or not visible_tickets_for(author).filter(pk=ticket.pk).exists():",
+        "    if not author.has_perm(PERM_ADD_COMMENT):",
+        "Yorum servisi talebin görünürlüğünü denetlemiyor (başkasının talebine yorum)",
+    ),
+    Mutation(
+        "M10_closed_ticket_comment_allowed",
+        4,
+        "servicedesk/services/comments.py",
+        '        raise ValidationError("Kapanmış talebe yorum eklenemez.")',
+        "        pass",
+        "Kapanmış talebe yorum eklenebiliyor",
+    ),
+    Mutation(
+        "M11_assign_to_any_user",
+        4,
+        "servicedesk/services/assignment.py",
+        "    if assignee is None or not agents().filter(pk=assignee.pk).exists():",
+        "    if assignee is None:",
+        "Talep Destek Personeli olmayan kullanıcıya atanabiliyor",
+    ),
+    Mutation(
+        "M12_priority_change_not_audited",
+        4,
+        "servicedesk/services/assignment.py",
+        "        record_event(current, actor, TicketEvent.Kind.PRIORITY_CHANGED, old_value=old, new_value=priority)",
+        "        pass",
+        "Öncelik değişikliği işlem geçmişine yazılmıyor",
+    ),
+    Mutation(
+        "M13_event_record_mutable",
+        4,
+        "servicedesk/models/activity.py",
+        "        if self.pk is not None:",
+        "        if False:",
+        "Kaydedilmiş işlem geçmişi kaydı değiştirilebiliyor",
+    ),
 )
 
 

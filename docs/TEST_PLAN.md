@@ -3,28 +3,28 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-STP |
-| Sürüm | 0.3 (Hafta 3) |
-| Tarih | 30.10.2026 |
+| Sürüm | 0.4 (Hafta 4) |
+| Tarih | 26.11.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili standart | IEEE 1012-2024 (V&V), ISO/IEC/IEEE 12207:2026 6.4.9 Verification ve 6.4.11 Validation |
 
-Test kataloğu: [traceability/tests.csv](traceability/tests.csv). Gerçek sonuçlar: [TEST_RESULTS.md](TEST_RESULTS.md) ve [RTM.md](RTM.md). Bu iki dosya `tools/build_rtm.py --week 3` ile üretilir; elle sonuç yazılmaz.
+Test kataloğu: [traceability/tests.csv](traceability/tests.csv). Gerçek sonuçlar: [TEST_RESULTS.md](TEST_RESULTS.md) ve [RTM.md](RTM.md). Bu iki dosya `tools/build_rtm.py --week 4` ile üretilir; elle sonuç yazılmaz.
 
 ## 1. Kapsam
 
-Hafta 1 (MOD-CFG, kullanıcı modeli), Hafta 2 (MOD-AUTH, MOD-ROLE, MOD-UI) ve Hafta 3 (MOD-TICKET: talep, kayıt bazlı erişim, kategori; katmanlı yapı). Gereksinimler: FR-01..FR-15, NFR-01..NFR-12, NFR-16. Önceki haftaların testleri her pakette yeniden koşulur (gerileme). Sonraki haftaların testleri kendi haftalarında kataloğa eklenecek.
+Hafta 1 (MOD-CFG, kullanıcı modeli), Hafta 2 (MOD-AUTH, MOD-ROLE, MOD-UI), Hafta 3 (MOD-TICKET: talep, kayıt bazlı erişim, kategori; katmanlı yapı) ve Hafta 4 (üzerine alma ve atama, yorumlar, öncelik değişikliği; MOD-AUDIT: işlem geçmişi). Gereksinimler: FR-01..FR-17, FR-20 (Hafta 4 bölümü), NFR-01..NFR-12, NFR-16. Önceki haftaların testleri her pakette yeniden koşulur (gerileme). Faz 5'te FR-18, FR-19, FR-21 eklenir; FR-22..FR-37 ve NFR-13..NFR-15 kapsam dışıdır (SRS §1.2, KRR-18).
 
 ## 2. Test seviyeleri ve araçları
 
 | Seviye | Amaç | Araç | TC önekleri |
 |---|---|---|---|
-| Birim | Saf fonksiyonlar (rol çözümleme, ortam ayrıştırma, test koşucusu, RTM üretici) | Django test çatısı (`unittest`) | TC-ROLE-05, TC-CFG-05, TC-QA-03, TC-QA-04, TC-SEC-01 |
-| Entegrasyon | Görünüm + middleware + veritabanı + şablon birlikte | Django test istemcisi | TC-AUTH-*, TC-ROLE-*, TC-SEED-*, TC-SEC-02/03, TC-CFG-01/04/06, TC-TKT-01..08, TC-CAT-01..03 |
+| Birim | Saf fonksiyonlar (rol çözümleme, ortam ayrıştırma, test koşucusu, RTM üretici) | Django test çatısı (`unittest`) | TC-ROLE-05, TC-CFG-05, TC-QA-03, TC-QA-04, TC-SEC-01, TC-AUD-02, TC-AUD-03 |
+| Entegrasyon | Görünüm + middleware + veritabanı + şablon birlikte | Django test istemcisi | TC-AUTH-*, TC-ROLE-*, TC-SEED-*, TC-SEC-02/03, TC-CFG-01/04/06, TC-TKT-01..08, TC-CAT-01..03, TC-ASN-01..05, TC-CMT-01..04, TC-AUD-01 |
 | Sistem (yapılandırma) | Ayarların ayrı süreçte yüklenmesi, üretim profili | `subprocess` + `manage.py check --deploy` | TC-CFG-02, TC-CFG-03 |
-| Sistem (E2E, geçerleme) | Gerçek tarayıcıda rol ve talep senaryoları, mobil, klavye, kontrast | Playwright (Chromium) | TC-E2E-01..13 |
+| Sistem (E2E, geçerleme) | Gerçek tarayıcıda rol ve talep senaryoları, mobil, klavye, kontrast | Playwright (Chromium) | TC-E2E-01..16 |
 | Statik analiz | Kod kalitesi, kapsam ölçümü, mimari kurallar (Python AST) | ruff, coverage.py, `ast` | TC-QA-01, TC-QA-02, TC-ARCH-01, TC-ARCH-02 |
 | İnceleme | Kişisel veri asgarisi | Kod/şablon incelemesi | TC-INS-01 |
-| Kurulum / CI | Temiz ortam kurulumu, işletim sistemi matrisi | `tools/install_check.sh`, GitHub Actions | TC-INST-01, TC-CI-01 |
+| Kurulum / CI | Temiz ortam kurulumu, işletim sistemi matrisi | `tools/install_check.sh`, `tools/install_check.ps1`, GitHub Actions | TC-INST-01, TC-CI-01 |
 
 Tarayıcı testleri Django testlerinin yerine geçmez; onların tamamlayıcısıdır. Yetki kuralları önce sunucu tarafında entegrasyon testleriyle, sonra gerçek kullanıcı akışında E2E ile doğrulanır.
 
@@ -59,13 +59,14 @@ Tarayıcı testleri Django testlerinin yerine geçmez; onların tamamlayıcısı
 
 | Öğe | Değer |
 |---|---|
-| İşletim sistemi | Linux (bulut çalışma alanı); Windows 11 Pro 10.0.26300 (26.11.2026, Django testleri ve temiz kurulum) |
-| Python | 3.13.18 (ana koşu); 3.12.13 ve 3.13.18 (temiz kurulum denetimi, Linux); 3.13.17 (Windows) |
-| Django | 5.2.18 |
-| Tarayıcı | Chromium 153.0.8010.12 (Playwright 1.63.0) |
+| İşletim sistemi | Windows 11 Pro 10.0.26300 (Hafta 4 koşuları); Ubuntu ve Windows GitHub Actions işleri (TC-CI-01) |
+| Python | 3.13.17 (Windows); CI'da 3.12 ve 3.13 |
+| Django | 5.2.19 |
+| Tarayıcı | Chromium 159.0.8154.6 (Playwright 1.65.2) |
 | Veritabanı | SQLite (testlerde bellek içi; E2E'de geçici dosya) |
-| E2E sunucusu | `runserver --insecure`, `DJANGO_DEBUG=0` (özel hata sayfaları üretimdeki gibi; KRR-15) |
-| Windows | Elle: Windows 11, Python 3.13.17, 49/49 PASS ve temiz kurulum BAŞARILI (26.11.2026, `evidence/hafta-03/windows-2026-11-26/`). CI: koşu #5'te windows-latest × 3.12/3.13 başarılı. Tarayıcı testleri Windows'ta koşulmadı. |
+| E2E sunucusu | `runserver --insecure`, `DJANGO_DEBUG=0` (özel hata sayfaları üretimdeki gibi; KRR-15); Windows'ta `tools/run_e2e.ps1` |
+
+Hafta 1-3 koşuları Linux'ta yapıldı (ortam bilgisi kendi kanıt klasörlerinde). Hafta 4'te Linux doğrulaması CI işleriyledir.
 
 ## 6. Çalıştırma
 
@@ -76,19 +77,18 @@ coverage report
 coverage json -q -o reports/coverage.json
 ruff check . --output-format json --output-file reports/ruff.json
 
-# Tarayıcı (Linux/macOS); Windows için docs/INSTALL.md §5
+# Tarayıcı (Linux/macOS); Windows: powershell -ExecutionPolicy Bypass -File tools\run_e2e.ps1
 bash tools/run_e2e.sh
 
 # Temiz kurulum ve mutasyon denetimi
 bash tools/install_check.sh python3.13 linux-py313 reports/install-check-linux-py313.log
 # Windows (PowerShell): powershell -ExecutionPolicy Bypass -File tools\install_check.ps1 3.13 windows-py313 reports\install-check-windows-py313.log
-python tools/mutation_check.py --week 3 --out reports/mutation-check.md
+python tools/mutation_check.py --week 4 --out reports/mutation-check.md
 
 # RTM ve test sonuç tablosu
-python tools/build_rtm.py --week 3 --strict \
-  --results reports/unit-results.json reports/e2e-results.json reports/e2e-week3-results.json \
-            docs/evidence/hafta-03/manual-checks.json docs/evidence/hafta-03/ci-github-actions-2026-11-21.json \
-            docs/evidence/hafta-03/windows-2026-11-26/unit-results.json docs/evidence/hafta-03/windows-2026-11-26/manual-checks.json \
+python tools/build_rtm.py --week 4 --strict \
+  --results reports/unit-results.json reports/e2e-results.json reports/e2e-week3-results.json reports/e2e-week4-results.json \
+            docs/evidence/hafta-04/manual-checks.json docs/evidence/hafta-04/ci-github-actions-*.json \
   --coverage reports/coverage.json --ruff reports/ruff.json
 ```
 
@@ -96,20 +96,23 @@ python tools/build_rtm.py --week 3 --strict \
 
 | Grup | Planlanan | Koşulan | PASS | FAIL | NOT RUN |
 |---|---|---|---|---|---|
-| Birim + entegrasyon + sistem + mimari (Django) | 49 | 49 | 49 | 0 | 0 |
-| E2E (Chromium) | 13 | 13 | 13 | 0 | 0 |
+| Birim + entegrasyon + sistem + mimari (Django) | 62 | 62 | 62 | 0 | 0 |
+| E2E (Chromium, Windows) | 16 | 16 | 16 | 0 | 0 |
 | Statik analiz / ölçüm (TC-QA-01/02) | 2 | 2 | 2 | 0 | 0 |
-| Kurulum (TC-INST-01: Linux 3.12 ve 3.13, Windows 3.13) | 1 | 1 | 1 | 0 | 0 |
+| Kurulum (TC-INST-01, Windows 3.13) | 1 | 1 | 1 | 0 | 0 |
 | İnceleme (TC-INS-01) | 1 | 1 | 1 | 0 | 0 |
-| CI matrisi (TC-CI-01, koşu #5) | 1 | 1 | 1 | 0 | 0 |
+| CI matrisi (TC-CI-01) | 1 | 1 | 1 | 0 | 0 |
 
-Katalogda 67 test vardır: 67 PASS. Django ve E2E sayıları 30.10.2026 koşusuna, TC-CI-01 21.11.2026 GitHub Actions koşusuna, Windows sonuçları 26.11.2026 koşusuna aittir; güncel durum her zaman [TEST_RESULTS.md](TEST_RESULTS.md) dosyasındadır.
+Katalogda 83 test vardır; güncel durum her zaman [TEST_RESULTS.md](TEST_RESULTS.md) dosyasındadır. Mutasyon denetimi: 13 bilinçli hatanın 13'ü yakalandı (`evidence/hafta-04/mutation-check.md`). Hafta 3 özeti Rapor #3'te ve `evidence/hafta-03/` klasöründedir.
+
+Hafta 4'te ilk koşularda bulunan sorunlar: TC-ASN-05 (ERROR, RSK-28), TC-CMT-04 (FAIL, RSK-29), TC-ARCH-02 (FAIL, RSK-30). Üçü düzeltildi; yukarıdaki sonuçlar düzeltmeden sonraki koşudur.
 
 ## 8. Bilinen sınırlar
 
-- E2E yalnız Chromium'da koşuldu; Firefox Hafta 11-12'de (NFR-15).
-- Kontrast ölçümü seçili metin öğelerinde yapıldı; tüm ekranların taraması Hafta 11-12'de.
+- E2E yalnız Chromium'da koşuldu; Firefox uyumu (NFR-15) kapsam dışı (KRR-18).
+- Kontrast ölçümü seçili metin öğelerinde yapıldı; Hafta 4'te eklenen yorum ve işlem paneli öğeleri tarayıcıda ayrıca ölçülmedi (renkler mevcut belirteçlerden: metin `--sd-ink`, ikincil metin `--sd-muted`).
 - TC-INS-01 incelemesinin Burak Nigiz tarafından tekrarlanıp onaylanması gerekir.
 - Proje tek kişilik olduğundan bağımsız V&V yapılamıyor (RSK-03).
 - Windows çıktı kodlaması düzeltmesi (`PYTHONUTF8=1`, RSK-25) CI'daki Windows işlerinde ve 26.11.2026'daki elle Windows koşusunda doğrulandı. Tarayıcı (E2E) testleri Windows'ta koşulmadı.
-- Performans ölçümü (NFR-13) yapılmadı: ÖLÇÜLMEDİ (Hafta 11-12).
+- Performans ölçümü (NFR-13) kapsam dışı (KRR-18).
+- Hafta 4 koşuları Windows'ta yapıldı; Linux'ta Hafta 4 E2E koşulmadı (CI E2E koşmaz).
