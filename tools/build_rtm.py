@@ -67,12 +67,12 @@ def load_results(paths: list[Path]) -> tuple[dict, list[dict], list[str]]:
     unidentified: list[str] = []
     for path in paths:
         if not path.exists():
-            runs.append({"source": str(path), "missing": True})
+            runs.append({"source": path.as_posix(), "missing": True})
             continue
         payload = read_json(path) or {}
         runs.append(
             {
-                "source": str(path),
+                "source": path.as_posix(),
                 "kind": payload.get("kind", "?"),
                 "started": payload.get("started_at_utc"),
                 "finished": payload.get("finished_at_utc"),

@@ -2,7 +2,7 @@
 
 > Bu dosya `tools/build_rtm.py` tarafından gerçek test çıktılarından üretilir; elle düzenlemeyin.
 > Kaynaklar: `docs/traceability/requirements.csv`, `docs/traceability/tests.csv` ve aşağıdaki sonuç dosyaları.
-> Üretim: 30.10.2026 09:43 (Europe/Istanbul) · Aktif hafta: 3
+> Üretim: 26.11.2026 03:29 (Europe/Istanbul) · Aktif hafta: 3
 
 ## Çalıştırma kayıtları
 
@@ -12,6 +12,9 @@
 | `docs/evidence/hafta-03/e2e-results.json` | e2e-playwright | 30.10.2026 09:39 | browser chromium 153.0.8010.12, python 3.13.18, platform Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 | run=9, failures=0, errors=0, successful=True |
 | `docs/evidence/hafta-03/e2e-week3-results.json` | e2e-playwright | 30.10.2026 09:39 | browser chromium 153.0.8010.12, python 3.13.18, platform Linux-6.18.44-fc-v185-x86_64-with-glibc2.39 | run=4, failures=0, errors=0, successful=True |
 | `docs/evidence/hafta-03/manual-checks.json` | manual-and-scripted-checks | 30.10.2026 09:43 | platform Linux (bulut çalışma alanı) | run=3, failures=0, not_run=1 |
+| `docs/evidence/hafta-03/ci-github-actions-2026-11-21.json` | github-actions | 22.11.2026 00:08 | platform GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13 | run=1, failures=0, jobs_passed=4, jobs_total=4 |
+| `docs/evidence/hafta-03/windows-2026-11-26/unit-results.json` | django-unit-integration | 26.11.2026 03:27 | python 3.13.17, django 5.2.18, platform Windows-11-10.0.26300-SP0 | run=49, failures=0, errors=0, skipped=0, successful=True |
+| `docs/evidence/hafta-03/windows-2026-11-26/manual-checks.json` | manual-and-scripted-checks | 26.11.2026 03:27 | platform Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı) | run=1, failures=0, not_run=0 |
 | ölçüm | coverage_percent | - | - | 94.21 |
 | ölçüm | ruff_findings | - | - | 0 |
 
@@ -66,7 +69,7 @@
 | NFR-08 | NFR | Klavye erişimi; görünür odak ve 4.5:1 kontrast | Orta | EKİP | MOD-UI | Test | TC-E2E-08 (PASS), TC-E2E-09 (PASS), TC-E2E-12 (PASS) | 2 | PASS |
 | NFR-09 | NFR | Otomatik test; ≥ %80 kapsam ve makinece okunur sonuç | Yüksek | PT-KNT; PT-ÇB | MOD-CFG | Analiz; Test | TC-QA-01 (PASS), TC-QA-03 (PASS), TC-QA-04 (PASS) | 1 | PASS |
 | NFR-10 | NFR | Statik analizde sıfır bulgu | Orta | PT-ÇB | MOD-CFG | Analiz | TC-QA-02 (PASS) | 1 | PASS |
-| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (NOT RUN) | 1 | KISMİ (2/3 PASS; diğerleri NOT RUN) |
+| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (PASS) | 1 | PASS |
 | NFR-12 | NFR | Kişisel veri asgarisi | Yüksek | EKİP | MOD-AUTH | İnceleme | TC-INS-01 (PASS) | 1 | PASS |
 | NFR-13 | NFR | Talep listesi yanıt süresi (p95 < 500 ms; 1.000 kayıt) | Orta | EKİP | MOD-TICKET | Test | - | 11-12 | PLANLANDI (Hafta 11-12) |
 | NFR-14 | NFR | Yetkisiz erişim denemelerinin günlüğe yazılması | Orta | EKİP | MOD-ROLE | Test | - | 11-12 | PLANLANDI (Hafta 11-12) |
@@ -77,8 +80,7 @@
 
 | Durum | Gereksinim sayısı |
 |---|---|
-| KISMİ | 1 |
-| PASS | 27 |
+| PASS | 28 |
 | PLANLANDI | 25 |
 
 ## Standart eşlemesi (bilgi amaçlı)

@@ -1,4 +1,4 @@
-# Hafta 3 kanıtları (30.10.2026 koşuları)
+# Hafta 3 kanıtları (30.10.2026 koşuları; CI 21.11.2026; Windows 26.11.2026)
 
 Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştirilmez (PRC-05). Zaman damgaları UTC'dir. Hafta 1 ve Hafta 2 kanıtları `../hafta-01/` ve `../hafta-02/` klasörlerinde olduğu gibi korunur.
 
@@ -18,6 +18,19 @@ Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştiril
 | `ci-github-actions-2026-11-21.json` | Hafta 3 commit'inin GitHub Actions koşusu (koşu #5, commit aa17057): Ubuntu ve Windows × Python 3.12/3.13, 4/4 iş başarılı; GitHub API'den 26.11.2026'da okundu | TC-CI-01, RSK-05 |
 | `tc-cat-01-turkce-harf-duzeltme-oncesi.txt` | Türkçe büyük harfli kopya adlar eklenince TC-CAT-01'in düzeltme öncesi koşusu (4 FAIL) | RSK-21 |
 | `build-report-esdegerlik.txt` | Bölünen rapor aracının eski araçla bayt bayt aynı çıktı ürettiğinin karşılaştırması | RSK-07 |
+
+## `windows-2026-11-26/`
+
+İlk Windows koşusu (26.11.2026, Windows 11 Pro, Python 3.13.17). Kod: `hafta-3` etiketi ve bu koşuda bulunan RSK-26 düzeltmesi (`tools/build_rtm.py`, TC-QA-04'e yol denetimi). Ürün kodu (`servicedesk/` uygulama dosyaları, şablonlar, ayarlar) değişmedi. Tarayıcı (E2E) testleri Windows'ta koşulmadı; E2E sonuçları yukarıdaki Linux koşusundandır.
+
+| Dosya | İçerik | İlgili test / kayıt |
+|---|---|---|
+| `unit-results.json`, `unit-test-output.txt` | Django testleri (49 test, `-v 2`), Windows | Tüm Django TC'leri |
+| `coverage.json`, `coverage-report.txt` | Üretim kodu kapsamı (%94,21; Linux ile aynı) | TC-QA-01 |
+| `ruff.json`, `ruff-format.txt` | Statik analiz ve biçim denetimi (0 bulgu) | TC-QA-02 |
+| `django-check.txt`, `check-deploy.txt` | `check`, `makemigrations --check`, üretim profilinde `check --deploy` | TC-CFG-03 |
+| `install-check-windows-py313.log`, `manual-checks.json` | `tools/install_check.ps1` temiz kurulum günlüğü ve özeti: BAŞARILI | TC-INST-01, NFR-11 |
+| `tc-qa-04-yol-duzeltme-oncesi.txt` | RTM üreticisinin düzeltme öncesi koduyla TC-QA-04: FAIL (ters bölülü yol) | RSK-26 |
 
 ## `teslim-oncesi/`
 

@@ -114,3 +114,6 @@ class RtmBuilderTests(SimpleTestCase):
             ["NOT RUN", "PASS", "PLANLANDI (Hafta 3)", "KISMİ (1/2 PASS; diğerleri NOT RUN)", "NOT RUN"]
         )
         self.assertEqual(counts, {"KISMİ": 1, "NOT RUN": 2, "PASS": 1, "PLANLANDI": 1})
+        # Kaynak yolu her işletim sisteminde "/" ile yazılır (RSK-26; Windows'ta ters bölü çıkıyordu).
+        _, runs, _ = rtm.load_results([Path("docs") / "evidence" / "yok.json"])
+        self.assertEqual(runs[0]["source"], "docs/evidence/yok.json")

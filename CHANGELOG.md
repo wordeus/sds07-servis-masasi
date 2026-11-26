@@ -2,7 +2,7 @@
 
 Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımını, sürüm numaraları anlamsal sürümlemeyi izler. Her haftalık paket bir sürümdür.
 
-## [0.3.0] - 2026-10-30 (Hafta 3, yayımlanmadı)
+## [0.3.0] - 2026-10-30 (Hafta 3, yayımlanmadı; teslim öncesi güncelleme 2026-11-26)
 
 ### Eklendi
 - Category ve Ticket modelleri (migration 0003) ve başlangıç kategorileri (veri migration'ı 0004); talep numarası `INC-000123` birincil anahtardan türetilir.
@@ -12,6 +12,7 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımın
 - Destek kuyruğunda açık talepler; panelde talep durum özeti; menüde Talepler ve Kategoriler bağlantıları.
 - Rol-izin matrisine talep ve kategori izinleri; `CURRENT_WEEK = 3`.
 - 14 yeni TC kimlikli Django testi (toplam 49): TC-TKT-01..08, TC-CAT-01..03, TC-ARCH-01..02, TC-ROLE-13; 4 yeni tarayıcı senaryosu (`e2e/week3_tickets.py`, TC-E2E-10..13); 4 yeni mutasyon (toplam 8).
+- Teslim öncesi güncelleme (26.11.2026): Hafta 3 GitHub Actions kanıtı (koşu #5, 4/4 iş) ve ilk Windows koşusu (49/49 PASS, temiz kurulum BAŞARILI); `tools/install_check.ps1` (Windows temiz kurulum), `tools/record_ci_run.sh` (CI kanıtı), Dependabot ve etiketle Release iş akışı. RTM: 28/28 gereksinim, 67/67 test PASS.
 - SDD v0.2 (katmanlı yapı, kayıt düzeyi erişim diyagramı, KRR-11..KRR-15); SRS v0.3, STANDARDS v0.3, RISKS v0.3, TEST_PLAN v0.3, PROCEDURES v0.3; Rapor #3.
 
 ### Değişti
@@ -22,6 +23,7 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımın
 ### Düzeltildi
 - Kategori adı tekilliğinin Türkçe büyük harfleri (I/ı, İ/i) kaçırması (RSK-21).
 - Teslim öncesi kontrol (30.10.2026): `.gitignore`'daki `reports/` ve `*.log` kalıpları `docs/reports/` altındaki raporları ve `docs/evidence/` altındaki kurulum günlüklerini depo dışında bırakıyordu; kalıp köke bağlandı ve kanıt günlükleri için istisna eklendi (RSK-24). Aynı düzeltme Hafta 1 ve 2 paketlerine de uygulandı.
+- Teslim öncesi güncelleme (26.11.2026): RTM üreticisi Windows'ta kanıt yollarını ters bölüyle yazıyordu; yollar `as_posix()` ile yazılıyor, TC-QA-04'e denetim eklendi (RSK-26).
 - Teslim öncesi kontrol (30.10.2026): Windows'ta yönlendirilmiş çıktıda Türkçe karakterlerin `UnicodeEncodeError` vermesi; CI'a Python UTF-8 kipi (`PYTHONUTF8: "1"`) eklendi, INSTALL.md'ye Windows notu yazıldı (RSK-25). Aynı CI ayarı Hafta 1 ve 2 paketlerine de eklendi.
 
 ## [0.2.0] - 2026-10-30 (Hafta 2, yayımlanmadı)

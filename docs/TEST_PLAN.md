@@ -3,8 +3,8 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-STP |
-| Sürüm | 0.3 (Hafta 3) |
-| Tarih | 30.10.2026 |
+| Sürüm | 0.3.1 (Hafta 3, teslim öncesi güncelleme) |
+| Tarih | 26.11.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili standart | IEEE 1012-2024 (V&V), ISO/IEC/IEEE 12207:2026 6.4.9 Verification ve 6.4.11 Validation |
 
@@ -59,13 +59,13 @@ Tarayıcı testleri Django testlerinin yerine geçmez; onların tamamlayıcısı
 
 | Öğe | Değer |
 |---|---|
-| İşletim sistemi | Linux (bulut çalışma alanı) |
-| Python | 3.13.18 (ana koşu); 3.12.13 ve 3.13.18 (temiz kurulum denetimi) |
+| İşletim sistemi | Linux (bulut çalışma alanı); Windows 11 Pro 10.0.26300 (26.11.2026, Django testleri ve temiz kurulum) |
+| Python | 3.13.18 (ana koşu); 3.12.13 ve 3.13.18 (temiz kurulum denetimi, Linux); 3.13.17 (Windows) |
 | Django | 5.2.18 |
 | Tarayıcı | Chromium 153.0.8010.12 (Playwright 1.63.0) |
 | Veritabanı | SQLite (testlerde bellek içi; E2E'de geçici dosya) |
 | E2E sunucusu | `runserver --insecure`, `DJANGO_DEBUG=0` (özel hata sayfaları üretimdeki gibi; KRR-15) |
-| Windows | **NOT RUN** (CI matrisinde tanımlı, depo yok) |
+| Windows | Elle: Windows 11, Python 3.13.17, 49/49 PASS ve temiz kurulum BAŞARILI (26.11.2026, `evidence/hafta-03/windows-2026-11-26/`). CI: koşu #5'te windows-latest × 3.12/3.13 başarılı. Tarayıcı testleri Windows'ta koşulmadı. |
 
 ## 6. Çalıştırma
 
@@ -81,12 +81,14 @@ bash tools/run_e2e.sh
 
 # Temiz kurulum ve mutasyon denetimi
 bash tools/install_check.sh python3.13 linux-py313 reports/install-check-linux-py313.log
+# Windows (PowerShell): powershell -ExecutionPolicy Bypass -File tools\install_check.ps1 3.13 windows-py313 reports\install-check-windows-py313.log
 python tools/mutation_check.py --week 3 --out reports/mutation-check.md
 
 # RTM ve test sonuç tablosu
 python tools/build_rtm.py --week 3 --strict \
   --results reports/unit-results.json reports/e2e-results.json reports/e2e-week3-results.json \
-            docs/evidence/hafta-03/manual-checks.json \
+            docs/evidence/hafta-03/manual-checks.json docs/evidence/hafta-03/ci-github-actions-2026-11-21.json \
+            docs/evidence/hafta-03/windows-2026-11-26/unit-results.json docs/evidence/hafta-03/windows-2026-11-26/manual-checks.json \
   --coverage reports/coverage.json --ruff reports/ruff.json
 ```
 
@@ -97,11 +99,11 @@ python tools/build_rtm.py --week 3 --strict \
 | Birim + entegrasyon + sistem + mimari (Django) | 49 | 49 | 49 | 0 | 0 |
 | E2E (Chromium) | 13 | 13 | 13 | 0 | 0 |
 | Statik analiz / ölçüm (TC-QA-01/02) | 2 | 2 | 2 | 0 | 0 |
-| Kurulum (TC-INST-01, Linux 3.12 ve 3.13) | 1 | 1 | 1 | 0 | 0 |
+| Kurulum (TC-INST-01: Linux 3.12 ve 3.13, Windows 3.13) | 1 | 1 | 1 | 0 | 0 |
 | İnceleme (TC-INS-01) | 1 | 1 | 1 | 0 | 0 |
-| CI matrisi (TC-CI-01) | 1 | 0 | 0 | 0 | 1 |
+| CI matrisi (TC-CI-01, koşu #5) | 1 | 1 | 1 | 0 | 0 |
 
-Katalogda 67 test vardır: 66 PASS, 1 NOT RUN. Sayılar 30.10.2026 koşusuna aittir; güncel durum her zaman [TEST_RESULTS.md](TEST_RESULTS.md) dosyasındadır.
+Katalogda 67 test vardır: 67 PASS. Django ve E2E sayıları 30.10.2026 koşusuna, TC-CI-01 21.11.2026 GitHub Actions koşusuna, Windows sonuçları 26.11.2026 koşusuna aittir; güncel durum her zaman [TEST_RESULTS.md](TEST_RESULTS.md) dosyasındadır.
 
 ## 8. Bilinen sınırlar
 
@@ -109,5 +111,5 @@ Katalogda 67 test vardır: 66 PASS, 1 NOT RUN. Sayılar 30.10.2026 koşusuna ait
 - Kontrast ölçümü seçili metin öğelerinde yapıldı; tüm ekranların taraması Hafta 11-12'de.
 - TC-INS-01 incelemesinin Burak Nigiz tarafından tekrarlanıp onaylanması gerekir.
 - Proje tek kişilik olduğundan bağımsız V&V yapılamıyor (RSK-03).
-- Windows çıktı kodlaması yalnız standart çıktı için taklit edilebildi; düzeltmenin (`PYTHONUTF8=1`) Windows'taki gerçek doğrulaması ilk CI koşusudur (TC-CI-01, RSK-25).
+- Windows çıktı kodlaması düzeltmesi (`PYTHONUTF8=1`, RSK-25) CI'daki Windows işlerinde ve 26.11.2026'daki elle Windows koşusunda doğrulandı. Tarayıcı (E2E) testleri Windows'ta koşulmadı.
 - Performans ölçümü (NFR-13) yapılmadı: ÖLÇÜLMEDİ (Hafta 11-12).
