@@ -1,6 +1,14 @@
 # SDS-07 sürekli entegrasyon
 # Doğrulama adımları IEEE 1012-2024 V&V etkinlikleriyle ilişkilendirilmiştir (docs/TEST_PLAN.md).
 name: CI
+# Actions listesinde PR koşuları "PR #N · başlık", elle başlatılanlar "Elle · dal" olarak görünür;
+# main'e push koşularında commit özeti (ilk satır) gösterilir.
+run-name: >-
+  ${{ github.event_name == 'pull_request'
+      && format('PR #{0} · {1}', github.event.pull_request.number, github.event.pull_request.title)
+      || github.event_name == 'workflow_dispatch'
+      && format('Elle · {0}', github.ref_name)
+      || '' }}
 
 on:
   push:
