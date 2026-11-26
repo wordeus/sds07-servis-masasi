@@ -1,0 +1,19 @@
+{
+  "kind": "manual-and-scripted-checks",
+  "started_at_utc": "2026-11-26T09:23:29+00:00",
+  "finished_at_utc": "2026-11-26T09:23:29+00:00",
+  "environment": {
+    "platform": "Onay kaydı (kod koşusu değil)",
+    "note": "manual-checks.json değiştirilmedi (PRC-05); onay bu ayrı kayıtla eklenir."
+  },
+  "totals": {"run": 1, "failures": 0, "not_run": 0},
+  "results": [
+    {
+      "tc_id": "TC-INS-01",
+      "test": "onay: Faz 5 incelemesi (manual-checks.json, Ticket.resolution alanı)",
+      "outcome": "PASS",
+      "detail": "Burak Nigiz, 26.11.2026: Faz 5 TC-INS-01 incelemesini onayladı (\"2 onaylıyorum\"). Böylece Hafta 3, 4 ve Faz 5 incelemelerinin tümü onaylandı.",
+      "started_at_utc": "2026-11-26T09:23:29+00:00"
+    }
+  ]
+}

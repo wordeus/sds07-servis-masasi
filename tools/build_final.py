@@ -244,6 +244,9 @@ def build(template: Path, content: dict, output: Path) -> list[str]:
             fix_layout(matches[0], sum(table_spec["widths"]))
         for p in matches[0].find("w:tr", NS).iter(w("p")):  # başlık satırı ilk veri satırından ayrılmasın
             br.keep_with_next(p)
+        heading = matches[0].getprevious()  # tablodan önceki başlık da tabloyla aynı sayfada kalsın
+        if heading is not None and heading.tag == w("p") and br.text_of(heading).strip():
+            br.keep_with_next(heading)
         if spec.get("note"):
             matches[0].addnext(br.note_paragraph(root.find(".//w:body/w:p", NS), spec["note"]))
 

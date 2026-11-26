@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SDS-07 Sunum</title>
+<style>
+@font-face { font-family: "IBM Plex Sans"; font-weight: 400; src: url("../../../static/vendor/ibm-plex-sans-5.3.0/files/ibm-plex-sans-latin-ext-400-normal.woff2") format("woff2"); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 400; src: url("../../../static/vendor/ibm-plex-sans-5.3.0/files/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 500; src: url("../../../static/vendor/ibm-plex-sans-5.3.0/files/ibm-plex-sans-latin-ext-500-normal.woff2") format("woff2"); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 500; src: url("../../../static/vendor/ibm-plex-sans-5.3.0/files/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 600; src: url("../../../static/vendor/ibm-plex-sans-5.3.0/files/ibm-plex-sans-latin-ext-600-normal.woff2") format("woff2"); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 600; src: url("../../../static/vendor/ibm-plex-sans-5.3.0/files/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+
+/* Uygulamanın belirteçleri (static/css/app.css) */
+:root {
+  --ink: #172235; --ink-2: #24324a; --paper: #f2f4f6; --surface: #ffffff; --rule: #d3d9e0; --muted: #556173; --link: #2449b8;
+  --open: #2449b8; --open-bg: #e4eafa; --open-on-ink: #8fa8f0;
+  --progress: #8a4b00; --progress-bg: #fcefd9; --progress-on-ink: #f2b661;
+  --resolved: #1a6e46; --resolved-bg: #e2f3e9; --resolved-on-ink: #6ccb9a;
+  --closed: #4f5b6b; --closed-bg: #e9edf1; --closed-on-ink: #b4bdc9;
+  --danger: #b3261e;
+  --font: "IBM Plex Sans", system-ui, "Segoe UI", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #0d1522; font-family: var(--font); color: var(--ink); overflow: hidden; }
+/* Sahne 1600×900 tasarlanır ve pencereye ölçeklenir */
+.stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; }
+.slide { position: absolute; inset: 0; padding: 88px 104px; background: var(--paper); display: none; flex-direction: column; }
+.slide.active { display: flex; animation: fade .5s ease; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.slide.dark { background: var(--ink); color: #fff; }
+.eyebrow { font-size: 20px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--link); margin: 0 0 18px; }
+.dark .eyebrow { color: var(--open-on-ink); }
+h1 { font-size: 64px; line-height: 1.08; font-weight: 600; margin: 0 0 28px; letter-spacing: -.01em; }
+h2 { font-size: 48px; line-height: 1.12; font-weight: 600; margin: 0 0 40px; letter-spacing: -.01em; }
+p, li { font-size: 26px; line-height: 1.45; }
+.lead { font-size: 30px; color: var(--muted); max-width: 1180px; margin: 0; }
+.dark .lead { color: #c4ccd8; }
+ul.clean { list-style: none; padding: 0; margin: 0; display: grid; gap: 22px; }
+ul.clean li { padding-left: 34px; position: relative; }
+ul.clean li::before { content: ""; position: absolute; left: 0; top: 15px; width: 14px; height: 14px; border-radius: 3px; background: var(--link); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; flex: 1; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 34px 38px; }
+.card h3 { font-size: 28px; margin: 0 0 18px; font-weight: 600; }
+.card p, .card li { font-size: 23px; }
+.card.mute { background: transparent; border-style: dashed; color: var(--muted); }
+.foot { margin-top: auto; display: flex; justify-content: space-between; font-size: 18px; color: var(--muted); padding-top: 24px; }
+.dark .foot { color: #8f9bb0; }
+.tag { display: inline-block; font-size: 19px; font-weight: 500; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--rule); color: var(--muted); margin: 0 8px 8px 0; background: var(--surface); }
+
+/* Kapak */
+.cover { justify-content: center; }
+.cover h1 { font-size: 76px; max-width: 1240px; }
+.cover .who { margin-top: 54px; font-size: 26px; color: #c4ccd8; line-height: 1.6; }
+.cover .who strong { color: #fff; font-weight: 600; }
+.rail { display: flex; gap: 10px; margin-top: 64px; }
+.rail span { flex: 1; height: 8px; border-radius: 4px; }
+
+/* Durum akışı */
+.flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 10px 0 46px; align-items: stretch; }
+.state { border-radius: 10px; padding: 26px 26px 24px; margin-right: 54px; position: relative; }
+.state:last-child { margin-right: 0; }
+.state:not(:last-child)::after { content: "→"; position: absolute; right: -46px; top: 50%; transform: translateY(-50%); font-size: 40px; color: var(--muted); }
+.state b { display: block; font-size: 30px; font-weight: 600; }
+.state small { display: block; font-size: 19px; margin-top: 6px; opacity: .85; }
+.s-open { background: var(--open-bg); color: var(--open); }
+.s-progress { background: var(--progress-bg); color: var(--progress); }
+.s-resolved { background: var(--resolved-bg); color: var(--resolved); }
+.s-closed { background: var(--closed-bg); color: var(--closed); }
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+
+/* Katmanlar */
+.layers { display: grid; gap: 18px; }
+.layer { display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 28px; background: var(--surface); border: 1px solid var(--rule); border-left: 8px solid var(--link); border-radius: 10px; padding: 22px 28px; }
+.layer b { font-size: 30px; font-weight: 600; font-family: ui-monospace, Consolas, monospace; }
+.layer span { font-size: 22px; color: var(--muted); }
+.arrow { text-align: center; color: var(--muted); font-size: 22px; margin: -6px 0; }
+
+/* Sayılar */
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 6px; }
+.metric { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 30px 34px; }
+.metric .v { font-size: 66px; font-weight: 600; letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+.metric .k { font-size: 22px; color: var(--muted); margin-top: 12px; }
+.metric.ok .v { color: var(--resolved); }
+
+/* Bulgular tablosu */
+table.find { width: 100%; border-collapse: collapse; font-size: 22px; }
+table.find th { text-align: left; font-weight: 600; color: var(--muted); font-size: 18px; text-transform: uppercase; letter-spacing: .06em; padding: 0 16px 12px 0; border-bottom: 2px solid var(--ink); }
+table.find td { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.35; }
+table.find td:first-child { font-weight: 600; white-space: nowrap; }
+
+/* Zaman çizelgesi */
+.timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 40px; }
+.phase { border-top: 6px solid var(--link); padding-top: 14px; }
+.phase b { font-size: 24px; display: block; }
+.phase span { font-size: 19px; color: var(--muted); display: block; line-height: 1.35; margin-top: 6px; }
+
+/* Demo geçiş */
+.demo-cta { justify-content: center; align-items: flex-start; }
+.demo-cta h1 { font-size: 92px; }
+.steps { display: flex; gap: 18px; margin-top: 30px; flex-wrap: wrap; }
+.steps span { font-size: 22px; padding: 10px 18px; border-radius: 8px; background: var(--ink-2); color: #dfe5ee; }
+
+.counter { position: absolute; right: 30px; bottom: 22px; font-size: 16px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dark .counter { color: #8f9bb0; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+<section class="slide dark cover" data-title="Kapak">
+  <p class="eyebrow"><span lang="en">Software Development with Standards</span> · Dönem sonu sunumu</p>
+  <h1>SDS-07: ISO 9001 İlkelerini Destekleyen IT Servis Masası ve Süreç Takip Sistemi</h1>
+  <p class="lead">Destek taleplerini rollere göre yöneten, her işlemi değiştirilemez biçimde kaydeden ve standartlara göre doğrulanmış bir web uygulaması.</p>
+  <div class="rail"><span style="background:var(--open-on-ink)"></span><span style="background:var(--progress-on-ink)"></span><span style="background:var(--resolved-on-ink)"></span><span style="background:var(--closed-on-ink)"></span></div>
+  <p class="who"><strong>Burak Nigiz</strong> · 2100002062 · Tek kişilik proje<br>İstanbul Kültür Üniversitesi · Mühendislik Fakültesi</p>
+</section>
+
+<section class="slide" data-title="Problem">
+  <p class="eyebrow">1 · Problem ve amaç</p>
+  <h2>Destek talepleri e-postada kaybolunca kalite ölçülemez</h2>
+  <div class="cols">
+    <ul class="clean">
+      <li>Talebi kimin üstlendiği, hangi aşamada olduğu belirsiz.</li>
+      <li>Kimin neyi ne zaman değiştirdiği izlenemiyor.</li>
+      <li>ISO 9001'in süreç yaklaşımı, kanıta dayalı karar ve izlenebilirlik ilkeleri karşılanmıyor.</li>
+    </ul>
+    <div class="card">
+      <h3>Roller</h3>
+      <p><b>Talep Sahibi:</b> talep açar, kendi taleplerini izler, çözümü onaylar.</p>
+      <p><b>Destek Personeli:</b> talebi üzerine alır, yanıtlar, çözer.</p>
+      <p><b>Yönetici:</b> atar, tüm talepleri yönetir, kategorileri düzenler.</p>
+    </div>
+  </div>
+  <div class="foot"><span>SRS §1, §3</span><span>Yazılım ISO 9001 belgesi sağlamaz; kalite yönetimini destekleyen bir araçtır.</span></div>
+</section>
+
+<section class="slide" data-title="Kapsam">
+  <p class="eyebrow">2 · Kapsam</p>
+  <h2>Beş fazda uçtan uca talep akışı</h2>
+  <div class="cols">
+    <div class="card">
+      <h3>Teslim edilen (34 gereksinim)</h3>
+      <ul class="clean">
+        <li>Giriş, roller ve sunucu tarafı yetkilendirme</li>
+        <li>Talep oluşturma, filtreli liste, kategoriler</li>
+        <li>Kayıt bazlı erişim: başkasının talebi 404</li>
+        <li>Atama, yorumlar, öncelik değişikliği</li>
+        <li>Durum makinesi ve değiştirilemez işlem geçmişi</li>
+      </ul>
+    </div>
+    <div class="card mute">
+      <h3>Gelecek çalışma (19 gereksinim)</h3>
+      <p>Değişiklik yönetimi, SLA ve eskalasyon, bildirim kutusu, memnuniyet anketi, KPI paneli, uygunsuzluk ve DÖF, performans ölçümü, Firefox uyumu.</p>
+      <p>Kimlikler SRS'te korunur; RTM'de "KAPSAM DIŞI" görünür (karar KRR-18).</p>
+    </div>
+  </div>
+  <div class="foot"><span>SRS §1.2, §2.6</span><span>Yarım bırakılmış modül yok</span></div>
+</section>
+
+<section class="slide" data-title="Standartlar">
+  <p class="eyebrow">3 · Standartlar</p>
+  <h2>Her standardın projede bir görevi var</h2>
+  <div class="cols" style="grid-template-columns: 1fr 1fr 1fr; gap: 26px">
+    <div class="card"><h3>ISO 9001:2026</h3><p>Alan standardı: roller (5.3), dokümante bilgi (7.5.3), hizmet kontrolü (8.5.1), izlenebilirlik (8.5.2), serbest bırakma (8.6).</p></div>
+    <div class="card"><h3>ISO/IEC/IEEE 12207</h3><p>Yaşam döngüsü: gereksinim, mimari, gerçekleştirme, doğrulama, geçerleme, risk ve konfigürasyon süreçleri; ölçeğe göre uyarlandı.</p></div>
+    <div class="card"><h3>IEEE 29148</h3><p>SRS: kimlikli, ölçülebilir, test edilebilir gereksinimler ve kabul kriterleri; izlenebilirlik matrisi.</p></div>
+    <div class="card"><h3>IEEE 1016</h3><p>SDD: bağlam, bileşim, bilgi, durum ve etkileşim görünümleri; karar günlüğü (19 karar).</p></div>
+    <div class="card"><h3>ISO/IEC 25010</h3><p>Ürün kalitesi: güvenlik, bakım, işlevsel doğruluk, etkileşim ve kurulabilirlik ölçümleri.</p></div>
+    <div class="card"><h3>IEEE 1012</h3><p>Doğrulama ve geçerleme: birim, entegrasyon, mimari, tarayıcı testleri ve mutasyon denetimi.</p></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Talep akışı">
+  <p class="eyebrow">4 · Talep akışı (FR-18, FR-19)</p>
+  <h2>Tek yönlü durum makinesi, sunucuda denetlenir</h2>
+  <div class="flow">
+    <div class="state s-open"><b>Açık</b><small>Talep sahibi açar</small></div>
+    <div class="state s-progress"><b>İşlemde</b><small>Atanmış personel</small></div>
+    <div class="state s-resolved"><b>Çözüldü</b><small>Çözüm açıklaması zorunlu</small></div>
+    <div class="state s-closed"><b>Kapandı</b><small>Talep sahibi onaylar</small></div>
+  </div>
+  <div class="rules">
+    <div class="card"><h3>Atlama yok</h3><p>Açık → Kapandı gibi istekler doğrudan POST ile gönderilse de reddedilir.</p></div>
+    <div class="card"><h3>Yetki ve atanma</h3><p>Yalnız talebe atanmış personel veya yönetici ilerletir; kapanış talep sahibinde.</p></div>
+    <div class="card"><h3>Kayıt</h3><p>Her geçiş, kişi, UTC zaman, eski ve yeni durumla işlem geçmişine yazılır.</p></div>
+  </div>
+</section>
+
+<section class="slide" data-title="Mimari">
+  <p class="eyebrow">5 · Mimari (IEEE 1016)</p>
+  <h2>Kurallar tek katmanda, katman kuralı testle denetlenir</h2>
+  <div class="cols" style="grid-template-columns: 1.25fr 1fr">
+    <div class="layers">
+      <div class="layer"><b>views/</b><span>HTTP isteği ve yetki (403); talep her zaman erişim politikasından alınır (404)</span></div>
+      <div class="arrow">↓ yalnız bu yönde</div>
+      <div class="layer"><b>services/</b><span>İş kuralları: erişim politikası, atama, yorum, durum makinesi, işlem geçmişi</span></div>
+      <div class="arrow">↓</div>
+      <div class="layer"><b>models/</b><span>User, Category, Ticket, Comment, TicketEvent (yalnız eklenir)</span></div>
+    </div>
+    <div class="card">
+      <h3>Neden böyle?</h3>
+      <ul class="clean">
+        <li>Kural tek yerde: test etmesi ve anlatması kolay.</li>
+        <li>Servis izni kendi içinde de denetler; görünüm atlanırsa kural delinmez.</li>
+        <li>Katman kuralı kaynak kod üzerinde (Python AST) her test koşusunda doğrulanır.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Django 5.2 LTS · SQLite · Bootstrap 5.3</span><span>SDD v0.4</span></div>
+</section>
+
+<section class="slide" data-title="Güvenlik">
+  <p class="eyebrow">6 · Güvenlik ve izlenebilirlik</p>
+  <h2>Gizlemek yetkilendirme değildir</h2>
+  <div class="cols" style="grid-template-columns: 1fr 1fr 1fr; gap: 26px">
+    <div class="card"><h3>Sunucu tarafı yetki</h3><p>Her sayfa ve form isteği rol iznine göre denetlenir. Düğmeyi gizlemek yetmez; doğrudan adres de 403 alır.</p></div>
+    <div class="card"><h3>Kayıt bazlı erişim</h3><p>Talep sahibi başkasının talebinin ayrıntı, yorum, durum ve geçmiş adresine 404 alır; yanıt var olmayan kayıtla aynıdır.</p></div>
+    <div class="card"><h3>Değiştirilemez geçmiş</h3><p>İşlem geçmişi yalnız eklenir; değiştirme ve silme engellenir, yönetim sitesinde salt okunurdur.</p></div>
+  </div>
+  <div class="foot"><span>FR-09, FR-14, FR-20 · ISO 9001 7.5.3, 8.5.2</span><span>Üretim profili: check --deploy 0 uyarı</span></div>
+</section>
+
+<section class="slide dark demo-cta" data-title="Demo">
+  <p class="eyebrow">7 · Canlı demo</p>
+  <h1>Bir talebin hayatı</h1>
+  <p class="lead">Gerçek uygulama, gerçek tarayıcı. Üç rol sırayla giriş yapar.</p>
+  <div class="steps"><span>Talep Sahibi talep açar</span><span>Başkasının talebi: 404</span><span>Yönetici atar</span><span>Personel işleme alır ve çözer</span><span>Talep sahibi onaylayıp kapatır</span><span>İşlem geçmişi</span></div>
+</section>
+
+<section class="slide" data-title="Sonuçlar">
+  <p class="eyebrow">8 · Doğrulama sonuçları (IEEE 1012, ISO/IEC 25010)</p>
+  <h2>Sonuçlar gerçek koşulardan üretildi</h2>
+  <div class="metrics">
+    <div class="metric ok"><div class="v">34/34</div><div class="k">Kapsam içi gereksinim doğrulandı (RTM)</div></div>
+    <div class="metric ok"><div class="v">92/92</div><div class="k">Test kataloğu PASS</div></div>
+    <div class="metric"><div class="v">%95</div><div class="k">Üretim kodu kapsamı (eşik %80)</div></div>
+    <div class="metric ok"><div class="v">18/18</div><div class="k">Bilinçli eklenen hatayı testler yakaladı (mutasyon)</div></div>
+    <div class="metric"><div class="v">4/4</div><div class="k">CI: Ubuntu ve Windows × Python 3.12/3.13</div></div>
+    <div class="metric"><div class="v">5,42:1</div><div class="k">En düşük renk kontrastı (eşik 4,5:1)</div></div>
+  </div>
+  <div class="foot"><span>Koşulmayan test NOT RUN, ölçülmeyen değer ÖLÇÜLMEDİ yazılır</span><span>docs/evidence/hafta-01..05</span></div>
+</section>
+
+<section class="slide" data-title="Bulgular">
+  <p class="eyebrow">9 · Testlerin yakaladıkları</p>
+  <h2>Testlerin geçmesi, yeterli olduklarını göstermez</h2>
+  <table class="find">
+    <thead><tr><th>Kayıt</th><th>Ne oldu</th><th>Nasıl bulundu</th></tr></thead>
+    <tbody>
+      <tr><td>RSK-33</td><td>"Talep sahibi yalnız kendi talebini kapatır" kuralı servis düzeyinde sınanmıyordu</td><td>Mutasyon denetimi (17/18 → 18/18)</td></tr>
+      <tr><td>RSK-28</td><td>Kapanmış talepte işlem isteği sunucu hatası (500) veriyordu</td><td>Entegrasyon testi, ilk koşu</td></tr>
+      <tr><td>RSK-30</td><td>Yeni görünümlerde izin denetimi açıkça yazılmamıştı</td><td>Mimari kural testi</td></tr>
+      <tr><td>RSK-25..27</td><td>Windows'a özgü çıktı kodlaması, yol ve betik kodlaması farkları</td><td>Windows'ta gerçek koşu</td></tr>
+      <tr><td>RSK-21</td><td>Türkçe büyük harfli kategori adları kopya sayılmıyordu</td><td>Genişletilmiş birim testi</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="slide" data-title="Süreç">
+  <p class="eyebrow">10 · Süreç ve konfigürasyon yönetimi (12207 6.3.5)</p>
+  <h2>Her faz: dal, PR, CI, etiket, Release</h2>
+  <div class="timeline">
+    <div class="phase"><b>Faz 1</b><span>Temel, SRS, CI altyapısı</span></div>
+    <div class="phase"><b>Faz 2</b><span>Giriş, roller, yetki, arayüz</span></div>
+    <div class="phase"><b>Faz 3</b><span>Talepler, kayıt bazlı erişim</span></div>
+    <div class="phase"><b>Faz 4</b><span>Atama, yorumlar, işlem geçmişi</span></div>
+    <div class="phase" style="border-color:var(--resolved)"><b>Faz 5</b><span>Durum makinesi, final</span></div>
+  </div>
+  <div class="cols" style="grid-template-columns: 1fr 1fr 1fr; gap: 26px">
+    <div class="card"><h3>CI</h3><p>Her PR'da ruff, Django denetimleri, testler, kapsam, check --deploy ve RTM; yeşil olmadan birleştirme yok.</p></div>
+    <div class="card"><h3>Release</h3><p>hafta-N etiketi raporu (Word, PDF) ve kanıt klasörünü otomatik yayımlar.</p></div>
+    <div class="card"><h3>Dependabot</h3><p>Haftalık bağımlılık PR'ları; Django 5.2.19 güvenlik yaması bu yolla geldi.</p></div>
+  </div>
+</section>
+
+<section class="slide dark" data-title="Kapanış">
+  <p class="eyebrow">11 · Değerlendirme</p>
+  <h2 style="color:#fff">Kazanımlar ve gelecek çalışma</h2>
+  <div class="cols">
+    <ul class="clean" style="color:#dfe5ee">
+      <li>Her gereksinim bir teste, her test bir kanıt dosyasına bağlı.</li>
+      <li>Kapsam bilinçli daraltıldı ve her belgeye açıkça yazıldı.</li>
+      <li>Otomatik kapılar, tek kişilik projede bağımsız incelemenin yerini kısmen tuttu.</li>
+    </ul>
+    <div>
+      <p class="lead" style="margin-bottom:24px">Sıradaki modüller: değişiklik yönetimi → SLA ve eskalasyon → anket ve KPI → uygunsuzluk ve DÖF.</p>
+      <p style="font-size:24px;color:#c4ccd8">github.com/wordeus/sds07-servis-masasi<br>Teşekkürler · Burak Nigiz</p>
+    </div>
+  </div>
+</section>
+
+<div class="counter" id="counter"></div>
+</div>
+<script>
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  let index = 0;
+  function fit() {
+    const s = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    document.getElementById("stage").style.transform = `translate(-50%, -50%) scale(${s})`;
+  }
+  function goTo(n) {
+    index = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((el, i) => el.classList.toggle("active", i === index));
+    document.getElementById("counter").textContent = `${index + 1} / ${slides.length}`;
+    try { history.replaceState(null, "", `#${index + 1}`); } catch (e) {}
+  }
+  window.goTo = goTo;
+  window.slideCount = slides.length;
+  document.addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " "].includes(e.key)) goTo(index + 1);
+    if (["ArrowLeft", "PageUp"].includes(e.key)) goTo(index - 1);
+    if (e.key === "Home") goTo(0);
+    if (e.key === "End") goTo(slides.length - 1);
+  });
+  document.addEventListener("click", () => goTo(index + 1));
+  window.addEventListener("resize", fit);
+  fit();
+  goTo((parseInt(location.hash.slice(1), 10) || 1) - 1);
+</script>
+</body>
+</html>

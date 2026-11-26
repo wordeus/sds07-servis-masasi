@@ -16,6 +16,7 @@ Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştiril
 | `mutation-check.md` | `tools/mutation_check.py --week 5`: 18 bilinçli hata, 18'i yakalandı | Test etkinliği |
 | `manual-checks.json` | TC-INST-01 özeti; Hafta 3-4 TC-INS-01 onayı (Burak Nigiz, 26.11.2026); Faz 5 TC-INS-01 incelemesi (onay bekliyor) | TC-INST-01, TC-INS-01 |
 | `ci-github-actions-2026-11-26.json` | Faz 5 commit'inin GitHub Actions koşusu (koşu #23, commit 8b752e4): Ubuntu ve Windows × Python 3.12/3.13, 4/4 iş başarılı | TC-CI-01 |
+| `tc-ins-01-onay.json` | Faz 5 TC-INS-01 incelemesinin Burak Nigiz tarafından onayı (26.11.2026) | TC-INS-01 |
 
 
 ## Geliştirme sırasında bulunan sorunlar

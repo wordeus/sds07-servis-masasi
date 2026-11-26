@@ -20,7 +20,7 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | 0.2 | 30.10.2026 | Hafta 2: RSK-17..RSK-20 eklendi; RSK-07 Hafta 2 ölçümüyle güncellendi |
 | 0.3 | 30.10.2026 | Hafta 3: RSK-21..RSK-23 eklendi; RSK-07 kısmen kapandı; RSK-08 için Hafta 3 önlemleri yazıldı; teslim öncesi kontrolde RSK-24 ve RSK-25 eklendi, RSK-14 güncellendi |
 | 0.4 | 26.11.2026 | Hafta 4: RSK-28..RSK-30 (yaşanan sorunlar) ve RSK-31, RSK-32 (riskler) eklendi; RSK-15 Hafta 4 önlemiyle güncellendi |
-| 0.5 | 26.11.2026 | Faz 5: RSK-33 ve RSK-34 (yaşanan sorunlar) eklendi; RSK-07 kapandı (PLN-06) |
+| 0.5 | 26.11.2026 | Faz 5: RSK-33..RSK-35 (yaşanan sorunlar) eklendi; RSK-07 kapandı (PLN-06) |
 
 ## 1. Hafta 1'de yaşanan sorunlar
 
@@ -69,6 +69,7 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 |---|---|---|---|---|---|---|
 | RSK-33 | Test açığı: durum servisinde "talep sahibi yalnız kendi talebini kapatır" kuralı kaldırıldığında hiçbir test başarısız olmuyordu. Web arayüzünde kural yine işliyordu (başkasının talebi 404), ama servis doğrudan çağrılırsa korumasızdı ve bunu sınayan test yoktu. | Orta | Mutasyon denetimi: M18 ilk koşuda yakalanmadı (17/18) | TC-WF-04'e servisin doğrudan çağrıldığı denetim eklendi; M18 yakalandı (18/18). | Kapandı | `evidence/hafta-05/mutation-check.md` |
 | RSK-34 | TC-E2E-18'in ilk sürümü durum rozeti kontrastını talep listesinde ölçüyordu; E2E veritabanında o anda yalnız iki durumda talep olduğu için senaryo başarısız oldu (uygulama hatası değil, test tasarımı hatası). | Düşük | Sistem testi: TC-E2E-18 ilk koşusu (FAIL: "Listede yeterli durum yok") | Ölçüm, dört durumun her zaman bulunduğu panel durum özetine taşındı; dört rozet tarayıcıda ölçüldü (en düşük 5,42:1). | Kapandı | `evidence/hafta-05/e2e-week5-results.json` |
+| RSK-35 | Uygulamanın sürüm numarası (`pyproject.toml`, `servicedesk/__init__.py`; alt bilgide gösterilir) Hafta 3'ten beri 0.3.0'da kalmıştı; CHANGELOG 0.4.0 ve 1.0.0'a ilerlerken güncellenmedi. Hafta 4 sürümü de alt bilgide 0.3.0 gösteriyordu. | Düşük | Demo videosunun karelerinin incelenmesi (Faz 5 kapanışı) | Sürüm 1.0.0 yapıldı. Sürüm tutarlılığını (CHANGELOG, pyproject, `__version__`) denetleyen otomatik test gelecek çalışmadır. Düzeltme Faz 5 kanıtlarından sonra yapıldı; işlevi etkilemez, PR'ın CI koşusu doğrular. | Kapandı | `servicedesk/__init__.py`, `pyproject.toml` |
 
 ## 6. Önümüzdeki riskler (gelecek çalışma)
 

@@ -48,6 +48,7 @@ Güncel ayrıntı ve açık işler: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.m
 - **Yapılanlar:** Durum makinesi (Açık → İşlemde → Çözüldü → Kapandı); atanmış personel veya yönetici ilerletir, çözüm açıklaması zorunlu, talep sahibi veya yönetici kapatır; tanımsız geçişler doğrudan POST ile de reddedilir. Talep sayfasında işlem geçmişi (İstanbul saatiyle). Yeniden açma yok (AK-01, KRR-19). E2E kodu sadeleştirildi (karmaşıklık 18 → 3). Final belgesi ve sunum.
 - **Sonuçlar:** 69/69 Django testi ve 18/18 tarayıcı senaryosu PASS, kapsam %95,03, mutasyon denetimi 18/18 (ilk koşuda bulunan test açığı kapatıldı, RSK-33); dört durum rozetinin kontrastı tarayıcıda ölçüldü (en düşük 5,42:1).
 - **Kanıt:** [docs/evidence/hafta-05/](docs/evidence/hafta-05/)
+- **Sunum ve demo videosu:** [SDS-07_Sunum_ve_Demo.webm](https://github.com/wordeus/sds07-servis-masasi/releases/download/hafta-5/SDS-07_Sunum_ve_Demo.webm) (3 dk 53 sn; HTML sunum + gerçek uygulamada talep yaşam döngüsü). Sunum kaynağı: [docs/final/sunum/index.html](docs/final/sunum/index.html); video `tools/record_demo.py` ile yeniden üretilir.
 
 ### Gelecek çalışma (kapsam dışı)
 

@@ -1,6 +1,6 @@
 [project]
 name = "sds07-servis-masasi"
-version = "0.3.0"
+version = "1.0.0"
 description = "ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi (SDS-07)"
 requires-python = ">=3.12"
 

@@ -9,7 +9,7 @@
     "[Grup #]": "Tek kişilik proje: Burak Nigiz (2100002062)",
     "[Ör: IEEE 29148, IEEE 1016, ISO/IEC 25010, ISO/IEC 12207, IEC 62304 / ISO 27001 / WCAG 2.1]": "ISO 9001:2026 (alan standardı), ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009, ISO/IEC 25010:2023, IEEE 1012-2024",
     "[Repo URL - Public veya Erişim İzni Verilmiş]": "https://github.com/wordeus/sds07-servis-masasi (herkese açık; teslim sürümü: hafta-5 etiketi ve Release)",
-    "[Demo / Video URL]": "Canlı demo, sunumda yerel kurulumla yapılır (§5.2; demo kullanıcıları seed_demo_users). [Demo videosu bağlantısı: varsa ekleyin]",
+    "[Demo / Video URL]": "Sunum ve canlı demo videosu (3 dk 53 sn, sessiz, ekran üstü Türkçe açıklamalı): https://github.com/wordeus/sds07-servis-masasi/releases/download/hafta-5/SDS-07_Sunum_ve_Demo.webm · Canlı demo ayrıca yerel kurulumla yapılabilir (§5.2). Sunumun HTML kaynağı: docs/final/sunum/index.html",
     "[Projenin çözdüğü endüstriyel/akademik problemi, hedef kullanıcı kitlesini ve sistemin sınırlarını (in-scope / out-of-scope) detaylıca açıklayınız.]": [
       "Problem: Kurum içi BT destek talepleri çoğu zaman e-posta veya telefonla gelir; kimin hangi talebi üstlendiği, talebin hangi aşamada olduğu ve kimin neyi ne zaman değiştirdiği izlenemez. Bu durum ISO 9001'in müşteri odaklılık, süreç yaklaşımı, kanıta dayalı karar verme ve izlenebilirlik ilkeleriyle bağdaşmaz.",
       "Amaç: SDS-07, destek taleplerini kayıt altına alan, rollere göre yetkilendiren, Açık → İşlemde → Çözüldü → Kapandı akışıyla yöneten ve her işlemi değiştirilemez biçimde kaydeden bir web uygulamasıdır. Hedef kullanıcılar Talep Sahibi (kurum çalışanı), Destek Personeli ve Yönetici rolleridir; kullanıcı ve rol yönetimi sistem yöneticisi tarafından yapılır.",
@@ -19,7 +19,7 @@
     ],
     "[Projede uygulanan temel standartları, ISO/IEC 12207 yaşam döngüsü süreçleriyle nasıl ilişkilendirildiğini ve projenin ölçeğine göre hangi maddelerin uyarlandığını (tailoring) gerekçeleriyle yazınız.]": [
       "Standartlar ve rolleri: ISO 9001:2026 alan standardıdır (ürünün desteklediği kalite yönetimi gereklilikleri, §4.3). ISO/IEC/IEEE 12207:2026 yaşam döngüsü süreçlerini, ISO/IEC/IEEE 29148:2018 gereksinim belirtimini (SRS), IEEE 1016-2009 tasarım görünümlerini (SDD), ISO/IEC 25010:2023 ürün kalitesi ölçümlerini, IEEE 1012-2024 doğrulama ve geçerleme etkinliklerini yönlendirir. Baskıların resmî kaynaklardan doğrulanma yöntemi docs/STANDARDS.md belgesindedir.",
-      "12207 süreç eşlemesi: 6.4.2-6.4.3 paydaş ve sistem gereksinimleri → SRS (kullanıcı hikâyeleri, iş kuralları, FR/NFR, kabul kriterleri); 6.4.4 mimari tanım → SDD (bağlam, bileşim, bilgi, durum ve etkileşim görünümleri); 6.4.7 gerçekleştirme → beş fazlık artımlı geliştirme; 6.4.9 doğrulama → birim, entegrasyon, mimari kural testleri, statik analiz ve mutasyon denetimi; 6.4.11 geçerleme → gerçek tarayıcıda rol senaryoları (E2E); 6.3.4 risk yönetimi → RISKS.md (34 kayıt); 6.3.5 konfigürasyon yönetimi → Git, sabit bağımlılıklar, CI, etiketler; 6.3.7 ölçme → QUALITY_METRICS.md; 6.3.8 kalite güvence → tamamlanma tanımı ve PR kontrol listesi.",
+      "12207 süreç eşlemesi: 6.4.2-6.4.3 paydaş ve sistem gereksinimleri → SRS (kullanıcı hikâyeleri, iş kuralları, FR/NFR, kabul kriterleri); 6.4.4 mimari tanım → SDD (bağlam, bileşim, bilgi, durum ve etkileşim görünümleri); 6.4.7 gerçekleştirme → beş fazlık artımlı geliştirme; 6.4.9 doğrulama → birim, entegrasyon, mimari kural testleri, statik analiz ve mutasyon denetimi; 6.4.11 geçerleme → gerçek tarayıcıda rol senaryoları (E2E); 6.3.4 risk yönetimi → RISKS.md (35 kayıt); 6.3.5 konfigürasyon yönetimi → Git, sabit bağımlılıklar, CI, etiketler; 6.3.7 ölçme → QUALITY_METRICS.md; 6.3.8 kalite güvence → tamamlanma tanımı ve PR kontrol listesi.",
       "Uyarlama (tailoring): Tedarik ve sözleşme süreçleri (6.1.1, 6.1.2), portföy ve insan kaynakları yönetimi kapsam dışıdır (akademik, tek kişilik proje). Geçiş, işletim ve bakım süreçleri sınırlıdır (üretim ortamı yok; kurulum kılavuzu ve demo). Konfigürasyon yönetimi hafifletilmiştir (Git + sabit bağımlılık + CI; ayrı kontrol kurulu yok). Kalite güvencede bağımsız inceleme yapılamadığı için (RSK-03) otomatik kapılar kullanılmıştır: testler, ruff, check --deploy, RTM --strict ve mutasyon denetimi. Doğrulama ve geçerleme ise her fazda tam uygulanmıştır."
     ],
     "[Kullanıcı profillerini (aktörleri), temel kullanım senaryolarını (Use Cases / User Stories) ve işletme kurallarını tanımlayınız.]": [
@@ -246,7 +246,7 @@
           "ISO 9001:2026 - 6.1",
           "Risk ve fırsatlara yönelik faaliyetler",
           "Tam Uyumlu (süreç desteği)",
-          "Proje risk listesi her fazda güncellendi (docs/RISKS.md; 34 kayıt)"
+          "Proje risk listesi her fazda güncellendi (docs/RISKS.md; 35 kayıt)"
         ],
         [
           "ISO 9001:2026 - 7.1.3 / 7.1.5",

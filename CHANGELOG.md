@@ -8,7 +8,8 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımın
 - Durum makinesi: Açık → İşlemde → Çözüldü → Kapandı; tanımsız geçişlerin doğrudan POST dahil reddi (FR-18). Atanmış personel veya Yönetici ilerletir; çözüm açıklaması zorunlu; talep sahibi veya Yönetici kapatır (FR-19). `services/workflow.py`, `TicketStatusView`, migration 0007.
 - İşlem geçmişi görünümü: talep ayrıntısında kronolojik, İstanbul saatiyle, Türkçe etiketli (FR-21); durum geçişleri geçmişe yazılır (FR-20).
 - 7 yeni TC kimlikli Django testi (toplam 69): TC-WF-01..06, TC-ROLE-15; 2 tarayıcı senaryosu (`e2e/week5_status.py`, TC-E2E-17..18); 5 yeni mutasyon (toplam 18).
-- SRS v0.5, SDD v0.4, RISKS v0.5, TEST_PLAN v0.5, INSTALL v0.5, STANDARDS v0.5; Rapor #5; final belgesi ve sunum.
+- SRS v0.5, SDD v0.4, RISKS v0.5, TEST_PLAN v0.5, INSTALL v0.5, STANDARDS v0.5; Rapor #5; dönem sonu teslim dokümanı (`tools/build_final.py`).
+- HTML sunum (`docs/final/sunum/`) ve sunum + canlı demo videosu (`tools/record_demo.py`; Release'te).
 
 ### Değişti
 - AK-01 kapandı: yeniden açma geçişi yok (KRR-19). `CURRENT_WEEK = 5`; rol matrisine ilerletme ve kapatma izinleri.
@@ -16,6 +17,7 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımın
 
 ### Düzeltildi
 - Durum servisinde talep sahipliği kuralını sınayan test eksikti (RSK-33).
+- Uygulama sürüm numarası 0.3.0'da kalmıştı; 1.0.0 yapıldı (RSK-35).
 
 ## [0.4.0] - 2026-11-26 (Hafta 4)
 
