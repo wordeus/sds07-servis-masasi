@@ -1,0 +1,23 @@
+{
+  "kind": "manual-and-scripted-checks",
+  "started_at_utc": "2026-11-26T00:27:16+00:00",
+  "finished_at_utc": "2026-11-26T00:27:33+00:00",
+  "environment": {
+    "platform": "Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı)",
+    "note": "İlk Windows koşusu. Kod: hafta-3 etiketi + RSK-26 düzeltmesi (tools/build_rtm.py, TC-QA-04 yol denetimi). Tarayıcı (E2E) testleri Windows'ta koşulmadı."
+  },
+  "totals": {
+    "run": 1,
+    "failures": 0,
+    "not_run": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-INST-01",
+      "test": "betik: tools/install_check.ps1 -> install-check-windows-py313.log",
+      "outcome": "PASS",
+      "detail": "Windows 11, Python 3.13.17 (python.org yükleyicisi, py başlatıcısı): temiz kopya ve temiz sanal ortam, requirements-dev.txt, ruff format/check, check, makemigrations --check, migrate, 49 test + coverage, check --deploy. Durum: BAŞARILI. Kayıt: install-check-windows-py313.log",
+      "started_at_utc": "2026-11-26T00:27:16Z"
+    }
+  ]
+}

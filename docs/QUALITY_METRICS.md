@@ -25,7 +25,7 @@ Kapsam notu: Resmî değer CI ile aynı komutla (`coverage run manage.py test -v
 | Security / confidentiality (3.6.1) | Başkasına ait talebe doğrudan erişimde sızıntı | 0 (404, içerik var olmayan kayıtla aynı) | - | - | 0 | Hedefi karşılıyor | TC-TKT-07, TC-E2E-11 |
 | Interaction capability / inclusivity (3.4.6) | Metin, düğme ve durum rozeti kontrastı | ≥ 4.5:1 | - | En düşük 6,28:1 | Giriş/panel öğeleri Hafta 2 ile aynı (en düşük 6,28:1); Açık rozeti 6,41:1 (tarayıcıda ölçüldü) | Hedefi karşılıyor | TC-E2E-09, TC-E2E-12 |
 | Interaction capability / operability (3.4.3) | 360 px'te yatay taşma (sayfa + iç kapsayıcı) | 0 | - | 0 (giriş, panel) | 0 (giriş, panel, talep listesi, talep ayrıntısı) | Hedefi karşılıyor | TC-E2E-07, TC-E2E-12 |
-| Flexibility / installability | Temiz ortam kurulumunun başarısı | Linux ve Windows, Python 3.12 ve 3.13 | Linux BAŞARILI | Linux BAŞARILI | Linux 3.12.13 ve 3.13.18 BAŞARILI; Windows **NOT RUN** | Kısmi | TC-INST-01, TC-CI-01 |
+| Flexibility / installability | Temiz ortam kurulumunun başarısı | Linux ve Windows, Python 3.12 ve 3.13 | Linux BAŞARILI | Linux BAŞARILI | Linux 3.12.13 ve 3.13.18 BAŞARILI; Windows 3.13.17 BAŞARILI (elle, 26.11.2026); CI Ubuntu/Windows × 3.12/3.13 başarılı (koşu #5) | Hedefi karşılıyor | TC-INST-01, TC-CI-01 |
 | Performance efficiency / time behaviour (3.2.1) | Talep listesi p95 yanıt süresi (1.000 talep) | < 500 ms | - | - | **ÖLÇÜLMEDİ** (özellik var; ölçüm Hafta 11-12'de) | - | NFR-13 |
 | Reliability | Hata/arıza oranı | Tanımlanacak | - | - | **ÖLÇÜLMEDİ** | - | - |
 

@@ -1,0 +1,24 @@
+== TC-QA-04, tools/build_rtm.py düzeltme öncesi (str(path)), Windows 11, Python 3.13.17
+== 2026-11-26T00:26:07Z
+F
+======================================================================
+FAIL: test_rtm_statuses_and_summary_counts (servicedesk.tests.test_tooling.RtmBuilderTests.test_rtm_statuses_and_summary_counts)
+TC-QA-04: RTM üretici gereksinim durumlarını doğru hesaplar ve özet tablosunda tam durum adlarıyla sayar.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projeler\sds07-servis-masasi\servicedesk\tests\test_tooling.py", line 119, in test_rtm_statuses_and_summary_counts
+    self.assertEqual(runs[0]["source"], "docs/evidence/yok.json")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'docs\\evidence\\yok.json' != 'docs/evidence/yok.json'
+- docs\evidence\yok.json
+?     ^        ^
++ docs/evidence/yok.json
+?     ^        ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+FAILED (failures=1)
+Found 1 test(s).
+System check identified no issues (0 silenced).

@@ -1,6 +1,6 @@
 # PROJECT_STATE: SDS-07 Servis Masası (Hafta 3 paketi)
 
-**Son güncelleme:** 30.10.2026 (Europe/Istanbul). **Hafta 3: TAMAMLANDI**. **Sıradaki: Hafta 4**: atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü.
+**Son güncelleme:** 26.11.2026 (Europe/Istanbul). **Hafta 3: TAMAMLANDI** (26.11.2026'da CI ve Windows sonuçları eklendi, RSK-26 düzeltildi). **Sıradaki: Hafta 4**: atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü.
 
 > Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırlandı. Kanıt dosyalarındaki tarihler gerçek koşu tarihleridir; geriye tarih atılmadı. Hafta 3 kodu 30.10.2026 sabahı (İstanbul saatiyle yaklaşık 09:15-09:40) Hafta 2 paketinin üzerine yazıldı; bu paketteki bütün test ve ölçümler bu kod üzerinde koşuldu.
 
@@ -24,7 +24,7 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | Bootstrap | 5.3.8 (yerel dosya); yazı tipi IBM Plex Sans 5.3.0 (OFL, yerel) |
 | Diğer sabitler | asgiref 3.13.0, sqlparse 0.6.0, tzdata 2026.6 (yalnız Windows), coverage 7.17.0, ruff 0.17.3, playwright 1.63.0, lxml 6.1.3. Hafta 3'te yeni bağımlılık eklenmedi. |
 | Standart baskıları | ISO 9001:2026, ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009 (Inactive-Reserved), ISO/IEC 25010:2023, IEEE 1012-2024. Ayrıntı: `docs/STANDARDS.md` |
-| Test ortamı | Linux (bulut sunucu), tarayıcı testleri için Playwright/Chromium. Windows'ta elle henüz çalıştırılmadı; Windows doğrulaması GitHub Actions ile yapılıyor. Depo: https://github.com/wordeus/sds07-servis-masasi |
+| Test ortamı | Linux (bulut sunucu), tarayıcı testleri için Playwright/Chromium. Windows 11'de (Python 3.13.17) Django testleri ve temiz kurulum 26.11.2026'da elle çalıştırıldı; ayrıca GitHub Actions'ta windows-latest. Depo: https://github.com/wordeus/sds07-servis-masasi |
 
 ## 3. Hafta 3'te tamamlananlar
 
@@ -53,15 +53,18 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | `check --deploy` (üretim) | 0 sorun, 1 gerekçeli susturma (W021) | `evidence/hafta-03/check-deploy.txt` |
 | Temiz kurulum (TC-INST-01) | Linux 3.12.13 ve 3.13.18 BAŞARILI | `evidence/hafta-03/install-check-linux-py31*.log` |
 | Mutasyon denetimi | 8/8 yakalandı (49 test) | `evidence/hafta-03/mutation-check.md` |
-| RTM (`--week 3`) | Hafta 1-3'ün 28 gereksiniminin 27'si PASS, 1'i KISMİ (NFR-11); 25 gereksinim PLANLANDI. Test kataloğu: 66 PASS, 1 NOT RUN (TC-CI-01) | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
+| RTM (`--week 3`) | Hafta 1-3'ün 28 gereksiniminin 28'i PASS; 25 gereksinim PLANLANDI. Test kataloğu: 67 PASS | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
+| GitHub Actions (TC-CI-01) | Koşu #5, commit aa17057: Ubuntu/Windows × Python 3.12/3.13, 4/4 iş başarılı (21.11.2026) | `evidence/hafta-03/ci-github-actions-2026-11-21.json` |
+| Windows (26.11.2026) | Windows 11, Python 3.13.17: 49/49 PASS, kapsam %94,21, ruff 0, `check --deploy` 0; temiz kurulum BAŞARILI | `evidence/hafta-03/windows-2026-11-26/` |
 | Bu hafta bulunan sorunlar | RSK-21 (Türkçe büyük harf), RSK-22 (E2E giriş beklemesi), RSK-23 (E2E'de DEBUG 404 sayfası); üçü de kapandı | `docs/RISKS.md`, `evidence/hafta-03/` |
 | Teslim öncesi kontrolde bulunanlar | RSK-24: `.gitignore` raporları ve kanıt günlüklerini depo dışında bırakıyordu (kapandı). RSK-25: Windows'ta yönlendirilmiş çıktıda Türkçe karakter `UnicodeEncodeError` veriyordu; CI'a UTF-8 kipi eklendi; Hafta 1-2 CI koşularında Windows işleri geçti (kapandı) | `evidence/hafta-03/teslim-oncesi/` |
-| NOT RUN / ÖLÇÜLMEDİ | TC-CI-01 (GitHub yok), Windows kurulumu, Firefox E2E, performans (NFR-13), efor saatleri | - |
+| Teslim öncesi güncellemede bulunanlar (26.11.2026) | RSK-26: RTM üreticisi Windows'ta yolları ters bölüyle yazıyordu (düzeltildi, TC-QA-04'e denetim eklendi). RSK-27: Windows kurulum betiği BOM'suz kaydedilince günlükte Türkçe karakterler bozuluyordu (düzeltildi) | `docs/RISKS.md`, `evidence/hafta-03/windows-2026-11-26/` |
+| NOT RUN / ÖLÇÜLMEDİ | Windows'ta tarayıcı (E2E) testleri, Firefox E2E, performans (NFR-13), efor saatleri | - |
 
 ## 5. Açık işler
 
 - [x] Hafta 3'ün GitHub Actions sonucu TC-CI-01 kanıtı olarak eklendi: koşu #5, commit aa17057, 4/4 iş başarılı (`evidence/hafta-03/ci-github-actions-2026-11-21.json`). Hafta 1: koşu #1, commit 29f962c; Hafta 2: koşu #3, commit 6dd3dc9.
-- [ ] `RTM.md` ve `TEST_RESULTS.md`'yi bu kanıtla `tools/build_rtm.py --week 3` üzerinden yeniden üretmek (TC-CI-01 hâlâ NOT RUN görünüyor; bu makinede Python kurulu olmadığı için 26.11.2026'da üretilmedi).
+- [x] `RTM.md` ve `TEST_RESULTS.md` CI ve Windows kanıtlarıyla yeniden üretildi (26.11.2026): 28/28 gereksinim, 67/67 test PASS.
 
 ## 5.1 Otomasyon (26.11.2026)
 
@@ -69,7 +72,7 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 - `.github/workflows/release.yml`: `hafta-N` etiketi gönderilince Release oluşturur; `Rapor-0N_Hafta-N.docx` ve `kanit-hafta-0N.zip` eklenir, notlar CHANGELOG'dan alınır.
 - `tools/record_ci_run.sh <hafta> [commit]`: CI koşusunun sonucunu GitHub API'den okuyup `evidence/hafta-0N/ci-github-actions-*.json` yazar. Koşu bitmemişse ya da dosya zaten varsa yazmaz.
 - Haftalık akış: `hafta-N` dalında çalışılır, PR açılır, CI geçince main'e birleştirilir, `record_ci_run.sh` çalıştırılır, ardından `hafta-N` etiketi gönderilir.
-- [ ] Windows'ta kurulum ve testleri bir kez elle çalıştırıp sonucu kaydetmek (NFR-11, TC-INST-01). Çıktı dosyaya yönlendirilecekse önce `$env:PYTHONUTF8 = "1"` (RSK-25).
+- [x] Windows'ta kurulum ve testler elle çalıştırıldı (26.11.2026, Windows 11, Python 3.13.17): BAŞARILI (NFR-11, TC-INST-01). Betik: `tools/install_check.ps1`.
 - [ ] TC-INS-01 incelemesini tekrarlayıp onaylamak.
 - [ ] Açık konuları netleştirmek: yeniden açma akışı (AK-01), önceliği kimin seçeceği (AK-03; geçici karar KRR-13). Standart baskıları için karar: en güncel baskılar (AK-05).
 
@@ -85,7 +88,7 @@ KRR-01..KRR-10 (Hafta 1-2) ve Hafta 3'te eklenenler: KRR-11 katmanlı yapı ve m
 | PLN-02 | Yorumlar: talep sahibi kendi talebine, personel ve yönetici tüm taleplere; Closed talebe yorum yok; yorum adresinde başkasının talebi için 404 | FR-17, FR-14, RSK-08 |
 | PLN-03 | İşlem geçmişinin ilk sürümü: oluşturma, atama, öncelik değişikliği; yalnız ekleme | FR-20 |
 | PLN-04 | Öncelik değişikliğini destek personeline açma (AK-03 / KRR-13) | FR-12, FR-20 |
-| PLN-05 | Windows'ta elle temiz kurulum doğrulaması (GitHub deposu ve CI koşuları tamamlandı) | NFR-11, TC-INST-01 |
+| PLN-05 | Windows'ta tarayıcı (E2E) testlerini bir kez koşmak (temiz kurulum ve Django testleri 26.11.2026'da Windows'ta yapıldı) | NFR-11 |
 | PLN-06 | `e2e/week2_auth_roles.py::main` bölünmesi (RSK-07) | - |
 | PLN-07 | RTM `--week 4`; Rapor #4 | - |
 
@@ -116,7 +119,8 @@ servicedesk/tests/              test_auth, test_roles, test_security, test_confi
 templates/, servicedesk/templates/  ortak şablonlar; tickets/, categories/
 e2e/week2_auth_roles.py         Playwright senaryoları TC-E2E-01..09 (ortak yardımcılar)
 e2e/week3_tickets.py            Playwright senaryoları TC-E2E-10..13
-tools/                          build_rtm.py, build_report.py, run_e2e.sh, install_check.sh, mutation_check.py
+tools/                          build_rtm.py, build_report.py, run_e2e.sh, install_check.sh, install_check.ps1 (Windows),
+                                mutation_check.py, record_ci_run.sh (CI kanıtı)
 docs/traceability/*.csv         gereksinim ve test kataloğu (RTM kaynağı)
 docs/evidence/hafta-01..03/     haftalık gerçek koşu kayıtları
 docs/reports/                   Rapor #1, #2, #3 (docx) ve içerik dosyaları
