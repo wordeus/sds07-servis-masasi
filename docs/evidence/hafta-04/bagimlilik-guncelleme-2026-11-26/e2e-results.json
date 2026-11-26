@@ -1,0 +1,110 @@
+{
+  "kind": "e2e-playwright",
+  "started_at_utc": "2026-11-26T00:53:08+00:00",
+  "finished_at_utc": "2026-11-26T00:53:27+00:00",
+  "environment": {
+    "browser": "chromium 159.0.8154.6",
+    "playwright": "1.65.2",
+    "python": "3.13.17",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "base_url": "http://127.0.0.1:8765"
+  },
+  "totals": {
+    "run": 9,
+    "failures": 0,
+    "errors": 0,
+    "successful": true
+  },
+  "results": [
+    {
+      "tc_id": "TC-E2E-01",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-01",
+      "title": "Giriş sayfası konsol hatasız yüklenir",
+      "outcome": "PASS",
+      "detail": "Plex Sans yüklendi=True",
+      "screenshots": [
+        "01-giris-masaustu.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-02",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-02",
+      "title": "Talep Sahibi girişi; rol rozeti ve kısıtlı menü",
+      "outcome": "PASS",
+      "detail": "menü bağlantıları: Panelim, tickets",
+      "screenshots": [
+        "02-panel-talep-sahibi.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-03",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-03",
+      "title": "Talep Sahibi doğrudan adresle kısıtlı sayfalara giremez",
+      "outcome": "PASS",
+      "detail": "/yonetim/ → 403; /destek/ → 403",
+      "screenshots": [
+        "03-403-yonetim.png",
+        "03-403-destek.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-04",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-04",
+      "title": "Destek Personeli destek kuyruğuna girer, yönetim paneline giremez",
+      "outcome": "PASS",
+      "detail": "/destek/ 200, /yonetim/ 403",
+      "screenshots": [
+        "04-destek-kuyrugu.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-05",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-05",
+      "title": "Yönetici iki çalışma alanına da erişir",
+      "outcome": "PASS",
+      "detail": "menüde iki bağlantı; iki sayfa 200",
+      "screenshots": [
+        "05-yonetim-paneli.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-06",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-06",
+      "title": "Çıkış yap düğmesi oturumu kapatır",
+      "outcome": "PASS",
+      "detail": "çıkış sonrası / → giriş",
+      "screenshots": [
+        "06-cikis-sonrasi.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-07",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-07",
+      "title": "360 px genişlikte yatay kaydırma yok",
+      "outcome": "PASS",
+      "detail": "giriş: sayfa 360/360 px, iç taşma yok; panel: sayfa 360/360 px, iç taşma yok",
+      "screenshots": [
+        "07-giris-mobil-360.png",
+        "07-panel-mobil-360.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-08",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-08",
+      "title": "Yalnız klavyeyle giriş ve görünür odak",
+      "outcome": "PASS",
+      "detail": "ilk odak: İçeriğe geç; ikinci odak çizgisi: solid 3px",
+      "screenshots": [
+        "08-klavye-odak.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-09",
+      "test": "e2e/week2_auth_roles.py::TC-E2E-09",
+      "title": "Metin ve düğme kontrastı en az 4.5:1",
+      "outcome": "PASS",
+      "detail": "gövde metni (giriş formu) 15.95:1; ikincil metin 6.28:1; birincil düğme 15.95:1; süreç paneli açıklaması 7.6:1; süreç adımı metni 10.36:1; panel ikincil metin 6.28:1; rol rozeti 15.95:1",
+      "screenshots": []
+    }
+  ]
+}
