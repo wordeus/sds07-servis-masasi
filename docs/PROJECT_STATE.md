@@ -36,7 +36,7 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | E2E iskeletinin ortaklaştırılması; Hafta 2 senaryolarının bölünmesi (PLN-06) | `e2e/week2_auth_roles.py::run_suite`, `e2e/week5_status.py` | Karmaşıklık 18 → 3 |
 | Mutasyon denetiminin genişletilmesi (13 → 18) | `tools/mutation_check.py` | `evidence/hafta-05/mutation-check.md` |
 | SRS v0.5, SDD v0.4, RISKS v0.5, TEST_PLAN v0.5, INSTALL v0.5, STANDARDS v0.5, kalite ölçümleri, kod rehberi | `docs/*.md`, `CHANGELOG.md` 1.0.0 | - |
-| Rapor #5, final belgesi ve sunum | `docs/reports/Rapor-05_Hafta-5.*`, `docs/final/` | - |
+| Rapor #5, final belgesi, HTML sunum ve demo videosu | `docs/reports/Rapor-05_Hafta-5.*`, `docs/final/`, `tools/record_demo.py` | [Video](https://github.com/wordeus/sds07-servis-masasi/releases/download/hafta-5/SDS-07_Sunum_ve_Demo.webm) |
 
 ## 4. Gerçek test ve ölçüm sonuçları (26.11.2026)
 
@@ -57,7 +57,7 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 
 ## 5. Açık işler
 
-- [ ] Faz 5 TC-INS-01 incelemesinin (çözüm açıklaması alanı) Burak Nigiz tarafından onaylanması. Hafta 3-4 incelemeleri 26.11.2026'da onaylandı (`evidence/hafta-05/manual-checks.json`).
+- [x] TC-INS-01 incelemeleri (Hafta 3, 4 ve Faz 5) Burak Nigiz tarafından 26.11.2026'da onaylandı (`evidence/hafta-05/manual-checks.json`, `tc-ins-01-onay.json`).
 - [ ] Faz 3, 4 ve 5'in öğretim elemanına gönderilmesi (Rapor #3-#5 Word ve PDF, final belgesi, sunum, depo bağlantısı).
 
 ## 6. Önemli kararlar
