@@ -1,0 +1,51 @@
+{
+  "kind": "e2e-playwright",
+  "started_at_utc": "2026-11-26T08:26:21+00:00",
+  "finished_at_utc": "2026-11-26T08:26:42+00:00",
+  "environment": {
+    "browser": "chromium 159.0.8154.6",
+    "playwright": "1.65.2",
+    "python": "3.13.17",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "base_url": "http://127.0.0.1:8765"
+  },
+  "totals": {
+    "run": 3,
+    "failures": 0,
+    "errors": 0,
+    "successful": true
+  },
+  "results": [
+    {
+      "tc_id": "TC-E2E-14",
+      "test": "e2e/week4_workflow.py::TC-E2E-14",
+      "title": "Yorumlaşma, üzerine alma ve öncelik değişikliği",
+      "outcome": "PASS",
+      "detail": "talep sahibi yorum yazdı; destek üzerine aldı, yanıtladı, P3→P1; talep sahibi iki yorumu sırayla gördü",
+      "screenshots": [
+        "14-destek-islemleri.png",
+        "14-talep-sahibi-gorunum.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-15",
+      "test": "e2e/week4_workflow.py::TC-E2E-15",
+      "title": "Yönetici atama yapar; boş yorum erişilebilir biçimde reddedilir",
+      "outcome": "PASS",
+      "detail": "atama listesinde yalnız destek personeli; atama yapıldı; boş yorum aria-invalid ile reddedildi",
+      "screenshots": [
+        "15-yonetici-atama.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-16",
+      "test": "e2e/week4_workflow.py::TC-E2E-16",
+      "title": "Başkasının talebine yorum isteği 404; ayrıntı sayfası 360 px'te taşmaz",
+      "outcome": "PASS",
+      "detail": "POST /talepler/5/yorum/ → 404; yorumlu ve işlem panelli ayrıntı 360 px: sayfa 360/360 px, iç taşma yok",
+      "screenshots": [
+        "16-ayrinti-mobil-360.png"
+      ]
+    }
+  ]
+}

@@ -4,7 +4,8 @@ Kurallar:
 * Talep numarası birincil anahtardan türetilir (`INC-000123`); ayrı bir sayaç
   tutulmaz, böylece eşzamanlı kayıtta numara çakışması olamaz (KRR-12).
 * Durum alanı formlarda düzenlenemez (`editable=False`). Yeni talep her zaman
-  "Open" durumunda başlar; geçişler Hafta 5'te durum makinesiyle eklenecek (FR-18).
+  "Open" durumunda başlar; geçişler yalnız durum makinesiyle yapılır (FR-18, FR-19;
+  services/workflow.py). Çözüm açıklaması Resolved geçişinde zorunludur.
 * Atama ve öncelik değişikliği yalnız servis katmanından yapılır ve işlem geçmişine
   yazılır (FR-16, FR-20; services/assignment.py).
 * Kategori silinmez, pasifleştirilir; talebi olan kategori veritabanı düzeyinde
@@ -70,6 +71,7 @@ class Ticket(models.Model):
         related_name="requested_tickets",
         verbose_name="talep sahibi",
     )
+    resolution = models.TextField("çözüm açıklaması", blank=True, editable=False)
     assignee = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -91,6 +93,10 @@ class Ticket(models.Model):
             ("take_ticket", "Atanmamış talebi üzerine alabilir"),
             ("assign_ticket", "Talebi destek personeline atayabilir"),
             ("change_ticket_priority", "Talep önceliğini değiştirebilir"),
+            # Hafta 5 (FR-18, FR-19)
+            ("progress_ticket", "Kendisine atanmış talebi ilerletebilir (İşlemde, Çözüldü)"),
+            ("progress_any_ticket", "Her talebi ilerletebilir ve kapatabilir"),
+            ("close_ticket", "Kendi çözülmüş talebini onaylayıp kapatabilir"),
         ]
 
     def __str__(self) -> str:

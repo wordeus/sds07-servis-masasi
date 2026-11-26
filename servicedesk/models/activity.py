@@ -44,6 +44,7 @@ class TicketEvent(models.Model):
         CREATED = "CREATED", "Talep oluşturuldu"
         ASSIGNED = "ASSIGNED", "Atama"
         PRIORITY_CHANGED = "PRIORITY_CHANGED", "Öncelik değişikliği"
+        STATUS_CHANGED = "STATUS_CHANGED", "Durum değişikliği"
 
     ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT, related_name="events", verbose_name="talep")
     actor = models.ForeignKey(

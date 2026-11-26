@@ -2,7 +2,7 @@
 
 ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. İstanbul Kültür Üniversitesi "Software Development with Standards" dersi kapsamında Burak Nigiz (2100002062) tarafından geliştirilmektedir (tek kişilik proje).
 
-Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: Open → In Progress → Resolved → Closed. Proje beş fazda tamamlanır; **Faz 5 bitiş fazıdır**. Her faz bir paket, bir ilerleme raporu ve bir GitHub etiketiyle (`hafta-N`) teslim edilir.
+Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: Open → In Progress → Resolved → Closed. Proje beş fazda tamamlandı; **Faz 5 bitiş fazıdır**. Final belgesi ve sunum: [docs/final/](docs/final/). Her faz bir paket, bir ilerleme raporu ve bir GitHub etiketiyle (`hafta-N`) teslim edilir.
 
 ## 1. Durum özeti
 
@@ -12,7 +12,7 @@ Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: O
 | 2 | Giriş/çıkış, roller, yetkilendirme, arayüz, tarayıcı testleri | 30.10.2026 | Tamamlandı | [`hafta-2`](https://github.com/wordeus/sds07-servis-masasi/tree/hafta-2) | [Rapor #2](docs/reports/Rapor-02_Hafta-2.docx) |
 | 3 | Talep oluşturma ve listeleme, kayıt bazlı erişim, kategoriler, modüler mimari | 13.11.2026 | Tamamlandı | [`hafta-3`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-3) | [Rapor #3](docs/reports/Rapor-03_Hafta-3.docx) |
 | 4 | Atama ve üzerine alma, yorumlar, öncelik değişikliği, işlem geçmişi | 27.11.2026 | Tamamlandı | [`hafta-4`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-4) | [Rapor #4](docs/reports/Rapor-04_Hafta-4.docx) |
-| 5 (bitiş) | Durum geçişleri ve işlem geçmişi görünümü; final belgesi, sunum ve demo | 11.12.2026 | **Sıradaki** | - | - |
+| 5 (bitiş) | Durum geçişleri ve işlem geçmişi görünümü; final belgesi, sunum ve demo | 11.12.2026 | Tamamlandı | [`hafta-5`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-5) | [Rapor #5](docs/reports/Rapor-05_Hafta-5.docx) |
 
 Güncel ayrıntı ve açık işler: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md).
 
@@ -45,10 +45,9 @@ Güncel ayrıntı ve açık işler: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.m
 
 ### Faz 5 (Hafta 5): Durum geçişleri ve proje bitişi
 
-1. Durum geçişleri (Open → In Progress → Resolved → Closed), rol ve atama koşulları, çözüm açıklaması zorunluluğu: FR-18, FR-19
-2. İşlem geçmişi görünümü; kayıtlar değiştirilemez: FR-21
-3. Final belgesi, sunum ve demo; RTM `--week 5` ve Rapor #5
-4. `hafta-5` etiketi ve Release (son teslim)
+- **Yapılanlar:** Durum makinesi (Açık → İşlemde → Çözüldü → Kapandı); atanmış personel veya yönetici ilerletir, çözüm açıklaması zorunlu, talep sahibi veya yönetici kapatır; tanımsız geçişler doğrudan POST ile de reddedilir. Talep sayfasında işlem geçmişi (İstanbul saatiyle). Yeniden açma yok (AK-01, KRR-19). E2E kodu sadeleştirildi (karmaşıklık 18 → 3). Final belgesi ve sunum.
+- **Sonuçlar:** 69/69 Django testi ve 18/18 tarayıcı senaryosu PASS, kapsam %95,03, mutasyon denetimi 18/18 (ilk koşuda bulunan test açığı kapatıldı, RSK-33); dört durum rozetinin kontrastı tarayıcıda ölçüldü (en düşük 5,42:1).
+- **Kanıt:** [docs/evidence/hafta-05/](docs/evidence/hafta-05/)
 
 ### Gelecek çalışma (kapsam dışı)
 
@@ -136,7 +135,8 @@ docs/                   SRS, SDD, RTM, test planı ve sonuçları, riskler, stan
 | [Standartlar](docs/STANDARDS.md) | Kullanılan baskılar, resmî bağlantılar, madde doğrulama durumu |
 | [Kalite ölçümleri](docs/QUALITY_METRICS.md) | ISO/IEC 25010:2023 ile ilişkili ölçümler |
 | [Prosedürler](docs/PROCEDURES.md) | Dal, commit, inceleme, belge kontrolü, E2E koşu kuralları |
-| [Kod rehberi](docs/KOD_REHBERI.md) | Hafta 1-4 kodunun sunumda anlatılacak özeti, vize malzemesi |
+| [Kod rehberi](docs/KOD_REHBERI.md) | Hafta 1-5 kodunun sunumda anlatılacak özeti, vize malzemesi |
+| [Final belgesi ve sunum](docs/final/) | Dönem sonu proje teslim dokümanı ve sunum |
 | [Kanıtlar](docs/evidence/) | Haftalara göre test JSON'ları, günlükler, ekran görüntüleri, mutasyon denetimi |
 | [Değişiklik günlüğü](CHANGELOG.md) | Sürüm geçmişi |
 

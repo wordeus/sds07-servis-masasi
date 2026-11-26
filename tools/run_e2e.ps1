@@ -2,7 +2,7 @@
 #
 # 1) Port boş mu? (Eski sunucu açık kalırsa testler eski kodla koşar, RSK-20.)
 # 2) Geçici veritabanı + migrate + rastgele parolayla demo kullanıcılar
-# 3) Sunucuyu DEBUG kapalı başlat (KRR-15), Hafta 2, 3 ve 4 senaryolarını koş
+# 3) Sunucuyu DEBUG kapalı başlat (KRR-15), Hafta 2-5 senaryolarını koş
 # 4) Sunucuyu kapat, portun boşaldığını doğrula, geçici veritabanını sil
 #
 # Kullanım: powershell -ExecutionPolicy Bypass -File tools\run_e2e.ps1 [-OutDir reports\e2e] [-Port 8765]
@@ -39,7 +39,8 @@ try {
     $suites = @(
         @("e2e\week2_auth_roles.py", "e2e-results.json"),
         @("e2e\week3_tickets.py", "e2e-week3-results.json"),
-        @("e2e\week4_workflow.py", "e2e-week4-results.json")
+        @("e2e\week4_workflow.py", "e2e-week4-results.json"),
+        @("e2e\week5_status.py", "e2e-week5-results.json")
     )
     $lines = New-Object System.Collections.Generic.List[string]
     foreach ($suite in $suites) {

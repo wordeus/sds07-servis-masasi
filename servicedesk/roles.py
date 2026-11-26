@@ -20,7 +20,7 @@ from django.db import DEFAULT_DB_ALIAS, transaction
 
 # Aktif proje haftası. Yetenek satırları bu haftaya göre "Kullanılabilir" veya
 # "Hafta N" olarak gösterilir (docs/SRS.md §2.6 haftalık plan).
-CURRENT_WEEK = 4
+CURRENT_WEEK = 5
 
 
 @dataclass(frozen=True)
@@ -54,18 +54,25 @@ PERM_ADD_COMMENT = "servicedesk.add_comment"
 PERM_TAKE_TICKET = "servicedesk.take_ticket"
 PERM_ASSIGN_TICKET = "servicedesk.assign_ticket"
 PERM_CHANGE_PRIORITY = "servicedesk.change_ticket_priority"
+# Hafta 5: durum geçişleri (FR-18, FR-19). Atanma koşulu services/workflow.py içindedir.
+PERM_PROGRESS_TICKET = "servicedesk.progress_ticket"
+PERM_PROGRESS_ANY_TICKET = "servicedesk.progress_any_ticket"
+PERM_CLOSE_TICKET = "servicedesk.close_ticket"
 
 _TICKET_BASE = frozenset({PERM_ADD_TICKET, PERM_VIEW_TICKET, PERM_ADD_COMMENT})
 _TICKET_WORK = frozenset({PERM_VIEW_ALL_TICKETS, PERM_TAKE_TICKET, PERM_CHANGE_PRIORITY})
 
-# Rol-izin matrisi (Hafta 4). Sonraki haftada durum geçişi izinleri eklenecek (PRC-07).
+# Rol-izin matrisi (Hafta 5, son hâl).
 ROLE_PERMISSIONS: dict[str, frozenset[str]] = {
-    REQUESTER.key: _TICKET_BASE,
-    AGENT.key: _TICKET_BASE | _TICKET_WORK | {PERM_SUPPORT_WORKSPACE},
+    REQUESTER.key: _TICKET_BASE | {PERM_CLOSE_TICKET},
+    AGENT.key: _TICKET_BASE | _TICKET_WORK | {PERM_SUPPORT_WORKSPACE, PERM_PROGRESS_TICKET},
     MANAGER.key: _TICKET_BASE
     | _TICKET_WORK
     | {
         PERM_ASSIGN_TICKET,
+        PERM_PROGRESS_TICKET,
+        PERM_PROGRESS_ANY_TICKET,
+        PERM_CLOSE_TICKET,
         PERM_SUPPORT_WORKSPACE,
         PERM_MANAGER_PANEL,
         PERM_VIEW_CATEGORY,

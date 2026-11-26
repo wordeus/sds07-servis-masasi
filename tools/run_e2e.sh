@@ -3,7 +3,7 @@
 #
 # 1) Port boş mu? (Eski bir sunucu açık kalırsa testler eski kodla koşar; Hafta 2'de yaşandı, RSK-08.)
 # 2) Geçici veritabanı + migrate + rastgele parolayla demo kullanıcılar
-# 3) Sunucuyu başlat, hazır olmasını bekle, E2E betiklerini koş (Hafta 2, 3 ve 4)
+# 3) Sunucuyu başlat, hazır olmasını bekle, E2E betiklerini koş (Hafta 2-5)
 # 4) Sunucuyu kapat ve portun boşaldığını doğrula
 set -euo pipefail
 
@@ -15,6 +15,7 @@ OUT_DIR="${E2E_OUT_DIR:-reports/screenshots}"
 RESULTS="${E2E_RESULTS:-reports/e2e-results.json}"
 RESULTS_W3="${E2E_RESULTS_W3:-reports/e2e-week3-results.json}"
 RESULTS_W4="${E2E_RESULTS_W4:-reports/e2e-week4-results.json}"
+RESULTS_W5="${E2E_RESULTS_W5:-reports/e2e-week5-results.json}"
 TMP_DIR="$(mktemp -d)"
 export DJANGO_SQLITE_PATH="$TMP_DIR/e2e.sqlite3"
 export E2E_PASSWORD="E2e-$("$PYTHON" -c 'import secrets; print(secrets.token_urlsafe(12))')"
@@ -48,15 +49,18 @@ done
 port_in_use || { echo "HATA: sunucu başlamadı"; cat "$TMP_DIR/server.log"; exit 4; }
 
 set +e
-# Hafta 2 ve 3 senaryoları önce (gerileme), ardından Hafta 4 senaryoları aynı sunucuya karşı koşulur.
+# Hafta 2-4 senaryoları önce (gerileme), ardından Hafta 5 senaryoları aynı sunucuya karşı koşulur.
 "$E2E_PYTHON" e2e/week2_auth_roles.py --base-url "http://127.0.0.1:$PORT" --out-dir "$OUT_DIR" --results-json "$RESULTS"
 STATUS=$?
 "$E2E_PYTHON" e2e/week3_tickets.py --base-url "http://127.0.0.1:$PORT" --out-dir "$OUT_DIR" --results-json "$RESULTS_W3"
 STATUS_W3=$?
 "$E2E_PYTHON" e2e/week4_workflow.py --base-url "http://127.0.0.1:$PORT" --out-dir "$OUT_DIR" --results-json "$RESULTS_W4"
 STATUS_W4=$?
+"$E2E_PYTHON" e2e/week5_status.py --base-url "http://127.0.0.1:$PORT" --out-dir "$OUT_DIR" --results-json "$RESULTS_W5"
+STATUS_W5=$?
 [ "$STATUS" -eq 0 ] && STATUS=$STATUS_W3
 [ "$STATUS" -eq 0 ] && STATUS=$STATUS_W4
+[ "$STATUS" -eq 0 ] && STATUS=$STATUS_W5
 set -e
 
 cleanup

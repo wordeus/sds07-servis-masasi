@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-RSK |
-| Sürüm | 0.4 (Hafta 4) |
+| Sürüm | 0.5 (Faz 5) |
 | Tarih | 26.11.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili süreç | ISO/IEC/IEEE 12207:2026 6.3.4 Risk management; ISO 9001:2026 6.1 |
@@ -20,6 +20,7 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | 0.2 | 30.10.2026 | Hafta 2: RSK-17..RSK-20 eklendi; RSK-07 Hafta 2 ölçümüyle güncellendi |
 | 0.3 | 30.10.2026 | Hafta 3: RSK-21..RSK-23 eklendi; RSK-07 kısmen kapandı; RSK-08 için Hafta 3 önlemleri yazıldı; teslim öncesi kontrolde RSK-24 ve RSK-25 eklendi, RSK-14 güncellendi |
 | 0.4 | 26.11.2026 | Hafta 4: RSK-28..RSK-30 (yaşanan sorunlar) ve RSK-31, RSK-32 (riskler) eklendi; RSK-15 Hafta 4 önlemiyle güncellendi |
+| 0.5 | 26.11.2026 | Faz 5: RSK-33 ve RSK-34 (yaşanan sorunlar) eklendi; RSK-07 kapandı (PLN-06) |
 
 ## 1. Hafta 1'de yaşanan sorunlar
 
@@ -62,7 +63,14 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | RSK-29 | Kapanmış talebe gönderilen yorum reddediliyor ama sebep kullanıcıya gösterilmiyordu: hata yorum formuna yazılıyor, form ise kapanmış talepte sayfada yer almıyordu. | Düşük | Entegrasyon testi: TC-CMT-04'ün ilk koşusu (3 alt test FAIL) | Kural hataları (kapanmış talep, zaten atanmış talep) sayfanın üstünde bildirim olarak gösteriliyor; alan hataları formda kalıyor. | Kapandı | `servicedesk/views/ticket_actions.py`, TC-CMT-04 |
 | RSK-30 | Yeni işlem görünümleri izin denetimini yalnız ortak taban sınıftan miras alıyordu; görünüm sınıfında denetim açıkça görünmüyordu. Taban sınıfı değiştiren biri denetimi farkında olmadan kaldırabilirdi. | Düşük | Mimari kural testi: TC-ARCH-02'nin ilk koşusu (FAIL) | Ortak kod izin içermeyen bir mixin'e (`TicketActionMixin`) ayrıldı; her görünüm `PermissionRequiredMixin`'i açıkça yazıyor. Test gevşetilmedi. | Kapandı | `servicedesk/views/ticket_actions.py`, TC-ARCH-02 |
 
-## 5. Önümüzdeki haftaların riskleri
+## 5. Faz 5'te yaşanan sorunlar
+
+| ID | Sorun / standart sapması | Etki | Tespit yöntemi (V&V) | Alınan önlem | Durum | Kanıt |
+|---|---|---|---|---|---|---|
+| RSK-33 | Test açığı: durum servisinde "talep sahibi yalnız kendi talebini kapatır" kuralı kaldırıldığında hiçbir test başarısız olmuyordu. Web arayüzünde kural yine işliyordu (başkasının talebi 404), ama servis doğrudan çağrılırsa korumasızdı ve bunu sınayan test yoktu. | Orta | Mutasyon denetimi: M18 ilk koşuda yakalanmadı (17/18) | TC-WF-04'e servisin doğrudan çağrıldığı denetim eklendi; M18 yakalandı (18/18). | Kapandı | `evidence/hafta-05/mutation-check.md` |
+| RSK-34 | TC-E2E-18'in ilk sürümü durum rozeti kontrastını talep listesinde ölçüyordu; E2E veritabanında o anda yalnız iki durumda talep olduğu için senaryo başarısız oldu (uygulama hatası değil, test tasarımı hatası). | Düşük | Sistem testi: TC-E2E-18 ilk koşusu (FAIL: "Listede yeterli durum yok") | Ölçüm, dört durumun her zaman bulunduğu panel durum özetine taşındı; dört rozet tarayıcıda ölçüldü (en düşük 5,42:1). | Kapandı | `evidence/hafta-05/e2e-week5-results.json` |
+
+## 6. Önümüzdeki riskler (gelecek çalışma)
 
 | ID | Risk | Olasılık | Etki | Önlem | Hafta |
 |---|---|---|---|---|---|

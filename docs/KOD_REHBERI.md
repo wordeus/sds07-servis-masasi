@@ -1,6 +1,6 @@
-# Kod rehberi: Hafta 1-4 kodu nasıl çalışır?
+# Kod rehberi: SDS-07 kodu nasıl çalışır? (Hafta 1-5)
 
-Bu belge, Hafta 1-4 kodunun nasıl çalıştığını sunum ve vize hazırlığı için özetler. Her bölümde önce ne olduğu, sonra nerede olduğu, en sonda neden böyle yapıldığı anlatılır.
+Bu belge, Hafta 1-5 kodunun nasıl çalıştığını sunum ve vize hazırlığı için özetler. Her bölümde önce ne olduğu, sonra nerede olduğu, en sonda neden böyle yapıldığı anlatılır.
 
 ## 1. Bir isteğin yolculuğu
 
@@ -69,6 +69,19 @@ Kategori adlarının tekilliği önce veritabanının `iexact` karşılaştırma
 **Hafta 4'te testlerin yakaladığı üç hata (RSK-28..RSK-30):** Kapanmış talepte işlem isteği sunucu hatası (500) veriyordu; kapanmış talebe yorum reddinin sebebi ekranda görünmüyordu; yeni görünümlerde izin denetimi açıkça yazılmamıştı. Üçünü de ilk test koşusu gösterdi, düzeltmeden sonra aynı testler geçti.
 
 **Kapsam kararı (KRR-18):** Proje Faz 5'te biter. Değişiklik yönetimi, SLA, anket, KPI ve DÖF gelecek çalışmadır; RTM'de "KAPSAM DIŞI" görünür, panelde "Kapsam dışı" yazar.
+
+## 1f. Faz 5: durum makinesi ve işlem geçmişi görünümü
+
+**Ne?** Talep dört durumdan sırayla geçer: Açık → İşlemde → Çözüldü → Kapandı. Talep sayfasında yalnız sıradaki adımın düğmesi görünür ("İşleme al", "Çözüldü olarak işaretle", "Onayla ve kapat"). Çözüldü adımında çözüm açıklaması zorunludur. Sayfanın altında talebin işlem geçmişi İstanbul saatiyle listelenir.
+
+**Nerede?** `services/workflow.py`: `NEXT_STATUS` tablosu her durumun tek izinli hedefini tutar; `change_status` geçişi yapar. Görünüm `views/ticket_actions.py::TicketStatusView` (yalnız POST). Geçmiş listesi `services/audit.py::history_for`.
+
+**Neden böyle?**
+- Kurallar tek tabloda: "hangi durumdan hangisine" sorusunun cevabı tek yerde (`NEXT_STATUS`). Atlama veya geri dönme isteği tabloya uymadığı için reddedilir; doğrudan POST da aynı kontrolden geçer (TC-WF-05).
+- Kim yapabilir: ilerletme için talebe atanmış olmak (veya Yönetici olmak), kapatma için talebin sahibi olmak (veya Yönetici olmak) gerekir. Kontrol servisin içinde de yapılır (TC-WF-03, TC-WF-04).
+- Yeniden açma yok (AK-01, KRR-19): talimattaki akış tek yönlüdür; çözüm beğenilmezse yorumla bildirilir.
+
+**Mutasyon denetiminin yakaladığı test açığı (RSK-33):** "Talep sahibi yalnız kendi talebini kapatır" kuralını bilerek bozduğumuzda hiçbir test başarısız olmadı. Web arayüzü yine koruyordu (başkasının talebi 404), ama servisi doğrudan çağıran bir kod kuralı aşabilirdi. Teste servis çağrısı eklendi; mutasyon artık yakalanıyor. Bu, "testler geçiyor" demenin "testler yeterli" demek olmadığını gösteren somut bir örnektir.
 
 ## 2. Roller nasıl tanımlandı?
 

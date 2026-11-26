@@ -22,9 +22,13 @@ import json
 import os
 import platform
 import re
+import secrets
 import sys
 import traceback
+from collections.abc import Callable
+from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from functools import partial
 from importlib import metadata
 from pathlib import Path
 
@@ -132,11 +136,26 @@ class Runner:
         print(f"{tc_id}: {outcome}  {title}")
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="SDS-07 Hafta 2 E2E doğrulaması")
+@dataclass
+class Ctx:
+    """Senaryoların paylaştığı bağlam: koşucu, sayfa üreticisi ve senaryolar arası durum."""
+
+    runner: Runner
+    new_page: Callable
+    suffix: str = ""
+    state: dict = field(default_factory=dict)
+    page: Page | None = None
+
+
+def run_suite(description: str, script: str, default_results: str, scenarios: Callable[[Ctx], None]) -> int:
+    """Ortak E2E iskeleti (Hafta 2-5 betikleri): argümanlar, tarayıcı, senaryolar, sonuç dosyası.
+
+    PLN-06 / RSK-07: senaryolar modül düzeyinde ayrı fonksiyonlardır; `main` yalnız bu iskeleti çağırır.
+    """
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument("--base-url", default="http://127.0.0.1:8000")
     parser.add_argument("--out-dir", type=Path, default=Path("reports/screenshots"))
-    parser.add_argument("--results-json", type=Path, default=Path("reports/e2e-results.json"))
+    parser.add_argument("--results-json", type=Path, default=Path(default_results))
     args = parser.parse_args()
 
     password = os.environ.get("E2E_PASSWORD")
@@ -145,7 +164,7 @@ def main() -> int:
         return 2
     args.out_dir.mkdir(parents=True, exist_ok=True)
     started = datetime.now(UTC)
-    runner = Runner(args.base_url, password, args.out_dir)
+    runner = Runner(args.base_url, password, args.out_dir, script=script)
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -161,190 +180,21 @@ def main() -> int:
             page.on("pageerror", lambda e: page.console_errors.append(str(e)))
             return context, page
 
-        # TC-E2E-01 -----------------------------------------------------------
-        def tc01(shots, notes):
-            context, page = new_page()
-            response = page.goto(f"{runner.base}/hesap/giris/")
-            page.wait_for_load_state("networkidle")
-            assert response.status == 200, f"HTTP {response.status}"
-            assert page.inner_text("h1").strip() == "Giriş yap", "Başlık 'Giriş yap' değil"
-            assert page.get_attribute("html", "lang") == "tr", "html lang=tr değil"
-            assert not page.console_errors, f"Konsol hataları: {page.console_errors}"
-            font = page.evaluate("document.fonts.check('16px \"IBM Plex Sans\"')")
-            notes.append(f"Plex Sans yüklendi={font}")
-            runner.shot(page, "01-giris-masaustu.png", shots)
-            context.close()
-
-        runner.run("TC-E2E-01", "Giriş sayfası konsol hatasız yüklenir", tc01)
-
-        # TC-E2E-02 ve TC-E2E-03 (aynı oturum) -------------------------------
-        context, page = new_page()
-
-        def tc02(shots, notes):
-            runner.login(page, USERS["requester"])
-            assert page.url == f"{runner.base}/", f"Beklenen panel, gelen {page.url}"
-            badge = page.inner_text("[data-testid=role-badge]").strip()
-            assert badge == "Talep Sahibi", f"Rol rozeti: {badge}"
-            links = runner.nav_links(page)
-            assert not ({"support", "manager", "admin"} & links), f"Yetkisiz menü bağlantısı: {links}"
-            notes.append("menü bağlantıları: Panelim" + "".join(f", {link}" for link in sorted(links)))
-            runner.shot(page, "02-panel-talep-sahibi.png", shots)
-
-        runner.run("TC-E2E-02", "Talep Sahibi girişi; rol rozeti ve kısıtlı menü", tc02)
-
-        def tc03(shots, notes):
-            for path, shot in (("/yonetim/", "03-403-yonetim.png"), ("/destek/", "03-403-destek.png")):
-                response = page.goto(f"{runner.base}{path}")
-                page.wait_for_load_state("networkidle")
-                assert response.status == 403, f"{path} için HTTP {response.status}"
-                assert "Bu sayfa rolünüze kapalı" in page.inner_text("main"), "403 açıklaması yok"
-                assert "Talep Sahibi" in page.inner_text("[data-testid=error-403]"), "Rol bilgisi yok"
-                notes.append(f"{path} → 403")
-                runner.shot(page, shot, shots)
-
-        runner.run("TC-E2E-03", "Talep Sahibi doğrudan adresle kısıtlı sayfalara giremez", tc03)
-        context.close()
-
-        # TC-E2E-04 -----------------------------------------------------------
-        def tc04(shots, notes):
-            context, page = new_page()
-            runner.login(page, USERS["agent"])
-            links = runner.nav_links(page)
-            assert "support" in links and "manager" not in links, f"Menü: {links}"
-            response = page.goto(f"{runner.base}/destek/")
-            assert response.status == 200 and page.is_visible("[data-testid=support-workspace]"), (
-                "Destek kuyruğu açılmadı"
-            )
-            runner.shot(page, "04-destek-kuyrugu.png", shots)
-            response = page.goto(f"{runner.base}/yonetim/")
-            assert response.status == 403, f"/yonetim/ için HTTP {response.status}"
-            notes.append("/destek/ 200, /yonetim/ 403")
-            context.close()
-
-        runner.run("TC-E2E-04", "Destek Personeli destek kuyruğuna girer, yönetim paneline giremez", tc04)
-
-        # TC-E2E-05 ve TC-E2E-06 (aynı oturum) -------------------------------
-        context, page = new_page()
-
-        def tc05(shots, notes):
-            runner.login(page, USERS["manager"])
-            links = runner.nav_links(page)
-            assert {"support", "manager"} <= links, f"Menü: {links}"
-            page.click("[data-nav=manager]")
-            page.wait_for_load_state("networkidle")
-            assert page.is_visible("[data-testid=manager-panel]"), "Yönetim paneli görünmüyor"
-            runner.shot(page, "05-yonetim-paneli.png", shots)
-            response = page.goto(f"{runner.base}/destek/")
-            assert response.status == 200, f"/destek/ için HTTP {response.status}"
-            notes.append("menüde iki bağlantı; iki sayfa 200")
-
-        runner.run("TC-E2E-05", "Yönetici iki çalışma alanına da erişir", tc05)
-
-        def tc06(shots, notes):
-            page.goto(f"{runner.base}/")
-            page.click("[data-testid=logout]")
-            page.wait_for_load_state("networkidle")
-            assert page.url.startswith(f"{runner.base}/hesap/giris/"), f"Çıkış sonrası adres: {page.url}"
-            page.goto(f"{runner.base}/")
-            page.wait_for_load_state("networkidle")
-            assert "/hesap/giris/?next=/" in page.url, f"Oturum kapanmamış: {page.url}"
-            notes.append("çıkış sonrası / → giriş")
-            runner.shot(page, "06-cikis-sonrasi.png", shots)
-
-        runner.run("TC-E2E-06", "Çıkış yap düğmesi oturumu kapatır", tc06)
-        context.close()
-
-        # TC-E2E-07 -----------------------------------------------------------
-        overflow_js = OVERFLOW_JS
-
-        def tc07(shots, notes):
-            context, page = new_page(MOBILE)
-            page.goto(f"{runner.base}/hesap/giris/")
-            page.wait_for_load_state("networkidle")
-            login_check = page.evaluate(overflow_js)
-            runner.shot(page, "07-giris-mobil-360.png", shots)
-            runner.login(page, USERS["requester"])
-            panel_check = page.evaluate(overflow_js)
-            runner.shot(page, "07-panel-mobil-360.png", shots)
-            context.close()
-            for name, check in (("giriş", login_check), ("panel", panel_check)):
-                width, client = check["page"]
-                assert width <= client, f"{name} sayfasında yatay taşma: {check['page']}"
-                assert not check["inner"], f"{name} sayfasında iç kapsayıcı taşması: {check['inner']}"
-                notes.append(f"{name}: sayfa {width}/{client} px, iç taşma yok")
-
-        runner.run("TC-E2E-07", "360 px genişlikte yatay kaydırma yok", tc07)
-
-        # TC-E2E-08 -----------------------------------------------------------
-        def tc08(shots, notes):
-            context, page = new_page()
-            page.goto(f"{runner.base}/hesap/giris/")
-            page.wait_for_load_state("networkidle")
-            assert page.evaluate("document.activeElement.id") == "id_username", "Kullanıcı adı alanı odakta değil"
-            page.keyboard.type(USERS["requester"])
-            page.keyboard.press("Tab")
-            assert page.evaluate("document.activeElement.id") == "id_password", "Tab parolaya geçmedi"
-            page.keyboard.type(runner.password)
-            page.keyboard.press("Enter")
-            page.wait_for_url(f"{runner.base}/")
-            page.wait_for_load_state("networkidle")
-            page.keyboard.press("Tab")
-            first = page.evaluate(
-                "[document.activeElement.textContent.trim(), getComputedStyle(document.activeElement).outlineStyle]"
-            )
-            page.keyboard.press("Tab")
-            second = page.evaluate(
-                "(() => { const s = getComputedStyle(document.activeElement);"
-                " return [document.activeElement.className, s.outlineStyle, s.outlineWidth]; })()"
-            )
-            assert first[0] == "İçeriğe geç", f"İlk odak 'İçeriğe geç' değil: {first}"
-            assert second[1] != "none" and second[2] != "0px", f"Odak çizgisi görünmüyor: {second}"
-            runner.shot(page, "08-klavye-odak.png", shots)
-            notes.append(f"ilk odak: {first[0]}; ikinci odak çizgisi: {second[1]} {second[2]}")
-            context.close()
-
-        runner.run("TC-E2E-08", "Yalnız klavyeyle giriş ve görünür odak", tc08)
-
-        # TC-E2E-09 -----------------------------------------------------------
-        def tc09(shots, notes):
-            context, page = new_page()
-            page.goto(f"{runner.base}/hesap/giris/")
-            page.wait_for_load_state("networkidle")
-            checks = {
-                "gövde metni (giriş formu)": ".sd-login__form h1",
-                "ikincil metin": ".sd-help",
-                "birincil düğme": "form.sd-login__fields button[type=submit]",
-                "süreç paneli açıklaması": ".sd-process__intro",
-                "süreç adımı metni": ".sd-rail__text",
-            }
-            failures = []
-            for label, selector in checks.items():
-                colors = page.evaluate(EFFECTIVE_COLORS_JS, selector)
-                assert colors, f"Öğe bulunamadı: {selector}"
-                ratio = contrast_ratio(colors["fg"], colors["bg"])
-                notes.append(f"{label} {ratio}:1")
-                if ratio < 4.5:
-                    failures.append(f"{label} {ratio}:1")
-            runner.login(page, USERS["requester"])
-            for label, selector in {"panel ikincil metin": ".sd-panel .sd-muted", "rol rozeti": ".sd-role"}.items():
-                colors = page.evaluate(EFFECTIVE_COLORS_JS, selector)
-                ratio = contrast_ratio(colors["fg"], colors["bg"])
-                notes.append(f"{label} {ratio}:1")
-                if ratio < 4.5:
-                    failures.append(f"{label} {ratio}:1")
-            assert not failures, f"4.5:1 altında: {failures}"
-            context.close()
-
-        runner.run("TC-E2E-09", "Metin ve düğme kontrastı en az 4.5:1", tc09)
-
+        scenarios(Ctx(runner, new_page, suffix=secrets.token_hex(3)))
         browser_version = browser.version
         browser.close()
 
-    finished = datetime.now(UTC)
-    payload = {
+    payload = results_payload(runner, started, browser_version)
+    args.results_json.parent.mkdir(parents=True, exist_ok=True)
+    args.results_json.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return 0 if payload["totals"]["successful"] else 1
+
+
+def results_payload(runner: Runner, started: datetime, browser_version: str) -> dict:
+    return {
         "kind": "e2e-playwright",
         "started_at_utc": started.isoformat(timespec="seconds"),
-        "finished_at_utc": finished.isoformat(timespec="seconds"),
+        "finished_at_utc": datetime.now(UTC).isoformat(timespec="seconds"),
         "environment": {
             "browser": f"chromium {browser_version}",
             "playwright": metadata.version("playwright"),
@@ -360,9 +210,191 @@ def main() -> int:
         },
         "results": runner.records,
     }
-    args.results_json.parent.mkdir(parents=True, exist_ok=True)
-    args.results_json.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    return 0 if payload["totals"]["successful"] else 1
+
+
+# --- Senaryolar ---------------------------------------------------------------
+
+
+def tc01(ctx: Ctx, shots, notes):
+    runner = ctx.runner
+    context, page = ctx.new_page()
+    response = page.goto(f"{runner.base}/hesap/giris/")
+    page.wait_for_load_state("networkidle")
+    assert response.status == 200, f"HTTP {response.status}"
+    assert page.inner_text("h1").strip() == "Giriş yap", "Başlık 'Giriş yap' değil"
+    assert page.get_attribute("html", "lang") == "tr", "html lang=tr değil"
+    assert not page.console_errors, f"Konsol hataları: {page.console_errors}"
+    font = page.evaluate("document.fonts.check('16px \"IBM Plex Sans\"')")
+    notes.append(f"Plex Sans yüklendi={font}")
+    runner.shot(page, "01-giris-masaustu.png", shots)
+    context.close()
+
+
+def tc02(ctx: Ctx, shots, notes):
+    runner, page = ctx.runner, ctx.page
+    runner.login(page, USERS["requester"])
+    assert page.url == f"{runner.base}/", f"Beklenen panel, gelen {page.url}"
+    badge = page.inner_text("[data-testid=role-badge]").strip()
+    assert badge == "Talep Sahibi", f"Rol rozeti: {badge}"
+    links = runner.nav_links(page)
+    assert not ({"support", "manager", "admin"} & links), f"Yetkisiz menü bağlantısı: {links}"
+    notes.append("menü bağlantıları: Panelim" + "".join(f", {link}" for link in sorted(links)))
+    runner.shot(page, "02-panel-talep-sahibi.png", shots)
+
+
+def tc03(ctx: Ctx, shots, notes):
+    runner, page = ctx.runner, ctx.page
+    for path, shot in (("/yonetim/", "03-403-yonetim.png"), ("/destek/", "03-403-destek.png")):
+        response = page.goto(f"{runner.base}{path}")
+        page.wait_for_load_state("networkidle")
+        assert response.status == 403, f"{path} için HTTP {response.status}"
+        assert "Bu sayfa rolünüze kapalı" in page.inner_text("main"), "403 açıklaması yok"
+        assert "Talep Sahibi" in page.inner_text("[data-testid=error-403]"), "Rol bilgisi yok"
+        notes.append(f"{path} → 403")
+        runner.shot(page, shot, shots)
+
+
+def tc04(ctx: Ctx, shots, notes):
+    runner = ctx.runner
+    context, page = ctx.new_page()
+    runner.login(page, USERS["agent"])
+    links = runner.nav_links(page)
+    assert "support" in links and "manager" not in links, f"Menü: {links}"
+    response = page.goto(f"{runner.base}/destek/")
+    assert response.status == 200 and page.is_visible("[data-testid=support-workspace]"), "Destek kuyruğu açılmadı"
+    runner.shot(page, "04-destek-kuyrugu.png", shots)
+    response = page.goto(f"{runner.base}/yonetim/")
+    assert response.status == 403, f"/yonetim/ için HTTP {response.status}"
+    notes.append("/destek/ 200, /yonetim/ 403")
+    context.close()
+
+
+def tc05(ctx: Ctx, shots, notes):
+    runner, page = ctx.runner, ctx.page
+    runner.login(page, USERS["manager"])
+    links = runner.nav_links(page)
+    assert {"support", "manager"} <= links, f"Menü: {links}"
+    page.click("[data-nav=manager]")
+    page.wait_for_load_state("networkidle")
+    assert page.is_visible("[data-testid=manager-panel]"), "Yönetim paneli görünmüyor"
+    runner.shot(page, "05-yonetim-paneli.png", shots)
+    response = page.goto(f"{runner.base}/destek/")
+    assert response.status == 200, f"/destek/ için HTTP {response.status}"
+    notes.append("menüde iki bağlantı; iki sayfa 200")
+
+
+def tc06(ctx: Ctx, shots, notes):
+    runner, page = ctx.runner, ctx.page
+    page.goto(f"{runner.base}/")
+    page.click("[data-testid=logout]")
+    page.wait_for_load_state("networkidle")
+    assert page.url.startswith(f"{runner.base}/hesap/giris/"), f"Çıkış sonrası adres: {page.url}"
+    page.goto(f"{runner.base}/")
+    page.wait_for_load_state("networkidle")
+    assert "/hesap/giris/?next=/" in page.url, f"Oturum kapanmamış: {page.url}"
+    notes.append("çıkış sonrası / → giriş")
+    runner.shot(page, "06-cikis-sonrasi.png", shots)
+
+
+def tc07(ctx: Ctx, shots, notes):
+    runner = ctx.runner
+    context, page = ctx.new_page(MOBILE)
+    page.goto(f"{runner.base}/hesap/giris/")
+    page.wait_for_load_state("networkidle")
+    login_check = page.evaluate(OVERFLOW_JS)
+    runner.shot(page, "07-giris-mobil-360.png", shots)
+    runner.login(page, USERS["requester"])
+    panel_check = page.evaluate(OVERFLOW_JS)
+    runner.shot(page, "07-panel-mobil-360.png", shots)
+    context.close()
+    for name, check in (("giriş", login_check), ("panel", panel_check)):
+        width, client = check["page"]
+        assert width <= client, f"{name} sayfasında yatay taşma: {check['page']}"
+        assert not check["inner"], f"{name} sayfasında iç kapsayıcı taşması: {check['inner']}"
+        notes.append(f"{name}: sayfa {width}/{client} px, iç taşma yok")
+
+
+def tc08(ctx: Ctx, shots, notes):
+    runner = ctx.runner
+    context, page = ctx.new_page()
+    page.goto(f"{runner.base}/hesap/giris/")
+    page.wait_for_load_state("networkidle")
+    assert page.evaluate("document.activeElement.id") == "id_username", "Kullanıcı adı alanı odakta değil"
+    page.keyboard.type(USERS["requester"])
+    page.keyboard.press("Tab")
+    assert page.evaluate("document.activeElement.id") == "id_password", "Tab parolaya geçmedi"
+    page.keyboard.type(runner.password)
+    page.keyboard.press("Enter")
+    page.wait_for_url(f"{runner.base}/")
+    page.wait_for_load_state("networkidle")
+    page.keyboard.press("Tab")
+    first = page.evaluate(
+        "[document.activeElement.textContent.trim(), getComputedStyle(document.activeElement).outlineStyle]"
+    )
+    page.keyboard.press("Tab")
+    second = page.evaluate(
+        "(() => { const s = getComputedStyle(document.activeElement);"
+        " return [document.activeElement.className, s.outlineStyle, s.outlineWidth]; })()"
+    )
+    assert first[0] == "İçeriğe geç", f"İlk odak 'İçeriğe geç' değil: {first}"
+    assert second[1] != "none" and second[2] != "0px", f"Odak çizgisi görünmüyor: {second}"
+    runner.shot(page, "08-klavye-odak.png", shots)
+    notes.append(f"ilk odak: {first[0]}; ikinci odak çizgisi: {second[1]} {second[2]}")
+    context.close()
+
+
+def contrast_failures(page: Page, checks: dict, notes: list[str]) -> list[str]:
+    """Her seçicinin metin/zemin kontrastını ölçer; 4.5:1 altındakileri döndürür."""
+    failures = []
+    for label, selector in checks.items():
+        colors = page.evaluate(EFFECTIVE_COLORS_JS, selector)
+        assert colors, f"Öğe bulunamadı: {selector}"
+        ratio = contrast_ratio(colors["fg"], colors["bg"])
+        notes.append(f"{label} {ratio}:1")
+        if ratio < 4.5:
+            failures.append(f"{label} {ratio}:1")
+    return failures
+
+
+def tc09(ctx: Ctx, shots, notes):
+    runner = ctx.runner
+    context, page = ctx.new_page()
+    page.goto(f"{runner.base}/hesap/giris/")
+    page.wait_for_load_state("networkidle")
+    login_checks = {
+        "gövde metni (giriş formu)": ".sd-login__form h1",
+        "ikincil metin": ".sd-help",
+        "birincil düğme": "form.sd-login__fields button[type=submit]",
+        "süreç paneli açıklaması": ".sd-process__intro",
+        "süreç adımı metni": ".sd-rail__text",
+    }
+    failures = contrast_failures(page, login_checks, notes)
+    runner.login(page, USERS["requester"])
+    panel_checks = {"panel ikincil metin": ".sd-panel .sd-muted", "rol rozeti": ".sd-role"}
+    failures += contrast_failures(page, panel_checks, notes)
+    assert not failures, f"4.5:1 altında: {failures}"
+    context.close()
+
+
+def scenarios(ctx: Ctx) -> None:
+    run = ctx.runner.run
+    run("TC-E2E-01", "Giriş sayfası konsol hatasız yüklenir", partial(tc01, ctx))
+    context, ctx.page = ctx.new_page()  # TC-E2E-02 ve 03 aynı oturumu kullanır
+    run("TC-E2E-02", "Talep Sahibi girişi; rol rozeti ve kısıtlı menü", partial(tc02, ctx))
+    run("TC-E2E-03", "Talep Sahibi doğrudan adresle kısıtlı sayfalara giremez", partial(tc03, ctx))
+    context.close()
+    run("TC-E2E-04", "Destek Personeli destek kuyruğuna girer, yönetim paneline giremez", partial(tc04, ctx))
+    context, ctx.page = ctx.new_page()  # TC-E2E-05 ve 06 aynı oturumu kullanır
+    run("TC-E2E-05", "Yönetici iki çalışma alanına da erişir", partial(tc05, ctx))
+    run("TC-E2E-06", "Çıkış yap düğmesi oturumu kapatır", partial(tc06, ctx))
+    context.close()
+    run("TC-E2E-07", "360 px genişlikte yatay kaydırma yok", partial(tc07, ctx))
+    run("TC-E2E-08", "Yalnız klavyeyle giriş ve görünür odak", partial(tc08, ctx))
+    run("TC-E2E-09", "Metin ve düğme kontrastı en az 4.5:1", partial(tc09, ctx))
+
+
+def main() -> int:
+    return run_suite("SDS-07 Hafta 2 E2E doğrulaması", "e2e/week2_auth_roles.py", "reports/e2e-results.json", scenarios)
 
 
 if __name__ == "__main__":

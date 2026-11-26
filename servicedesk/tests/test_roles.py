@@ -245,7 +245,7 @@ class NavigationTests(RoleUsersMixin, TestCase):
 
 class Week4PermissionTests(RoleUsersMixin, TestCase):
     def test_week4_permissions_follow_matrix(self):
-        """TC-ROLE-14: Hafta 4 izinleri: Talep Sahibi yalnız yorum ekler; Destek Personeli yorum, üzerine alma ve öncelik değiştirme; Yönetici bunlara ek olarak atama yapar; panelde Hafta 4 yetenekleri kullanılabilir, Hafta 5 yetenekleri "Hafta 5", kapsam dışı yetenekler "Kapsam dışı" görünür."""
+        """TC-ROLE-14: Hafta 4 izinleri: Talep Sahibi yalnız yorum ekler; Destek Personeli yorum, üzerine alma ve öncelik değiştirme; Yönetici bunlara ek olarak atama yapar; panelde Hafta 4 yetenekleri kullanılabilir, kapsam dışı yetenekler "Kapsam dışı" görünür."""
         perms = (
             "servicedesk.add_comment",
             "servicedesk.take_ticket",
@@ -266,7 +266,30 @@ class Week4PermissionTests(RoleUsersMixin, TestCase):
         rows = {row["label"]: row for row in self.client.get(DASHBOARD).context["capabilities"]}
         for label in ("Talebe yorum ekleme", "Talebi üzerine alma", "Talebi destek personeline atama"):
             self.assertTrue(rows[label]["available"], label)
-        self.assertFalse(rows["Durum ilerletme (Açık → İşlemde → Çözüldü)"]["available"])
         self.assertTrue(rows["KPI paneli"]["out_of_scope"])
         self.assertContains(self.client.get(DASHBOARD), '<span class="sd-chip">Kapsam dışı</span>', html=False)
-        self.assertContains(self.client.get(DASHBOARD), '<span class="sd-chip">Hafta 5</span>', html=False)
+
+
+class Week5PermissionTests(RoleUsersMixin, TestCase):
+    def test_week5_permissions_follow_matrix(self):
+        """TC-ROLE-15: Hafta 5 izinleri: Talep Sahibi kapatma; Destek Personeli kendisine atanmış talebi ilerletme; Yönetici her talebi ilerletme ve kapatma; panelde durum yetenekleri kullanılabilir, "Hafta N" etiketi kalmaz."""
+        perms = ("servicedesk.close_ticket", "servicedesk.progress_ticket", "servicedesk.progress_any_ticket")
+        expected = {
+            self.requester: (True, False, False),
+            self.agent: (False, True, False),
+            self.manager: (True, True, True),
+            self.no_role: (False, False, False),
+        }
+        for user, flags in expected.items():
+            with self.subTest(user=user.username):
+                user = get_user_model().objects.get(pk=user.pk)
+                self.assertEqual(tuple(user.has_perm(p) for p in perms), flags)
+        for user in (self.requester, self.agent, self.manager):
+            with self.subTest(panel=user.username):
+                self.client.force_login(user)
+                response = self.client.get(DASHBOARD)
+                rows = {row["label"]: row for row in response.context["capabilities"]}
+                for label in ("Durum ilerletme (Açık → İşlemde → Çözüldü)", "Talebi kapatma (Çözüldü → Kapandı)"):
+                    if label in rows:
+                        self.assertTrue(rows[label]["available"], label)
+                self.assertNotContains(response, '<span class="sd-chip">Hafta ', html=False)
