@@ -1,0 +1,33 @@
+# Bağımlılık güncellemelerini haftalık olarak PR şeklinde önerir.
+# Django 5.2 LTS'de kalınır: yalnız yama (5.2.x) güncellemeleri önerilir (STANDARDS, KRR-02).
+# PR'lar CI'dan geçmeden birleştirilmez; sabitleme kuralı (requirements*.txt) korunur.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: Europe/Istanbul
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+    labels: [bağımlılık]
+    ignore:
+      - dependency-name: django
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+    groups:
+      gelistirme-araclari:
+        patterns: ["coverage", "ruff", "playwright", "lxml"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: Europe/Istanbul
+    commit-message:
+      prefix: "ci"
+    labels: [bağımlılık]
