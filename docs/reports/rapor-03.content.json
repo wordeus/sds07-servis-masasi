@@ -55,7 +55,7 @@
         ["RSK-08", "Risk: kayıt bazlı yetki atlaması (IDOR); talep sahibi başkasının kaydına numarayla erişebilir.", "Yüksek", "Entegrasyon ve sistem testleri; mutasyon denetimi", "Liste ve ayrıntı tek politika fonksiyonundan geçiyor; TC-TKT-04/05/07, TC-E2E-11 PASS. Yorum, işlem ve anket adresleri geldikçe aynı testler eklenecek."],
         ["RSK-05", "Uzak depo ve GitHub Actions olmadığı için CI matrisi (Windows dahil) koşulamadı.", "Orta", "Ortam kontrolü; iş akışının statik denetimi (actionlint)", "Yerel eşdeğer komutlar koşuldu; ci.yml actionlint ile 0 bulgu. Depo oluşturuldu; Hafta 1, 2 ve 3 commit'lerinin CI koşularında Ubuntu ve Windows × Python 3.12/3.13 işlerinin dördü de başarılı (kapandı)."]
       ],
-      "notes": ["Ayrıntılar ve kanıt dosyaları: docs/RISKS.md v0.3.1 ve docs/evidence/hafta-03 (ilk denemelerin özgün kayıtları ilk-denemeler/, teslim öncesi kontroller teslim-oncesi/, Windows koşusu windows-2026-11-26/ klasöründedir)."]
+      "notes": ["Ayrıntılar ve kanıt dosyaları: docs/RISKS.md v0.3 ve docs/evidence/hafta-03 (ilk denemelerin özgün kayıtları ilk-denemeler/, teslim öncesi kontroller teslim-oncesi/, Windows koşusu windows-2026-11-26/ klasöründedir)."]
     },
     "5": {
       "expect_header": "Hedef ID",

@@ -14,7 +14,6 @@
 | 0.1 | 30.10.2026 | Hafta 1: baskıların ve madde numaralarının resmî kaynaklardan doğrulanması; ISO 9001:2026 ve 12207:2026 eşlemesi; uyarlama |
 | 0.2 | 30.10.2026 | Hafta 2: eşleme durumları ve 12207 uygulama tablosu Hafta 2 çıktılarıyla güncellendi; Bootstrap ve yazı tipi sürümleri eklendi |
 | 0.3 | 30.10.2026 | Hafta 3: talep, kayıt bazlı erişim ve kategori gereksinimlerinin eşleme durumları; 12207 tablosuna mimari kural testleri eklendi |
-| 0.3.1 | 26.11.2026 | Hafta 3 teslim öncesi: 7.1.3 satırı CI ve Windows sonuçlarıyla güncellendi |
 
 Bu belge projede kullanılan standart baskılarını, resmî bağlantılarını ve hangi madde numaralarının nasıl doğrulandığını kaydeder. **Kural:** Doğrulanmamış madde numarası kullanılmaz. Doğrulanamayan konular "DOĞRULANMADI" diye işaretlenir. Hiçbir ifade belgelendirme veya uygunluk iddiası değildir.
 

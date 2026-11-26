@@ -3,8 +3,8 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-INS |
-| Sürüm | 0.3.1 (Hafta 3, teslim öncesi güncelleme) |
-| Tarih | 26.11.2026 |
+| Sürüm | 0.3 (Hafta 3) |
+| Tarih | 30.10.2026 |
 | Doğrulama | Linux'ta Python 3.12.13 ve 3.13.18 ile temiz kurulum yapıldı (TC-INST-01, `docs/evidence/hafta-03/install-check-*.log`). Windows 11'de Python 3.13.17 ile §2'deki adımlar `tools/install_check.ps1` ile koşuldu: BAŞARILI (26.11.2026, `docs/evidence/hafta-03/windows-2026-11-26/install-check-windows-py313.log`). |
 
 ## 1. Gereksinimler

@@ -2,7 +2,7 @@
 
 Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımını, sürüm numaraları anlamsal sürümlemeyi izler. Her haftalık paket bir sürümdür.
 
-## [0.3.0] - 2026-10-30 (Hafta 3, yayımlanmadı; teslim öncesi güncelleme 2026-11-26)
+## [0.3.0] - 2026-10-30 (Hafta 3, yayımlanmadı)
 
 ### Eklendi
 - Category ve Ticket modelleri (migration 0003) ve başlangıç kategorileri (veri migration'ı 0004); talep numarası `INC-000123` birincil anahtardan türetilir.
