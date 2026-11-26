@@ -104,6 +104,7 @@ class RtmBuilderTests(SimpleTestCase):
             ({"tests": "TC-A;TC-C", "week": "1"}, 1, "FAIL"),
             ({"tests": "TC-D", "week": "4-5"}, 3, "PLANLANDI (Hafta 4-5)"),
             ({"tests": "", "week": "1"}, 1, "TEST TANIMSIZ"),
+            ({"tests": "", "week": "kapsam dışı"}, 5, "KAPSAM DIŞI (gelecek çalışma)"),
         ]
         for requirement, week, expected in cases:
             with self.subTest(requirement=requirement, week=week):

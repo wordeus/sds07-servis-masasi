@@ -3,8 +3,8 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-RSK |
-| Sürüm | 0.3 (Hafta 3) |
-| Tarih | 30.10.2026 |
+| Sürüm | 0.4 (Hafta 4) |
+| Tarih | 26.11.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili süreç | ISO/IEC/IEEE 12207:2026 6.3.4 Risk management; ISO 9001:2026 6.1 |
 
@@ -19,6 +19,7 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | 0.1 | 30.10.2026 | Hafta 1: RSK-01..RSK-07 yaşanan sorunlar; RSK-08..RSK-16 riskler |
 | 0.2 | 30.10.2026 | Hafta 2: RSK-17..RSK-20 eklendi; RSK-07 Hafta 2 ölçümüyle güncellendi |
 | 0.3 | 30.10.2026 | Hafta 3: RSK-21..RSK-23 eklendi; RSK-07 kısmen kapandı; RSK-08 için Hafta 3 önlemleri yazıldı; teslim öncesi kontrolde RSK-24 ve RSK-25 eklendi, RSK-14 güncellendi |
+| 0.4 | 26.11.2026 | Hafta 4: RSK-28..RSK-30 (yaşanan sorunlar) ve RSK-31, RSK-32 (riskler) eklendi; RSK-15 Hafta 4 önlemiyle güncellendi |
 
 ## 1. Hafta 1'de yaşanan sorunlar
 
@@ -53,7 +54,15 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | RSK-26 | RTM üreticisi (`tools/build_rtm.py`) Windows'ta kanıt dosyası yollarını ters bölüyle (`docs\evidence\...`) yazıyordu; `TEST_RESULTS.md` kaynak tablosu işletim sistemine göre farklı çıkıyordu. Sonuç değerleri etkilenmiyordu. Linux'ta görünmüyordu; CI'daki Windows işleri RTM'yi üretiyor ama kaynak tablosunu kimse karşılaştırmıyordu. | Düşük | İlk Windows koşusu (26.11.2026): üretilen `TEST_RESULTS.md`'nin depodaki sürümle karşılaştırılması | Yol `Path.as_posix()` ile yazılıyor. TC-QA-04'e işletim sisteminden bağımsız yol denetimi eklendi; düzeltme öncesi kodla Windows'ta FAIL, sonrasında PASS. | Kapandı | `evidence/hafta-03/windows-2026-11-26/tc-qa-04-yol-duzeltme-oncesi.txt` |
 | RSK-27 | Yeni Windows temiz kurulum betiği (`tools/install_check.ps1`) BOM'suz UTF-8 kaydedildiğinde Windows PowerShell 5.1 dosyayı ANSI kod sayfasıyla okuyor; günlükteki Türkçe metinler bozuk çıktı ("başlangıç" yerine "baÅŸlangÄ±Ã§"). Kurulum sonucu etkilenmedi (BAŞARILI). | Düşük | Günlüğün incelenmesi (ilk Windows kurulum denemesi, 26.11.2026) | Betik BOM'lu UTF-8 ve CRLF ile kaydedildi; yeniden koşuldu, günlük doğru. Bozuk günlük kanıt olarak kullanılmadı. | Kapandı | `evidence/hafta-03/windows-2026-11-26/install-check-windows-py313.log` |
 
-## 4. Önümüzdeki haftaların riskleri
+## 4. Hafta 4'te yaşanan sorunlar
+
+| ID | Sorun / standart sapması | Etki | Tespit yöntemi (V&V) | Alınan önlem | Durum | Kanıt |
+|---|---|---|---|---|---|---|
+| RSK-28 | Alan dışı (genel) iş kuralı hatası işlem görünümünde sunucu hatasına (500) yol açıyordu: `add_validation_errors` yalnız alan bazlı hataları işleyebiliyordu. Kapanmış talepte atama veya öncelik isteği bu yüzden 500 dönüyordu. Aynı yardımcı Hafta 3 talep oluşturma görünümünde de kullanılıyor; oradaki hata alan bazlı olduğu için tetiklenmemişti. | Orta | Entegrasyon testi: TC-ASN-05'in ilk koşusu (ERROR, `AttributeError: error_dict`) | Yardımcı genel hataları forma genel hata olarak ekliyor; işlem görünümleri kural hatalarını sayfa bildirimi olarak gösteriyor. TC-ASN-05 PASS. | Kapandı | `servicedesk/views/tickets.py::add_validation_errors`, `evidence/hafta-04/unit-results.json` |
+| RSK-29 | Kapanmış talebe gönderilen yorum reddediliyor ama sebep kullanıcıya gösterilmiyordu: hata yorum formuna yazılıyor, form ise kapanmış talepte sayfada yer almıyordu. | Düşük | Entegrasyon testi: TC-CMT-04'ün ilk koşusu (3 alt test FAIL) | Kural hataları (kapanmış talep, zaten atanmış talep) sayfanın üstünde bildirim olarak gösteriliyor; alan hataları formda kalıyor. | Kapandı | `servicedesk/views/ticket_actions.py`, TC-CMT-04 |
+| RSK-30 | Yeni işlem görünümleri izin denetimini yalnız ortak taban sınıftan miras alıyordu; görünüm sınıfında denetim açıkça görünmüyordu. Taban sınıfı değiştiren biri denetimi farkında olmadan kaldırabilirdi. | Düşük | Mimari kural testi: TC-ARCH-02'nin ilk koşusu (FAIL) | Ortak kod izin içermeyen bir mixin'e (`TicketActionMixin`) ayrıldı; her görünüm `PermissionRequiredMixin`'i açıkça yazıyor. Test gevşetilmedi. | Kapandı | `servicedesk/views/ticket_actions.py`, TC-ARCH-02 |
+
+## 5. Önümüzdeki haftaların riskleri
 
 | ID | Risk | Olasılık | Etki | Önlem | Hafta |
 |---|---|---|---|---|---|
@@ -64,5 +73,7 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | RSK-12 | SQLite eşzamanlı yazma kısıtı ("database is locked") demo sırasında. | Düşük | Orta | Kısa işlemler, SQLite `timeout`. Demo verisi önceden yüklenir. Üretimde farklı veritabanı önerisi belgelenir. | 7-14 |
 | RSK-13 | Kapsam büyümesi (ek özellik istekleri, gereksiz servisler). | Orta | Orta | Yalnız aktif haftanın kapsamı uygulanır. Yeni istek RTM'ye yeni kimlikle ve hafta önerisiyle eklenir. | Tümü |
 | RSK-14 | Windows'a özgü farklar (saat dilimi verisi, yol, satır sonu, çıktı kodlaması). | Orta | Orta | `tzdata` koşullu bağımlılık, `.gitattributes`, CI'da windows-latest. **Hafta 3 teslim öncesi:** çıktı kodlaması sorunu gerçekleşti ve giderildi (RSK-25). Hafta 1-3 CI koşularında windows-latest işleri başarılı (02.11.2026, 21.11.2026). **26.11.2026:** Windows 11'de Python 3.13.17 ile elle temiz kurulum BAŞARILI; bu koşuda yol (RSK-26) ve betik kodlaması (RSK-27) farkları bulundu ve giderildi. | Tümü |
-| RSK-15 | Django güvenlik yamalarının kaçırılması. | Orta | Yüksek | Her hafta başında 5.2.x sürüm notlarının kontrolü. Hafta 11-12'de bağımlılık güvenlik taraması. | Tümü |
+| RSK-15 | Django güvenlik yamalarının kaçırılması. | Orta | Yüksek | Her hafta başında 5.2.x sürüm notlarının kontrolü. **Hafta 4:** Dependabot haftalık PR açıyor (Django yalnız 5.2.x); 5.2.19 (5 CVE) uygulandı, CI ve Windows'ta 13/13 E2E ile doğrulandı. Hafta 11-12'de bağımlılık güvenlik taraması. | Tümü |
 | RSK-16 | Kodun sunumda ve vizede açıklanamaması. | Orta | Yüksek | Her modülde açıklayıcı belge dizeleri. [KOD_REHBERI.md](KOD_REHBERI.md). Burak Nigiz kodu kendi cümleleriyle anlatabilecek düzeye getirir. | Tümü |
+| RSK-31 | sqlparse bakımı sona erdi: 0.6.1 son sürüm, yeni güvenlik yaması çıkmayacak. sqlparse Django'nun çalışma zamanı bağımlılığıdır. | Düşük | Orta | 0.6.1 (iki güvenlik düzeltmesi) sabitlendi. Uygulama sqlparse'ı doğrudan kullanmaz; Django onu SQL betiği bölme ve biçimlendirme gibi yardımcı işlerde kullanır, kullanıcı girdisi bu yoldan geçmez. Dependabot ve Django sürüm notları izlenir; Django bağımlılığı değiştirirse ona uyulur. | Tümü |
+| RSK-32 | Kapsam daraltması (KRR-18): değişiklik yönetimi, SLA, anket, KPI ve DÖF bu teslimde yok; ISO 9001'in ölçme ve iyileştirme ilkelerinin bir kısmı uygulamada desteklenmez. | Kesin (karar) | Orta | Kapsam SRS §1.2 ve RTM'de açıkça "KAPSAM DIŞI (gelecek çalışma)" olarak işaretlendi; gereksinim kimlikleri korunuyor; final belgesinde gelecek çalışma bölümü yazılacak. | 5 |

@@ -11,8 +11,8 @@ Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: O
 | 1 | Kapsam, gereksinimler, standartlar, kurulum ve doğrulama altyapısı | 16.10.2026 | Tamamlandı | [`hafta-1`](https://github.com/wordeus/sds07-servis-masasi/tree/hafta-1) | [Rapor #1](docs/reports/Rapor-01_Hafta-1.docx) |
 | 2 | Giriş/çıkış, roller, yetkilendirme, arayüz, tarayıcı testleri | 30.10.2026 | Tamamlandı | [`hafta-2`](https://github.com/wordeus/sds07-servis-masasi/tree/hafta-2) | [Rapor #2](docs/reports/Rapor-02_Hafta-2.docx) |
 | 3 | Talep oluşturma ve listeleme, kayıt bazlı erişim, kategoriler, modüler mimari | 13.11.2026 | Tamamlandı | [`hafta-3`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-3) | [Rapor #3](docs/reports/Rapor-03_Hafta-3.docx) |
-| 4 | Atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü | 27.11.2026 | **Sıradaki** | - | - |
-| 5 (bitiş) | Durum geçişleri ve işlem geçmişi görünümü; final belgesi, sunum ve demo | 11.12.2026 | Planlandı | - | - |
+| 4 | Atama ve üzerine alma, yorumlar, öncelik değişikliği, işlem geçmişi | 27.11.2026 | Tamamlandı | [`hafta-4`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-4) | [Rapor #4](docs/reports/Rapor-04_Hafta-4.docx) |
+| 5 (bitiş) | Durum geçişleri ve işlem geçmişi görünümü; final belgesi, sunum ve demo | 11.12.2026 | **Sıradaki** | - | - |
 
 Güncel ayrıntı ve açık işler: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md).
 
@@ -37,12 +37,11 @@ Güncel ayrıntı ve açık işler: [docs/PROJECT_STATE.md](docs/PROJECT_STATE.m
 - **Sonuçlar:** 49/49 Django testi ve 13/13 tarayıcı senaryosu PASS, kapsam %94,21, mutasyon denetimi 8/8. RTM: 28/28 gereksinim, 67/67 test PASS. CI koşusu #5 4/4 iş başarılı; Windows 11'de temiz kurulum BAŞARILI.
 - **Kanıt:** [docs/evidence/hafta-03/](docs/evidence/hafta-03/)
 
-### Faz 4 (Hafta 4): Atama, yorumlar, işlem geçmişi (sıradaki)
+### Faz 4 (Hafta 4): Atama, yorumlar, işlem geçmişi
 
-1. Talebi üzerine alma (Destek Personeli) ve atama (Yönetici, yalnız Destek Personeline): FR-16
-2. Yorumlar; Closed talebe yorum yok; başkasının talebinin yorum adresinde 404: FR-17, FR-14
-3. İşlem geçmişinin ilk sürümü (oluşturma, atama, öncelik değişikliği; yalnız ekleme): FR-20
-4. RTM `--week 4` ve Rapor #4
+- **Yapılanlar:** Destek Personeli atanmamış talebi üzerine alır; Yönetici talebi yalnız Destek Personeline atar; personel ve yönetici önceliği değiştirir (AK-03 kapandı). Yorumlar: talep sahibi kendi talebine, personel ve yönetici tüm taleplere; kapanmış talebe yorum yok; başkasının talebinin yorum adresinde 404. İşlem geçmişi: her işlem aktör, UTC zaman, eski ve yeni değerle; kayıtlar değiştirilemez. Bağımlılıklar güncellendi (Django 5.2.19). Kapsam kararı: proje Faz 5'te biter (KRR-18).
+- **Sonuçlar:** 62/62 Django testi ve 16/16 tarayıcı senaryosu PASS (Windows 11), kapsam %95,04, mutasyon denetimi 13/13; Windows'ta temiz kurulum BAŞARILI. Testler geliştirme sırasında üç hata yakaladı (RSK-28..RSK-30).
+- **Kanıt:** [docs/evidence/hafta-04/](docs/evidence/hafta-04/)
 
 ### Faz 5 (Hafta 5): Durum geçişleri ve proje bitişi
 
@@ -83,7 +82,7 @@ Linux adımları, demo kullanıcılar ve tarayıcı testleri: [docs/INSTALL.md](
 
 1. Testler ve kapsam: `coverage run manage.py test -v 2`, ardından `coverage report`
 2. Statik analiz: `ruff format --check .` ve `ruff check .`
-3. Windows'ta temiz kurulum denetimi: `powershell -ExecutionPolicy Bypass -File tools\install_check.ps1 3.13 windows-py313 reports\install-check-windows-py313.log`
+3. Windows'ta tarayıcı testleri: `powershell -ExecutionPolicy Bypass -File toolsun_e2e.ps1`; temiz kurulum denetimi: `powershell -ExecutionPolicy Bypass -File tools\install_check.ps1 3.13 windows-py313 reports\install-check-windows-py313.log`
 4. RTM ve test sonuç tablosu: `python tools/build_rtm.py --week N --strict ...` (tam komut: [TEST_PLAN §6](docs/TEST_PLAN.md))
 
 Çıktıyı dosyaya yönlendirirken Windows'ta önce `$env:PYTHONUTF8 = "1"` çalıştırın (RSK-25).
@@ -137,7 +136,7 @@ docs/                   SRS, SDD, RTM, test planı ve sonuçları, riskler, stan
 | [Standartlar](docs/STANDARDS.md) | Kullanılan baskılar, resmî bağlantılar, madde doğrulama durumu |
 | [Kalite ölçümleri](docs/QUALITY_METRICS.md) | ISO/IEC 25010:2023 ile ilişkili ölçümler |
 | [Prosedürler](docs/PROCEDURES.md) | Dal, commit, inceleme, belge kontrolü, E2E koşu kuralları |
-| [Kod rehberi](docs/KOD_REHBERI.md) | Hafta 1-3 kodunun sunumda anlatılacak özeti, vize malzemesi |
+| [Kod rehberi](docs/KOD_REHBERI.md) | Hafta 1-4 kodunun sunumda anlatılacak özeti, vize malzemesi |
 | [Kanıtlar](docs/evidence/) | Haftalara göre test JSON'ları, günlükler, ekran görüntüleri, mutasyon denetimi |
 | [Değişiklik günlüğü](CHANGELOG.md) | Sürüm geçmişi |
 

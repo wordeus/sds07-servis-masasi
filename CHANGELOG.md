@@ -2,6 +2,27 @@
 
 Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımını, sürüm numaraları anlamsal sürümlemeyi izler. Her haftalık paket bir sürümdür.
 
+## [0.4.0] - 2026-11-26 (Hafta 4)
+
+### Eklendi
+- Talebi üzerine alma (Destek Personeli, Yönetici) ve atama (yalnız Yönetici; yalnız etkin Destek Personeline) (FR-16).
+- Yorumlar: talep sahibi kendi talebine, personel ve yönetici tüm taleplere; kapanmış talebe yorum yok; başkasının talebinin yorum adresinde 404 (FR-17, FR-14).
+- Öncelik değişikliği (Destek Personeli, Yönetici); AK-03 kapandı (KRR-17).
+- İşlem geçmişi (MOD-AUDIT): oluşturma, atama ve öncelik değişikliği aktör, UTC zaman, eski ve yeni değerle; kayıtlar değiştirilemez ve silinemez (FR-20, KRR-16). Hafta 4 öncesi taleplere oluşturma kaydı (migration 0006).
+- `services/assignment.py`, `services/comments.py`, `services/audit.py`, `views/ticket_actions.py`; Comment ve TicketEvent modelleri (migration 0005).
+- 13 yeni TC kimlikli Django testi (toplam 62): TC-ASN-01..05, TC-CMT-01..04, TC-AUD-01..03, TC-ROLE-14; 3 tarayıcı senaryosu (`e2e/week4_workflow.py`, TC-E2E-14..16); 5 yeni mutasyon (toplam 13).
+- `tools/run_e2e.ps1` (Windows E2E), `tools/install_check.ps1` Hafta 4 koşusu; RTM aracında KAPSAM DIŞI durumu.
+- SRS v0.4, SDD v0.3, RISKS v0.4, TEST_PLAN v0.4, INSTALL v0.4, STANDARDS v0.4; Rapor #4.
+
+### Değişti
+- Teslim kapsamı: proje Faz 5'te biter; FR-22..FR-37 ve NFR-13..NFR-15 gelecek çalışma (KRR-18). Panelde bu yetenekler "Kapsam dışı" görünür.
+- Bağımlılıklar: Django 5.2.19 (güvenlik), sqlparse 0.6.1 (güvenlik; son sürüm, RSK-31), coverage 7.17.4, ruff 0.17.6, Playwright 1.65.2.
+- `CURRENT_WEEK = 4`; rol-izin matrisine yorum, üzerine alma, atama ve öncelik izinleri.
+
+### Düzeltildi
+- Alan dışı iş kuralı hatası işlem görünümünde 500 hatasına yol açıyordu (RSK-28).
+- Kapanmış talebe yorum reddinin sebebi gösterilmiyordu (RSK-29).
+
 ## [0.3.0] - 2026-10-30 (Hafta 3, yayımlanmadı)
 
 ### Eklendi

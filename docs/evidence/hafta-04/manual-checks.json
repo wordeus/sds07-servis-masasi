@@ -1,0 +1,30 @@
+{
+  "kind": "manual-and-scripted-checks",
+  "started_at_utc": "2026-11-26T01:17:09+00:00",
+  "finished_at_utc": "2026-11-26T01:11:46+00:00",
+  "environment": {
+    "platform": "Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı)",
+    "note": "TC-CI-01 bu dosyada yok: Hafta 4 commit'inin GitHub Actions sonucu birleştirmeden sonra tools/record_ci_run.sh ile ayrı dosyaya yazılır."
+  },
+  "totals": {
+    "run": 2,
+    "failures": 0,
+    "not_run": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-INST-01",
+      "test": "betik: tools/install_check.ps1 -> install-check-windows-py313.log",
+      "outcome": "PASS",
+      "detail": "Windows 11, Python 3.13.17: temiz kopya ve temiz sanal ortam, requirements-dev.txt (Django 5.2.19), ruff format/check, check, makemigrations --check, migrate (0005, 0006 dahil), 62 test + coverage, check --deploy. Durum: BAŞARILI.",
+      "started_at_utc": "2026-11-26T01:17:09Z"
+    },
+    {
+      "tc_id": "TC-INS-01",
+      "test": "inceleme: servicedesk/models/activity.py (Comment, TicketEvent), 0005/0006 migration dosyaları, services/assignment.py, services/comments.py, ticket_detail.html.",
+      "outcome": "PASS",
+      "detail": "İnceleyen: Claude (AI asistan), 26.11.2026; Burak Nigiz'in tekrarlayıp onaylaması BEKLİYOR. User modeline alan eklenmedi. Comment: talep, yazan, metin, zaman; ek kişisel alan yok. TicketEvent: talep, işlemi yapan, işlem türü, eski/yeni değer, zaman. Atama kayıtlarında eski ve yeni değer kişinin görünen adıdır (ad soyad veya kullanıcı adı); bu, User modelinde zaten bulunan verinin geçmiş amacıyla kopyasıdır, yeni bir kişisel veri türü değildir. Demo ve test verilerinde gerçek kişi verisi yok. Not: Kullanıcının yorum ve açıklama alanına yazdığı serbest metin bu incelemenin kapsamı dışındadır (NFR-12).",
+      "started_at_utc": "2026-11-26T01:11:46+00:00"
+    }
+  ]
+}

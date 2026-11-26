@@ -1,4 +1,4 @@
-"""Formlar: MOD-AUTH (giriş) ve MOD-TICKET (talep, filtre, kategori).
+"""Formlar: MOD-AUTH (giriş) ve MOD-TICKET (talep, filtre, kategori, yorum, atama, öncelik).
 
 Giriş için Django'nun hazır AuthenticationForm sınıfı kullanılır; yalnız Bootstrap
 sınıfları ve erişilebilirlik öznitelikleri eklenir. Talep formları yalnız kullanıcının
@@ -10,7 +10,9 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
 from .models import Category, Ticket
+from .models.activity import COMMENT_MAX_LENGTH
 from .models.ticket import TITLE_MAX_LENGTH, TITLE_MIN_LENGTH
+from .services.assignment import agents
 from .services.tickets import TicketFilters, active_categories, all_categories, assignee_choices
 
 LOGIN_ERROR_ID = "giris-hatasi"  # login.html'deki hata kutusunun kimliği
@@ -116,3 +118,42 @@ class CategoryForm(StyledForm):
 
     name = forms.CharField(label="Kategori adı", max_length=80)
     description = forms.CharField(label="Açıklama", max_length=200, required=False)
+
+
+class CommentForm(StyledForm):
+    """Talebe yorum (FR-17). Boş yorum ve 2.000 karakterden uzun yorum reddedilir."""
+
+    body = forms.CharField(
+        label="Yorumunuz",
+        max_length=COMMENT_MAX_LENGTH,
+        widget=forms.Textarea(attrs={"rows": 3}),
+        error_messages={
+            "required": "Yorum boş olamaz.",
+            "max_length": f"Yorum en fazla {COMMENT_MAX_LENGTH} karakter olabilir.",
+        },
+    )
+
+
+class AssignForm(StyledForm):
+    """Talebi destek personeline atama (FR-16). Listede yalnız Destek Personeli rolündekiler vardır."""
+
+    assignee = forms.ModelChoiceField(
+        label="Destek personeli",
+        queryset=None,
+        empty_label="Seçin",
+        error_messages={
+            "required": "Atanacak destek personelini seçin.",
+            "invalid_choice": "Talep yalnız Destek Personeli rolündeki bir kullanıcıya atanabilir.",
+        },
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["assignee"].queryset = agents()
+        self.fields["assignee"].label_from_instance = lambda u: u.get_full_name() or u.username
+
+
+class PriorityForm(StyledForm):
+    """Öncelik değişikliği (AK-03, KRR-17)."""
+
+    priority = forms.ChoiceField(label="Yeni öncelik", choices=Ticket.Priority.choices)

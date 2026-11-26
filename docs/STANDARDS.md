@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-STD |
-| Sürüm | 0.3 (taslak) |
+| Sürüm | 0.4 (Hafta 4) |
 | Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 
@@ -14,6 +14,7 @@
 | 0.1 | 30.10.2026 | Hafta 1: baskıların ve madde numaralarının resmî kaynaklardan doğrulanması; ISO 9001:2026 ve 12207:2026 eşlemesi; uyarlama |
 | 0.2 | 30.10.2026 | Hafta 2: eşleme durumları ve 12207 uygulama tablosu Hafta 2 çıktılarıyla güncellendi; Bootstrap ve yazı tipi sürümleri eklendi |
 | 0.3 | 30.10.2026 | Hafta 3: talep, kayıt bazlı erişim ve kategori gereksinimlerinin eşleme durumları; 12207 tablosuna mimari kural testleri eklendi |
+| 0.4 | 26.11.2026 | Hafta 4: FR-16, FR-17, FR-20 eşleme durumları; kapsam dışı maddeler (KRR-18) |
 
 Bu belge projede kullanılan standart baskılarını, resmî bağlantılarını ve hangi madde numaralarının nasıl doğrulandığını kaydeder. **Kural:** Doğrulanmamış madde numarası kullanılmaz. Doğrulanamayan konular "DOĞRULANMADI" diye işaretlenir. Hiçbir ifade belgelendirme veya uygunluk iddiası değildir.
 
@@ -50,7 +51,7 @@ Madde numaraları ve başlıkları FDIS içindekilerinden alınmıştır (§2). 
 | Madde (2026) | Başlık | Projedeki karşılık | Gereksinim | Durum |
 |---|---|---|---|---|
 | 5.1.2 | Customer focus | SLA ihlalinin yöneticiye eskalasyonu | FR-29 | Planlandı (Hafta 8) |
-| 5.3 | Roles, responsibilities and authorities | Rol grupları, rol-izin matrisi, sunucu tarafı yetki | FR-06..FR-10, FR-16, FR-23 | Hafta 2'de FR-06..FR-10 uygulandı ve test edildi; FR-16 Hafta 4, FR-23 Hafta 6 |
+| 5.3 | Roles, responsibilities and authorities | Rol grupları, rol-izin matrisi, sunucu tarafı yetki | FR-06..FR-10, FR-16, FR-23 | Hafta 2'de FR-06..FR-10, Hafta 4'te FR-16 (atama yalnız Destek Personeline) uygulandı ve test edildi; FR-23 kapsam dışı (KRR-18) |
 | 6.2 | Quality objectives and planning to achieve them | Önceliğe göre SLA hedefleri (ölçülebilir hedef) | FR-26 | Planlandı (Hafta 7) |
 | 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi; CI (Ubuntu/Windows) ve Windows'ta elle kurulum başarılı (Hafta 3) |
 | 7.1.5 | Monitoring and measuring resources | Doğru zaman ölçümü (UTC), test/ölçüm altyapısı | NFR-05, NFR-09 | Hafta 1'de uygulandı ve test edildi |

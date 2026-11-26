@@ -1,0 +1,33 @@
+Name                                                 Stmts   Miss Branch BrPart  Cover   Missing
+------------------------------------------------------------------------------------------------
+config\__init__.py                                       0      0      0      0   100%
+config\settings.py                                      81     14     24      6    79%   56, 61, 64->70, 66, 75, 171-182
+config\test_runner.py                                   82      5      6      1    93%   85-86, 89-91, 126->128
+config\urls.py                                           8      0      0      0   100%
+servicedesk\__init__.py                                  1      0      0      0   100%
+servicedesk\admin.py                                    48      0      0      0   100%
+servicedesk\apps.py                                      9      0      0      0   100%
+servicedesk\context_processors.py                       15      0      6      0   100%
+servicedesk\forms.py                                    65      0     12      1    99%   48->47
+servicedesk\management\__init__.py                       0      0      0      0   100%
+servicedesk\management\commands\__init__.py              0      0      0      0   100%
+servicedesk\management\commands\seed_demo_users.py      41      2      8      2    92%   50, 71
+servicedesk\models\__init__.py                           4      0      0      0   100%
+servicedesk\models\activity.py                          40      2      2      0    95%   35, 63
+servicedesk\models\ticket.py                            54      0      2      0   100%
+servicedesk\models\user.py                               9      0      0      0   100%
+servicedesk\roles.py                                    99      2     18      1    97%   206-207, 238->exit
+servicedesk\services\__init__.py                         0      0      0      0   100%
+servicedesk\services\assignment.py                      61      1     18      1    97%   92
+servicedesk\services\audit.py                            4      0      0      0   100%
+servicedesk\services\comments.py                        19      0      4      0   100%
+servicedesk\services\tickets.py                         76      1     20      2    97%   33, 117->120
+servicedesk\text.py                                      3      0      0      0   100%
+servicedesk\urls.py                                      4      0      0      0   100%
+servicedesk\views\__init__.py                            5      0      0      0   100%
+servicedesk\views\categories.py                         41      1      2      1    95%   54
+servicedesk\views\dashboard.py                          27      0      2      0   100%
+servicedesk\views\ticket_actions.py                     62      1      4      0    98%   53
+servicedesk\views\tickets.py                            58      5      4      1    90%   35-36, 78-80
+------------------------------------------------------------------------------------------------
+TOTAL                                                  916     34    132     16    95%

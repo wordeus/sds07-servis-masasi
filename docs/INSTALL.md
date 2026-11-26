@@ -3,9 +3,9 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-INS |
-| Sürüm | 0.3 (Hafta 3) |
-| Tarih | 30.10.2026 |
-| Doğrulama | Linux'ta Python 3.12.13 ve 3.13.18 ile temiz kurulum yapıldı (TC-INST-01, `docs/evidence/hafta-03/install-check-*.log`). Windows 11'de Python 3.13.17 ile §2'deki adımlar `tools/install_check.ps1` ile koşuldu: BAŞARILI (26.11.2026, `docs/evidence/hafta-03/windows-2026-11-26/install-check-windows-py313.log`). |
+| Sürüm | 0.4 (Hafta 4) |
+| Tarih | 26.11.2026 |
+| Doğrulama | Windows 11'de Python 3.13.17 ile §2'deki adımlar `tools/install_check.ps1` ile koşuldu: BAŞARILI (26.11.2026, `docs/evidence/hafta-04/install-check-windows-py313.log`; Django 5.2.19). Linux'ta Hafta 1-3'te Python 3.12.13 ve 3.13.18 ile temiz kurulum yapıldı (`docs/evidence/hafta-03/`); Hafta 4'te Linux doğrulaması CI işleriyledir. |
 
 ## 1. Gereksinimler
 
@@ -98,7 +98,9 @@ Tarayıcı testleri Django testlerinin tamamlayıcısıdır. Ayrı bir veritaban
 
 **Linux/macOS:** `pip install -r requirements-e2e.txt`, `playwright install chromium`, ardından `bash tools/run_e2e.sh`. Betik portun boş olduğunu denetler, geçici veritabanı ve rastgele parola kullanır, sunucuyu DEBUG kapalı başlatır, Hafta 2 ve Hafta 3 senaryolarını koşar ve sunucuyu kapatır.
 
-**Windows (iki PowerShell penceresi):**
+**Windows (tek komut, önerilen):** `powershell -ExecutionPolicy Bypass -File tools\run_e2e.ps1`. Betik `run_e2e.sh` ile aynı adımları uygular (port denetimi, geçici veritabanı, rastgele parola, DEBUG kapalı sunucu, Hafta 2-4 senaryoları) ve sonuçları `reports\e2e\` altına yazar.
+
+**Windows (elle, iki PowerShell penceresi):**
 
 ```powershell
 # Pencere 1: hazırlık ve sunucu
@@ -120,9 +122,10 @@ python manage.py runserver 127.0.0.1:8765 --noreload --insecure
 $env:E2E_PASSWORD = "E2e-Gecici-Parola-2026"
 python e2e\week2_auth_roles.py --base-url http://127.0.0.1:8765 --out-dir reports\screenshots --results-json reports\e2e-results.json
 python e2e\week3_tickets.py --base-url http://127.0.0.1:8765 --out-dir reports\screenshots --results-json reports\e2e-week3-results.json
+python e2e\week4_workflow.py --base-url http://127.0.0.1:8765 --out-dir reports\screenshots --results-json reports\e2e-week4-results.json
 ```
 
-Hafta 3 betiği veritabanına talep ve kategori yazar; yalnız bu geçici E2E veritabanıyla koşun.
+Hafta 3 ve 4 betikleri veritabanına talep, kategori ve yorum yazar; yalnız bu geçici E2E veritabanıyla koşun.
 
 Bitince Pencere 1'de `Ctrl+C` ile sunucuyu durdurun. `Get-NetTCPConnection -LocalPort 8765 -ErrorAction SilentlyContinue` komutu boş dönmelidir. Açık kalan eski sunucu, testlerin eski kodla koşmasına yol açar (RSK-20).
 

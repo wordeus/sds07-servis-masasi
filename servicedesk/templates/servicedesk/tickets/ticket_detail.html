@@ -18,24 +18,96 @@
 </ol>
 
 <div class="row g-4">
-  <section class="col-lg-8" aria-labelledby="aciklama-baslik">
-    <div class="sd-panel">
+  <div class="col-lg-8">
+    <section class="sd-panel" aria-labelledby="aciklama-baslik">
       <h2 id="aciklama-baslik">Açıklama</h2>
       <p class="sd-description" data-testid="ticket-description">{{ ticket.description }}</p>
-    </div>
-  </section>
-  <aside class="col-lg-4" aria-labelledby="bilgi-baslik">
-    <div class="sd-panel">
+    </section>
+
+    <section class="sd-panel mt-4" aria-labelledby="yorum-baslik" data-testid="ticket-comments">
+      <h2 id="yorum-baslik">Yorumlar <span class="sd-muted">({{ comments|length }})</span></h2>
+      {% if comments %}
+      <ol class="sd-comments">
+        {% for comment in comments %}
+        <li class="sd-comment" data-testid="comment">
+          <p class="sd-comment__meta"><strong>{{ comment.author.get_full_name|default:comment.author.username }}</strong>
+            <time datetime="{{ comment.created_at|date:'c' }}">{{ comment.created_at|date:"d.m.Y H:i" }}</time></p>
+          <p class="sd-comment__body">{{ comment.body|linebreaksbr }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <p class="sd-muted" data-testid="no-comments">Henüz yorum yok.</p>
+      {% endif %}
+
+      {% if can_comment %}
+      <form method="post" action="{% url 'servicedesk:ticket_comment' ticket.pk %}" novalidate data-testid="comment-form">
+        {% csrf_token %}
+        {% with field=comment_form.body %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}<div class="sd-field-error" id="{{ field.name }}-hata">{{ error }}</div>{% endfor %}
+        </div>
+        {% endwith %}
+        {% for error in comment_form.non_field_errors %}<div class="sd-field-error">{{ error }}</div>{% endfor %}
+        <button type="submit" class="btn btn-primary">Yorum ekle</button>
+      </form>
+      {% elif ticket.status == "CLOSED" %}
+      <p class="sd-muted" data-testid="comments-closed">Talep kapandığı için yorum eklenemez.</p>
+      {% endif %}
+    </section>
+  </div>
+
+  <aside class="col-lg-4">
+    <section class="sd-panel" aria-labelledby="bilgi-baslik">
       <h2 id="bilgi-baslik">Talep bilgileri</h2>
       <dl class="sd-meta" data-testid="ticket-meta">
-        <dt>Öncelik</dt><dd>{{ ticket.get_priority_display }}</dd>
+        <dt>Öncelik</dt><dd data-testid="ticket-priority">{{ ticket.get_priority_display }}</dd>
         <dt>Kategori</dt><dd>{{ ticket.category.name }}</dd>
         <dt>Talep sahibi</dt><dd>{{ ticket.requester.get_full_name|default:ticket.requester.username }}</dd>
-        <dt>Atanan</dt><dd>{% if ticket.assignee %}{{ ticket.assignee.get_full_name|default:ticket.assignee.username }}{% else %}Henüz atanmadı{% endif %}</dd>
+        <dt>Atanan</dt><dd data-testid="ticket-assignee">{% if ticket.assignee %}{{ ticket.assignee.get_full_name|default:ticket.assignee.username }}{% else %}Henüz atanmadı{% endif %}</dd>
         <dt>Oluşturulma</dt><dd><time datetime="{{ ticket.created_at|date:'c' }}" data-testid="ticket-created">{{ ticket.created_at|date:"d.m.Y H:i" }}</time></dd>
       </dl>
-      <p class="sd-muted sd-meta-note">Saatler İstanbul saatiyle gösterilir. Yorum ve atama Hafta 4'te, durum geçişleri Hafta 5'te bu sayfaya eklenecek.</p>
-    </div>
+      <p class="sd-muted sd-meta-note">Saatler İstanbul saatiyle gösterilir. Durum geçişleri ve işlem geçmişi Hafta 5'te bu sayfaya eklenecek.</p>
+    </section>
+
+    {% if can_take or can_assign or can_change_priority %}
+    <section class="sd-panel mt-4" aria-labelledby="islem-baslik" data-testid="ticket-actions">
+      <h2 id="islem-baslik">İşlemler</h2>
+
+      {% if can_take %}
+      <form method="post" action="{% url 'servicedesk:ticket_take' ticket.pk %}" class="mb-3" data-testid="take-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Üzerime al</button>
+      </form>
+      {% endif %}
+
+      {% if can_assign %}
+      <form method="post" action="{% url 'servicedesk:ticket_assign' ticket.pk %}" class="mb-3" novalidate data-testid="assign-form">
+        {% csrf_token %}
+        {% with field=assign_form.assignee %}
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for error in field.errors %}<div class="sd-field-error" id="{{ field.name }}-hata">{{ error }}</div>{% endfor %}
+        {% endwith %}
+        <button type="submit" class="btn btn-outline-dark mt-2">Ata</button>
+      </form>
+      {% endif %}
+
+      {% if can_change_priority %}
+      <form method="post" action="{% url 'servicedesk:ticket_priority' ticket.pk %}" novalidate data-testid="priority-form">
+        {% csrf_token %}
+        {% with field=priority_form.priority %}
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for error in field.errors %}<div class="sd-field-error" id="{{ field.name }}-hata">{{ error }}</div>{% endfor %}
+        {% endwith %}
+        <button type="submit" class="btn btn-outline-dark mt-2">Önceliği değiştir</button>
+      </form>
+      {% endif %}
+    </section>
+    {% endif %}
   </aside>
 </div>
 

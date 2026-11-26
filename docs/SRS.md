@@ -3,8 +3,8 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-SRS |
-| Sürüm | 0.3 (taslak) |
-| Tarih | 30.10.2026 |
+| Sürüm | 0.4 (taslak) |
+| Tarih | 26.11.2026 |
 | Durum | Taslak, öğretim elemanı geri bildirimi bekliyor |
 | Hazırlayan | Burak Nigiz (2100002062). Tek kişilik proje. |
 | Onaylayan | [Boş: öğretim elemanı geri bildirimi sonrası] |
@@ -17,6 +17,7 @@
 | 0.1 | 30.10.2026 | Burak Nigiz | Hafta 1: ilk kapsam, aktörler, rol-yetki matrisi (plan), FR-01..FR-37, NFR-01..NFR-16, SLA/KPI kuralları, kabul kriterleri ve haftalık plan |
 | 0.2 | 30.10.2026 | Burak Nigiz | Hafta 2: rol matrisi koddan üretildi (`roles.py`), Hafta 2'de uygulanan Django izinleri eklendi, Hafta 1-2 kabul kriterleri testlerle doğrulandı |
 | 0.3 | 30.10.2026 | Burak Nigiz | Hafta 3: FR-12..FR-15 ve NFR-16 kabul kriterleri ayrıntılandırıldı (§7.1); Hafta 3 izinleri; AK-03 için geçici karar; NFR-07 kapsamı talep ekranlarına genişletildi; FR-10 kabul kriteri güncellendi |
+| 0.4 | 26.11.2026 | Burak Nigiz | Hafta 4: teslim kapsamı Faz 5'te biter (KRR-18; §1.2, §2.6): FR-22..FR-37 ve NFR-13..NFR-15 gelecek çalışma; FR-16, FR-17, FR-20 kabul kriterleri (§7.1); Hafta 4 izinleri (§4); AK-03 kapandı (KRR-17) |
 
 Not: Hafta 1-3 belgeleri geç kayıt nedeniyle birlikte hazırlandı; tarihler gerçek hazırlanma tarihidir.
 
@@ -48,6 +49,8 @@ Sistem, kurum içi BT destek taleplerini kayıt altına alır, öncelik ve SLA h
 10. Uygunsuzluk, kök neden, düzeltici faaliyet ve etkinlik kontrolü kaydı
 
 **Kapsam dışı:** e-posta/SMS bildirimi, mesai takvimine göre SLA (başlangıçta 7/24), dizin hizmeti (LDAP/AD) entegrasyonu, e-postayla talep açma, ayrı REST API, React/SPA, JWT, mikroservis, Kubernetes, yapay zekâ özellikleri, varlık/CMDB yönetimi, bilgi bankası, çok kiracılı yapı, üretim ortamına dağıtım otomasyonu.
+
+**Teslim kapsamı (Hafta 4 kararı, KRR-18):** Proje Faz 5'te (11.12.2026) tamamlanır. Bu teslimde kapsam içi 1, 2, 3 ve 9. maddelerin talep bölümü uygulanır. 4-8 ve 10. maddeler (değişiklik yönetimi, SLA, uyarı ve eskalasyon, memnuniyet anketi, KPI paneli, uygunsuzluk ve DÖF) ile performans, yetkisiz erişim günlüğü ve Firefox uyumu (NFR-13..NFR-15) **gelecek çalışmadır**. Bu gereksinimlerin kimlikleri ve metinleri korunur; RTM'de "KAPSAM DIŞI (gelecek çalışma)" olarak görünürler. FR-20'nin değişiklik kararları ve düzeltici faaliyet kısmı da aynı nedenle kapsam dışıdır.
 
 **Önemli sınır:** Yazılım ISO 9001 belgelendirmesi sağlamaz ve uygunluk beyanı yerine geçmez. Kuruluşun kalite yönetim sistemi uygulamalarını destekleyen bir araçtır. SLA süreleri kuruluş politikasıdır; ISO 9001 bu süreleri belirlemez.
 
@@ -143,16 +146,16 @@ Tarayıcıdan kullanılan, sunucu tarafında işlenen bağımsız bir web uygula
 | 2 | 1 | Giriş/çıkış, roller, sunucu tarafı yetkilendirme, arayüz, tarayıcı testleri | FR-01..FR-11, NFR-02, NFR-03, NFR-06..NFR-08 |
 | 3 | 2 | Talep oluşturma ve listeleme, kayıt bazlı erişim, kategoriler, modüler mimari | FR-12..FR-15, NFR-16 |
 | 4 | 2 | Atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü | FR-16, FR-17, FR-20 |
-| 5 | 3 | Durum geçişleri ve işlem geçmişi görünümü | FR-18, FR-19, FR-21 |
-| 6 | 3 | Değişiklik yönetimi; vize hazırlığı | FR-22..FR-25 |
-| 7 | 4 | SLA politikası, hesaplama ve tekrarlanabilir kontrol | FR-26, FR-27, FR-30 |
-| 8 | 4 | Uyarı, eskalasyon ve bildirim kutusu | FR-28, FR-29, FR-31 |
-| 9 | 5 | Memnuniyet anketi ve KPI paneli | FR-32..FR-34 |
-| 10 | 5 | Uygunsuzluk ve düzeltici faaliyet | FR-35..FR-37 |
-| 11-12 | 6 | Güvenlik sertleştirme, performans, tarayıcı uyumu, kalite ölçümleri, CI/CD | NFR-13..NFR-15 |
-| 13-14 | 7 | Final belgesi, sunum, demo | - |
+| 5 | 3 | Durum geçişleri ve işlem geçmişi görünümü; final belgesi, sunum ve demo (bitiş fazı) | FR-18, FR-19, FR-21 |
+| 6 | 3 | **Kapsam dışı (gelecek çalışma, KRR-18):** Değişiklik yönetimi; vize hazırlığı | FR-22..FR-25 |
+| 7 | 4 | **Kapsam dışı (gelecek çalışma, KRR-18):** SLA politikası, hesaplama ve tekrarlanabilir kontrol | FR-26, FR-27, FR-30 |
+| 8 | 4 | **Kapsam dışı (gelecek çalışma, KRR-18):** Uyarı, eskalasyon ve bildirim kutusu | FR-28, FR-29, FR-31 |
+| 9 | 5 | **Kapsam dışı (gelecek çalışma, KRR-18):** Memnuniyet anketi ve KPI paneli | FR-32..FR-34 |
+| 10 | 5 | **Kapsam dışı (gelecek çalışma, KRR-18):** Uygunsuzluk ve düzeltici faaliyet | FR-35..FR-37 |
+| 11-12 | 6 | **Kapsam dışı (gelecek çalışma, KRR-18):** Güvenlik sertleştirme, performans, tarayıcı uyumu, kalite ölçümleri, CI/CD | NFR-13..NFR-15 |
+| 13-14 | 7 | **Faz 5'e taşındı (KRR-18):** final belgesi, sunum, demo | - |
 
-Hafta 1, 2 ve 3 ayrı paketler ve ayrı ilerleme raporlarıyla teslim edilir.
+Her faz (Hafta 1-5) ayrı paket, ayrı ilerleme raporu ve ayrı GitHub etiketiyle (`hafta-N`) teslim edilir. Faz 5 bitiş fazıdır (KRR-18).
 
 ---
 
@@ -209,24 +212,25 @@ Matris koddaki tanımdan üretilmiştir (`servicedesk/roles.py`, `CAPABILITIES`)
 | Talebe yorum ekleme | Kendi taleplerine | Tüm taleplere | Tüm taleplere | 4 |
 | Talebi üzerine alma | - | Atanmamış talepler | Atanmamış talepler | 4 |
 | Talebi destek personeline atama | - | - | Tüm talepler | 4 |
+| Talep önceliğini değiştirme | - | Tüm talepler | Tüm talepler | 4 |
 | Durum ilerletme (Açık → İşlemde → Çözüldü) | - | Kendisine atanmış talepler | Tüm talepler | 5 |
 | Talebi kapatma (Çözüldü → Kapandı) | Kendi talebini onaylayarak | - | Tüm talepler | 5 |
-| Değişiklik kaydı açma ve uygulama sonucu girme | - | Sonuç yalnız onaylı kayıtta | Sonuç yalnız onaylı kayıtta | 6 |
-| Değişikliği onaylama veya reddetme | - | - | Kendi açtığı kayıt hariç | 6 |
-| SLA süre uyarılarını alma | - | Kendisine atanmış talepler | - | 8 |
-| SLA ihlali eskalasyonlarını alma | - | - | Tüm ihlaller | 8 |
-| Memnuniyet puanı verme | Kendi kapanmış talebine bir kez | - | - | 9 |
-| KPI paneli | - | - | Tam erişim | 9 |
-| Uygunsuzluk kaydı açma | - | Tam erişim | Tam erişim | 10 |
-| Kök neden, düzeltici faaliyet ve etkinlik kontrolü | - | - | Tam erişim | 10 |
+| Değişiklik kaydı açma ve uygulama sonucu girme | - | Sonuç yalnız onaylı kayıtta | Sonuç yalnız onaylı kayıtta | Kapsam dışı |
+| Değişikliği onaylama veya reddetme | - | - | Kendi açtığı kayıt hariç | Kapsam dışı |
+| SLA süre uyarılarını alma | - | Kendisine atanmış talepler | - | Kapsam dışı |
+| SLA ihlali eskalasyonlarını alma | - | - | Tüm ihlaller | Kapsam dışı |
+| Memnuniyet puanı verme | Kendi kapanmış talebine bir kez | - | - | Kapsam dışı |
+| KPI paneli | - | - | Tam erişim | Kapsam dışı |
+| Uygunsuzluk kaydı açma | - | Tam erişim | Tam erişim | Kapsam dışı |
+| Kök neden, düzeltici faaliyet ve etkinlik kontrolü | - | - | Tam erişim | Kapsam dışı |
 
-**Hafta 3'te uygulanan Django izinleri** (her `migrate` sonrasında gruplara uygulanır; tablo koddan üretildi):
+**Hafta 4'te uygulanan Django izinleri** (her `migrate` sonrasında gruplara uygulanır; tablo koddan üretildi):
 
 | Grup (rol) | İzinler |
 |---|---|
-| Talep Sahibi | `servicedesk.add_ticket`, `servicedesk.view_ticket` |
-| Destek Personeli | `servicedesk.access_support_workspace`, `servicedesk.add_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_ticket` |
-| Yönetici | `servicedesk.access_manager_panel`, `servicedesk.access_support_workspace`, `servicedesk.add_category`, `servicedesk.add_ticket`, `servicedesk.change_category`, `servicedesk.view_all_tickets`, `servicedesk.view_category`, `servicedesk.view_ticket` |
+| Talep Sahibi | `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.view_ticket` |
+| Destek Personeli | `servicedesk.access_support_workspace`, `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.change_ticket_priority`, `servicedesk.take_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_ticket` |
+| Yönetici | `servicedesk.access_manager_panel`, `servicedesk.access_support_workspace`, `servicedesk.add_category`, `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.assign_ticket`, `servicedesk.change_category`, `servicedesk.change_ticket_priority`, `servicedesk.take_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_category`, `servicedesk.view_ticket` |
 
 `view_ticket` talep ekranlarına erişimi verir; hangi kayıtların görüleceğini `view_all_tickets` izni ve kayıt bazlı politika (`services/tickets.py`, `visible_tickets_for`) belirler: bu izni olmayan kullanıcı yalnız kendi açtığı talepleri görür (FR-14).
 
@@ -428,7 +432,7 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 
 ## 7. Kabul kriterleri
 
-### 7.1 Hafta 1, 2 ve 3 (ayrıntılı)
+### 7.1 Hafta 1-4 (ayrıntılı)
 
 | Gereksinim | Kabul kriteri (Verilen / Olduğunda / Beklenen) | Test |
 |---|---|---|
@@ -460,14 +464,18 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 | FR-14 | Talep Sahibi listede yalnız kendi taleplerini görür; başkasının talebinin ayrıntı adresine GET isteği 404 döner ve yanıt var olmayan numarayla aynıdır (başlık ve numara görünmez). Destek Personeli ve Yönetici tüm talepleri görür. Filtre görünürlüğü genişletmez. | TC-TKT-04, TC-TKT-05, TC-TKT-07, TC-TKT-08, TC-E2E-11 |
 | FR-15 | Yönetici kategori ekler; aynı ad (Türkçe büyük/küçük harf farkıyla da) ve boş ad reddedilir. Pasifleştirilen kategori yeni talep formunda listelenmez ve doğrudan POST ile seçilemez; mevcut talepler kategorisini korur; kategori silinemez. Durum değişikliği yalnız CSRF belirteçli POST ile yapılır; diğer roller 403 alır. | TC-TKT-02, TC-CAT-01, TC-CAT-02, TC-CAT-03, TC-E2E-13 |
 | NFR-16 | `views/` modülleri model yöneticilerine (`.objects`) doğrudan erişmez; `services/` modülleri görünüm, şablon ve HTTP modüllerini içe aktarmaz; `models/` modülleri `services/` ve `views/`'i içe aktarmaz; her görünüm sınıfı oturum veya izin denetimi içerir. | TC-ARCH-01, TC-ARCH-02 |
+| FR-16 | Destek Personeli atanmamış talebi üzerine alır; atanmış talebi ikinci bir personel alamaz. Yönetici talebi yalnız Destek Personeli rol grubundaki etkin kullanıcıya atar ve yeniden atar; Talep Sahibi, Yönetici, rolsüz veya pasif kullanıcıya atama reddedilir. Talep Sahibi üzerine alma, atama ve öncelik adreslerine 403 alır; Destek Personeli atamaya 403 alır; adresler yalnız POST kabul eder (GET 405). Kapanmış talepte atama yapılamaz. | TC-ASN-01, TC-ASN-02, TC-ASN-03, TC-ASN-05, TC-ROLE-14, TC-E2E-14, TC-E2E-15 |
+| FR-17 | Talep Sahibi kendi talebine, Destek Personeli ve Yönetici tüm taleplere yorum ekler; yorumlar eskiden yeniye, yazan adı ve İstanbul saatiyle gösterilir; HTML kaçışlanır. Boş ve 2.000 karakterden uzun yorum reddedilir. Başkasının talebinin yorum adresine POST 404 döner ve yanıt var olmayan numarayla aynıdır (FR-14). Kapanmış talebe yorum eklenemez; form gösterilmez. | TC-CMT-01, TC-CMT-02, TC-CMT-03, TC-CMT-04, TC-ROLE-14, TC-E2E-14, TC-E2E-15, TC-E2E-16 |
+| FR-20 (Hafta 4 bölümü) | Talep oluşturma, üzerine alma, atama ve öncelik değişikliği işlem geçmişine tam bir kez yazılır: aktör, UTC zaman, eski ve yeni değer. Reddedilen işlem kayıt yazmaz. Kayıt değiştirilemez ve silinemez; yönetim sitesinde salt okunurdur. Hafta 4 öncesi taleplere bir oluşturma kaydı eklenir. Durum geçişi kayıtları Hafta 5'te eklenir; değişiklik kararı ve düzeltici faaliyet kayıtları kapsam dışıdır (KRR-18). | TC-AUD-01, TC-AUD-02, TC-AUD-03, TC-ASN-04 |
+| AK-03 kararı | Destek Personeli ve Yönetici talebin önceliğini değiştirir; değişiklik eski ve yeni değerle kaydedilir; aynı veya geçersiz öncelik reddedilir; Talep Sahibi öncelik formunu görmez (KRR-17). | TC-ASN-04 |
 
 ### 7.2 Sonraki haftalar (özet; ilgili hafta başında ayrıntılandırılacak)
 
-- FR-16, FR-17: Atama rol kontrolü; üzerine alma; başka kullanıcının talebine yorum adresiyle 404; Closed talebe yorum reddi.
+- FR-16, FR-17: Hafta 4'te ayrıntılandırıldı (§7.1).
 - FR-18..FR-21: İzin verilen/verilmeyen her geçiş çifti; rol ve atama koşulları; çözüm açıklaması zorunluluğu; her işlem için tek denetim kaydı; kayıtların değiştirilemezliği.
-- FR-22..FR-25: Zorunlu alanlar; onay/ret yetkisi; kendi kaydını onaylama reddi; onaysız uygulama reddi (doğrudan POST dahil); sonuç sonrası değişmezlik.
-- FR-26..FR-31: Sınır anları (hedef zamana eşit, 1 sn önce/sonra); uyarı eşiği; komutun iki kez çalıştırılmasında tek bildirim; kesinti sonrası tamamlama; bildirim kutusunun kişiye özel olması.
-- FR-32..FR-37: Puan aralığı ve tekilliği; payda sıfır durumları; dönem sınırları (İstanbul gece yarısı); DÖF durum akışı ve etkinlik sonucu.
+- FR-22..FR-25: Kapsam dışı (gelecek çalışma, KRR-18).
+- FR-26..FR-31: Kapsam dışı (gelecek çalışma, KRR-18).
+- FR-32..FR-37: Kapsam dışı (gelecek çalışma, KRR-18).
 
 ---
 
@@ -496,7 +504,7 @@ Bir gereksinim, eşlendiği tüm TC'ler gerçek koşuda PASS olduğunda "doğrul
 |---|---|---|
 | AK-01 | Resolved → In Progress "yeniden açma" geçişi eklenecek mi? (Proje talimatındaki akışta yok.) | Burak Nigiz / öğretim elemanı |
 | AK-02 | Resolved talep, talep sahibi onaylamazsa belirli süre sonra otomatik kapansın mı? | Burak Nigiz |
-| AK-03 | Önceliği talep sahibi mi seçecek, destek personeli mi belirleyecek? **Geçici karar (Hafta 3, KRR-13):** FR-12'ye uygun olarak talep sahibi formda seçer; öncelik değişikliği Hafta 4'te destek personeline açılacak ve işlem geçmişine yazılacak (FR-20). Öğretim elemanı geri bildirimiyle değişebilir. | Burak Nigiz / öğretim elemanı |
+| AK-03 | Önceliği talep sahibi mi seçecek, destek personeli mi belirleyecek? **Karar (Hafta 4, KRR-17):** Talep sahibi talep açarken önceliği seçer (FR-12); Destek Personeli ve Yönetici sonradan değiştirebilir ve değişiklik işlem geçmişine yazılır (FR-20). **Kapandı.** | Burak Nigiz |
 | AK-04 | Yönetici rolü kullanıcı/rol yönetimi yapabilsin mi, yoksa yalnız superuser mı? | Burak Nigiz |
 | AK-05 | Ders hangi baskıları bekliyor? ISO 9001:2015 mi 2026 mı, ISO/IEC 25010:2011 mi 2023 mü, ISO/IEC/IEEE 12207:2017 mi 2026 mı? | Öğretim elemanı |
 | AK-06 | Grup numarası (ekip tek kişi: Burak Nigiz, 2100002062) | Burak Nigiz |

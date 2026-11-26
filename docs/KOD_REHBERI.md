@@ -1,6 +1,6 @@
-# Kod rehberi: Hafta 1-3 kodu nasıl çalışır?
+# Kod rehberi: Hafta 1-4 kodu nasıl çalışır?
 
-Bu belge, Hafta 1-3 kodunun nasıl çalıştığını sunum ve vize hazırlığı için özetler. Her bölümde önce ne olduğu, sonra nerede olduğu, en sonda neden böyle yapıldığı anlatılır.
+Bu belge, Hafta 1-4 kodunun nasıl çalıştığını sunum ve vize hazırlığı için özetler. Her bölümde önce ne olduğu, sonra nerede olduğu, en sonda neden böyle yapıldığı anlatılır.
 
 ## 1. Bir isteğin yolculuğu
 
@@ -50,6 +50,25 @@ Kategori adlarının tekilliği önce veritabanının `iexact` karşılaştırma
 **Depoya girmeyecek dosyalar (RSK-24).** `.gitignore` dosyasındaki `reports/` satırı yalnız kökteki test çıktısı klasörünü değil, her düzeydeki `reports` klasörünü kapsıyordu. Bu yüzden `docs/reports/` altındaki raporlar depoya girmeyecekti. Satır `/reports/` yapıldı; baştaki `/` kalıbı depo köküne bağlar. Benzer şekilde `*.log` kanıt günlüklerini de dışlıyordu; `!docs/evidence/**/*.log` istisnası eklendi. Denetim yöntemi: paketi boş bir depoya kopyalayıp `git status --ignored` çıktısına bakmak.
 
 **Windows'ta Türkçe karakter hatası (RSK-25).** Python, çıktı bir konsola değil dosyaya veya başka bir programa gidiyorsa (CI günlüğü gibi) Windows'ta varsayılan olarak cp1252 kod sayfasını kullanır. Bu kod sayfasında "ş" ve "ı" yoktur; `print("RTM yazıldı")` gibi bir satır `UnicodeEncodeError` ile programı durdurur. Linux'ta `PYTHONIOENCODING=cp1252` ile bu durum taklit edildi ve hata gerçekten görüldü. Çözüm, Python'un UTF-8 kipidir (`PYTHONUTF8=1`); CI iş akışında tanımlıdır. Etkileşimli PowerShell penceresinde sorun yoktur, çünkü Python konsola her zaman UTF-8 yazar.
+
+## 1e. Hafta 4: yorum, üzerine alma, atama ve işlem geçmişi
+
+**Ne?** Talep sayfasında yorum yazılır; Destek Personeli atanmamış talebi "Üzerime al" düğmesiyle alır; Yönetici talebi bir Destek Personeline atar; personel ve yönetici önceliği değiştirebilir. Bu işlemlerin her biri işlem geçmişine kaydedilir: kim, ne zaman (UTC), eski değer, yeni değer.
+
+**Nerede?**
+- Kurallar: `services/assignment.py` (üzerine alma, atama, öncelik), `services/comments.py` (yorum), `services/audit.py` (işlem geçmişine yazan tek fonksiyon `record_event`).
+- Adresler: `views/ticket_actions.py`. Dört görünüm de yalnız POST kabul eder. Talep her zaman `visible_tickets_for` kümesinden alınır; bu yüzden talep sahibi başkasının talebinin yorum adresine istek gönderirse ayrıntı sayfasındaki gibi 404 alır (FR-14).
+- Veri: `models/activity.py` (`Comment`, `TicketEvent`), migration 0005 ve 0006.
+
+**Neden böyle?**
+- İzin iki yerde denetlenir: görünümde `PermissionRequiredMixin` (403) ve servis fonksiyonunun içinde (`PermissionDenied`). Böylece ileride servisi başka bir yerden çağıran kod kuralı atlayamaz (TC-ASN-03).
+- İşlem ve geçmiş kaydı aynı veritabanı işleminde (`transaction.atomic`) yazılır: biri olmazsa öteki de olmaz.
+- Geçmiş kaydı yalnız eklenir: `TicketEvent.save()` ikinci kez çağrılırsa ve `delete()` her zaman hata verir; yönetim sitesinde kayıtlar salt okunurdur (KRR-16, TC-AUD-02).
+- İki personel aynı anda "Üzerime al" derse ilk gelen alır: servis talebi kilitleyerek yeniden okur ve atanmış mı diye bakar.
+
+**Hafta 4'te testlerin yakaladığı üç hata (RSK-28..RSK-30):** Kapanmış talepte işlem isteği sunucu hatası (500) veriyordu; kapanmış talebe yorum reddinin sebebi ekranda görünmüyordu; yeni görünümlerde izin denetimi açıkça yazılmamıştı. Üçünü de ilk test koşusu gösterdi, düzeltmeden sonra aynı testler geçti.
+
+**Kapsam kararı (KRR-18):** Proje Faz 5'te biter. Değişiklik yönetimi, SLA, anket, KPI ve DÖF gelecek çalışmadır; RTM'de "KAPSAM DIŞI" görünür, panelde "Kapsam dışı" yazar.
 
 ## 2. Roller nasıl tanımlandı?
 

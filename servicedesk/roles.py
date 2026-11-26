@@ -20,7 +20,7 @@ from django.db import DEFAULT_DB_ALIAS, transaction
 
 # Aktif proje haftası. Yetenek satırları bu haftaya göre "Kullanılabilir" veya
 # "Hafta N" olarak gösterilir (docs/SRS.md §2.6 haftalık plan).
-CURRENT_WEEK = 3
+CURRENT_WEEK = 4
 
 
 @dataclass(frozen=True)
@@ -49,17 +49,23 @@ PERM_VIEW_ALL_TICKETS = "servicedesk.view_all_tickets"  # Tüm talepleri görme
 PERM_VIEW_CATEGORY = "servicedesk.view_category"
 PERM_ADD_CATEGORY = "servicedesk.add_category"
 PERM_CHANGE_CATEGORY = "servicedesk.change_category"
+# Hafta 4: yorum (FR-17), üzerine alma ve atama (FR-16), öncelik değişikliği (AK-03, KRR-17).
+PERM_ADD_COMMENT = "servicedesk.add_comment"
+PERM_TAKE_TICKET = "servicedesk.take_ticket"
+PERM_ASSIGN_TICKET = "servicedesk.assign_ticket"
+PERM_CHANGE_PRIORITY = "servicedesk.change_ticket_priority"
 
-_TICKET_BASE = frozenset({PERM_ADD_TICKET, PERM_VIEW_TICKET})
+_TICKET_BASE = frozenset({PERM_ADD_TICKET, PERM_VIEW_TICKET, PERM_ADD_COMMENT})
+_TICKET_WORK = frozenset({PERM_VIEW_ALL_TICKETS, PERM_TAKE_TICKET, PERM_CHANGE_PRIORITY})
 
-# Rol-izin matrisi (Hafta 3). Sonraki haftalarda yorum, atama, durum, değişiklik,
-# KPI ve DÖF izinleri bu tabloya eklenecek (PRC-07).
+# Rol-izin matrisi (Hafta 4). Sonraki haftada durum geçişi izinleri eklenecek (PRC-07).
 ROLE_PERMISSIONS: dict[str, frozenset[str]] = {
     REQUESTER.key: _TICKET_BASE,
-    AGENT.key: _TICKET_BASE | {PERM_VIEW_ALL_TICKETS, PERM_SUPPORT_WORKSPACE},
+    AGENT.key: _TICKET_BASE | _TICKET_WORK | {PERM_SUPPORT_WORKSPACE},
     MANAGER.key: _TICKET_BASE
+    | _TICKET_WORK
     | {
-        PERM_VIEW_ALL_TICKETS,
+        PERM_ASSIGN_TICKET,
         PERM_SUPPORT_WORKSPACE,
         PERM_MANAGER_PANEL,
         PERM_VIEW_CATEGORY,
@@ -71,10 +77,13 @@ ROLE_PERMISSIONS: dict[str, frozenset[str]] = {
 
 @dataclass(frozen=True)
 class Capability:
-    """Rol matrisindeki bir satır: hangi rol, hangi kapsamla, hangi haftada."""
+    """Rol matrisindeki bir satır: hangi rol, hangi kapsamla, hangi haftada.
+
+    `week=None`: yetenek bu teslimin kapsamı dışındadır (gelecek çalışma, KRR-18).
+    """
 
     label: str
-    week: int
+    week: int | None
     scope: dict  # role.key -> kapsam açıklaması
 
     def scope_for(self, role: Role | None) -> str | None:
@@ -83,11 +92,16 @@ class Capability:
         return self.scope.get(role.key)
 
     @property
+    def out_of_scope(self) -> bool:
+        return self.week is None
+
+    @property
     def available(self) -> bool:
-        return self.week <= CURRENT_WEEK
+        return self.week is not None and self.week <= CURRENT_WEEK
 
 
 FULL = "Tam erişim"
+# Hafta 6-10 yetenekleri bu teslimin kapsamı dışındadır (week=None; SRS §1.2, KRR-18).
 CAPABILITIES: tuple[Capability, ...] = (
     Capability(
         "Giriş yapma ve kendi panelini görme",
@@ -114,6 +128,7 @@ CAPABILITIES: tuple[Capability, ...] = (
     ),
     Capability("Talebi üzerine alma", 4, {AGENT.key: "Atanmamış talepler", MANAGER.key: "Atanmamış talepler"}),
     Capability("Talebi destek personeline atama", 4, {MANAGER.key: "Tüm talepler"}),
+    Capability("Talep önceliğini değiştirme", 4, {AGENT.key: "Tüm talepler", MANAGER.key: "Tüm talepler"}),
     Capability(
         "Durum ilerletme (Açık → İşlemde → Çözüldü)",
         5,
@@ -126,16 +141,16 @@ CAPABILITIES: tuple[Capability, ...] = (
     ),
     Capability(
         "Değişiklik kaydı açma ve uygulama sonucu girme",
-        6,
+        None,
         {AGENT.key: "Sonuç yalnız onaylı kayıtta", MANAGER.key: "Sonuç yalnız onaylı kayıtta"},
     ),
-    Capability("Değişikliği onaylama veya reddetme", 6, {MANAGER.key: "Kendi açtığı kayıt hariç"}),
-    Capability("SLA süre uyarılarını alma", 8, {AGENT.key: "Kendisine atanmış talepler"}),
-    Capability("SLA ihlali eskalasyonlarını alma", 8, {MANAGER.key: "Tüm ihlaller"}),
-    Capability("Memnuniyet puanı verme", 9, {REQUESTER.key: "Kendi kapanmış talebine bir kez"}),
-    Capability("KPI paneli", 9, {MANAGER.key: FULL}),
-    Capability("Uygunsuzluk kaydı açma", 10, {AGENT.key: FULL, MANAGER.key: FULL}),
-    Capability("Kök neden, düzeltici faaliyet ve etkinlik kontrolü", 10, {MANAGER.key: FULL}),
+    Capability("Değişikliği onaylama veya reddetme", None, {MANAGER.key: "Kendi açtığı kayıt hariç"}),
+    Capability("SLA süre uyarılarını alma", None, {AGENT.key: "Kendisine atanmış talepler"}),
+    Capability("SLA ihlali eskalasyonlarını alma", None, {MANAGER.key: "Tüm ihlaller"}),
+    Capability("Memnuniyet puanı verme", None, {REQUESTER.key: "Kendi kapanmış talebine bir kez"}),
+    Capability("KPI paneli", None, {MANAGER.key: FULL}),
+    Capability("Uygunsuzluk kaydı açma", None, {AGENT.key: FULL, MANAGER.key: FULL}),
+    Capability("Kök neden, düzeltici faaliyet ve etkinlik kontrolü", None, {MANAGER.key: FULL}),
 )
 
 
@@ -164,6 +179,7 @@ def capabilities_for(role: Role | None) -> list[dict]:
                 "scope": scope,
                 "week": capability.week,
                 "available": capability.available,
+                "out_of_scope": capability.out_of_scope,
             }
         )
     return rows

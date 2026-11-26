@@ -30,7 +30,7 @@
             <tr>
               <td data-label="Yetki">{{ cap.label }}</td>
               <td data-label="Kapsam">{{ cap.scope }}</td>
-              <td data-label="Durum">{% if cap.available %}<span class="sd-chip sd-chip--on">Kullanılabilir</span>{% else %}<span class="sd-chip">Hafta {{ cap.week }}</span>{% endif %}</td>
+              <td data-label="Durum">{% if cap.available %}<span class="sd-chip sd-chip--on">Kullanılabilir</span>{% elif cap.out_of_scope %}<span class="sd-chip">Kapsam dışı</span>{% else %}<span class="sd-chip">Hafta {{ cap.week }}</span>{% endif %}</td>
             </tr>
             {% endfor %}
           </tbody>
