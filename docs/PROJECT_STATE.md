@@ -54,8 +54,8 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | `check --deploy` (üretim) | 0 sorun, 1 gerekçeli susturma (W021) | `evidence/hafta-04/check-deploy.txt` |
 | Temiz kurulum (TC-INST-01) | Windows 3.13.17 BAŞARILI | `evidence/hafta-04/install-check-windows-py313.log` |
 | Mutasyon denetimi | 13/13 yakalandı (62 test) | `evidence/hafta-04/mutation-check.md` |
-| GitHub Actions (TC-CI-01) | Hafta 4 commit'inin koşusu birleştirmeden sonra kaydedilir | `evidence/hafta-04/ci-github-actions-*.json` |
-| RTM (`--week 4`) | Ayrıntı ve sayılar: `docs/RTM.md`, `docs/TEST_RESULTS.md` (otomatik üretilir) | - |
+| GitHub Actions (TC-CI-01) | Koşu #19, commit 816a611: Ubuntu/Windows × Python 3.12/3.13, 4/4 iş başarılı | `evidence/hafta-04/ci-github-actions-2026-11-26.json` |
+| RTM (`--week 4`) | 53 gereksinim: 31 PASS, 3 PLANLANDI (Faz 5: FR-18, FR-19, FR-21), 19 KAPSAM DIŞI. Test kataloğu: 83/83 PASS | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
 | Bu hafta bulunan sorunlar | RSK-28 (500 hatası), RSK-29 (gösterilmeyen hata), RSK-30 (açık olmayan izin denetimi); üçü de kapandı | `docs/RISKS.md` |
 | NOT RUN / ÖLÇÜLMEDİ | Hafta 4 E2E Linux'ta koşulmadı (CI E2E koşmaz); yorum ve işlem paneli öğelerinin kontrastı ayrıca ölçülmedi; efor saatleri | - |
 

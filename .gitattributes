@@ -12,4 +12,5 @@
 *.png binary
 *.woff2 binary
 *.docx binary
+*.pdf binary
 *.sqlite3 binary

@@ -15,9 +15,8 @@ Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştiril
 | `install-check-windows-py313.log` | `tools/install_check.ps1` temiz kurulum günlüğü (62 test): BAŞARILI | TC-INST-01 |
 | `mutation-check.md` | `tools/mutation_check.py --week 4`: 13 bilinçli hata, 13'ü yakalandı | Test etkinliği |
 | `manual-checks.json` | TC-INST-01 özeti, TC-INS-01 incelemesi (onay bekliyor) | TC-INST-01, TC-INS-01 |
+| `ci-github-actions-2026-11-26.json` | Hafta 4 commit'inin GitHub Actions koşusu (koşu #19, commit 816a611): Ubuntu ve Windows × Python 3.12/3.13, 4/4 iş başarılı; `tools/record_ci_run.sh 4` ile kaydedildi | TC-CI-01 |
 | `bagimlilik-guncelleme-2026-11-26/` | Hafta 4 başındaki bağımlılık güncellemesinin doğrulaması (Django 5.2.19, sqlparse 0.6.1, araçlar; Windows'ta ilk E2E) | RSK-15, RSK-31 |
-
-GitHub Actions sonucu (TC-CI-01) Hafta 4 commit'i `main`'e birleştirildikten sonra `tools/record_ci_run.sh 4` ile `ci-github-actions-*.json` olarak eklenir.
 
 ## Geliştirme sırasında bulunan sorunlar
 
