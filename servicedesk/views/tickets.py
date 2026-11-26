@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import redirect
 from django.views.generic import DetailView, FormView, ListView
 
-from ..forms import AssignForm, CommentForm, PriorityForm, TicketFilterForm, TicketForm
+from ..forms import AssignForm, CommentForm, PriorityForm, StatusForm, TicketFilterForm, TicketForm
 from ..roles import (
     PERM_ADD_TICKET,
     PERM_ASSIGN_TICKET,
@@ -22,8 +22,10 @@ from ..roles import (
     PERM_VIEW_TICKET,
 )
 from ..services.assignment import can_take
+from ..services.audit import history_for
 from ..services.comments import can_comment, comments_for
 from ..services.tickets import create_ticket, filter_tickets, status_steps, visible_tickets_for
+from ..services.workflow import available_transition
 
 PAGE_SIZE = 25  # FR-13
 FILTER_FIELDS = ("status", "priority", "category", "assignee")
@@ -102,6 +104,7 @@ def ticket_detail_context(user, ticket, bound_forms: dict | None = None) -> dict
     """Ayrıntı sayfasının içeriği. Hatalı gönderilen form (bound) boş formun yerine geçer."""
     bound_forms = bound_forms or {}
     is_open = ticket.status != ticket.Status.CLOSED
+    transition = available_transition(user, ticket)
     return {
         "steps": status_steps(ticket.status),
         "comments": comments_for(ticket),
@@ -112,4 +115,8 @@ def ticket_detail_context(user, ticket, bound_forms: dict | None = None) -> dict
         "assign_form": bound_forms.get("assign_form") or AssignForm(),
         "can_change_priority": user.has_perm(PERM_CHANGE_PRIORITY) and is_open,
         "priority_form": bound_forms.get("priority_form") or PriorityForm(initial={"priority": ticket.priority}),
+        "transition": transition,
+        "transition_label": ticket.Status(transition).label if transition else "",
+        "status_form": bound_forms.get("status_form") or StatusForm(initial={"target": transition}),
+        "history": history_for(ticket),
     }

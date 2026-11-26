@@ -17,6 +17,8 @@ urlpatterns = [
     path("talepler/<int:pk>/uzerine-al/", views.TicketTakeView.as_view(), name="ticket_take"),
     path("talepler/<int:pk>/ata/", views.TicketAssignView.as_view(), name="ticket_assign"),
     path("talepler/<int:pk>/oncelik/", views.TicketPriorityView.as_view(), name="ticket_priority"),
+    # Hafta 5: durum geçişi (yalnız POST)
+    path("talepler/<int:pk>/durum/", views.TicketStatusView.as_view(), name="ticket_status"),
     path("kategoriler/", views.CategoryListView.as_view(), name="category_list"),
     path("kategoriler/<int:pk>/durum/", views.CategoryToggleView.as_view(), name="category_toggle"),
 ]

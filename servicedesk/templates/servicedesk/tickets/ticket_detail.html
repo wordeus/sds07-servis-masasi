@@ -22,6 +22,10 @@
     <section class="sd-panel" aria-labelledby="aciklama-baslik">
       <h2 id="aciklama-baslik">Açıklama</h2>
       <p class="sd-description" data-testid="ticket-description">{{ ticket.description }}</p>
+      {% if ticket.resolution %}
+      <h3 class="sd-subhead">Çözüm açıklaması</h3>
+      <p class="sd-description" data-testid="ticket-resolution">{{ ticket.resolution }}</p>
+      {% endif %}
     </section>
 
     <section class="sd-panel mt-4" aria-labelledby="yorum-baslik" data-testid="ticket-comments">
@@ -57,6 +61,20 @@
       <p class="sd-muted" data-testid="comments-closed">Talep kapandığı için yorum eklenemez.</p>
       {% endif %}
     </section>
+
+    <section class="sd-panel mt-4" aria-labelledby="gecmis-baslik" data-testid="ticket-history">
+      <h2 id="gecmis-baslik">İşlem geçmişi</h2>
+      <ol class="sd-history">
+        {% for item in history %}
+        <li class="sd-history__item" data-testid="history-item" data-kind="{{ item.kind }}">
+          <time datetime="{{ item.created_at|date:'c' }}">{{ item.created_at|date:"d.m.Y H:i" }}</time>
+          <span class="sd-history__what"><strong>{{ item.label }}</strong>{% if item.old or item.new %}: {% if item.old %}{{ item.old }} → {% endif %}{{ item.new }}{% endif %}</span>
+          <span class="sd-history__who">{{ item.actor }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+      <p class="sd-muted sd-meta-note">Kayıtlar yalnız eklenir; değiştirilemez ve silinemez.</p>
+    </section>
   </div>
 
   <aside class="col-lg-4">
@@ -69,8 +87,31 @@
         <dt>Atanan</dt><dd data-testid="ticket-assignee">{% if ticket.assignee %}{{ ticket.assignee.get_full_name|default:ticket.assignee.username }}{% else %}Henüz atanmadı{% endif %}</dd>
         <dt>Oluşturulma</dt><dd><time datetime="{{ ticket.created_at|date:'c' }}" data-testid="ticket-created">{{ ticket.created_at|date:"d.m.Y H:i" }}</time></dd>
       </dl>
-      <p class="sd-muted sd-meta-note">Saatler İstanbul saatiyle gösterilir. Durum geçişleri ve işlem geçmişi Hafta 5'te bu sayfaya eklenecek.</p>
+      <p class="sd-muted sd-meta-note">Saatler İstanbul saatiyle gösterilir.</p>
     </section>
+
+    {% if transition %}
+    <section class="sd-panel mt-4" aria-labelledby="durum-baslik" data-testid="status-panel">
+      <h2 id="durum-baslik">Durum</h2>
+      <form method="post" action="{% url 'servicedesk:ticket_status' ticket.pk %}" novalidate data-testid="status-form">
+        {% csrf_token %}
+        {{ status_form.target }}
+        {% if transition == "RESOLVED" %}
+        {% with field=status_form.resolution %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}<div class="sd-field-error" id="{{ field.name }}-hata">{{ error }}</div>{% endfor %}
+          <div class="form-text">{{ field.help_text }}</div>
+        </div>
+        {% endwith %}
+        {% endif %}
+        {% for error in status_form.non_field_errors %}<div class="sd-field-error">{{ error }}</div>{% endfor %}
+        <button type="submit" class="btn btn-primary" data-target="{{ transition }}">{% if transition == "IN_PROGRESS" %}İşleme al{% elif transition == "RESOLVED" %}Çözüldü olarak işaretle{% else %}Onayla ve kapat{% endif %}</button>
+        <p class="sd-muted sd-meta-note mt-2">Sonraki durum: {{ transition_label }}</p>
+      </form>
+    </section>
+    {% endif %}
 
     {% if can_take or can_assign or can_change_priority %}
     <section class="sd-panel mt-4" aria-labelledby="islem-baslik" data-testid="ticket-actions">

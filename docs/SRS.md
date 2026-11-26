@@ -3,9 +3,9 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-SRS |
-| Sürüm | 0.4 (taslak) |
+| Sürüm | 0.5 (son sürüm, Faz 5) |
 | Tarih | 26.11.2026 |
-| Durum | Taslak, öğretim elemanı geri bildirimi bekliyor |
+| Durum | Faz 5 teslimi; öğretim elemanı geri bildirimi bekliyor |
 | Hazırlayan | Burak Nigiz (2100002062). Tek kişilik proje. |
 | Onaylayan | [Boş: öğretim elemanı geri bildirimi sonrası] |
 | Yapı dayanağı | ISO/IEC/IEEE 29148:2018, madde 9.6 "Software requirements specification (SRS) content" |
@@ -18,6 +18,7 @@
 | 0.2 | 30.10.2026 | Burak Nigiz | Hafta 2: rol matrisi koddan üretildi (`roles.py`), Hafta 2'de uygulanan Django izinleri eklendi, Hafta 1-2 kabul kriterleri testlerle doğrulandı |
 | 0.3 | 30.10.2026 | Burak Nigiz | Hafta 3: FR-12..FR-15 ve NFR-16 kabul kriterleri ayrıntılandırıldı (§7.1); Hafta 3 izinleri; AK-03 için geçici karar; NFR-07 kapsamı talep ekranlarına genişletildi; FR-10 kabul kriteri güncellendi |
 | 0.4 | 26.11.2026 | Burak Nigiz | Hafta 4: teslim kapsamı Faz 5'te biter (KRR-18; §1.2, §2.6): FR-22..FR-37 ve NFR-13..NFR-15 gelecek çalışma; FR-16, FR-17, FR-20 kabul kriterleri (§7.1); Hafta 4 izinleri (§4); AK-03 kapandı (KRR-17) |
+| 0.5 | 26.11.2026 | Burak Nigiz | Faz 5 (bitiş): FR-18, FR-19, FR-21 kabul kriterleri (§7.1); Hafta 5 izinleri (§4); AK-01 kapandı: yeniden açma yok (KRR-19) |
 
 Not: Hafta 1-3 belgeleri geç kayıt nedeniyle birlikte hazırlandı; tarihler gerçek hazırlanma tarihidir.
 
@@ -224,13 +225,13 @@ Matris koddaki tanımdan üretilmiştir (`servicedesk/roles.py`, `CAPABILITIES`)
 | Uygunsuzluk kaydı açma | - | Tam erişim | Tam erişim | Kapsam dışı |
 | Kök neden, düzeltici faaliyet ve etkinlik kontrolü | - | - | Tam erişim | Kapsam dışı |
 
-**Hafta 4'te uygulanan Django izinleri** (her `migrate` sonrasında gruplara uygulanır; tablo koddan üretildi):
+**Faz 5 sonunda uygulanan Django izinleri** (her `migrate` sonrasında gruplara uygulanır; tablo koddan üretildi):
 
 | Grup (rol) | İzinler |
 |---|---|
-| Talep Sahibi | `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.view_ticket` |
-| Destek Personeli | `servicedesk.access_support_workspace`, `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.change_ticket_priority`, `servicedesk.take_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_ticket` |
-| Yönetici | `servicedesk.access_manager_panel`, `servicedesk.access_support_workspace`, `servicedesk.add_category`, `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.assign_ticket`, `servicedesk.change_category`, `servicedesk.change_ticket_priority`, `servicedesk.take_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_category`, `servicedesk.view_ticket` |
+| Talep Sahibi | `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.close_ticket`, `servicedesk.view_ticket` |
+| Destek Personeli | `servicedesk.access_support_workspace`, `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.change_ticket_priority`, `servicedesk.progress_ticket`, `servicedesk.take_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_ticket` |
+| Yönetici | `servicedesk.access_manager_panel`, `servicedesk.access_support_workspace`, `servicedesk.add_category`, `servicedesk.add_comment`, `servicedesk.add_ticket`, `servicedesk.assign_ticket`, `servicedesk.change_category`, `servicedesk.change_ticket_priority`, `servicedesk.close_ticket`, `servicedesk.progress_any_ticket`, `servicedesk.progress_ticket`, `servicedesk.take_ticket`, `servicedesk.view_all_tickets`, `servicedesk.view_category`, `servicedesk.view_ticket` |
 
 `view_ticket` talep ekranlarına erişimi verir; hangi kayıtların görüleceğini `view_all_tickets` izni ve kayıt bazlı politika (`services/tickets.py`, `visible_tickets_for`) belirler: bu izni olmayan kullanıcı yalnız kendi açtığı talepleri görür (FR-14).
 
@@ -432,7 +433,7 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 
 ## 7. Kabul kriterleri
 
-### 7.1 Hafta 1-4 (ayrıntılı)
+### 7.1 Hafta 1-5 (ayrıntılı)
 
 | Gereksinim | Kabul kriteri (Verilen / Olduğunda / Beklenen) | Test |
 |---|---|---|
@@ -468,11 +469,15 @@ Henüz sonuçlanmamış SLA ölçütleri paydaya katılmaz. Payda 0 ise değer "
 | FR-17 | Talep Sahibi kendi talebine, Destek Personeli ve Yönetici tüm taleplere yorum ekler; yorumlar eskiden yeniye, yazan adı ve İstanbul saatiyle gösterilir; HTML kaçışlanır. Boş ve 2.000 karakterden uzun yorum reddedilir. Başkasının talebinin yorum adresine POST 404 döner ve yanıt var olmayan numarayla aynıdır (FR-14). Kapanmış talebe yorum eklenemez; form gösterilmez. | TC-CMT-01, TC-CMT-02, TC-CMT-03, TC-CMT-04, TC-ROLE-14, TC-E2E-14, TC-E2E-15, TC-E2E-16 |
 | FR-20 (Hafta 4 bölümü) | Talep oluşturma, üzerine alma, atama ve öncelik değişikliği işlem geçmişine tam bir kez yazılır: aktör, UTC zaman, eski ve yeni değer. Reddedilen işlem kayıt yazmaz. Kayıt değiştirilemez ve silinemez; yönetim sitesinde salt okunurdur. Hafta 4 öncesi taleplere bir oluşturma kaydı eklenir. Durum geçişi kayıtları Hafta 5'te eklenir; değişiklik kararı ve düzeltici faaliyet kayıtları kapsam dışıdır (KRR-18). | TC-AUD-01, TC-AUD-02, TC-AUD-03, TC-ASN-04 |
 | AK-03 kararı | Destek Personeli ve Yönetici talebin önceliğini değiştirir; değişiklik eski ve yeni değerle kaydedilir; aynı veya geçersiz öncelik reddedilir; Talep Sahibi öncelik formunu görmez (KRR-17). | TC-ASN-04 |
+| FR-18 | İzin verilen geçişler yalnız Açık → İşlemde → Çözüldü → Kapandı'dır. Atlama (Açık→Çözüldü, Açık→Kapandı, İşlemde→Kapandı), geri dönme (Çözüldü→İşlemde dahil; AK-01) ve kapanmış talebin değiştirilmesi doğrudan POST ile de reddedilir; durum değişmez, kayıt yazılmaz, sunucu hatası oluşmaz; adres yalnız POST kabul eder. | TC-WF-01, TC-WF-05, TC-E2E-17 |
+| FR-19 | Açık → İşlemde ve İşlemde → Çözüldü geçişlerini yalnız talebe atanmış Destek Personeli veya Yönetici yapar; atanmamış talep İşlemde durumuna alınamaz. Çözüldü geçişinde çözüm açıklaması zorunludur (boş veya 2.000 karakterden uzun açıklama reddedilir). Çözüldü → Kapandı geçişini talep sahibi kendi talebinde veya Yönetici yapar; Destek Personeli kapatamaz. Yetkisiz istek 403, başkasının talebi 404 döner. | TC-WF-01..TC-WF-04, TC-ROLE-15, TC-E2E-17, TC-E2E-18 |
+| FR-20 (Hafta 5 bölümü) | Her durum geçişi eski ve yeni durumla tek kayıt olarak yazılır. | TC-WF-01 |
+| FR-21 | Talep ayrıntısı işlem geçmişini kronolojik sırayla, İstanbul saatiyle, işlem türü, eski → yeni değer (durum ve öncelik Türkçe etiketiyle) ve kişiyle gösterir; talep sahibi yalnız kendi talebinin geçmişini görür (başkasının talebinde 404). | TC-WF-06, TC-E2E-17, TC-E2E-18 |
 
 ### 7.2 Sonraki haftalar (özet; ilgili hafta başında ayrıntılandırılacak)
 
 - FR-16, FR-17: Hafta 4'te ayrıntılandırıldı (§7.1).
-- FR-18..FR-21: İzin verilen/verilmeyen her geçiş çifti; rol ve atama koşulları; çözüm açıklaması zorunluluğu; her işlem için tek denetim kaydı; kayıtların değiştirilemezliği.
+- FR-18..FR-21: Hafta 4-5'te ayrıntılandırıldı (§7.1).
 - FR-22..FR-25: Kapsam dışı (gelecek çalışma, KRR-18).
 - FR-26..FR-31: Kapsam dışı (gelecek çalışma, KRR-18).
 - FR-32..FR-37: Kapsam dışı (gelecek çalışma, KRR-18).
@@ -502,7 +507,7 @@ Bir gereksinim, eşlendiği tüm TC'ler gerçek koşuda PASS olduğunda "doğrul
 
 | Kimlik | Konu | Karar sahibi |
 |---|---|---|
-| AK-01 | Resolved → In Progress "yeniden açma" geçişi eklenecek mi? (Proje talimatındaki akışta yok.) | Burak Nigiz / öğretim elemanı |
+| AK-01 | Resolved → In Progress "yeniden açma" geçişi eklenecek mi? **Karar (Faz 5, KRR-19):** Eklenmedi; akış proje talimatındaki gibidir. Talep sahibi çözümü kabul etmezse yorumla bildirir ve Yönetici değerlendirir; yeni sorun yeni talep olarak açılır. Öğretim elemanı aksini isterse geçiş eklenebilir (gelecek çalışma). **Kapandı.** | Burak Nigiz |
 | AK-02 | Resolved talep, talep sahibi onaylamazsa belirli süre sonra otomatik kapansın mı? | Burak Nigiz |
 | AK-03 | Önceliği talep sahibi mi seçecek, destek personeli mi belirleyecek? **Karar (Hafta 4, KRR-17):** Talep sahibi talep açarken önceliği seçer (FR-12); Destek Personeli ve Yönetici sonradan değiştirebilir ve değişiklik işlem geçmişine yazılır (FR-20). **Kapandı.** | Burak Nigiz |
 | AK-04 | Yönetici rolü kullanıcı/rol yönetimi yapabilsin mi, yoksa yalnız superuser mı? | Burak Nigiz |

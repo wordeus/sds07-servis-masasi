@@ -3,9 +3,9 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-SDD |
-| Sürüm | 0.3 (taslak) |
+| Sürüm | 0.4 (son sürüm, Faz 5) |
 | Tarih | 26.11.2026 |
-| Durum | Taslak: Hafta 1-4'te uygulanmış yapı + Faz 5 için planlanan yapı (proje Faz 5'te biter, KRR-18) |
+| Durum | Faz 5 teslimi: uygulanmış yapı (Hafta 1-5); kapsam dışı modüller gelecek çalışma (KRR-18) |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | Dayanak | IEEE 1016-2009 tasarım görünümleri (IEEE SA'da Inactive-Reserved; ders kapsamında kullanılıyor) |
 
@@ -16,6 +16,7 @@
 | 0.1 | 30.10.2026 | Burak Nigiz | Hafta 2: bağlam, bileşim/mantıksal, bilgi, durum dinamikleri ve etkileşim görünümleri; karar günlüğü KRR-01..KRR-10 (KRR-01..KRR-05 Hafta 1 kararlarıdır) |
 | 0.2 | 30.10.2026 | Burak Nigiz | Hafta 3: `models/`, `services/`, `views/` paketleri; MOD-TICKET bileşeni ve arayüz sözleşmeleri; Category ve Ticket bilgi görünümü; kayıt düzeyi erişim etkileşimi (404); mimari kural testleri; karar günlüğü KRR-11..KRR-15 |
 | 0.3 | 26.11.2026 | Burak Nigiz | Hafta 4: Comment ve TicketEvent bilgi görünümü; `services/assignment.py`, `services/comments.py`, `services/audit.py`; `views/ticket_actions.py`; işlem geçmişi bütünlük kuralları; karar günlüğü KRR-16..KRR-18 |
+| 0.4 | 26.11.2026 | Burak Nigiz | Faz 5: durum makinesi (`services/workflow.py`), çözüm açıklaması alanı, işlem geçmişi görünümü (`services/audit.py::history_for`); durum dinamikleri görünümü uygulanmış hâliyle; karar günlüğü KRR-19 |
 
 Diyagram kaynakları `docs/diagrams/*.mmd` dosyalarındadır (Mermaid). PNG/SVG çıktıları aynı klasördedir ve `mmdc` ile yeniden üretilebilir.
 
@@ -294,6 +295,8 @@ erDiagram
 | Atama yalnız Destek Personeline | `services/assignment.py::agents()` (rol grubu + etkin); servis ve form aynı kümeyi kullanır (Hafta 4) | FR-16 |
 | Aynı talebi iki kişi üzerine alamaz | Üzerine alma işlem içinde talebi kilitleyerek (`select_for_update`) yeniden okur ve atananı denetler (Hafta 4) | FR-16 |
 | Kapanmış talep değişmez | Yorum, atama ve öncelik servisleri Closed talebi reddeder (Hafta 4) | FR-17, FR-16 |
+| Durum yalnız durum makinesiyle değişir | `status` alanı formda yok (`editable=False`); tek yazım yeri `services/workflow.py::change_status` (Faz 5) | FR-18 |
+| Çözüldü durumunda çözüm açıklaması var | `change_status` Resolved geçişinde boş açıklamayı reddeder; açıklama `Ticket.resolution` alanında saklanır (Faz 5) | FR-19 |
 | Yorum ve geçmiş silinmez | `Comment` ve `TicketEvent` talebe `PROTECT` ile bağlı; yönetim sitesinde silme kapalı (Hafta 4) | FR-17, FR-20 |
 
 ### 6.2 Saklama ve gizlilik
@@ -317,7 +320,7 @@ stateDiagram-v2
   CLOSED --> [*]
 ```
 
-Hafta 3'te talepler yalnız Open durumunda oluşur; geçişler Hafta 5'te durum makinesiyle eklenecek. Tanımsız geçişler (ör. Open → Closed) sunucuda reddedilecektir (FR-18). Değişiklik kaydı durumları: Onay Bekliyor → Onaylandı / Reddedildi → Uygulandı (Başarılı / Başarısız-geri alındı). Düzeltici faaliyet durumları: Açık → Analiz → Faaliyet → Etkinlik Kontrolü → Kapalı (Etkili değil → Faaliyet).
+Durum makinesi Faz 5'te `services/workflow.py` içinde uygulandı: `NEXT_STATUS` tablosu her durum için tek izinli hedefi tanımlar; geçiş işlem içinde talebi kilitleyerek (`select_for_update`) yeniden okur, rol ve atanma koşulunu denetler, Resolved geçişinde çözüm açıklamasını zorunlu tutar ve işlem geçmişine eski/yeni durumu yazar. Tanımsız geçişler (atlama, geri dönme, Closed'dan çıkış) doğrudan POST ile de reddedilir (FR-18, TC-WF-05). Resolved → In Progress yeniden açma geçişi yoktur (AK-01, KRR-19). Aşağıdaki değişiklik kaydı ve düzeltici faaliyet durumları kapsam dışıdır (KRR-18) ve tasarım kaydı olarak korunur. Değişiklik kaydı durumları: Onay Bekliyor → Onaylandı / Reddedildi → Uygulandı (Başarılı / Başarısız-geri alındı). Düzeltici faaliyet durumları: Açık → Analiz → Faaliyet → Etkinlik Kontrolü → Kapalı (Etkili değil → Faaliyet).
 
 ## 8. Etkileşim görünümü
 
@@ -389,3 +392,4 @@ sequenceDiagram
 | KRR-16 | İşlem geçmişinin değiştirilemezliği uygulama düzeyinde sağlanır: model `save()`/`delete()` engeli, salt okunur yönetim sitesi, yazımın tek modülden (`services/audit.py`) yapılması (Hafta 4) | FR-20'nin "arayüzden düzenlenemez/silinemez" koşulunu karşılar; SQLite'ta ek araç gerektirmez; testle doğrulanır (TC-AUD-02, mutasyon M13) | Veritabanı tetikleyicisi: veritabanına bağımlı, taşınabilirliği azaltır; doğrudan SQL erişimine karşı koruma kapsam dışı |
 | KRR-17 | AK-03 kararı: talep sahibi önceliği talep açarken seçer; Destek Personeli ve Yönetici değiştirebilir; değişiklik işlem geçmişine yazılır (Hafta 4; KRR-13'ün yerine) | Talep sahibinin aciliyet bilgisi korunur, uzman değerlendirmesi izlenebilir biçimde uygulanır | Önceliği yalnız personel belirler: talep sahibinin bilgisi kaybolur |
 | KRR-18 | Proje Faz 5'te (11.12.2026) biter: Faz 4 atama/yorum/işlem geçmişi, Faz 5 durum geçişleri + işlem geçmişi görünümü + final; FR-22..FR-37 ve NFR-13..NFR-15 gelecek çalışma (Hafta 4) | Kalan sürede çekirdek talep akışı uçtan uca, testli ve belgeli tamamlanır; yarım modül bırakılmaz | 25 gereksinimin tümünü iki faza sıkıştırmak: test ve kanıt kalitesi düşer |
+| KRR-19 | AK-01 kararı: Resolved → In Progress yeniden açma geçişi eklenmez (Faz 5) | Proje talimatındaki akışa uyar; durum makinesi tek yönlü ve test edilebilir kalır; reddedilen çözüm yorumla bildirilir | Yeniden açma: talimatta yok; SLA ve KPI hesaplarını (gelecek çalışma) karmaşıklaştırır |

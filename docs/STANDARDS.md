@@ -3,7 +3,7 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-STD |
-| Sürüm | 0.4 (Hafta 4) |
+| Sürüm | 0.5 (Faz 5) |
 | Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 
@@ -15,6 +15,7 @@
 | 0.2 | 30.10.2026 | Hafta 2: eşleme durumları ve 12207 uygulama tablosu Hafta 2 çıktılarıyla güncellendi; Bootstrap ve yazı tipi sürümleri eklendi |
 | 0.3 | 30.10.2026 | Hafta 3: talep, kayıt bazlı erişim ve kategori gereksinimlerinin eşleme durumları; 12207 tablosuna mimari kural testleri eklendi |
 | 0.4 | 26.11.2026 | Hafta 4: FR-16, FR-17, FR-20 eşleme durumları; kapsam dışı maddeler (KRR-18) |
+| 0.5 | 26.11.2026 | Faz 5: 7.5.3, 8.5.1, 8.5.2 ve 8.6 eşlemeleri uygulanmış hâliyle |
 
 Bu belge projede kullanılan standart baskılarını, resmî bağlantılarını ve hangi madde numaralarının nasıl doğrulandığını kaydeder. **Kural:** Doğrulanmamış madde numarası kullanılmaz. Doğrulanamayan konular "DOĞRULANMADI" diye işaretlenir. Hiçbir ifade belgelendirme veya uygunluk iddiası değildir.
 
@@ -56,12 +57,12 @@ Madde numaraları ve başlıkları FDIS içindekilerinden alınmıştır (§2). 
 | 7.1.3 | Infrastructure | Güvenli üretim yapılandırması, sabit bağımlılıklar | NFR-04, NFR-11 | Hafta 1'de uygulandı ve test edildi; CI (Ubuntu/Windows) ve Windows'ta elle kurulum başarılı (Hafta 3) |
 | 7.1.5 | Monitoring and measuring resources | Doğru zaman ölçümü (UTC), test/ölçüm altyapısı | NFR-05, NFR-09 | Hafta 1'de uygulandı ve test edildi |
 | 7.4 | Communication | Uygulama içi bildirimler | FR-31 | Planlandı (Hafta 8) |
-| 7.5.3 | Control of documented information | Erişim kontrolü, işlem geçmişi, belgelerin sürüm kontrolü | FR-01..FR-05, FR-09, FR-14, FR-20 | Hafta 2'de oturum ve rol erişimi, Hafta 3'te kayıt bazlı erişim (FR-14) uygulandı ve test edildi; işlem geçmişi (FR-20) Hafta 4-5 |
+| 7.5.3 | Control of documented information | Erişim kontrolü, işlem geçmişi, belgelerin sürüm kontrolü | FR-01..FR-05, FR-09, FR-14, FR-20 | Hafta 2'de oturum ve rol erişimi, Hafta 3'te kayıt bazlı erişim (FR-14) uygulandı ve test edildi; işlem geçmişi (FR-20) Hafta 4-5'te, geçmiş görünümü (FR-21) Faz 5'te uygulandı ve test edildi |
 | 8.2.1 / 8.2.2 | Customer communication / Determining requirements for products and services | Talep kaydı ve yorumlar | FR-12, FR-17 | Hafta 3'te talep kaydı (FR-12) uygulandı ve test edildi; yorumlar (FR-17) Hafta 4 |
-| 8.5.1 | Control of production and service provision | Kontrollü talep akışı ve durum makinesi | FR-13, FR-15, FR-18, FR-19 | Hafta 3'te listeleme, filtre ve kategori yönetimi (FR-13, FR-15) uygulandı ve test edildi; durum makinesi Hafta 5 |
-| 8.5.2 | Identification and traceability | Talep numarası, işlem geçmişi | FR-12, FR-20, FR-21 | Hafta 3'te talep numarası (FR-12) uygulandı; işlem geçmişi Hafta 4-5 |
+| 8.5.1 | Control of production and service provision | Kontrollü talep akışı ve durum makinesi | FR-13, FR-15, FR-18, FR-19 | Hafta 3'te listeleme, filtre ve kategori yönetimi (FR-13, FR-15) uygulandı ve test edildi; durum makinesi (FR-18, FR-19) Faz 5'te uygulandı ve test edildi |
+| 8.5.2 | Identification and traceability | Talep numarası, işlem geçmişi | FR-12, FR-20, FR-21 | Hafta 3'te talep numarası (FR-12), Hafta 4-5'te işlem geçmişi ve görünümü (FR-20, FR-21) uygulandı ve test edildi |
 | 8.5.6 | Control of changes | Değişiklik kaydı, onay, onaysız uygulama engeli | FR-22..FR-25 | Planlandı (Hafta 6) |
-| 8.6 | Release of products and services | Çözümün talep sahibi onayıyla kapanması | FR-19 | Planlandı (Hafta 5) |
+| 8.6 | Release of products and services | Çözümün talep sahibi onayıyla kapanması | FR-19 | Faz 5'te uygulandı ve test edildi (çözüm açıklaması zorunlu; talep sahibi veya Yönetici kapatır) |
 | 9.1.1 | Monitoring, measurement, analysis and evaluation: General | SLA ölçümü, uyarı | FR-26..FR-30 | Planlandı (Hafta 7-8) |
 | 9.1.2 | Customer satisfaction | 1-5 memnuniyet puanı | FR-32 | Planlandı (Hafta 9) |
 | 9.1.3 | Analysis and evaluation | KPI paneli ve hesap kuralları | FR-33, FR-34 | Planlandı (Hafta 9) |

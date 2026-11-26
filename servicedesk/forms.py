@@ -1,4 +1,4 @@
-"""Formlar: MOD-AUTH (giriş) ve MOD-TICKET (talep, filtre, kategori, yorum, atama, öncelik).
+"""Formlar: MOD-AUTH (giriş) ve MOD-TICKET (talep, filtre, kategori, yorum, atama, öncelik, durum).
 
 Giriş için Django'nun hazır AuthenticationForm sınıfı kullanılır; yalnız Bootstrap
 sınıfları ve erişilebilirlik öznitelikleri eklenir. Talep formları yalnız kullanıcının
@@ -14,6 +14,7 @@ from .models.activity import COMMENT_MAX_LENGTH
 from .models.ticket import TITLE_MAX_LENGTH, TITLE_MIN_LENGTH
 from .services.assignment import agents
 from .services.tickets import TicketFilters, active_categories, all_categories, assignee_choices
+from .services.workflow import RESOLUTION_MAX_LENGTH
 
 LOGIN_ERROR_ID = "giris-hatasi"  # login.html'deki hata kutusunun kimliği
 
@@ -157,3 +158,17 @@ class PriorityForm(StyledForm):
     """Öncelik değişikliği (AK-03, KRR-17)."""
 
     priority = forms.ChoiceField(label="Yeni öncelik", choices=Ticket.Priority.choices)
+
+
+class StatusForm(StyledForm):
+    """Durum geçişi (FR-18, FR-19). Hedef durum gizli alandır; geçişin geçerliliğini servis denetler."""
+
+    target = forms.ChoiceField(choices=Ticket.Status.choices, widget=forms.HiddenInput)
+    resolution = forms.CharField(
+        label="Çözüm açıklaması",
+        required=False,
+        max_length=RESOLUTION_MAX_LENGTH,
+        widget=forms.Textarea(attrs={"rows": 3}),
+        help_text="Çözüldü olarak işaretlerken zorunludur: ne yapıldı, talep sahibi neyi kontrol etmeli?",
+        error_messages={"max_length": f"Çözüm açıklaması en fazla {RESOLUTION_MAX_LENGTH} karakter olabilir."},
+    )

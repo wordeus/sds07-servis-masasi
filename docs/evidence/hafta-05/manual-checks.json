@@ -1,0 +1,37 @@
+{
+  "kind": "manual-and-scripted-checks",
+  "started_at_utc": "2026-11-26T08:29:30+00:00",
+  "finished_at_utc": "2026-11-26T08:30:09+00:00",
+  "environment": {
+    "platform": "Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı)",
+    "note": "TC-CI-01 bu dosyada yok: Hafta 5 commit'inin GitHub Actions sonucu birleştirmeden sonra tools/record_ci_run.sh 5 ile ayrı dosyaya yazılır."
+  },
+  "totals": {
+    "run": 3,
+    "failures": 0,
+    "not_run": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-INST-01",
+      "test": "betik: tools/install_check.ps1 -> install-check-windows-py313.log",
+      "outcome": "PASS",
+      "detail": "Windows 11, Python 3.13.17: temiz kopya ve temiz sanal ortam, requirements-dev.txt (Django 5.2.19), ruff format/check, check, makemigrations --check, migrate (0001-0007), 69 test + coverage, check --deploy. Durum: BAŞARILI.",
+      "started_at_utc": "2026-11-26T08:29:30Z"
+    },
+    {
+      "tc_id": "TC-INS-01",
+      "test": "onay: Hafta 3 ve Hafta 4 incelemeleri (evidence/hafta-03/manual-checks.json, evidence/hafta-04/manual-checks.json)",
+      "outcome": "PASS",
+      "detail": "Burak Nigiz, 26.11.2026: Hafta 3 ve Hafta 4 TC-INS-01 incelemelerini kontrol etti ve onayladı (\"kontrol ettim gayet güzel olmuş\"). Kanıt dosyaları değiştirilmediği için (PRC-05) onay bu kayıtla eklenir.",
+      "started_at_utc": "2026-11-26T08:30:09+00:00"
+    },
+    {
+      "tc_id": "TC-INS-01",
+      "test": "inceleme: Ticket.resolution alanı, migration 0007, services/workflow.py, services/audit.py::history_for, ticket_detail.html",
+      "outcome": "PASS",
+      "detail": "İnceleyen: Claude (AI asistan), 26.11.2026; Burak Nigiz'in onayı BEKLİYOR. User modeline alan eklenmedi. Ticket'a yalnız çözüm açıklaması (serbest metin) eklendi; kişisel veri alanı değildir. İşlem geçmişi görünümü kişinin görünen adını (User modelindeki ad soyad veya kullanıcı adı) gösterir; yeni kişisel veri türü yoktur. Demo ve test verilerinde gerçek kişi verisi yok. Serbest metin alanlarına (açıklama, yorum, çözüm açıklaması) kullanıcının yazdıkları bu incelemenin kapsamı dışındadır (NFR-12).",
+      "started_at_utc": "2026-11-26T08:30:09+00:00"
+    }
+  ]
+}

@@ -2,6 +2,21 @@
 
 Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/) yaklaşımını, sürüm numaraları anlamsal sürümlemeyi izler. Her haftalık paket bir sürümdür.
 
+## [1.0.0] - 2026-11-26 (Faz 5, son teslim)
+
+### Eklendi
+- Durum makinesi: Açık → İşlemde → Çözüldü → Kapandı; tanımsız geçişlerin doğrudan POST dahil reddi (FR-18). Atanmış personel veya Yönetici ilerletir; çözüm açıklaması zorunlu; talep sahibi veya Yönetici kapatır (FR-19). `services/workflow.py`, `TicketStatusView`, migration 0007.
+- İşlem geçmişi görünümü: talep ayrıntısında kronolojik, İstanbul saatiyle, Türkçe etiketli (FR-21); durum geçişleri geçmişe yazılır (FR-20).
+- 7 yeni TC kimlikli Django testi (toplam 69): TC-WF-01..06, TC-ROLE-15; 2 tarayıcı senaryosu (`e2e/week5_status.py`, TC-E2E-17..18); 5 yeni mutasyon (toplam 18).
+- SRS v0.5, SDD v0.4, RISKS v0.5, TEST_PLAN v0.5, INSTALL v0.5, STANDARDS v0.5; Rapor #5; final belgesi ve sunum.
+
+### Değişti
+- AK-01 kapandı: yeniden açma geçişi yok (KRR-19). `CURRENT_WEEK = 5`; rol matrisine ilerletme ve kapatma izinleri.
+- E2E betikleri ortak `run_suite` iskeletini kullanır; Hafta 2 senaryoları modül düzeyinde fonksiyonlara bölündü; en yüksek karmaşıklık 18 → 3 (PLN-06, RSK-07 kapandı).
+
+### Düzeltildi
+- Durum servisinde talep sahipliği kuralını sınayan test eksikti (RSK-33).
+
 ## [0.4.0] - 2026-11-26 (Hafta 4)
 
 ### Eklendi

@@ -1,0 +1,18 @@
+TC-E2E-01: PASS  Giriş sayfası konsol hatasız yüklenir
+TC-E2E-02: PASS  Talep Sahibi girişi; rol rozeti ve kısıtlı menü
+TC-E2E-03: PASS  Talep Sahibi doğrudan adresle kısıtlı sayfalara giremez
+TC-E2E-04: PASS  Destek Personeli destek kuyruğuna girer, yönetim paneline giremez
+TC-E2E-05: PASS  Yönetici iki çalışma alanına da erişir
+TC-E2E-06: PASS  Çıkış yap düğmesi oturumu kapatır
+TC-E2E-07: PASS  360 px genişlikte yatay kaydırma yok
+TC-E2E-08: PASS  Yalnız klavyeyle giriş ve görünür odak
+TC-E2E-09: PASS  Metin ve düğme kontrastı en az 4.5:1
+TC-E2E-10: PASS  Talep Sahibi talep açar; numara ve Açık durumu görünür
+TC-E2E-11: PASS  Talep Sahibi başkasının talebine adres çubuğundan erişemez (404)
+TC-E2E-12: PASS  Destek kuyruğu, liste filtresi, dar ekran düzeni ve durum rozeti kontrastı
+TC-E2E-13: PASS  Yönetici kategori ekler ve pasifleştirir; pasif kategori formda listelenmez
+TC-E2E-14: PASS  Yorumlaşma, üzerine alma ve öncelik değişikliği
+TC-E2E-15: PASS  Yönetici atama yapar; boş yorum erişilebilir biçimde reddedilir
+TC-E2E-16: PASS  Başkasının talebine yorum isteği 404; ayrıntı sayfası 360 px'te taşmaz
+TC-E2E-17: PASS  Talebin tam yaşam döngüsü ve işlem geçmişi
+TC-E2E-18: PASS  Atanmamış personel durum değiştiremez; rozet kontrastı; 360 px geçmiş

@@ -2,19 +2,19 @@
 
 > Bu dosya `tools/build_rtm.py` tarafından gerçek test çıktılarından üretilir; elle düzenlemeyin.
 > Kaynaklar: `docs/traceability/requirements.csv`, `docs/traceability/tests.csv` ve aşağıdaki sonuç dosyaları.
-> Üretim: 26.11.2026 11:06 (Europe/Istanbul) · Aktif hafta: 4
+> Üretim: 26.11.2026 11:33 (Europe/Istanbul) · Aktif hafta: 5
 
 ## Çalıştırma kayıtları
 
 | Kaynak | Tür | Başlangıç (İstanbul) | Ortam | Özet |
 |---|---|---|---|---|
-| `docs/evidence/hafta-04/unit-results.json` | django-unit-integration | 26.11.2026 04:14 | python 3.13.17, django 5.2.19, platform Windows-11-10.0.26300-SP0 | run=62, failures=0, errors=0, skipped=0, successful=True |
-| `docs/evidence/hafta-04/e2e-results.json` | e2e-playwright | 26.11.2026 04:16 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=9, failures=0, errors=0, successful=True |
-| `docs/evidence/hafta-04/e2e-week3-results.json` | e2e-playwright | 26.11.2026 04:16 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=4, failures=0, errors=0, successful=True |
-| `docs/evidence/hafta-04/e2e-week4-results.json` | e2e-playwright | 26.11.2026 04:16 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=3, failures=0, errors=0, successful=True |
-| `docs/evidence/hafta-04/manual-checks.json` | manual-and-scripted-checks | 26.11.2026 04:17 | platform Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı) | run=2, failures=0, not_run=0 |
-| `docs/evidence/hafta-04/ci-github-actions-2026-11-26.json` | github-actions | 26.11.2026 11:04 | platform GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13 | run=1, failures=0, jobs_passed=4, jobs_total=4 |
-| ölçüm | coverage_percent | - | - | 95.04 |
+| `docs/evidence/hafta-05/unit-results.json` | django-unit-integration | 26.11.2026 11:27 | python 3.13.17, django 5.2.19, platform Windows-11-10.0.26300-SP0 | run=69, failures=0, errors=0, skipped=0, successful=True |
+| `docs/evidence/hafta-05/e2e-results.json` | e2e-playwright | 26.11.2026 11:25 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=9, failures=0, errors=0, successful=True |
+| `docs/evidence/hafta-05/e2e-week3-results.json` | e2e-playwright | 26.11.2026 11:26 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=4, failures=0, errors=0, successful=True |
+| `docs/evidence/hafta-05/e2e-week4-results.json` | e2e-playwright | 26.11.2026 11:26 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=3, failures=0, errors=0, successful=True |
+| `docs/evidence/hafta-05/e2e-week5-results.json` | e2e-playwright | 26.11.2026 11:26 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=2, failures=0, errors=0, successful=True |
+| `docs/evidence/hafta-05/manual-checks.json` | manual-and-scripted-checks | 26.11.2026 11:29 | platform Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı) | run=3, failures=0, not_run=0 |
+| ölçüm | coverage_percent | - | - | 95.03 |
 | ölçüm | ruff_findings | - | - | 0 |
 
 ## Gereksinim → mimari bileşen → test → gerçek sonuç
@@ -34,14 +34,14 @@
 | FR-11 | FR | Geliştirme ortamı için demo kullanıcı komutu | Düşük | PT-ÇB | MOD-ROLE | Test | TC-SEED-01 (PASS), TC-SEED-02 (PASS) | 2 | PASS |
 | FR-12 | FR | Talep oluşturma (numara ve Open durumu) | Çok Yüksek | PT-Ü2 | MOD-TICKET | Test | TC-TKT-01 (PASS), TC-TKT-02 (PASS), TC-TKT-03 (PASS), TC-TKT-08 (PASS), TC-E2E-10 (PASS) | 3 | PASS |
 | FR-13 | FR | Talep listeleme ve filtreleme | Yüksek | PT-Ü2 | MOD-TICKET | Test | TC-TKT-04 (PASS), TC-TKT-05 (PASS), TC-TKT-06 (PASS), TC-E2E-10 (PASS), TC-E2E-12 (PASS) | 3 | PASS |
-| FR-14 | FR | Kayıt bazlı erişim: talep sahibi yalnız kendi kayıtları | Çok Yüksek | PT-YK | MOD-TICKET; MOD-ROLE | Test | TC-TKT-04 (PASS), TC-TKT-05 (PASS), TC-TKT-07 (PASS), TC-TKT-08 (PASS), TC-E2E-11 (PASS), TC-CMT-03 (PASS), TC-E2E-16 (PASS) | 3 | PASS |
+| FR-14 | FR | Kayıt bazlı erişim: talep sahibi yalnız kendi kayıtları | Çok Yüksek | PT-YK | MOD-TICKET; MOD-ROLE | Test | TC-TKT-04 (PASS), TC-TKT-05 (PASS), TC-TKT-07 (PASS), TC-TKT-08 (PASS), TC-E2E-11 (PASS), TC-CMT-03 (PASS), TC-E2E-16 (PASS), TC-WF-04 (PASS), TC-WF-06 (PASS) | 3 | PASS |
 | FR-15 | FR | Kategori yönetimi | Orta | PT-Ü2 | MOD-TICKET | Test | TC-TKT-02 (PASS), TC-CAT-01 (PASS), TC-CAT-02 (PASS), TC-CAT-03 (PASS), TC-E2E-13 (PASS) | 3 | PASS |
 | FR-16 | FR | Talep atama ve üzerine alma | Yüksek | PT-Ü2 | MOD-TICKET | Test | TC-ASN-01 (PASS), TC-ASN-02 (PASS), TC-ASN-03 (PASS), TC-ASN-05 (PASS), TC-ROLE-14 (PASS), TC-E2E-14 (PASS), TC-E2E-15 (PASS) | 4 | PASS |
 | FR-17 | FR | Talebe yorum ekleme | Yüksek | PT-Ü2 | MOD-TICKET | Test | TC-CMT-01 (PASS), TC-CMT-02 (PASS), TC-CMT-03 (PASS), TC-CMT-04 (PASS), TC-ROLE-14 (PASS), TC-E2E-14 (PASS), TC-E2E-15 (PASS) | 4 | PASS |
-| FR-18 | FR | Incident durum makinesi (Open → In Progress → Resolved → Closed) | Çok Yüksek | PT-Ü3 | MOD-WF | Test | - | 5 | PLANLANDI (Hafta 5) |
-| FR-19 | FR | Durum geçiş yetkileri ve zorunlu çözüm açıklaması | Çok Yüksek | PT-Ü3; PT-YK | MOD-WF | Test | - | 5 | PLANLANDI (Hafta 5) |
-| FR-20 | FR | Değiştirilemez işlem geçmişi kaydı | Çok Yüksek | PT-Ü9 | MOD-AUDIT | Test | TC-AUD-01 (PASS), TC-AUD-02 (PASS), TC-AUD-03 (PASS), TC-ASN-04 (PASS) | 4-5 | PASS |
-| FR-21 | FR | İşlem geçmişinin görüntülenmesi | Yüksek | PT-Ü9; PT-YK | MOD-AUDIT | Test | - | 5 | PLANLANDI (Hafta 5) |
+| FR-18 | FR | Incident durum makinesi (Open → In Progress → Resolved → Closed) | Çok Yüksek | PT-Ü3 | MOD-WF | Test | TC-WF-01 (PASS), TC-WF-05 (PASS), TC-E2E-17 (PASS) | 5 | PASS |
+| FR-19 | FR | Durum geçiş yetkileri ve zorunlu çözüm açıklaması | Çok Yüksek | PT-Ü3; PT-YK | MOD-WF | Test | TC-WF-01 (PASS), TC-WF-02 (PASS), TC-WF-03 (PASS), TC-WF-04 (PASS), TC-ROLE-15 (PASS), TC-E2E-17 (PASS), TC-E2E-18 (PASS) | 5 | PASS |
+| FR-20 | FR | Değiştirilemez işlem geçmişi kaydı | Çok Yüksek | PT-Ü9 | MOD-AUDIT | Test | TC-AUD-01 (PASS), TC-AUD-02 (PASS), TC-AUD-03 (PASS), TC-ASN-04 (PASS), TC-WF-01 (PASS) | 4-5 | PASS |
+| FR-21 | FR | İşlem geçmişinin görüntülenmesi | Yüksek | PT-Ü9; PT-YK | MOD-AUDIT | Test | TC-WF-06 (PASS), TC-E2E-17 (PASS), TC-E2E-18 (PASS) | 5 | PASS |
 | FR-22 | FR | Değişiklik kaydı (gerekçe; etki; risk; geri dönüş planı) | Yüksek | PT-Ü4 | MOD-CHANGE | Test | - | kapsam dışı | KAPSAM DIŞI (gelecek çalışma) |
 | FR-23 | FR | Yönetici onayı/reddi ve görevler ayrılığı | Çok Yüksek | PT-Ü4 | MOD-CHANGE | Test | - | kapsam dışı | KAPSAM DIŞI (gelecek çalışma) |
 | FR-24 | FR | Onaysız değişikliğin uygulanmasının engellenmesi | Çok Yüksek | PT-YK; PT-Ü4 | MOD-CHANGE | Test | - | kapsam dışı | KAPSAM DIŞI (gelecek çalışma) |
@@ -64,11 +64,11 @@
 | NFR-04 | NFR | Üretim yapılandırmasının güvenli başlaması | Çok Yüksek | DJ-SEC | MOD-CFG | Test | TC-CFG-02 (PASS), TC-CFG-03 (PASS), TC-CFG-05 (PASS) | 1 | PASS |
 | NFR-05 | NFR | Zamanın UTC saklanması ve Europe/Istanbul gösterimi | Çok Yüksek | PT-SLA | MOD-CFG | Test | TC-CFG-01 (PASS), TC-TKT-08 (PASS) | 1 | PASS |
 | NFR-06 | NFR | Türkçe arayüz | Yüksek | EKİP | MOD-UI | Test | TC-CFG-04 (PASS), TC-E2E-01 (PASS) | 2 | PASS |
-| NFR-07 | NFR | 360 px genişlikte yatay kaydırmasız kullanım | Orta | EKİP | MOD-UI | Test | TC-E2E-07 (PASS), TC-E2E-12 (PASS), TC-E2E-16 (PASS) | 2 | PASS |
-| NFR-08 | NFR | Klavye erişimi; görünür odak ve 4.5:1 kontrast | Orta | EKİP | MOD-UI | Test | TC-E2E-08 (PASS), TC-E2E-09 (PASS), TC-E2E-12 (PASS), TC-CMT-02 (PASS), TC-E2E-15 (PASS) | 2 | PASS |
+| NFR-07 | NFR | 360 px genişlikte yatay kaydırmasız kullanım | Orta | EKİP | MOD-UI | Test | TC-E2E-07 (PASS), TC-E2E-12 (PASS), TC-E2E-16 (PASS), TC-E2E-18 (PASS) | 2 | PASS |
+| NFR-08 | NFR | Klavye erişimi; görünür odak ve 4.5:1 kontrast | Orta | EKİP | MOD-UI | Test | TC-E2E-08 (PASS), TC-E2E-09 (PASS), TC-E2E-12 (PASS), TC-CMT-02 (PASS), TC-E2E-15 (PASS), TC-WF-02 (PASS), TC-E2E-18 (PASS) | 2 | PASS |
 | NFR-09 | NFR | Otomatik test; ≥ %80 kapsam ve makinece okunur sonuç | Yüksek | PT-KNT; PT-ÇB | MOD-CFG | Analiz; Test | TC-QA-01 (PASS), TC-QA-03 (PASS), TC-QA-04 (PASS) | 1 | PASS |
 | NFR-10 | NFR | Statik analizde sıfır bulgu | Orta | PT-ÇB | MOD-CFG | Analiz | TC-QA-02 (PASS) | 1 | PASS |
-| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (PASS) | 1 | PASS |
+| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (NOT RUN) | 1 | KISMİ (2/3 PASS; diğerleri NOT RUN) |
 | NFR-12 | NFR | Kişisel veri asgarisi | Yüksek | EKİP | MOD-AUTH | İnceleme | TC-INS-01 (PASS) | 1 | PASS |
 | NFR-13 | NFR | Talep listesi yanıt süresi (p95 < 500 ms; 1.000 kayıt) | Orta | EKİP | MOD-TICKET | Test | - | kapsam dışı | KAPSAM DIŞI (gelecek çalışma) |
 | NFR-14 | NFR | Yetkisiz erişim denemelerinin günlüğe yazılması | Orta | EKİP | MOD-ROLE | Test | - | kapsam dışı | KAPSAM DIŞI (gelecek çalışma) |
@@ -80,8 +80,8 @@
 | Durum | Gereksinim sayısı |
 |---|---|
 | KAPSAM DIŞI | 19 |
-| PASS | 31 |
-| PLANLANDI | 3 |
+| KISMİ | 1 |
+| PASS | 33 |
 
 ## Standart eşlemesi (bilgi amaçlı)
 

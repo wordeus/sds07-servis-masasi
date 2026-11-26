@@ -1,0 +1,41 @@
+{
+  "kind": "e2e-playwright",
+  "started_at_utc": "2026-11-26T08:26:42+00:00",
+  "finished_at_utc": "2026-11-26T08:27:00+00:00",
+  "environment": {
+    "browser": "chromium 159.0.8154.6",
+    "playwright": "1.65.2",
+    "python": "3.13.17",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "base_url": "http://127.0.0.1:8765"
+  },
+  "totals": {
+    "run": 2,
+    "failures": 0,
+    "errors": 0,
+    "successful": true
+  },
+  "results": [
+    {
+      "tc_id": "TC-E2E-17",
+      "test": "e2e/week5_status.py::TC-E2E-17",
+      "title": "Talebin tam yaşam döngüsü ve işlem geçmişi",
+      "outcome": "PASS",
+      "detail": "Açık → İşlemde → Çözüldü (boş açıklama reddedildi) → Kapandı; geçmişte 5 kayıt sırayla",
+      "screenshots": [
+        "17-cozuldu.png",
+        "17-kapandi-gecmis.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-18",
+      "test": "e2e/week5_status.py::TC-E2E-18",
+      "title": "Atanmamış personel durum değiştiremez; rozet kontrastı; 360 px geçmiş",
+      "outcome": "PASS",
+      "detail": "atanmamış personel: düğme yok, POST /talepler/7/durum/ → 403; rozet kontrastı: OPEN 6.41:1, IN_PROGRESS 5.99:1, RESOLVED 5.42:1, CLOSED 5.87:1; geçmişli ayrıntı 360 px: sayfa 360/360 px, iç taşma yok",
+      "screenshots": [
+        "18-gecmis-mobil-360.png"
+      ]
+    }
+  ]
+}

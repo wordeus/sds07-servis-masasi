@@ -1,4 +1,4 @@
-"""MOD-TICKET işlem görünümleri: yorum, üzerine alma, atama, öncelik (Hafta 4).
+"""MOD-TICKET işlem görünümleri: yorum, üzerine alma, atama, öncelik (Hafta 4), durum (Hafta 5).
 
 Ortak kurallar (TicketActionMixin):
 * Yalnız POST kabul edilir (CSRF belirteci zorunlu); GET 405 döner.
@@ -15,11 +15,19 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 
-from ..forms import AssignForm, CommentForm, PriorityForm
-from ..roles import PERM_ADD_COMMENT, PERM_ASSIGN_TICKET, PERM_CHANGE_PRIORITY, PERM_TAKE_TICKET
+from ..forms import AssignForm, CommentForm, PriorityForm, StatusForm
+from ..roles import (
+    PERM_ADD_COMMENT,
+    PERM_ASSIGN_TICKET,
+    PERM_CHANGE_PRIORITY,
+    PERM_CLOSE_TICKET,
+    PERM_PROGRESS_TICKET,
+    PERM_TAKE_TICKET,
+)
 from ..services.assignment import assign_ticket, change_priority, display_name, take_ticket
 from ..services.comments import add_comment
 from ..services.tickets import visible_tickets_for
+from ..services.workflow import change_status
 from .tickets import add_validation_errors, ticket_detail_context
 
 
@@ -102,3 +110,23 @@ class TicketPriorityView(PermissionRequiredMixin, TicketActionMixin, View):
     def perform(self, data):
         ticket = change_priority(self.ticket, self.request.user, data["priority"])
         return f"Öncelik {ticket.get_priority_display()} olarak değiştirildi."
+
+
+class TicketStatusView(PermissionRequiredMixin, TicketActionMixin, View):
+    """Talebi bir sonraki duruma taşır (FR-18, FR-19).
+
+    Rol düzeyinde ilerletme veya kapatma izinlerinden biri gerekir (403); hangi geçişin kime
+    açık olduğunu (atanma, talep sahipliği) servis denetler ve yetkisiz geçişte 403 döner.
+    """
+
+    permission_required = ()
+    form_class = StatusForm
+    form_context_name = "status_form"
+
+    def has_permission(self):
+        user = self.request.user
+        return user.has_perm(PERM_PROGRESS_TICKET) or user.has_perm(PERM_CLOSE_TICKET)
+
+    def perform(self, data):
+        ticket = change_status(self.ticket, self.request.user, data["target"], resolution=data["resolution"])
+        return f"{ticket.number} talebinin durumu {ticket.get_status_display()} olarak değiştirildi."

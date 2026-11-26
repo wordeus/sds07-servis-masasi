@@ -1,0 +1,65 @@
+{
+  "kind": "e2e-playwright",
+  "started_at_utc": "2026-11-26T08:26:03+00:00",
+  "finished_at_utc": "2026-11-26T08:26:21+00:00",
+  "environment": {
+    "browser": "chromium 159.0.8154.6",
+    "playwright": "1.65.2",
+    "python": "3.13.17",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "base_url": "http://127.0.0.1:8765"
+  },
+  "totals": {
+    "run": 4,
+    "failures": 0,
+    "errors": 0,
+    "successful": true
+  },
+  "results": [
+    {
+      "tc_id": "TC-E2E-10",
+      "test": "e2e/week3_tickets.py::TC-E2E-10",
+      "title": "Talep Sahibi talep açar; numara ve Açık durumu görünür",
+      "outcome": "PASS",
+      "detail": "4 karakterden kısa başlık reddedildi; INC-000001 oluşturuldu; durum Açık; listede görünüyor",
+      "screenshots": [
+        "10-yeni-talep-hata.png",
+        "10-talep-ayrinti.png",
+        "10-taleplerim-liste.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-11",
+      "test": "e2e/week3_tickets.py::TC-E2E-11",
+      "title": "Talep Sahibi başkasının talebine adres çubuğundan erişemez (404)",
+      "outcome": "PASS",
+      "detail": "/talepler/2/ → 404; listede yok",
+      "screenshots": [
+        "11-baskasinin-talebi-404.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-12",
+      "test": "e2e/week3_tickets.py::TC-E2E-12",
+      "title": "Destek kuyruğu, liste filtresi, dar ekran düzeni ve durum rozeti kontrastı",
+      "outcome": "PASS",
+      "detail": "kuyrukta ve P2+Açık filtresinde INC-000001; Açık rozeti 6.41:1; liste 360 px: sayfa 360/360 px, iç taşma yok; ayrıntı 360 px: sayfa 360/360 px, iç taşma yok",
+      "screenshots": [
+        "12-destek-kuyrugu.png",
+        "12-liste-filtre.png",
+        "12-liste-mobil-360.png",
+        "12-ayrinti-mobil-360.png"
+      ]
+    },
+    {
+      "tc_id": "TC-E2E-13",
+      "test": "e2e/week3_tickets.py::TC-E2E-13",
+      "title": "Yönetici kategori ekler ve pasifleştirir; pasif kategori formda listelenmez",
+      "outcome": "PASS",
+      "detail": "kategori eklendi ve formda göründü; pasifleştirilince formdan kalktı",
+      "screenshots": [
+        "13-kategoriler.png"
+      ]
+    }
+  ]
+}
