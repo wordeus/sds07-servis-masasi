@@ -1,5 +1,9 @@
 # SDS-07 Servis Masası
 
+[![CI](https://github.com/wordeus/sds07-servis-masasi/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wordeus/sds07-servis-masasi/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/wordeus/sds07-servis-masasi?sort=date&label=son%20teslim)](https://github.com/wordeus/sds07-servis-masasi/releases/latest)
+![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue) ![Django](https://img.shields.io/badge/django-5.2%20LTS-0C4B33)
+
 ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. İstanbul Kültür Üniversitesi "Software Development with Standards" dersi kapsamında Burak Nigiz (2100002062) tarafından geliştirilmektedir (tek kişilik proje).
 
 Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: Open → In Progress → Resolved → Closed. Proje beş fazda tamamlandı; **Faz 5 bitiş fazıdır**. Final belgesi ve sunum: [docs/final/](docs/final/). Her faz bir paket, bir ilerleme raporu ve bir GitHub etiketiyle (`hafta-N`) teslim edilir.
@@ -8,8 +12,8 @@ Roller: **Talep Sahibi**, **Destek Personeli**, **Yönetici**. Talep akışı: O
 
 | Faz | Kapsam | Son teslim | Durum | Etiket ve Release | Rapor |
 |---|---|---|---|---|---|
-| 1 | Kapsam, gereksinimler, standartlar, kurulum ve doğrulama altyapısı | 16.10.2026 | Tamamlandı | [`hafta-1`](https://github.com/wordeus/sds07-servis-masasi/tree/hafta-1) | [Rapor #1](docs/reports/Rapor-01_Hafta-1.docx) |
-| 2 | Giriş/çıkış, roller, yetkilendirme, arayüz, tarayıcı testleri | 30.10.2026 | Tamamlandı | [`hafta-2`](https://github.com/wordeus/sds07-servis-masasi/tree/hafta-2) | [Rapor #2](docs/reports/Rapor-02_Hafta-2.docx) |
+| 1 | Kapsam, gereksinimler, standartlar, kurulum ve doğrulama altyapısı | 16.10.2026 | Tamamlandı | [`hafta-1`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-1) | [Rapor #1](docs/reports/Rapor-01_Hafta-1.docx) |
+| 2 | Giriş/çıkış, roller, yetkilendirme, arayüz, tarayıcı testleri | 30.10.2026 | Tamamlandı | [`hafta-2`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-2) | [Rapor #2](docs/reports/Rapor-02_Hafta-2.docx) |
 | 3 | Talep oluşturma ve listeleme, kayıt bazlı erişim, kategoriler, modüler mimari | 13.11.2026 | Tamamlandı | [`hafta-3`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-3) | [Rapor #3](docs/reports/Rapor-03_Hafta-3.docx) |
 | 4 | Atama ve üzerine alma, yorumlar, öncelik değişikliği, işlem geçmişi | 27.11.2026 | Tamamlandı | [`hafta-4`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-4) | [Rapor #4](docs/reports/Rapor-04_Hafta-4.docx) |
 | 5 (bitiş) | Durum geçişleri ve işlem geçmişi görünümü; final belgesi, sunum ve demo | 11.12.2026 | Tamamlandı | [`hafta-5`](https://github.com/wordeus/sds07-servis-masasi/releases/tag/hafta-5) | [Rapor #5](docs/reports/Rapor-05_Hafta-5.docx) |
@@ -82,7 +86,8 @@ Linux adımları, demo kullanıcılar ve tarayıcı testleri: [docs/INSTALL.md](
 
 1. Testler ve kapsam: `coverage run manage.py test -v 2`, ardından `coverage report`
 2. Statik analiz: `ruff format --check .` ve `ruff check .`
-3. Windows'ta tarayıcı testleri: `powershell -ExecutionPolicy Bypass -File toolsun_e2e.ps1`; temiz kurulum denetimi: `powershell -ExecutionPolicy Bypass -File tools\install_check.ps1 3.13 windows-py313 reports\install-check-windows-py313.log`
+3. Windows'ta tarayıcı testleri: `powershell -ExecutionPolicy Bypass -File tools
+un_e2e.ps1`; temiz kurulum denetimi: `powershell -ExecutionPolicy Bypass -File tools\install_check.ps1 3.13 windows-py313 reports\install-check-windows-py313.log`
 4. RTM ve test sonuç tablosu: `python tools/build_rtm.py --week N --strict ...` (tam komut: [TEST_PLAN §6](docs/TEST_PLAN.md))
 
 Çıktıyı dosyaya yönlendirirken Windows'ta önce `$env:PYTHONUTF8 = "1"` çalıştırın (RSK-25).
