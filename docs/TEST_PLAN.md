@@ -3,8 +3,8 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-STP |
-| Sürüm | 0.3.1 (Hafta 3, teslim öncesi güncelleme) |
-| Tarih | 26.11.2026 |
+| Sürüm | 0.3 (Hafta 3) |
+| Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili standart | IEEE 1012-2024 (V&V), ISO/IEC/IEEE 12207:2026 6.4.9 Verification ve 6.4.11 Validation |
 

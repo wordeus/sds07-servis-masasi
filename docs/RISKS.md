@@ -3,8 +3,8 @@
 | Alan | Değer |
 |---|---|
 | Doküman kimliği | SDS07-RSK |
-| Sürüm | 0.3.1 (Hafta 3, teslim öncesi güncelleme) |
-| Tarih | 26.11.2026 |
+| Sürüm | 0.3 (Hafta 3) |
+| Tarih | 30.10.2026 |
 | Hazırlayan | Burak Nigiz (2100002062) |
 | İlişkili süreç | ISO/IEC/IEEE 12207:2026 6.3.4 Risk management; ISO 9001:2026 6.1 |
 
@@ -19,7 +19,6 @@ Not: Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırland
 | 0.1 | 30.10.2026 | Hafta 1: RSK-01..RSK-07 yaşanan sorunlar; RSK-08..RSK-16 riskler |
 | 0.2 | 30.10.2026 | Hafta 2: RSK-17..RSK-20 eklendi; RSK-07 Hafta 2 ölçümüyle güncellendi |
 | 0.3 | 30.10.2026 | Hafta 3: RSK-21..RSK-23 eklendi; RSK-07 kısmen kapandı; RSK-08 için Hafta 3 önlemleri yazıldı; teslim öncesi kontrolde RSK-24 ve RSK-25 eklendi, RSK-14 güncellendi |
-| 0.3.1 | 26.11.2026 | Hafta 3 teslim öncesi: ilk Windows koşusunda RSK-26 ve RSK-27 bulundu ve kapandı; RSK-14 ve RSK-25 Windows sonuçlarıyla güncellendi |
 
 ## 1. Hafta 1'de yaşanan sorunlar
 

@@ -1,6 +1,6 @@
 # PROJECT_STATE: SDS-07 Servis Masası (Hafta 3 paketi)
 
-**Son güncelleme:** 26.11.2026 (Europe/Istanbul). **Hafta 3: TAMAMLANDI** (26.11.2026'da CI ve Windows sonuçları eklendi, RSK-26 düzeltildi). **Sıradaki: Hafta 4**: atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü.
+**Son güncelleme:** 30.10.2026 (Europe/Istanbul). **Hafta 3: TAMAMLANDI**. **Sıradaki: Hafta 4**: atama ve üzerine alma, yorumlar, işlem geçmişinin ilk sürümü.
 
 > Hafta 1-3 paketleri geç kayıt nedeniyle 30.10.2026'da birlikte hazırlandı. Kanıt dosyalarındaki tarihler gerçek koşu tarihleridir; geriye tarih atılmadı. Hafta 3 kodu 30.10.2026 sabahı (İstanbul saatiyle yaklaşık 09:15-09:40) Hafta 2 paketinin üzerine yazıldı; bu paketteki bütün test ve ölçümler bu kod üzerinde koşuldu.
 
