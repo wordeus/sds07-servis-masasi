@@ -1,0 +1,308 @@
+{
+  "core": {
+    "title": "SDS-07 Dönem Sonu Proje Teslim ve Standart Uyumluluk Dokümanı",
+    "creator": "Burak Nigiz (2100002062)",
+    "description": "SDS-07 IT Servis Masası ve Süreç Takip Sistemi - dönem sonu teslim dokümanı v1.0"
+  },
+  "paragraphs": {
+    "[Projenin Tam Adını Yazınız]": "SDS-07: ISO 9001 İlkelerini Destekleyen IT Servis Masası ve Süreç Takip Sistemi",
+    "[Grup #]": "Tek kişilik proje: Burak Nigiz (2100002062)",
+    "[Ör: IEEE 29148, IEEE 1016, ISO/IEC 25010, ISO/IEC 12207, IEC 62304 / ISO 27001 / WCAG 2.1]": "ISO 9001:2026 (alan standardı), ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009, ISO/IEC 25010:2023, IEEE 1012-2024",
+    "[Repo URL - Public veya Erişim İzni Verilmiş]": "https://github.com/wordeus/sds07-servis-masasi (herkese açık; teslim sürümü: hafta-5 etiketi ve Release)",
+    "[Demo / Video URL]": "Canlı demo, sunumda yerel kurulumla yapılır (§5.2; demo kullanıcıları seed_demo_users). [Demo videosu bağlantısı: varsa ekleyin]",
+    "[Projenin çözdüğü endüstriyel/akademik problemi, hedef kullanıcı kitlesini ve sistemin sınırlarını (in-scope / out-of-scope) detaylıca açıklayınız.]": [
+      "Problem: Kurum içi BT destek talepleri çoğu zaman e-posta veya telefonla gelir; kimin hangi talebi üstlendiği, talebin hangi aşamada olduğu ve kimin neyi ne zaman değiştirdiği izlenemez. Bu durum ISO 9001'in müşteri odaklılık, süreç yaklaşımı, kanıta dayalı karar verme ve izlenebilirlik ilkeleriyle bağdaşmaz.",
+      "Amaç: SDS-07, destek taleplerini kayıt altına alan, rollere göre yetkilendiren, Açık → İşlemde → Çözüldü → Kapandı akışıyla yöneten ve her işlemi değiştirilemez biçimde kaydeden bir web uygulamasıdır. Hedef kullanıcılar Talep Sahibi (kurum çalışanı), Destek Personeli ve Yönetici rolleridir; kullanıcı ve rol yönetimi sistem yöneticisi tarafından yapılır.",
+      "Kapsam içi (teslim edilen): giriş/çıkış ve oturum güvenliği; üç rol ve sunucu tarafı yetkilendirme; talep oluşturma, filtreli ve sayfalı listeleme; kayıt bazlı erişim (talep sahibi yalnız kendi taleplerini görür, başkasının talebine 404); kategori yönetimi; talebi üzerine alma ve atama; yorumlar; öncelik değişikliği; durum makinesi ve geçiş koşulları; değiştirilemez işlem geçmişi ve görünümü.",
+      "Kapsam dışı: e-posta/SMS bildirimi, REST API, SPA, JWT, mikroservis, dizin hizmeti entegrasyonu, varlık/CMDB yönetimi ve üretim ortamına dağıtım. Ayrıca proje takvimi Faz 5'te bittiği için (karar KRR-18) değişiklik yönetimi, SLA ve eskalasyon, bildirim kutusu, memnuniyet anketi, KPI paneli, uygunsuzluk ve düzeltici faaliyet modülleri ile performans ve Firefox uyumu gelecek çalışma olarak bırakılmıştır. Bu 19 gereksinim SRS'te korunur ve RTM'de \"KAPSAM DIŞI (gelecek çalışma)\" olarak görünür.",
+      "Önemli sınır: Yazılım ISO 9001 belgelendirmesi sağlamaz; kuruluşun kalite yönetim sistemi uygulamalarını destekleyen bir araçtır."
+    ],
+    "[Projede uygulanan temel standartları, ISO/IEC 12207 yaşam döngüsü süreçleriyle nasıl ilişkilendirildiğini ve projenin ölçeğine göre hangi maddelerin uyarlandığını (tailoring) gerekçeleriyle yazınız.]": [
+      "Standartlar ve rolleri: ISO 9001:2026 alan standardıdır (ürünün desteklediği kalite yönetimi gereklilikleri, §4.3). ISO/IEC/IEEE 12207:2026 yaşam döngüsü süreçlerini, ISO/IEC/IEEE 29148:2018 gereksinim belirtimini (SRS), IEEE 1016-2009 tasarım görünümlerini (SDD), ISO/IEC 25010:2023 ürün kalitesi ölçümlerini, IEEE 1012-2024 doğrulama ve geçerleme etkinliklerini yönlendirir. Baskıların resmî kaynaklardan doğrulanma yöntemi docs/STANDARDS.md belgesindedir.",
+      "12207 süreç eşlemesi: 6.4.2-6.4.3 paydaş ve sistem gereksinimleri → SRS (kullanıcı hikâyeleri, iş kuralları, FR/NFR, kabul kriterleri); 6.4.4 mimari tanım → SDD (bağlam, bileşim, bilgi, durum ve etkileşim görünümleri); 6.4.7 gerçekleştirme → beş fazlık artımlı geliştirme; 6.4.9 doğrulama → birim, entegrasyon, mimari kural testleri, statik analiz ve mutasyon denetimi; 6.4.11 geçerleme → gerçek tarayıcıda rol senaryoları (E2E); 6.3.4 risk yönetimi → RISKS.md (34 kayıt); 6.3.5 konfigürasyon yönetimi → Git, sabit bağımlılıklar, CI, etiketler; 6.3.7 ölçme → QUALITY_METRICS.md; 6.3.8 kalite güvence → tamamlanma tanımı ve PR kontrol listesi.",
+      "Uyarlama (tailoring): Tedarik ve sözleşme süreçleri (6.1.1, 6.1.2), portföy ve insan kaynakları yönetimi kapsam dışıdır (akademik, tek kişilik proje). Geçiş, işletim ve bakım süreçleri sınırlıdır (üretim ortamı yok; kurulum kılavuzu ve demo). Konfigürasyon yönetimi hafifletilmiştir (Git + sabit bağımlılık + CI; ayrı kontrol kurulu yok). Kalite güvencede bağımsız inceleme yapılamadığı için (RSK-03) otomatik kapılar kullanılmıştır: testler, ruff, check --deploy, RTM --strict ve mutasyon denetimi. Doğrulama ve geçerleme ise her fazda tam uygulanmıştır."
+    ],
+    "[Kullanıcı profillerini (aktörleri), temel kullanım senaryolarını (Use Cases / User Stories) ve işletme kurallarını tanımlayınız.]": [
+      "Aktörler: Talep Sahibi (kurum çalışanı; talep açar, kendi taleplerini izler, yorum yazar, çözülen talebi onaylayıp kapatır), Destek Personeli (atanmamış talebi üzerine alır, yorumlar, önceliği değiştirir, kendisine atanmış talebi İşlemde ve Çözüldü durumuna taşır), Yönetici (talebi Destek Personeline atar, tüm talepleri ilerletir ve kapatır, kategorileri yönetir) ve sistem yöneticisi (kullanıcı oluşturur, rol atar; yönetim sitesine erişen tek hesap türü).",
+      "Temel kullanıcı hikâyeleri (teslim kapsamı): US-01 hesapla güvenli giriş; US-02 rol atama; US-03 kullanıcının rolünü ve yetkilerini görmesi; US-04 kategori ve öncelik seçerek talep açma, yalnız kendi taleplerini görme; US-05 destek personelinin talebi üzerine alması, yorumlaması ve çözmesi; US-12 denetçinin kimin neyi ne zaman değiştirdiğini görmesi. US-06..US-11 (değişiklik, SLA, anket, KPI, DÖF) gelecek çalışmadır.",
+      "İşletme kuralları (seçme): BR-01 talep sahibi yalnız kendi kayıtlarına erişir; BR-02 yetki sunucuda denetlenir, düğmeyi gizlemek yetkilendirme sayılmaz; BR-06 zaman damgaları UTC saklanır, İstanbul saatiyle gösterilir; BR-08 her işlem aktör, UTC zaman, eski ve yeni değerle kaydedilir ve değiştirilemez; BR-11 kapanmış talebe yorum eklenemez. Rol-yetki matrisi koddan üretilir (servicedesk/roles.py) ve her migrate sonrasında veritabanındaki gruplara uygulanır."
+    ],
+    "[Gereksinimleri IEEE 29148 kriterlerine uygun (tek anlamlı, ölçülebilir, test edilebilir) biçimde tanımlayınız.]": [
+      "SRS 37 fonksiyonel (FR-01..FR-37) ve 16 fonksiyonel olmayan (NFR-01..NFR-16) gereksinim içerir. Her gereksinim kimlikli, öncelikli, kaynağı belirtilmiş ve doğrulama yöntemi (test, inceleme, analiz) tanımlıdır; kimlikler değişmez, iptal edilen gereksinim silinmez. Teslim kapsamındaki 34 gereksinimin her biri için SRS §7.1'de ölçülebilir kabul kriteri ve bağlı TC kimlikleri vardır.",
+      "29148 kalite kriterleri SRS §9'da denetlenmiştir: tek anlamlılık (ör. \"başkasının talebine erişim 404 döner ve yanıt var olmayan numarayla aynıdır\"), ölçülebilirlik (ör. \"üretim kodu kapsamı en az %80\", \"metin kontrastı en az 4,5:1\", \"sayfa başına 25 kayıt\"), test edilebilirlik (her kabul kriteri en az bir otomatik teste bağlı) ve tekillik.",
+      "Örnek FR: \"FR-18 Sistem talep durumunun yalnız Open → In Progress → Resolved → Closed sırasıyla ilerlemesine izin vermeli; tanımsız geçiş isteklerini (doğrudan POST dahil) sunucuda reddetmelidir.\" Örnek NFR: \"NFR-09 Üretim kodu satır+dal kapsamı en az %80 olmalıdır.\" Gereksinimlerin tamamı ve gerçek sonuçları aşağıdaki RTM tablosunda ve docs/RTM.md dosyasındadır."
+    ],
+    "[Sistemin dış aktörler, donanımlar ve üçüncü parti servislerle olan sınırlarını ve veri alışverişini gösteren diyagramı buraya ekleyiniz.]": [
+      "Sistem tek bir Django 5.2 LTS uygulamasıdır. Kullanıcılar tarayıcıdan sunucu tarafında üretilen sayfalara (Django Templates, Bootstrap 5.3.8) erişir; veriler SQLite veritabanında tutulur. Dış servis, ayrı API veya üçüncü parti kimlik sağlayıcı yoktur; Bootstrap ve yazı tipi yerel dosyadır. GitHub Actions yalnız geliştirme sürecinde (CI) kullanılır.",
+      {
+        "image": "docs/diagrams/context.png",
+        "alt": "Bağlam diyagramı",
+        "width_in": 6.0,
+        "caption": "Şekil 1. Bağlam görünümü (SDD §3)."
+      }
+    ],
+    "[Katmanlı mimari yapıyı, alt sistemleri, sınıf/modül diyagramlarını ve modüller arası arayüz sözleşmelerini (API/Interface) açıklayınız.]": [
+      "Uygulama üç katmandan oluşur ve bağımlılık tek yönlüdür: views → services → models. Görünümler HTTP isteğini ve yetkiyi ele alır, iş kuralını servis fonksiyonuna bırakır; servisler HTTP katmanını bilmez; modeller üst katmanları içe aktarmaz. Bu kural yalnız belgede kalmaz: kaynak kod her test koşusunda Python AST ile denetlenir (TC-ARCH-01, TC-ARCH-02).",
+      "Modüller ve arayüzler: services/tickets.py (visible_tickets_for: kayıt bazlı erişim politikası; create_ticket, filtre, kategori), services/assignment.py (take_ticket, assign_ticket, change_priority), services/comments.py (add_comment), services/workflow.py (change_status: NEXT_STATUS tablosuyla durum makinesi), services/audit.py (record_event: işlem geçmişine tek yazım noktası; history_for). Servis fonksiyonları izni kendi içinde de denetler (PermissionDenied); tanımsız işlem ValidationError ile reddedilir. Bütün işlem adresleri yalnız POST kabul eder ve talebi visible_tickets_for kümesinden alır; böylece başkasının talebi 404 döner.",
+      {
+        "image": "docs/diagrams/components.png",
+        "alt": "Bileşen diyagramı",
+        "width_in": 6.0,
+        "caption": "Şekil 2. Bileşim ve mantıksal görünüm (SDD §4-5)."
+      },
+      {
+        "image": "docs/diagrams/record_access_sequence.png",
+        "alt": "Kayıt bazlı erişim etkileşimi",
+        "width_in": 5.5,
+        "caption": "Şekil 3. Kayıt bazlı erişim etkileşimi: başkasının talebi 404 (SDD §8)."
+      },
+      {
+        "image": "docs/diagrams/ticket_states.png",
+        "alt": "Talep durum diyagramı",
+        "width_in": 4.5,
+        "caption": "Şekil 4. Talep durum makinesi (SDD §7; yeniden açma yok, KRR-19)."
+      }
+    ],
+    "[Veritabanı şemasını (ER Diyagramı), veri bütünlüğü kurallarını, veri saklama ve gizlilik politikalarını belirtiniz.]": [
+      "Varlıklar: User (özel kullanıcı modeli), Category, Ticket (numara INC-000123 birincil anahtardan türetilir), Comment ve TicketEvent (işlem geçmişi). Değişiklik, SLA, anket ve DÖF varlıkları ER tasarımında korunur ancak kapsam dışıdır.",
+      {
+        "image": "docs/diagrams/er.png",
+        "alt": "ER diyagramı",
+        "width_in": 6.0,
+        "caption": "Şekil 5. Bilgi görünümü (ER; SDD §6)."
+      },
+      "Veri bütünlüğü kuralları: zaman damgaları UTC (USE_TZ=True); talep numarası benzersiz (birincil anahtar); durum alanı formdan değiştirilemez, yalnız durum makinesiyle değişir; kategori, talep, yorum ve işlem geçmişi silinmez (PROTECT, yönetim sitesinde silme kapalı); işlem geçmişi yalnız eklenir (TicketEvent.save/delete engeli, salt okunur yönetim sitesi; KRR-16); işlem ve kaydı aynı veritabanı işleminde yazılır; aynı talebi iki kişinin üzerine alması kilitle önlenir.",
+      "Gizlilik ve saklama: Kullanıcı hakkında yalnız kullanıcı adı, ad, soyad ve e-posta tutulur (NFR-12); demo ve test verilerinde gerçek kişi verisi yoktur. Bu kural her fazda TC-INS-01 incelemesiyle denetlenmiştir. Parolalar Django'nun varsayılan parola özetleme mekanizmasıyla saklanır; oturum süresi 8 saattir; üretim profili güvensiz yapılandırmayla başlamaz (check --deploy). Saklama süresi ve KVKK aydınlatma metni açık konudur (AK-08)."
+    ],
+    "[Projenizin odaklandığı özel standardın (ör. IEC 62304 Tıbbi Cihaz Yazılımı, WCAG 2.1 Erişilebilirlik, ISO 27001 Bilgi Güvenliği, Green IT veya SBOM) temel kontrol maddelerini ve projenizdeki karşılıklarını aşağıda listeleyiniz.]": "Projenin alan standardı ISO 9001:2026'dır. Aşağıdaki tablo, yazılımın her maddenin amacını ne ölçüde desteklediğini gösterir (kuruluşun uygunluğunu değil). Madde numaraları FDIS içindekilerinden doğrulanmıştır (docs/STANDARDS.md §2-3).",
+    "[Projede uygulanan Git akışını (GitFlow / Trunk-based), Pull Request inceleme kurallarını, commit mesaj standartlarını (Conventional Commits) ve varsa otomatik test/build boru hattını açıklayınız.]": [
+      "Git akışı: Trunk tabanlıdır. main dalı her zaman çalışır durumdadır; her iş kısa ömürlü dalda yapılır (Faz 4'ten itibaren hafta-N/<konu>) ve Pull Request ile gelir. PR, CI'daki dört iş (Ubuntu ve Windows × Python 3.12/3.13) yeşil olmadan birleştirilmez; geçmiş düz tutulur (rebase). Her fazın teslim sürümü hafta-N etiketiyle işaretlenir.",
+      "İnceleme ve commit kuralları: PR kontrol listesi (PRC-03) gereksinime bağlılığı, TC kimlikli testi, sunucu tarafı yetki testini, UTC zaman kuralını, CI sonucunu ve belge güncellemesini sorar. Commit mesajları Conventional Commits biçimindedir (feat, fix, docs, deps, ci, chore); gereksinim ve test kimlikleri gövdede yazılır. Proje tek kişilik olduğundan bağımsız inceleme yerine otomatik kapılar ve öğretim elemanı geri bildirimi kullanılır.",
+      "Otomasyon: CI iş akışı ruff, Django kontrolleri, migration denetimi, testler ve kapsam, check --deploy ve RTM üretimini koşar ve raporları saklar. Release iş akışı hafta-N etiketinde o fazın raporunu (Word ve PDF) ve kanıt klasörünü GitHub Release olarak yayımlar. Dependabot her pazartesi bağımlılık güncellemesi önerir (Django yalnız 5.2.x yamaları). CI sonucu tools/record_ci_run.sh ile kanıt dosyasına yazılır; RTM ve test sonuç tablosu gerçek koşu kayıtlarından üretilir."
+    ],
+    "[Uygulamanın yerel ortamda veya konteyner (Docker) üzerinde adım adım nasıl kurulacağını ve çalıştırılacağını yazınız.]": [
+      "Gereksinimler: Python 3.12 veya 3.13 (Windows'ta python.org yükleyicisi ve py başlatıcısı), Git. Docker kullanılmaz; uygulama yerel sanal ortamda çalışır.",
+      "1) Depoyu klonlayın: git clone https://github.com/wordeus/sds07-servis-masasi  2) Sanal ortam: py -3.13 -m venv .venv ve .\\.venv\\Scripts\\Activate.ps1  3) Bağımlılıklar: pip install -r requirements-dev.txt  4) Veritabanı: python manage.py migrate (rol grupları ve başlangıç kategorileri otomatik oluşur)  5) Yönetici hesabı: python manage.py createsuperuser  6) İsteğe bağlı demo kullanıcılar: $env:SDS07_DEMO_PASSWORD=\"...\" ve python manage.py seed_demo_users (demo.talep, demo.destek, demo.yonetici)  7) Çalıştırma: python manage.py runserver ve http://127.0.0.1:8000/ adresi.",
+      "Doğrulama komutları: coverage run manage.py test -v 2 (69 test); powershell -ExecutionPolicy Bypass -File tools\\run_e2e.ps1 (18 tarayıcı senaryosu); tools\\install_check.ps1 (temiz kurulum denetimi). Ayrıntılı kılavuz ve Linux adımları: docs/INSTALL.md."
+    ],
+    "[Uluslararası standartlara bağlı kalarak yazılım geliştirmenin ekibe kazandırdığı mühendislik disiplinini, süreçte yaşanan zorlukları ve projenin gelecekte nasıl genişletilebileceğini değerlendiriniz.]": [
+      "Kazanımlar: Her gereksinimin kimlik, kabul kriteri ve teste bağlanması (29148 + RTM), \"yazılmayan sonuç yoktur\" disiplinini getirdi: RTM ve test sonuç tablosu yalnız gerçek koşu kayıtlarından üretildi; koşulmayan test NOT RUN, ölçülmeyen değer ÖLÇÜLMEDİ olarak yazıldı. Mimari kuralın (views → services → models) testle denetlenmesi, katman ihlalini daha kod yazılırken yakaladı (RSK-30).",
+      "Zorluklar ve dersler: Testlerin geçmesi yeterli olduğunu göstermez. Mutasyon denetimi bir test açığını ortaya çıkardı: talep sahipliği kuralı servis düzeyinde sınanmıyordu (RSK-33). Windows'a özgü farklar (çıktı kodlaması, yol ayırıcısı, betik kodlaması; RSK-25..27) ancak Windows'ta gerçekten koşunca görüldü. Geç kayıt nedeniyle sıkışan takvimde kapsam bilinçli olarak daraltıldı (KRR-18) ve bu karar belgelere, RTM'ye ve arayüze açıkça işlendi; yarım bırakılmış modül yoktur.",
+      "Gelecek çalışma: SRS'te korunan 19 gereksinim sırasıyla eklenebilir: değişiklik yönetimi ve görevler ayrılığı (FR-22..FR-25), önceliğe göre SLA hesaplama, uyarı ve eskalasyon (FR-26..FR-31), memnuniyet anketi ve KPI paneli (FR-32..FR-34), uygunsuzluk ve düzeltici faaliyet (FR-35..FR-37); ardından performans ölçümü, yetkisiz erişim günlüğü ve Firefox uyumu (NFR-13..NFR-15). Mevcut servis katmanı, işlem geçmişi ve rol matrisi bu modüller için hazır altyapı sağlar."
+    ]
+  },
+  "tables": [
+    {
+      "expect_header": "Öğrenci No",
+      "rows": [
+        [
+          "2100002062",
+          "Burak Nigiz",
+          "Tek kişilik proje: proje lideri, sistem mimarı, gereksinim, geliştirme, test ve kalite güvence",
+          "ISO 9001:2026, ISO/IEC/IEEE 12207, IEEE 29148, IEEE 1016, ISO/IEC 25010, IEEE 1012; tüm modüller",
+          "%100"
+        ]
+      ]
+    },
+    {
+      "expect_header": "Versiyon",
+      "rows": [
+        [
+          "v0.1",
+          "30.10.2026",
+          "Burak Nigiz",
+          "Faz 1: kapsam, SRS v0.1, standart araştırması, kurulum ve doğrulama altyapısı (Rapor #1)"
+        ],
+        [
+          "v0.5",
+          "30.10.2026",
+          "Burak Nigiz",
+          "Faz 2-3: SDD v0.1-v0.2 (mimari ve katmanlı yapı), giriş/roller, talepler ve kayıt bazlı erişim (Rapor #2-#3)"
+        ],
+        [
+          "v0.8",
+          "26.11.2026",
+          "Burak Nigiz",
+          "Faz 4: atama, yorumlar, işlem geçmişi; GitHub otomasyonu; kapsam kararı KRR-18 (Rapor #4)"
+        ],
+        [
+          "v1.0",
+          "26.11.2026",
+          "Burak Nigiz",
+          "Faz 5: durum makinesi, geçmiş görünümü; nihai test sonuçları, standart uyumluluk kanıtları ve dönem sonu teslim sürümü (Rapor #5)"
+        ]
+      ],
+      "width_ratios": [
+        8,
+        11,
+        14,
+        47
+      ]
+    },
+    {
+      "expect_header": "Gereksinim ID",
+      "source": "rtm",
+      "note": "Tablo docs/traceability/requirements.csv ve SRS metinlerinden otomatik üretildi; teslim kapsamındaki 34 gereksinimin tamamı doğrulandı (PASS). Kapsam dışı 19 gereksinim (FR-22..FR-37, NFR-13..NFR-15) ve gerçek sonuçlar: docs/RTM.md.",
+      "width_ratios": [
+        9,
+        10,
+        42,
+        9,
+        12,
+        18
+      ]
+    },
+    {
+      "expect_header": "Ana Kalite Karakteristiği",
+      "rows": [
+        [
+          "Security (Güvenlik)",
+          "Confidentiality (3.6.1)",
+          "Kayıt bazlı erişim politikası (visible_tickets_for); başkasının talebine ayrıntı, yorum, durum ve geçmiş adreslerinde 404",
+          "Sızıntı = 0; yanıt var olmayan kayıtla aynı",
+          "0 sızıntı (TC-TKT-07, TC-CMT-03, TC-WF-06, TC-E2E-11, TC-E2E-16)"
+        ],
+        [
+          "Security (Güvenlik)",
+          "Resistance (3.6.6) / Accountability (3.6.4)",
+          "Üretim profili denetimi (check --deploy), CSRF, yalnız POST işlemler, değiştirilemez işlem geçmişi",
+          "check --deploy uyarısı = 0; geçmiş kaydı değiştirilemez",
+          "0 uyarı (1 gerekçeli susturma, W021); TC-AUD-02 PASS"
+        ],
+        [
+          "Maintainability (Bakım)",
+          "Modularity (3.7.1) & Analysability",
+          "views → services → models katmanları, AST tabanlı mimari testleri, ruff",
+          "Katman ihlali = 0; ruff bulgu = 0; fonksiyon karmaşıklığı ≤ 10",
+          "0 ihlal; 0 bulgu; uygulama ortalama 1,74, en yüksek 10"
+        ],
+        [
+          "Maintainability (Bakım)",
+          "Testability",
+          "TC kimlikli Django testleri, coverage.py, mutasyon denetimi",
+          "Kapsam ≥ %80; mutasyon yakalama %100",
+          "Kapsam %95,03; mutasyon 18/18"
+        ],
+        [
+          "Functional Suitability",
+          "Functional correctness (3.1.2)",
+          "Otomatik test takımı ve gerçek tarayıcı senaryoları",
+          "Test geçme oranı %100",
+          "69/69 Django, 18/18 E2E, katalog 92/92 PASS"
+        ],
+        [
+          "Interaction Capability",
+          "Inclusivity (3.4.6) & Operability (3.4.3)",
+          "Kontrastlı renk belirteçleri, klavye ile kullanım, görünür odak, 360 px duyarlı düzen",
+          "Kontrast ≥ 4,5:1; 360 px'te yatay taşma = 0",
+          "En düşük 5,42:1 (durum rozetleri); taşma 0 (TC-E2E-07/12/16/18)"
+        ],
+        [
+          "Flexibility",
+          "Installability",
+          "Sabit bağımlılıklar, temiz kurulum betikleri, CI işletim sistemi matrisi",
+          "Linux ve Windows, Python 3.12/3.13 kurulum başarılı",
+          "Windows 3.13.17 BAŞARILI; CI Ubuntu/Windows × 3.12/3.13 4/4"
+        ],
+        [
+          "Performance Efficiency",
+          "Time behaviour (3.2.1)",
+          "Sayfalama (25 kayıt), select_related",
+          "Talep listesi p95 < 500 ms (1.000 kayıt)",
+          "ÖLÇÜLMEDİ: kapsam dışı (NFR-13, KRR-18)"
+        ]
+      ],
+      "width_ratios": [
+        15,
+        17,
+        26,
+        20,
+        22
+      ]
+    },
+    {
+      "expect_header": "Test ID",
+      "source": "tests",
+      "note": "Tablo docs/TEST_RESULTS.md dosyasından (tools/build_rtm.py --week 5, gerçek koşu kayıtları) otomatik üretildi: 92 testin 92'si PASS. Kanıtlar: docs/evidence/hafta-01..05.",
+      "width_ratios": [
+        13,
+        12,
+        15,
+        23,
+        27,
+        10
+      ]
+    },
+    {
+      "expect_header": "Standart Madde No",
+      "rows": [
+        [
+          "ISO 9001:2026 - 5.3",
+          "Roller, sorumluluklar ve yetkiler",
+          "Tam Uyumlu",
+          "Rol grupları ve koddan üretilen rol-izin matrisi; sunucu tarafı yetki; atama yalnız Destek Personeline (servicedesk/roles.py; TC-ROLE-*, TC-ASN-02)"
+        ],
+        [
+          "ISO 9001:2026 - 6.1",
+          "Risk ve fırsatlara yönelik faaliyetler",
+          "Tam Uyumlu (süreç desteği)",
+          "Proje risk listesi her fazda güncellendi (docs/RISKS.md; 34 kayıt)"
+        ],
+        [
+          "ISO 9001:2026 - 7.1.3 / 7.1.5",
+          "Altyapı; izleme ve ölçme kaynakları",
+          "Tam Uyumlu",
+          "Sabit bağımlılıklar, güvenli üretim profili, UTC zaman; test ve ölçüm altyapısı (TC-CFG-*, TC-INST-01, TC-CI-01)"
+        ],
+        [
+          "ISO 9001:2026 - 7.5.3",
+          "Dokümante bilginin kontrolü",
+          "Tam Uyumlu",
+          "Oturum ve rol erişimi, kayıt bazlı erişim, değiştirilemez işlem geçmişi, belgelerde sürüm/revizyon geçmişi (TC-AUD-02, TC-WF-06)"
+        ],
+        [
+          "ISO 9001:2026 - 8.2.1 / 8.2.2",
+          "Müşteri iletişimi; gerekliliklerin belirlenmesi",
+          "Tam Uyumlu",
+          "Talep kaydı (kategori, öncelik, açıklama) ve yorumlar (TC-TKT-01, TC-CMT-01)"
+        ],
+        [
+          "ISO 9001:2026 - 8.5.1",
+          "Üretim ve hizmet sunumunun kontrolü",
+          "Tam Uyumlu",
+          "Kontrollü talep akışı, durum makinesi ve geçiş koşulları (services/workflow.py; TC-WF-01..05)"
+        ],
+        [
+          "ISO 9001:2026 - 8.5.2",
+          "Tanımlama ve izlenebilirlik",
+          "Tam Uyumlu",
+          "Benzersiz talep numarası, işlem geçmişi ve görünümü (TC-TKT-01, TC-AUD-01, TC-WF-06)"
+        ],
+        [
+          "ISO 9001:2026 - 8.6",
+          "Ürün ve hizmetlerin serbest bırakılması",
+          "Tam Uyumlu",
+          "Çözüm açıklaması zorunlu; talep sahibi onayıyla veya Yönetici tarafından kapanış (TC-WF-01, TC-WF-04)"
+        ],
+        [
+          "ISO 9001:2026 - 8.5.6",
+          "Değişikliklerin kontrolü",
+          "Kısmi Uyumlu (Tailored)",
+          "Değişiklik yönetimi modülü gelecek çalışma (FR-22..FR-25, KRR-18); tasarım SDD'de korunur. Yazılım geliştirme değişiklikleri PR ve CI ile kontrol edildi."
+        ],
+        [
+          "ISO 9001:2026 - 9.1 / 10.2",
+          "İzleme, ölçme, müşteri memnuniyeti; uygunsuzluk ve düzeltici faaliyet",
+          "Kısmi Uyumlu (Tailored)",
+          "SLA, anket, KPI ve DÖF modülleri gelecek çalışma (FR-26..FR-37, KRR-18). Proje sürecinde kalite ölçümleri (QUALITY_METRICS.md) ve sorun/düzeltme kayıtları (RISKS.md) tutuldu."
+        ]
+      ],
+      "width_ratios": [
+        17,
+        22,
+        17,
+        44
+      ]
+    }
+  ]
+}

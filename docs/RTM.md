@@ -2,7 +2,7 @@
 
 > Bu dosya `tools/build_rtm.py` tarafından gerçek test çıktılarından üretilir; elle düzenlemeyin.
 > Kaynaklar: `docs/traceability/requirements.csv`, `docs/traceability/tests.csv` ve aşağıdaki sonuç dosyaları.
-> Üretim: 26.11.2026 11:33 (Europe/Istanbul) · Aktif hafta: 5
+> Üretim: 26.11.2026 11:37 (Europe/Istanbul) · Aktif hafta: 5
 
 ## Çalıştırma kayıtları
 
@@ -14,6 +14,7 @@
 | `docs/evidence/hafta-05/e2e-week4-results.json` | e2e-playwright | 26.11.2026 11:26 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=3, failures=0, errors=0, successful=True |
 | `docs/evidence/hafta-05/e2e-week5-results.json` | e2e-playwright | 26.11.2026 11:26 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=2, failures=0, errors=0, successful=True |
 | `docs/evidence/hafta-05/manual-checks.json` | manual-and-scripted-checks | 26.11.2026 11:29 | platform Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı) | run=3, failures=0, not_run=0 |
+| `docs/evidence/hafta-05/ci-github-actions-2026-11-26.json` | github-actions | 26.11.2026 11:35 | platform GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13 | run=1, failures=0, jobs_passed=4, jobs_total=4 |
 | ölçüm | coverage_percent | - | - | 95.03 |
 | ölçüm | ruff_findings | - | - | 0 |
 
@@ -68,7 +69,7 @@
 | NFR-08 | NFR | Klavye erişimi; görünür odak ve 4.5:1 kontrast | Orta | EKİP | MOD-UI | Test | TC-E2E-08 (PASS), TC-E2E-09 (PASS), TC-E2E-12 (PASS), TC-CMT-02 (PASS), TC-E2E-15 (PASS), TC-WF-02 (PASS), TC-E2E-18 (PASS) | 2 | PASS |
 | NFR-09 | NFR | Otomatik test; ≥ %80 kapsam ve makinece okunur sonuç | Yüksek | PT-KNT; PT-ÇB | MOD-CFG | Analiz; Test | TC-QA-01 (PASS), TC-QA-03 (PASS), TC-QA-04 (PASS) | 1 | PASS |
 | NFR-10 | NFR | Statik analizde sıfır bulgu | Orta | PT-ÇB | MOD-CFG | Analiz | TC-QA-02 (PASS) | 1 | PASS |
-| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (NOT RUN) | 1 | KISMİ (2/3 PASS; diğerleri NOT RUN) |
+| NFR-11 | NFR | Sabit bağımlılıklarla Windows ve Ubuntu'da kurulabilirlik | Yüksek | PT-TEK | MOD-CFG | Test | TC-INST-01 (PASS), TC-CFG-06 (PASS), TC-CI-01 (PASS) | 1 | PASS |
 | NFR-12 | NFR | Kişisel veri asgarisi | Yüksek | EKİP | MOD-AUTH | İnceleme | TC-INS-01 (PASS) | 1 | PASS |
 | NFR-13 | NFR | Talep listesi yanıt süresi (p95 < 500 ms; 1.000 kayıt) | Orta | EKİP | MOD-TICKET | Test | - | kapsam dışı | KAPSAM DIŞI (gelecek çalışma) |
 | NFR-14 | NFR | Yetkisiz erişim denemelerinin günlüğe yazılması | Orta | EKİP | MOD-ROLE | Test | - | kapsam dışı | KAPSAM DIŞI (gelecek çalışma) |
@@ -80,8 +81,7 @@
 | Durum | Gereksinim sayısı |
 |---|---|
 | KAPSAM DIŞI | 19 |
-| KISMİ | 1 |
-| PASS | 33 |
+| PASS | 34 |
 
 ## Standart eşlemesi (bilgi amaçlı)
 

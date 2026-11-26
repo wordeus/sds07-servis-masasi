@@ -1,7 +1,7 @@
 # Doğrulama ve Geçerleme Test Sonuçları
 
 > Bu dosya `tools/build_rtm.py` tarafından üretilir. Sonuçlar yalnız gerçek çalıştırma kayıtlarından gelir.
-> Üretim: 26.11.2026 11:33 (Europe/Istanbul) · Aktif hafta: 5
+> Üretim: 26.11.2026 11:37 (Europe/Istanbul) · Aktif hafta: 5
 
 | Kaynak | Tür | Başlangıç (İstanbul) | Ortam | Özet |
 |---|---|---|---|---|
@@ -11,6 +11,7 @@
 | `docs/evidence/hafta-05/e2e-week4-results.json` | e2e-playwright | 26.11.2026 11:26 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=3, failures=0, errors=0, successful=True |
 | `docs/evidence/hafta-05/e2e-week5-results.json` | e2e-playwright | 26.11.2026 11:26 | browser chromium 159.0.8154.6, python 3.13.17, platform Windows-11-10.0.26300-SP0 | run=2, failures=0, errors=0, successful=True |
 | `docs/evidence/hafta-05/manual-checks.json` | manual-and-scripted-checks | 26.11.2026 11:29 | platform Windows 11 Pro 10.0.26300 (Burak Nigiz'in bilgisayarı) | run=3, failures=0, not_run=0 |
+| `docs/evidence/hafta-05/ci-github-actions-2026-11-26.json` | github-actions | 26.11.2026 11:35 | platform GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13 | run=1, failures=0, jobs_passed=4, jobs_total=4 |
 | ölçüm | coverage_percent | - | - | 95.03 |
 | ölçüm | ruff_findings | - | - | 0 |
 
@@ -55,7 +56,7 @@
 | TC-QA-03 | NFR-09 | Birim | Bilinçli PASS/FAIL/ERROR/SKIP/alt test örnekleri | Her sonuç TC kimliğiyle doğru kaydedilir; JSON özeti doğru | 1 | **PASS** | unit-results.json |
 | TC-QA-04 | NFR-09 | Birim | Örnek test durumları ve gereksinim satırları (PASS/NOT RUN/FAIL/planlı/testsiz/kapsam dışı) | Gereksinim durumu ve özet sayıları doğru; FAIL baskın; 'NOT RUN' bölünmeden sayılır; kapsam dışı gereksinim KAPSAM DIŞI; kaynak yolu '/' ile | 1 | **PASS** | unit-results.json |
 | TC-INST-01 | NFR-11 | Kurulum | Temiz sanal ortam; pip install -r requirements.txt; migrate; test | Kurulum ve testler hatasız (her işletim sistemi ayrı kaydedilir) | 1 | **PASS** | manual-checks.json |
-| TC-CI-01 | NFR-11 | CI | GitHub Actions matrisi: ubuntu/windows × Python 3.12/3.13 | Tüm işler yeşil | 1 | **NOT RUN** | .github/workflows/ci.yml |
+| TC-CI-01 | NFR-11 | CI | GitHub Actions matrisi: ubuntu/windows × Python 3.12/3.13 | Tüm işler yeşil | 1 | **PASS** | ci-github-actions-2026-11-26.json |
 | TC-INS-01 | NFR-12 | İnceleme | User modeli; seed komutu ve şablonların incelenmesi | Yalnız kullanıcı adı/ad/soyad/e-posta; demo verisinde gerçek kişi yok | 1 | **PASS** | manual-checks.json |
 | TC-E2E-01 | FR-01; NFR-06 | Sistem (E2E) | Chromium; GET /hesap/giris/ | Sayfa yüklenir; konsol hatası yok; Türkçe başlık | 2 | **PASS** | e2e-results.json (Plex Sans yüklendi=True) |
 | TC-E2E-02 | FR-01; FR-08; FR-10 | Sistem (E2E) | demo.talep ile tarayıcıdan giriş | Panel; rol rozeti Talep Sahibi; Destek/Yönetim bağlantısı yok | 2 | **PASS** | e2e-results.json (menü bağlantıları: Panelim, tickets) |
@@ -111,5 +112,4 @@
 
 | Sonuç | Test sayısı |
 |---|---|
-| NOT RUN | 1 |
-| PASS | 91 |
+| PASS | 92 |

@@ -15,8 +15,8 @@ Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştiril
 | `install-check-windows-py313.log` | `tools/install_check.ps1` temiz kurulum günlüğü (69 test): BAŞARILI | TC-INST-01 |
 | `mutation-check.md` | `tools/mutation_check.py --week 5`: 18 bilinçli hata, 18'i yakalandı | Test etkinliği |
 | `manual-checks.json` | TC-INST-01 özeti; Hafta 3-4 TC-INS-01 onayı (Burak Nigiz, 26.11.2026); Faz 5 TC-INS-01 incelemesi (onay bekliyor) | TC-INST-01, TC-INS-01 |
+| `ci-github-actions-2026-11-26.json` | Faz 5 commit'inin GitHub Actions koşusu (koşu #23, commit 8b752e4): Ubuntu ve Windows × Python 3.12/3.13, 4/4 iş başarılı | TC-CI-01 |
 
-GitHub Actions sonucu (TC-CI-01) Faz 5 commit'i `main`'e birleştirildikten sonra `tools/record_ci_run.sh 5` ile eklenir.
 
 ## Geliştirme sırasında bulunan sorunlar
 
