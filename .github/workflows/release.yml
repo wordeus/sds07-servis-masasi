@@ -41,6 +41,8 @@ jobs:
           (cd docs/evidence && zip -qr "$GITHUB_WORKSPACE/kanit-hafta-${nn}.zip" "hafta-${nn}")
           files="$report kanit-hafta-${nn}.zip"
           if [ -f "${report%.docx}.pdf" ]; then files="$files ${report%.docx}.pdf"; fi
+          # Bitiş fazında (Faz 5) dönem sonu teslim dokümanı da eklenir (KRR-18).
+          if [ "$n" -ge 5 ]; then for f in docs/final/*.docx docs/final/*.pdf; do [ -f "$f" ] && files="$files $f"; done; fi
           {
             echo "n=$n"
             echo "files=$files"

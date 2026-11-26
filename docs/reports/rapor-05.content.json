@@ -1,0 +1,200 @@
+{
+  "template_check": {
+    "banner_contains": "İKİ HAFTALIK PROJE İLERLEME RAPORU"
+  },
+  "core": {
+    "title": "SDS-07 Proje İlerleme Raporu #5 (Hafta 5, bitiş)",
+    "creator": "Burak Nigiz (2100002062)",
+    "description": "Hafta 5 (Faz 5, bitiş) ilerleme raporu"
+  },
+  "info": {
+    "Rapor Numarası:": "Rapor #5 (Hafta 5, bitiş)",
+    "Teslim Tarihi:": "11.12.2026 (Faz 5 son teslim tarihi)",
+    "Proje Adı:": "SDS-07: ISO 9001 İlkelerini Destekleyen IT Servis Masası ve Süreç Takip Sistemi",
+    "Proje Grup No:": "2100002062 Burak Nigiz",
+    "Referans Standartlar:": "ISO 9001:2026 (ana alan), ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009, ISO/IEC 25010:2023, IEEE 1012-2024",
+    "Genel Tamamlanma (%):": [
+      "%100 (5 fazlık planın 5 fazı tamamlandı; proje Faz 5'te biter, KRR-18)",
+      "Gereksinim bazında: kapsam içi 34 gereksinimin 34'ü doğrulandı; 19 gereksinim gelecek çalışma (KAPSAM DIŞI)"
+    ],
+    "GitHub / Repo Linki:": "https://github.com/wordeus/sds07-servis-masasi/tree/hafta-5",
+    "Aktif Sprint / Faz:": "Faz 5, Hafta 5 (bitiş): Durum geçişleri, işlem geçmişi görünümü, final belgesi"
+  },
+  "summary": [
+    "Bu fazda talep akışı tamamlandı ve proje kapatıldı. Durum makinesi uygulandı: talep yalnız Açık → İşlemde → Çözüldü → Kapandı sırasıyla ilerliyor; atlama, geri dönme ve kapanmış talebi değiştirme istekleri doğrudan POST ile de reddediliyor. Talebi yalnız ona atanmış destek personeli veya yönetici ilerletebiliyor, Çözüldü adımında çözüm açıklaması zorunlu, talebi talep sahibi onaylayarak veya yönetici kapatıyor. Talep sayfasına İstanbul saatiyle işlem geçmişi eklendi. Yeniden açma geçişi eklenmedi (AK-01 kapandı, KRR-19). Doğrulamada Windows 11 üzerinde 69 Django testi ile 18 tarayıcı senaryosunun tamamı geçti, kapsam %95,03 oldu, GitHub Actions'ta dört iş de başarılı oldu ve RTM'de kapsam içi 34 gereksinimin tamamı, test kataloğundaki 92 testin tamamı PASS çıktı. Mutasyon denetimi ilk koşuda bir test açığını ortaya çıkardı (RSK-33); test eklendi ve 18 hatanın 18'i yakalandı. Tarayıcı testlerinin ortak iskeleti sadeleştirildi (karmaşıklık 18 → 3). Dönem sonu proje teslim dokümanı ders şablonundan hazırlandı; RTM ve test tabloları gerçek sonuçlardan otomatik üretildi."
+  ],
+  "tables": {
+    "2": {
+      "expect_header": "İş Paketi ID",
+      "widths": [
+        1050,
+        3000,
+        2185,
+        1400,
+        2300
+      ],
+      "rows": [
+        [
+          "WP-01",
+          "Durum makinesi: Açık → İşlemde → Çözüldü → Kapandı; tanımsız geçişlerin doğrudan POST dahil reddi (FR-18)",
+          "ISO 9001:2026 - 8.5.1",
+          "Burak Nigiz",
+          "services/workflow.py, TicketStatusView, migration 0007; TC-WF-01, TC-WF-05, TC-E2E-17 PASS; mutasyon M14 yakalandı"
+        ],
+        [
+          "WP-02",
+          "Geçiş koşulları: atanmış personel veya yönetici ilerletir, çözüm açıklaması zorunlu, talep sahibi veya yönetici kapatır (FR-19)",
+          "ISO 9001:2026 - 8.5.1, 8.6",
+          "Burak Nigiz",
+          "TC-WF-01..04, TC-ROLE-15, TC-E2E-17, TC-E2E-18 PASS; mutasyon M15, M16, M18 yakalandı"
+        ],
+        [
+          "WP-03",
+          "İşlem geçmişi görünümü ve durum geçişlerinin geçmişe yazılması (FR-20, FR-21)",
+          "ISO 9001:2026 - 7.5.3, 8.5.2",
+          "Burak Nigiz",
+          "services/audit.py::history_for; TC-WF-01, TC-WF-06 PASS; mutasyon M17 yakalandı"
+        ],
+        [
+          "WP-04",
+          "E2E iskeletinin ortaklaştırılması ve Hafta 2 senaryolarının bölünmesi (PLN-06, RSK-07)",
+          "ISO/IEC 25010:2023 - Maintainability (3.7)",
+          "Burak Nigiz",
+          "e2e/week2_auth_roles.py::run_suite; karmaşıklık 18 → 3; 18/18 E2E PASS"
+        ],
+        [
+          "WP-05",
+          "Dönem sonu proje teslim dokümanı (ders şablonundan; RTM ve test tabloları otomatik), tools/build_final.py",
+          "ISO/IEC/IEEE 12207:2026 - 6.4.11; IEEE 1012-2024",
+          "Burak Nigiz",
+          "docs/final/SDS-07_Donem_Sonu_Teslim_Dokumani.docx (+ pdf)"
+        ],
+        [
+          "WP-06",
+          "Belgelerin son sürümü: SRS v0.5, SDD v0.4 (KRR-19), risk listesi v0.5, test planı v0.5, standart eşlemesi v0.5; RTM --week 5",
+          "ISO/IEC/IEEE 29148:2018 - 5.2.5, 9.6; ISO/IEC/IEEE 12207:2026 - 6.3.4",
+          "Burak Nigiz",
+          "docs/RTM.md: 34/34 kapsam içi PASS, 19 KAPSAM DIŞI; 92/92 test PASS"
+        ]
+      ],
+      "notes": [
+        "Not: Faz 5 çalışması depoda hafta-5 etiketiyle işaretlidir (Faz 5 commit'i 8b752e4; GitHub Actions koşusu #23, 4/4 iş başarılı). Test sonuçları 26.11.2026 Windows 11 koşusuna aittir (docs/evidence/hafta-05)."
+      ]
+    },
+    "3": {
+      "expect_header": "Öğrenci No",
+      "widths": [
+        1450,
+        1650,
+        1700,
+        3335,
+        1800
+      ],
+      "rows": [
+        [
+          "2100002062",
+          "Burak Nigiz",
+          "Tek kişilik proje: gereksinim, mimari, geliştirme ve test/QA rollerinin tümü",
+          [
+            "Faz 5: durum makinesi ve geçiş koşulları; işlem geçmişi görünümü; 7 Django testi ve 2 tarayıcı senaryosu; mutasyon denetimi; E2E iskeletinin sadeleştirilmesi; final belgesi; SRS v0.5, SDD v0.4 ve Rapor #5."
+          ],
+          "ÖLÇÜLMEDİ (efor kaydı tutulmadı) / %100"
+        ]
+      ],
+      "notes": [
+        "Not: Zaman kaydı tutulmadığı için saat ÖLÇÜLMEDİ yazıldı; proje tek kişilik olduğundan pay %100'dür."
+      ]
+    },
+    "4": {
+      "expect_header": "Risk / Sorun ID",
+      "widths": [
+        1000,
+        3100,
+        900,
+        2000,
+        2935
+      ],
+      "rows": [
+        [
+          "RSK-33",
+          "Test açığı: durum servisinde \"talep sahibi yalnız kendi talebini kapatır\" kuralı kaldırıldığında hiçbir test başarısız olmuyordu (arayüz yine koruyordu, servis doğrudan çağrılırsa korumasızdı).",
+          "Orta",
+          "Mutasyon denetimi (M18 ilk koşuda yakalanmadı; 17/18)",
+          "TC-WF-04'e servisin doğrudan çağrıldığı denetim eklendi; M18 yakalandı, 18/18 (kapandı)."
+        ],
+        [
+          "RSK-34",
+          "TC-E2E-18'in ilk sürümü rozet kontrastını talep listesinde ölçüyordu; listede yeterli durum olmadığı için senaryo başarısız oldu (test tasarımı hatası).",
+          "Düşük",
+          "Sistem testi (TC-E2E-18 ilk koşusu: FAIL)",
+          "Ölçüm dört durumun her zaman bulunduğu panel özetine taşındı; dört rozet tarayıcıda ölçüldü, en düşük 5,42:1 (kapandı)."
+        ],
+        [
+          "RSK-07",
+          "Araç kodunda karmaşıklık eşiği aşılıyordu: e2e/week2_auth_roles.py::main = 18 (hedef ≤ 10).",
+          "Düşük",
+          "Kod analizi (ruff C901 ölçümü)",
+          "Senaryolar modül düzeyinde fonksiyonlara bölündü, ortak run_suite iskeleti eklendi; en yüksek 3 (kapandı)."
+        ],
+        [
+          "RSK-31",
+          "Risk: sqlparse bakımı sona erdi (0.6.1 son sürüm).",
+          "Orta",
+          "Bağımlılık incelemesi",
+          "0.6.1 sabit; uygulama sqlparse'ı doğrudan kullanmıyor; Dependabot ve Django sürüm notları izleniyor (açık risk)."
+        ],
+        [
+          "RSK-32",
+          "Kapsam daraltması (KRR-18): değişiklik yönetimi, SLA, anket, KPI ve DÖF bu teslimde yok.",
+          "Orta",
+          "Plan incelemesi",
+          "SRS, RTM ve final belgesinde gelecek çalışma olarak açıkça işaretlendi; gereksinim kimlikleri ve tasarım korundu."
+        ]
+      ],
+      "notes": [
+        "Ayrıntılar ve kanıt dosyaları: docs/RISKS.md v0.5 ve docs/evidence/hafta-05."
+      ]
+    },
+    "5": {
+      "expect_header": "Hedef ID",
+      "widths": [
+        1100,
+        4000,
+        2400,
+        2436
+      ],
+      "rows": [
+        [
+          "GC-01",
+          "Değişiklik yönetimi: gerekçe, etki, risk, geri dönüş planı; yönetici onayı ve görevler ayrılığı (FR-22..FR-25)",
+          "ISO 9001:2026 - 8.5.6",
+          "Burak Nigiz - Gelecek çalışma"
+        ],
+        [
+          "GC-02",
+          "Önceliğe göre SLA hedefleri, tekrarlanabilir kontrol, uyarı ve eskalasyon; bildirim kutusu (FR-26..FR-31)",
+          "ISO 9001:2026 - 6.2, 9.1.1",
+          "Burak Nigiz - Gelecek çalışma"
+        ],
+        [
+          "GC-03",
+          "Memnuniyet anketi ve KPI paneli (FR-32..FR-34)",
+          "ISO 9001:2026 - 9.1.2, 9.1.3",
+          "Burak Nigiz - Gelecek çalışma"
+        ],
+        [
+          "GC-04",
+          "Uygunsuzluk, kök neden, düzeltici faaliyet ve etkinlik kontrolü (FR-35..FR-37)",
+          "ISO 9001:2026 - 10.2",
+          "Burak Nigiz - Gelecek çalışma"
+        ],
+        [
+          "GC-05",
+          "Performans ölçümü, yetkisiz erişim günlüğü, Firefox uyumu (NFR-13..NFR-15)",
+          "ISO/IEC 25010:2023 - 3.2.1, 3.6.4",
+          "Burak Nigiz - Gelecek çalışma"
+        ]
+      ]
+    }
+  }
+}

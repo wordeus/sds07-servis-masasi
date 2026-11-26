@@ -50,8 +50,8 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 | Temiz kurulum (TC-INST-01) | Windows 3.13.17 BAŞARILI | `evidence/hafta-05/install-check-windows-py313.log` |
 | Mutasyon denetimi | 18/18 yakalandı (69 test) | `evidence/hafta-05/mutation-check.md` |
 | Durum rozeti kontrastı (tarayıcıda) | Açık 6,41, İşlemde 5,99, Çözüldü 5,42, Kapandı 5,87 (:1) | TC-E2E-18 |
-| GitHub Actions (TC-CI-01) | Faz 5 commit'inin koşusu birleştirmeden sonra kaydedilir | `evidence/hafta-05/ci-github-actions-*.json` |
-| RTM (`--week 5`) | Sayılar: `docs/RTM.md`, `docs/TEST_RESULTS.md` | - |
+| GitHub Actions (TC-CI-01) | Koşu #23, commit 8b752e4: Ubuntu/Windows × Python 3.12/3.13, 4/4 iş başarılı | `evidence/hafta-05/ci-github-actions-2026-11-26.json` |
+| RTM (`--week 5`) | Kapsam içi 34 gereksinimin 34'ü PASS; 19 KAPSAM DIŞI (gelecek çalışma). Test kataloğu: 92/92 PASS | `docs/RTM.md`, `docs/TEST_RESULTS.md` |
 | Faz 5'te bulunan sorunlar | RSK-33 (mutasyonla bulunan test açığı), RSK-34 (E2E test tasarımı); ikisi de kapandı | `docs/RISKS.md` |
 | NOT RUN / ÖLÇÜLMEDİ | Hafta 4-5 E2E Linux'ta koşulmadı (CI E2E koşmaz); yorum/işlem/geçmiş öğelerinin kontrastı ayrıca ölçülmedi; efor saatleri; performans (kapsam dışı) | - |
 
