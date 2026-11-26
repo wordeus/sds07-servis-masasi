@@ -1,0 +1,220 @@
+{
+  "template_check": {
+    "banner_contains": "İKİ HAFTALIK PROJE İLERLEME RAPORU"
+  },
+  "core": {
+    "title": "SDS-07 Proje İlerleme Raporu #4 (Hafta 4)",
+    "creator": "Burak Nigiz (2100002062)",
+    "description": "Hafta 4 ilerleme raporu"
+  },
+  "info": {
+    "Rapor Numarası:": "Rapor #4 (Hafta 4)",
+    "Teslim Tarihi:": "27.11.2026 (Faz 4 son teslim tarihi)",
+    "Proje Adı:": "SDS-07: ISO 9001 İlkelerini Destekleyen IT Servis Masası ve Süreç Takip Sistemi",
+    "Proje Grup No:": "2100002062 Burak Nigiz",
+    "Referans Standartlar:": "ISO 9001:2026 (ana alan), ISO/IEC/IEEE 12207:2026, ISO/IEC/IEEE 29148:2018, IEEE 1016-2009, ISO/IEC 25010:2023, IEEE 1012-2024",
+    "Genel Tamamlanma (%):": [
+      "%80 (5 fazlık planın 4 fazı tamamlandı; proje Faz 5'te biter, KRR-18)",
+      "Gereksinim bazında: kapsam içi 34 gereksinimin 31'i doğrulandı; 3'ü Faz 5'te (FR-18, FR-19, FR-21); 19 gereksinim gelecek çalışma (KAPSAM DIŞI)"
+    ],
+    "GitHub / Repo Linki:": "https://github.com/wordeus/sds07-servis-masasi/tree/hafta-4",
+    "Aktif Sprint / Faz:": "Faz 4, Hafta 4: Atama ve üzerine alma, yorumlar, öncelik değişikliği ve işlem geçmişi"
+  },
+  "summary": [
+    "Bu haftada talep akışının ekip çalışması bölümü uygulandı: destek personeli atanmamış talebi üzerine alıyor, yönetici talebi yalnız Destek Personeli rolündeki bir kullanıcıya atıyor, personel ve yönetici önceliği değiştirebiliyor (AK-03 kapandı). Talep sahibi kendi talebine, personel ve yönetici tüm taleplere yorum yazıyor; kapanmış talebe yorum yazılamıyor ve başkasının talebinin yorum adresine gönderilen istek 404 dönüyor. Her işlem, işlemi yapan kişi, UTC zaman, eski ve yeni değerle işlem geçmişine yazılıyor; kayıtlar değiştirilemiyor ve silinemiyor. Doğrulamada Windows 11 üzerinde 62 Django testi ile 16 tarayıcı senaryosunun tamamı geçti, kapsam %95,04 oldu, mutasyon denetiminde 13 hatanın 13'ü yakalandı ve GitHub Actions'ta Ubuntu ve Windows işlerinin dördü de başarılı oldu. Geliştirme sırasında testler üç gerçek hata buldu (RSK-28..RSK-30) ve düzeltildi. Hafta başında Django 5.2.19 güvenlik yaması uygulandı; GitHub otomasyonu (Dependabot, otomatik Release, CI kanıtı) kuruldu. Kalan süre değerlendirilerek projenin Faz 5'te bitmesine karar verildi (KRR-18): değişiklik yönetimi, SLA, anket, KPI ve DÖF gelecek çalışma olarak işaretlendi."
+  ],
+  "tables": {
+    "2": {
+      "expect_header": "İş Paketi ID",
+      "widths": [
+        1050,
+        3000,
+        2185,
+        1400,
+        2300
+      ],
+      "rows": [
+        [
+          "WP-01",
+          "Talebi üzerine alma (Destek Personeli) ve atama (yalnız Destek Personeline); kapanmış talepte işlem yok (FR-16)",
+          "ISO 9001:2026 - 5.3, 8.5.1",
+          "Burak Nigiz",
+          "services/assignment.py, views/ticket_actions.py; TC-ASN-01..03, 05, TC-E2E-14, 15 PASS; mutasyon M11 yakalandı"
+        ],
+        [
+          "WP-02",
+          "Yorumlar: talep sahibi kendi talebine, personel ve yönetici tüm taleplere; kapanmış talebe yorum yok; yorum adresinde başkasının talebi için 404 (FR-17, FR-14)",
+          "ISO 9001:2026 - 8.2.1; ISO/IEC 25010:2023 - 3.6.1",
+          "Burak Nigiz",
+          "services/comments.py; TC-CMT-01..04, TC-E2E-14..16 PASS; mutasyon M9, M10 yakalandı"
+        ],
+        [
+          "WP-03",
+          "Öncelik değişikliği (AK-03 kararı, KRR-17)",
+          "ISO 9001:2026 - 8.5.1",
+          "Burak Nigiz",
+          "services/assignment.py::change_priority; TC-ASN-04 PASS"
+        ],
+        [
+          "WP-04",
+          "İşlem geçmişi: oluşturma, atama, öncelik; yalnız ekleme; eski taleplere oluşturma kaydı (FR-20, KRR-16)",
+          "ISO 9001:2026 - 7.5.3, 8.5.2",
+          "Burak Nigiz",
+          "models/activity.py, services/audit.py, migration 0005-0006; TC-AUD-01..03 PASS; mutasyon M12, M13 yakalandı"
+        ],
+        [
+          "WP-05",
+          "Bağımlılık güncellemesi (Django 5.2.19) ve GitHub otomasyonu: Dependabot, etiketle Release, CI kanıtı kaydı, Windows E2E ve kurulum betikleri",
+          "ISO/IEC/IEEE 12207:2026 - 6.3.5; IEEE 1012-2024",
+          "Burak Nigiz",
+          ".github/, tools/run_e2e.ps1, tools/record_ci_run.sh; TC-CI-01 (koşu #19), TC-INST-01 PASS"
+        ],
+        [
+          "WP-06",
+          "Kapsam kararı (Faz 5 bitiş) ve belgeler: SRS v0.4, SDD v0.3 (KRR-16..KRR-18), risk listesi v0.4, test planı v0.4; RTM --week 4 (KAPSAM DIŞI durumu)",
+          "ISO/IEC/IEEE 29148:2018 - 5.2.5, 9.6; ISO/IEC/IEEE 12207:2026 - 6.3.4",
+          "Burak Nigiz",
+          "docs/SRS.md §1.2, §2.6, §7.1; docs/RTM.md: 31 PASS, 3 PLANLANDI, 19 KAPSAM DIŞI; 83/83 test PASS"
+        ]
+      ],
+      "notes": [
+        "Not: Hafta 4 çalışması depoda hafta-4 etiketiyle işaretlidir (Hafta 4 commit'i 816a611; GitHub Actions koşusu #19, 4/4 iş başarılı). Test sonuçları 26.11.2026 Windows 11 koşusuna aittir (docs/evidence/hafta-04)."
+      ]
+    },
+    "3": {
+      "expect_header": "Öğrenci No",
+      "widths": [
+        1450,
+        1650,
+        1700,
+        3335,
+        1800
+      ],
+      "rows": [
+        [
+          "2100002062",
+          "Burak Nigiz",
+          "Tek kişilik proje: gereksinim, mimari, geliştirme ve test/QA rollerinin tümü",
+          [
+            "Hafta 4: üzerine alma ve atama; yorumlar; öncelik değişikliği; işlem geçmişi; 13 Django testi ve 3 tarayıcı senaryosu; mutasyon denetimi; bağımlılık güncellemesi ve GitHub otomasyonu; kapsam kararı; SRS v0.4, SDD v0.3 ve Rapor #4."
+          ],
+          "ÖLÇÜLMEDİ (efor kaydı tutulmadı) / %100"
+        ]
+      ],
+      "notes": [
+        "Not: Zaman kaydı tutulmadığı için saat ÖLÇÜLMEDİ yazıldı; proje tek kişilik olduğundan pay %100'dür."
+      ]
+    },
+    "4": {
+      "expect_header": "Risk / Sorun ID",
+      "widths": [
+        1000,
+        3100,
+        900,
+        2000,
+        2935
+      ],
+      "rows": [
+        [
+          "RSK-28",
+          "Alan dışı iş kuralı hatası işlem görünümünde sunucu hatasına (500) yol açıyordu; kapanmış talepte atama veya öncelik isteği 500 dönüyordu.",
+          "Orta",
+          "Entegrasyon testi (TC-ASN-05 ilk koşusu: ERROR)",
+          "Hata yardımcısı genel hataları da işliyor; kural hataları sayfa bildirimi olarak gösteriliyor; TC-ASN-05 PASS (kapandı)."
+        ],
+        [
+          "RSK-29",
+          "Kapanmış talebe yorum reddediliyor ama sebep kullanıcıya gösterilmiyordu (form sayfada yoktu).",
+          "Düşük",
+          "Entegrasyon testi (TC-CMT-04 ilk koşusu: 3 alt test FAIL)",
+          "Kural hataları sayfanın üstünde bildirim olarak gösteriliyor; TC-CMT-04 PASS (kapandı)."
+        ],
+        [
+          "RSK-30",
+          "Yeni işlem görünümlerinde izin denetimi yalnız taban sınıftan miras alınıyordu, görünümde açıkça yazılmamıştı.",
+          "Düşük",
+          "Mimari kural testi (TC-ARCH-02 ilk koşusu: FAIL)",
+          "Ortak kod izin içermeyen bir mixin'e ayrıldı; her görünüm denetimi açıkça yazıyor; test gevşetilmedi (kapandı)."
+        ],
+        [
+          "RSK-31",
+          "Risk: sqlparse bakımı sona erdi (0.6.1 son sürüm); Django'nun bağımlılığı olduğu için gelecekteki açıklara yama çıkmayabilir.",
+          "Orta",
+          "Bağımlılık incelemesi (Dependabot PR ve sürüm notları)",
+          "0.6.1 (iki güvenlik düzeltmesi) sabitlendi; uygulama sqlparse'ı doğrudan kullanmıyor; Dependabot ve Django sürüm notları izleniyor."
+        ],
+        [
+          "RSK-32",
+          "Kapsam daraltması (KRR-18): değişiklik yönetimi, SLA, anket, KPI ve DÖF bu teslimde yok.",
+          "Orta",
+          "Plan incelemesi (kalan süre ve faz tarihleri)",
+          "SRS §1.2 ve RTM'de KAPSAM DIŞI olarak işaretlendi; gereksinim kimlikleri korundu; final belgesinde gelecek çalışma bölümü yazılacak."
+        ],
+        [
+          "RSK-15",
+          "Django güvenlik yamalarının kaçırılması.",
+          "Yüksek",
+          "Haftalık sürüm notu kontrolü; Dependabot",
+          "Django 5.2.19 (5 CVE düzeltmesi) uygulandı; CI ve Windows'ta 13/13 E2E ile doğrulandı; Dependabot haftalık PR açıyor."
+        ],
+        [
+          "RSK-07",
+          "Araç kodunda karmaşıklık eşiği aşılıyor: e2e/week2_auth_roles.py::main = 18 (hedef ≤ 10).",
+          "Düşük",
+          "Kod analizi (ruff C901 ölçümü)",
+          "Bölünmesi (PLN-06) Faz 5'e kaldı (kısmen kapandı)."
+        ]
+      ],
+      "notes": [
+        "Ayrıntılar ve kanıt dosyaları: docs/RISKS.md v0.4 ve docs/evidence/hafta-04 (bağımlılık güncellemesi doğrulaması bagimlilik-guncelleme-2026-11-26/ klasöründedir)."
+      ]
+    },
+    "5": {
+      "expect_header": "Hedef ID",
+      "widths": [
+        1100,
+        4000,
+        2400,
+        2436
+      ],
+      "rows": [
+        [
+          "PLN-08",
+          "Durum geçişleri (Open → In Progress → Resolved → Closed); tanımsız geçişin doğrudan POST dahil reddi (FR-18)",
+          "ISO 9001:2026 - 8.5.1",
+          "Burak Nigiz - 11.12.2026 (Faz 5)"
+        ],
+        [
+          "PLN-09",
+          "Geçiş koşulları: atanmış personel veya yönetici ilerletir, talep sahibi veya yönetici kapatır; çözüm açıklaması zorunlu (FR-19)",
+          "ISO 9001:2026 - 8.5.1, 8.6",
+          "Burak Nigiz - 11.12.2026 (Faz 5)"
+        ],
+        [
+          "PLN-10",
+          "Durum geçişlerinin işlem geçmişine yazılması ve talep ayrıntısında geçmiş görünümü (FR-20, FR-21)",
+          "ISO 9001:2026 - 7.5.3, 8.5.2",
+          "Burak Nigiz - 11.12.2026 (Faz 5)"
+        ],
+        [
+          "PLN-06",
+          "e2e/week2_auth_roles.py::main fonksiyonunun bölünmesi (RSK-07)",
+          "ISO/IEC 25010:2023 - Maintainability (3.7)",
+          "Burak Nigiz - 11.12.2026 (Faz 5)"
+        ],
+        [
+          "PLN-11",
+          "Final belgesi (dönem sonu proje teslim dokümanı), sunum ve demo; gelecek çalışma bölümü (KRR-18)",
+          "ISO/IEC/IEEE 12207:2026 - 6.4.11; IEEE 1012-2024",
+          "Burak Nigiz - 11.12.2026 (Faz 5)"
+        ],
+        [
+          "PLN-07",
+          "Açık konu: yeniden açma akışının öğretim elemanıyla netleştirilmesi (AK-01; durum geçişlerini etkiler)",
+          "ISO/IEC/IEEE 12207:2026 - 6.4.2",
+          "Burak Nigiz - 11.12.2026 (Faz 5)"
+        ]
+      ]
+    }
+  }
+}

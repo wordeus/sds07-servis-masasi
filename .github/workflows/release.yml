@@ -1,5 +1,5 @@
 # Haftalık paket etiketi (hafta-N) gönderilince GitHub Release oluşturur.
-# Release'e o haftanın raporu (docx) ve kanıt klasörü (zip) eklenir.
+# Release'e o haftanın raporu (docx; varsa pdf) ve kanıt klasörü (zip) eklenir.
 # Etiket main'deki son commit'e konmadan önce CI'ın yeşil olduğu doğrulanmalıdır (PRC-05).
 name: Release
 run-name: "Release · ${{ inputs.tag || github.ref_name }}"
@@ -39,10 +39,11 @@ jobs:
           test -f "$report" || { echo "Rapor bulunamadı: $report" >&2; exit 1; }
           test -d "$evidence" || { echo "Kanıt klasörü bulunamadı: $evidence" >&2; exit 1; }
           (cd docs/evidence && zip -qr "$GITHUB_WORKSPACE/kanit-hafta-${nn}.zip" "hafta-${nn}")
+          files="$report kanit-hafta-${nn}.zip"
+          if [ -f "${report%.docx}.pdf" ]; then files="$files ${report%.docx}.pdf"; fi
           {
             echo "n=$n"
-            echo "report=$report"
-            echo "zip=kanit-hafta-${nn}.zip"
+            echo "files=$files"
           } >> "$GITHUB_OUTPUT"
 
       - name: Sürüm notlarını CHANGELOG'dan çıkar
@@ -62,8 +63,8 @@ jobs:
           title="Hafta ${{ steps.meta.outputs.n }}"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release edit "$TAG" --title "$title" --notes-file notes.md
-            gh release upload "$TAG" "${{ steps.meta.outputs.report }}" "${{ steps.meta.outputs.zip }}" --clobber
+            gh release upload "$TAG" ${{ steps.meta.outputs.files }} --clobber
           else
             gh release create "$TAG" --title "$title" --notes-file notes.md --verify-tag \
-              "${{ steps.meta.outputs.report }}" "${{ steps.meta.outputs.zip }}"
+              ${{ steps.meta.outputs.files }}
           fi

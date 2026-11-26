@@ -1,0 +1,27 @@
+{
+  "kind": "github-actions",
+  "started_at_utc": "2026-11-26T08:04:48+00:00",
+  "finished_at_utc": "2026-11-26T08:05:50+00:00",
+  "recorded_at_utc": "2026-11-26T08:06:13+00:00",
+  "environment": {
+    "platform": "GitHub Actions: ubuntu-latest ve windows-latest, Python 3.12 ve 3.13",
+    "workflow": ".github/workflows/ci.yml",
+    "run_url": "https://github.com/wordeus/sds07-servis-masasi/actions/runs/45780152022",
+    "commit": "816a611 (main)",
+    "source": "GitHub REST API (actions/runs/45780152022, /jobs, /artifacts); tools/record_ci_run.sh ile okundu."
+  },
+  "totals": {
+    "run": 1,
+    "failures": 0,
+    "jobs_passed": 4,
+    "jobs_total": 4
+  },
+  "results": [
+    {
+      "tc_id": "TC-CI-01",
+      "test": "GitHub Actions matrisi (ubuntu/windows × Python 3.12/3.13)",
+      "outcome": "PASS",
+      "detail": "Koşu #19 (push, main, commit 816a611): Test (ubuntu-latest, Python 3.13) 31 sn success, Test (windows-latest, Python 3.12) 58 sn success, Test (ubuntu-latest, Python 3.12) 14 sn success, Test (windows-latest, Python 3.13) 47 sn success; sonuç success; 4 rapor arşivi (artifact) üretildi."
+    }
+  ]
+}
