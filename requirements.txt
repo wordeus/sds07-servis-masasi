@@ -2,7 +2,7 @@
 # Django 5.2 LTS; 5.2.18, PyPI'de 2026-10-06'da yayımlanan son 5.2 yamasıdır.
 # Django 5.2.18 Python 3.10-3.14 destekler; asgiref 3.13.0 Python >= 3.11 ister.
 # Bu proje CI'da Python 3.12 ve 3.13 ile test edilecek şekilde yapılandırılmıştır.
-Django==5.2.18
+Django==5.2.19
 asgiref==3.13.0
 sqlparse==0.6.0
 # Windows'ta IANA saat dilimi verisi (Europe/Istanbul) için zorunludur.
