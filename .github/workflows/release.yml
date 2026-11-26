@@ -43,16 +43,19 @@ jobs:
           if [ -f "${report%.docx}.pdf" ]; then files="$files ${report%.docx}.pdf"; fi
           # Bitiş fazında (Faz 5) dönem sonu teslim dokümanı da eklenir (KRR-18).
           if [ "$n" -ge 5 ]; then for f in docs/final/*.docx docs/final/*.pdf; do [ -f "$f" ] && files="$files $f"; done; fi
+          # Sürüm: Faz 1-4 0.N.0, bitiş fazı (Faz 5) 1.0.0 (CHANGELOG ile aynı).
+          if [ "$n" -ge 5 ]; then version="1.0.0"; else version="0.${n}.0"; fi
           {
             echo "n=$n"
+            echo "version=$version"
             echo "files=$files"
           } >> "$GITHUB_OUTPUT"
 
       - name: Sürüm notlarını CHANGELOG'dan çıkar
         run: |
           set -euo pipefail
-          # "## [0.N.0]" başlığından bir sonraki "## [" başlığına kadar olan bölüm.
-          awk -v v="## [0.${{ steps.meta.outputs.n }}.0]" '
+          # "## [sürüm]" başlığından bir sonraki "## [" başlığına kadar olan bölüm.
+          awk -v v="## [${{ steps.meta.outputs.version }}]" '
             index($0, v) == 1 { on = 1; next }
             on && /^## \[/ { exit }
             on { print }
@@ -62,7 +65,7 @@ jobs:
       - name: Release oluştur veya güncelle
         run: |
           set -euo pipefail
-          title="Hafta ${{ steps.meta.outputs.n }}"
+          title="Hafta ${{ steps.meta.outputs.n }} · v${{ steps.meta.outputs.version }}"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release edit "$TAG" --title "$title" --notes-file notes.md
             gh release upload "$TAG" ${{ steps.meta.outputs.files }} --clobber
