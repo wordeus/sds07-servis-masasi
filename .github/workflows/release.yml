@@ -1,0 +1,68 @@
+# Haftalık paket etiketi (hafta-N) gönderilince GitHub Release oluşturur.
+# Release'e o haftanın raporu (docx) ve kanıt klasörü (zip) eklenir.
+# Etiket main'deki son commit'e konmadan önce CI'ın yeşil olduğu doğrulanmalıdır (PRC-05).
+name: Release
+
+on:
+  push:
+    tags: ["hafta-*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Var olan etiket (ör. hafta-3)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Hafta numarasını ve dosyaları belirle
+        id: meta
+        run: |
+          set -euo pipefail
+          n="${TAG#hafta-}"
+          case "$n" in ''|*[!0-9]*) echo "Geçersiz etiket: $TAG" >&2; exit 1;; esac
+          nn=$(printf '%02d' "$n")
+          report="docs/reports/Rapor-${nn}_Hafta-${n}.docx"
+          evidence="docs/evidence/hafta-${nn}"
+          test -f "$report" || { echo "Rapor bulunamadı: $report" >&2; exit 1; }
+          test -d "$evidence" || { echo "Kanıt klasörü bulunamadı: $evidence" >&2; exit 1; }
+          (cd docs/evidence && zip -qr "$GITHUB_WORKSPACE/kanit-hafta-${nn}.zip" "hafta-${nn}")
+          {
+            echo "n=$n"
+            echo "report=$report"
+            echo "zip=kanit-hafta-${nn}.zip"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Sürüm notlarını CHANGELOG'dan çıkar
+        run: |
+          set -euo pipefail
+          # "## [0.N.0]" başlığından bir sonraki "## [" başlığına kadar olan bölüm.
+          awk -v v="## [0.${{ steps.meta.outputs.n }}.0]" '
+            index($0, v) == 1 { on = 1; next }
+            on && /^## \[/ { exit }
+            on { print }
+          ' CHANGELOG.md > notes.md
+          test -s notes.md || echo "Hafta ${{ steps.meta.outputs.n }} paketi. Ayrıntı: CHANGELOG.md" > notes.md
+
+      - name: Release oluştur veya güncelle
+        run: |
+          set -euo pipefail
+          title="Hafta ${{ steps.meta.outputs.n }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "$title" --notes-file notes.md
+            gh release upload "$TAG" "${{ steps.meta.outputs.report }}" "${{ steps.meta.outputs.zip }}" --clobber
+          else
+            gh release create "$TAG" --title "$title" --notes-file notes.md --verify-tag \
+              "${{ steps.meta.outputs.report }}" "${{ steps.meta.outputs.zip }}"
+          fi

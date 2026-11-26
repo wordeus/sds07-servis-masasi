@@ -60,7 +60,15 @@ ISO 9001 ilkelerini destekleyen IT Servis Masası ve Süreç Takip Sistemi. Roll
 
 ## 5. Açık işler
 
-- [ ] Hafta 3'ün GitHub Actions sonucunu TC-CI-01 kanıtı olarak eklemek (Hafta 1: koşu #1, commit 29f962c; Hafta 2: koşu #3, commit 6dd3dc9; ikisinde de 4/4 iş başarılı).
+- [x] Hafta 3'ün GitHub Actions sonucu TC-CI-01 kanıtı olarak eklendi: koşu #5, commit aa17057, 4/4 iş başarılı (`evidence/hafta-03/ci-github-actions-2026-11-21.json`). Hafta 1: koşu #1, commit 29f962c; Hafta 2: koşu #3, commit 6dd3dc9.
+- [ ] `RTM.md` ve `TEST_RESULTS.md`'yi bu kanıtla `tools/build_rtm.py --week 3` üzerinden yeniden üretmek (TC-CI-01 hâlâ NOT RUN görünüyor; bu makinede Python kurulu olmadığı için 26.11.2026'da üretilmedi).
+
+## 5.1 Otomasyon (26.11.2026)
+
+- `.github/dependabot.yml`: pip ve Actions bağımlılıkları için haftalık PR (Pazartesi 08:00); Django için yalnız 5.2.x yamaları.
+- `.github/workflows/release.yml`: `hafta-N` etiketi gönderilince Release oluşturur; `Rapor-0N_Hafta-N.docx` ve `kanit-hafta-0N.zip` eklenir, notlar CHANGELOG'dan alınır.
+- `tools/record_ci_run.sh <hafta> [commit]`: CI koşusunun sonucunu GitHub API'den okuyup `evidence/hafta-0N/ci-github-actions-*.json` yazar. Koşu bitmemişse ya da dosya zaten varsa yazmaz.
+- Haftalık akış: `hafta-N` dalında çalışılır, PR açılır, CI geçince main'e birleştirilir, `record_ci_run.sh` çalıştırılır, ardından `hafta-N` etiketi gönderilir.
 - [ ] Windows'ta kurulum ve testleri bir kez elle çalıştırıp sonucu kaydetmek (NFR-11, TC-INST-01). Çıktı dosyaya yönlendirilecekse önce `$env:PYTHONUTF8 = "1"` (RSK-25).
 - [ ] TC-INS-01 incelemesini tekrarlayıp onaylamak.
 - [ ] Açık konuları netleştirmek: yeniden açma akışı (AK-01), önceliği kimin seçeceği (AK-03; geçici karar KRR-13). Standart baskıları için karar: en güncel baskılar (AK-05).

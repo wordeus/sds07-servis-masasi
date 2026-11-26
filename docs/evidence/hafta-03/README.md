@@ -15,6 +15,7 @@ Bu klasördeki dosyalar gerçek araç çıktılarıdır ve sonradan değiştiril
 | `install-check-linux-py312.log`, `install-check-linux-py313.log` | `tools/install_check.sh` temiz kurulum günlükleri (49 test) | TC-INST-01 |
 | `mutation-check.md` | `tools/mutation_check.py`: bilinçli 8 hata, 49 testlik takım | Test etkinliği |
 | `manual-checks.json` | TC-INST-01 özeti, TC-INS-01 incelemesi, TC-CI-01 (NOT RUN) | TC-INST-01, TC-INS-01, TC-CI-01 |
+| `ci-github-actions-2026-11-21.json` | Hafta 3 commit'inin GitHub Actions koşusu (koşu #5, commit aa17057): Ubuntu ve Windows × Python 3.12/3.13, 4/4 iş başarılı; GitHub API'den 26.11.2026'da okundu | TC-CI-01, RSK-05 |
 | `tc-cat-01-turkce-harf-duzeltme-oncesi.txt` | Türkçe büyük harfli kopya adlar eklenince TC-CAT-01'in düzeltme öncesi koşusu (4 FAIL) | RSK-21 |
 | `build-report-esdegerlik.txt` | Bölünen rapor aracının eski araçla bayt bayt aynı çıktı ürettiğinin karşılaştırması | RSK-07 |
 
